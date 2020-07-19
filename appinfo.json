@@ -93,10 +93,12 @@
     "multipleInstances": true,
     "projectFile": "CleanUpHamilton.qmlproject",
     "properties": {
+        "backgroundImage": "images/hamilton.jfif",
+        "pageBackgroundColor": "#F8F8F8"
     },
     "resources": {
         "appIcon": "appicon.png",
-        "launchImageBackground": "launchimage-background.png",
+        "launchImageBackground": "",
         "launchImageBackgroundColor": "#ffffff",
         "launchImageOverlay": "launchimage-overlay.png"
     },
