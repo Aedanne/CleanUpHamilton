@@ -23,7 +23,7 @@ App{
     property int menuCurrentIndex: 0
 
     // App color properties
-    readonly property color primaryColor:"#255D83"
+    readonly property color primaryColor: "#DA674A" //"#255D83"
     readonly property color accentColor: Qt.lighter(primaryColor,1.2)
     readonly property color appBackgroundColor: lightTheme? "#FAFAFA":"#303030"
     readonly property color appDialogColor: lightTheme? "#FFFFFF":"424242"
@@ -55,7 +55,7 @@ App{
             width: parent.width
             opacity: 1
             descText1: qsTr("Clean-Up")
-            descText2: qsTr("Hamilton City")
+            descText2: qsTr("Hamilton")
             onOpenMenu: {
                 drawer.open();
             }

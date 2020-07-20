@@ -50,10 +50,10 @@ Page {
         color: app.appBackgroundColor
 
         Image {
-            opacity: 0.75
+            opacity: 0.85
             width: parent.width
             height: parent.height
-            source: "../images/hamilton.jfif"
+            source: "../images/Hamilton-Lake.jpg"
             fillMode: Image.Stretch
             mipmap: true
         }
@@ -63,23 +63,23 @@ Page {
             anchors.centerIn: parent
             font.pixelSize: app.titleFontSize
             font.bold: true
-            style: Text.Sunken
-            styleColor: app.appPrimaryTextColor
-            color: app.homePageTitleTextColor
+            style: Text.Raised
+            styleColor: app.homePageTitleTextColor
+            color: app.primaryColor
             wrapMode: Text.Wrap
-            bottomPadding: 180*app.scaleFactor
+            bottomPadding: 220*app.scaleFactor
             text: descText1
         }
         Label {
             Material.theme: app.lightTheme? Material.Light : Material.Dark
             anchors.centerIn: parent
-            font.pixelSize: app.titleFontSize
+            font.pixelSize: app.titleFontSize*1.25
             font.bold: true
             style: Text.Sunken
-            styleColor: app.appPrimaryTextColor
-            color: app.homePageTitleTextColor
+            styleColor: app.homePageTitleTextColor
+            color: app.primaryColor
             wrapMode: Text.Wrap
-            bottomPadding: 70*app.scaleFactor
+            bottomPadding: 120*app.scaleFactor
             text: descText2
         }
     }
