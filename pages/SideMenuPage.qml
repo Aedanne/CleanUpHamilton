@@ -6,124 +6,83 @@ import QtQuick.Controls 2.13
 import QtQuick.Controls.Material 2.13
 
 Page{
-    id: sideMenuView
+    id: sideMenuPage
     anchors.fill: parent
-    Material.background:app.appBackgroundColor
+    Material.background:app.primaryColor
+    topPadding: 75*app.scaleFactor
+    leftPadding: 20*app.scaleFactor
+    rightPadding: 20*app.scaleFactor
     property ListModel menuModel
-    property alias currentIndex: listView.currentIndex
+    property string newReportText: "New Report (PH?)"
 
     signal menuSelected(var action)
 
-    MouseArea{
-        anchors.fill: parent
-        preventStealing: true
-        onClicked: {
-
-        }
-    }
 
     ColumnLayout{
         anchors.fill: parent
-        spacing: 16*app.scaleFactor
-        Image{
-            Layout.fillWidth: true
-            Layout.preferredHeight: 144*app.scaleFactor
-            source: "../images/hamilton.jfif"
-            fillMode: Image.PreserveAspectCrop
-            mipmap: true
-        }
+        spacing: 10*app.scaleFactor
 
         ListView{
-            id: listView
+            id: sideMenuListView
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: 0
+            spacing: 1
             clip: true
 
-            model: drawerModel
+            model: sideMenuDrawerModel
             delegate:Rectangle{
-                height: type === "delegate"? 56*app.scaleFactor: 8*app.scaleFactor
+                height: 56*app.scaleFactor
                 width: parent.width
-                color: listView.currentIndex === index? app.listViewDividerColor:"transparent"
 
-
-                Item{
-                    anchors.fill: parent
-                    visible: type === "divider"
-                    Rectangle{
-                        width: parent.width
-                        height: 1*app.scaleFactor
-                        color: app.listViewDividerColor
-                    }
-                }
+                //Set background color for sidemenu
+                color:app.primaryColor
 
                 RowLayout{
-                    anchors.fill: parent
-                    spacing: 0
-                    visible: type === "delegate"
-                    Item{
-                        Layout.preferredWidth: 12*app.scaleFactor
-                        Layout.fillHeight: true
-                    }
 
-                    Rectangle{
-                        Layout.preferredWidth: 24*app.scaleFactor
-                        Layout.preferredHeight: 24*app.scaleFactor
-                        radius: 12*app.scaleFactor
-                        anchors.verticalCenter: parent.verticalCenter
-                        color: listView.currentIndex === index? app.accentColor : "#9E9E9E"
-                    }
-                    Item{
-                        Layout.preferredWidth: 36*app.scaleFactor
-                        Layout.fillHeight: true
+                    anchors.fill: parent
+                    spacing: 10*app.scaleFactor
+                    visible: true
+
+                    Image{
+                        Layout.preferredWidth: 25*app.scaleFactor
+                        Layout.preferredHeight: 25*app.scaleFactor
+                        source: iconSource
                     }
                     Label{
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         verticalAlignment: Text.AlignVCenter
-                        text:name
-                        font.pixelSize: app.baseFontSize*0.7
+                        text: name
+                        font.pixelSize: app.baseFontSize*0.5
+                        font.bold: true
                         maximumLineCount: 1
-                        elide: Text.ElideRight
-                        color: listView.currentIndex === index? app.accentColor : app.appPrimaryTextColor
-                        opacity:listView.currentIndex === index? 0.87:1.0
+                        color: app.menuPrimaryTextColor
+
+
                     }
                 }
 
-//                Ink {
-//                    id: ink
-//                    visible: type === "delegate"
-//                    enabled: visible
-//                    propagateComposedEvents: false
-//                    preventStealing: false
-//                    anchors.centerIn: parent
-//                    centered: true
-//                    circular: true
-//                    hoverEnabled: true
-//                    color: app.listViewDividerColor
-//                    anchors.fill: parent
-//                    onClicked: {
-//                        console.log("Item clicked");
-//                        listView.currentIndex = index;
-//                        menuSelected(action);
-//                    }
-//                }
+                MouseArea {
+                    id: sideMenuMouseArea
+                    visible: true
+                    enabled: true
+                    anchors.centerIn: parent
+                    hoverEnabled: true
+                    anchors.fill: parent
+                    onClicked: {
+                        console.log("Menu Item clicked");
+                        menuSelected(action);
+                    }
+
+                }
+
+
+
             }
         }
 
     }
-    function setListViewCurrentIndex(index){
-        listView.currentIndex = index
-    }
+
 }
 
 
-
-
-
-
-
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
- ##^##*/

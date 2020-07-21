@@ -20,47 +20,48 @@ App{
     height: 640
 
     property bool lightTheme: true
-    property int menuCurrentIndex: 0
 
-    // App color properties
+    // App-level color properties===============================================================
     readonly property color primaryColor: "#CF5300"//"#DA674A" //"#255D83"
     readonly property color accentColor: Qt.lighter(primaryColor,1.2)
     readonly property color appBackgroundColor: lightTheme? "#FAFAFA":"#303030"
     readonly property color appDialogColor: lightTheme? "#FFFFFF":"424242"
+    readonly property color menuBackgroundColor: "#DA674A"
     readonly property color appPrimaryTextColor: lightTheme? "#000000":"#FFFFFF"
+    readonly property color menuPrimaryTextColor: Qt.lighter("#FFFFFF",1.5)
     readonly property color appSecondaryTextColor: Qt.darker(appPrimaryTextColor)
     readonly property color homePageTitleTextColor:"#FCFCFC"
-    readonly property color listViewDividerColor:"#19000000"
+    //readonly property color listViewDividerColor:"#19000000"
 
-
-    // App size properties
+    // App-level size properties================================================================
     property real scaleFactor: AppFramework.displayScaleFactor
     readonly property real baseFontSize: (app.width < 450*app.scaleFactor) ? (35 * scaleFactor) : (40 * scaleFactor)
     readonly property real titleFontSize: app.baseFontSize
     readonly property real subtitleFontSize: 1.1 * app.baseFontSize
     readonly property real captionFontSize: 0.6 * app.baseFontSize
 
-    // HomePage is default page
+
+
+
+    // HomePage is default page==========================================================
     Loader {
         id: loader
         anchors.fill: parent
-        sourceComponent: homePage
+        sourceComponent: homePageComponent
     }
 
-    //TODO: Need to adjust text position
-    Component{
-        id: homePage
 
+    // Main body, title==================================================================
+    Component{
+        id: homePageComponent
         HomePage {
             width: parent.width
             opacity: 1
             descText1: qsTr("Clean-Up")
             descText2: qsTr("Hamilton")
             onOpenMenu: {
-                drawer.open();
+                sideMenuDrawer.open();
             }
-
-
         }
     }
 
@@ -74,69 +75,81 @@ App{
 //    }
 
 
+
+
+    // QML type for side menu============================================================
     Drawer {
-        id: drawer
-        //width: Math.min(parent.width, parent.height, 600*app.scaleFactor) * 0.80
+        id: sideMenuDrawer
         width: parent.width * 0.70
         height: parent.height
+
         Material.elevation: 40
         Material.background: app.appDialogColor
 
         edge: Qt.LeftEdge
         dragMargin: 0
         contentItem: SideMenuPage {
-            currentIndex: menuCurrentIndex
-            menuModel: drawerModel
+            //currentIndex: currIndex
+            menuModel: sideMenuDrawerModel
             onMenuSelected: {
-                drawer.close();
+                sideMenuDrawer.close();
                 switch(action){
-                case "page1":
-                    loader.sourceComponent = page1ViewPage;
-                    break;
-                case "page2":
-                    loader.sourceComponent = page2ViewPage;
+                case "settings":
+                    loader.sourceComponent = settingsPageComponent;
                     break;
                 case "about":
-                    loader.sourceComponent = aboutViewPage;
+                    loader.sourceComponent = aboutPageComponent;
                     break;
                 default:
                     break;
                 }
             }
         }
-
     }
 
+    // Side menu options to send to drawer model=========================================
     ListModel{
-        id: drawerModel
-        ListElement {action:"page1"; type: "delegate"; name: qsTr("Page 1"); iconSource: ""}
-        ListElement {action:"page2"; type: "delegate"; name: qsTr("Page 2"); iconSource: ""}
-        ListElement {action:""; type: "divider"; name: ""; iconSource: ""}
-        ListElement {action:"about"; type: "delegate"; name: qsTr("About"); iconSource: ""}
+        id: sideMenuDrawerModel
+
+        ListElement {
+            action:"about";
+            type: "delegate";
+            name: qsTr("About");
+            iconSource: "../images/info.png"
+        }
+        ListElement {
+            action:"settings";
+            type: "delegate";
+            name: qsTr("Settings");
+            iconSource: "../images/gear.png"
+        }
 
     }
 
-//    Component{
-//        id: page2ViewPage
-//        BasePage{
-//            titleText:qsTr("Page 2")
-//            descText: qsTr("This is page 2")
-//            onOpenMenu: {
-//                drawer.open();
-//            }
-//        }
-//    }
 
-//    Component{
-//        id: aboutViewPage
-//        BasePage{
-//            titleText: qsTr("About")
-//            descText: qsTr("This is an about page")
-//            onOpenMenu: {
-//                drawer.open();
-//            }
-//        }
-//    }
+    //About component when menu option selected
+    Component{
+        id: aboutPageComponent
+        AboutPage{
+            titleText:qsTr("About")
+            descText: qsTr("TODO: ABOUT")
+            onOpenMenu: {
+                sideMenuDrawer.open();
+            }
+        }
+    }
+
+    //Settings component when menu option selected
+    Component{
+        id: settingsPageComponent
+        SettingsPage{
+            titleText:qsTr("Settings")
+            descText: qsTr("TODO: Settings")
+            onOpenMenu: {
+                sideMenuDrawer.open();
+            }
+        }
+    }
 }
 
 

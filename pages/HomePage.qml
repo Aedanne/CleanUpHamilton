@@ -5,7 +5,7 @@ import QtQuick.Controls.Material 2.13
 import ArcGIS.AppFramework 1.0
 
 Page {
-    id:page
+    id:homePage
     signal openMenu()
     property var descText1
     property var descText2
@@ -84,9 +84,5 @@ Page {
         }
     }
 
-//    OptionsMenuPanel{
-//        id:optionsPanel
-//        x: page.width-optionsPanel.width-8*app.scaleFactor
-//        y: page.y-36*app.scaleFactor
-//    }
+
 }
