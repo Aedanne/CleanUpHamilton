@@ -48,7 +48,9 @@ App{
         id: loader
         anchors.fill: parent
         sourceComponent: homePageComponent
+        width: parent.width*0.7
     }
+
 
 
     // Main body, title==================================================================
@@ -131,7 +133,7 @@ App{
     Component{
         id: aboutPageComponent
         AboutPage{
-            titleText:qsTr("About")
+            titleText:qsTr("")
             descText: qsTr("TODO: ABOUT")
             onOpenMenu: {
                 sideMenuDrawer.open();
@@ -143,13 +145,15 @@ App{
     Component{
         id: settingsPageComponent
         SettingsPage{
-            titleText:qsTr("Settings")
+            titleText:qsTr("")
             descText: qsTr("TODO: Settings")
             onOpenMenu: {
                 sideMenuDrawer.open();
             }
         }
     }
+
+
 }
 
 

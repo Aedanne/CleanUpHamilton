@@ -4,29 +4,43 @@ import QtQuick.Controls 2.13
 import QtQuick.Controls.Material 2.13
 import ArcGIS.AppFramework 1.0
 
+
+import QtQuick 2.0
+
+import QtQuick 2.13
+import QtQuick.Layouts 1.13
+import QtQuick.Controls 2.13
+import QtQuick.Controls.Material 2.13
+
+
+
 Page {
     id:settingsPage
     signal openMenu()
     property string titleText:""
     property var descText
+    width: parent.width * 0.70
 
     header: ToolBar{
 
-        contentHeight: 56*app.scaleFactor
+        contentHeight: 50*app.scaleFactor
         Material.primary: app.primaryColor
+
         RowLayout {
             anchors.fill: parent
             spacing: 0
-            Item{
-                Layout.preferredWidth: 4*app.scaleFactor
+
+            Item {
+                Layout.preferredWidth: 6
                 Layout.fillHeight: true
             }
+
             ToolButton {
                 indicator: Image{
-                    width: parent.width*0.5
-                    height: parent.height*0.5
+                    width: parent.width*0.9
+                    height: parent.height*1.2
                     anchors.centerIn: parent
-                    source: "./assets/menu.png"
+                    source: "../images/menu.png"
                     fillMode: Image.PreserveAspectFit
                     mipmap: true
                 }
@@ -35,33 +49,29 @@ Page {
                 }
             }
             Item{
-                Layout.preferredWidth: 20*app.scaleFactor
+                Layout.minimumWidth: 250*app.scaleFactor
                 Layout.fillHeight: true
-            }
-            Label {
-                Layout.fillWidth: true
-                text: titleText
-                elide: Label.ElideRight
-                horizontalAlignment: Qt.AlignLeft
-                verticalAlignment: Qt.AlignVCenter
-                font.pixelSize: app.subtitleFontSize
-                color: app.headerTextColor
             }
 
             ToolButton {
+
                 indicator: Image{
-                    width: parent.width*0.5
-                    height: parent.height*0.5
+                    width: parent.width*0.9
+                    height: parent.height*1.2
                     anchors.centerIn: parent
                     horizontalAlignment: Qt.AlignRight
                     verticalAlignment: Qt.AlignVCenter
-                    source: "./assets/more.png"
+                    source: "../images/clear.png"
                     fillMode: Image.PreserveAspectFit
                     mipmap: true
                 }
                 onClicked: {
-                    optionsPanel.toggle()
+                    loader.sourceComponent = homePageComponent;
                 }
+            }
+            Item {
+                Layout.preferredWidth: 1
+                Layout.fillHeight: true
             }
         }
     }

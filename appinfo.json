@@ -1,6 +1,6 @@
 {
     "appLink": "",
-    "arcgisRuntime": 0,
+    "arcgisRuntime": 1007,
     "capabilities": {
         "audio": false,
         "backgroundModes": {

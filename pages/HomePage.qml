@@ -7,6 +7,7 @@ import ArcGIS.AppFramework 1.0
 Page {
     id:homePage
     signal openMenu()
+
     property var descText1
     property var descText2
     header: ToolBar {
@@ -19,7 +20,7 @@ Page {
 
             //Area for menu button
             Item {
-                Layout.preferredWidth: 2*app.scaleFactor
+                Layout.preferredWidth: 5
                 Layout.fillHeight: true
             }
             ToolButton {
@@ -36,9 +37,16 @@ Page {
                 }
             }
 
-            //Area for middle portion of header
+            //Area for middle portion of header, placeholders
             Item{
-                Layout.preferredWidth: 100*app.scaleFactor
+                Layout.preferredWidth: 250*app.scaleFactor
+                Layout.fillHeight: true
+            }
+            Item{
+                Layout.fillHeight: true
+            }
+            Item {
+                Layout.preferredWidth: 1
                 Layout.fillHeight: true
             }
         }
