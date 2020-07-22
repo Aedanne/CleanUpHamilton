@@ -11,7 +11,6 @@ Page {
     signal nextPage();
     signal previousPage();
 
-
     property string titleText:""
     property var descText
 
@@ -47,21 +46,6 @@ Page {
                 Layout.fillHeight: true
             }
 
-//            ToolButton {
-//                indicator: Image{
-//                    width: parent.width*0.9
-//                    height: parent.height*1.2
-//                    anchors.centerIn: parent
-//                    horizontalAlignment: Qt.AlignRight
-//                    verticalAlignment: Qt.AlignVCenter
-//                    source: "../images/clear.png"
-//                    fillMode: Image.PreserveAspectFit
-//                    mipmap: true
-//                }
-//                onClicked: {
-//                    loader.sourceComponent = homePageComponent;
-//                }
-//            }
             Item {
                 Layout.preferredWidth: 1
                 Layout.fillHeight: true

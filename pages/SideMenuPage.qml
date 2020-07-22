@@ -16,7 +16,7 @@ Page{
     property string newReportText: "New Report (PH?)"
 
     signal menuSelected(var action)
-    signal openSettings()
+//    signal openSettings()
 
 
     ColumnLayout{

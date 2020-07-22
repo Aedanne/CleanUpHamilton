@@ -28,19 +28,6 @@ Page {
                 Layout.fillHeight: true
             }
 
-//            ToolButton {
-//                indicator: Image{
-//                    width: parent.width*0.9
-//                    height: parent.height*1.2
-//                    anchors.centerIn: parent
-//                    source: "../images/menu.png"
-//                    fillMode: Image.PreserveAspectFit
-//                    mipmap: true
-//                }
-//                onClicked: {
-//                    openMenu();
-//                }
-//            }
             Item{
                 Layout.preferredWidth: 250*app.scaleFactor
                 Layout.fillHeight: true

@@ -44,15 +44,6 @@ App{
     property int steps: -1
 
 
-    // HomePage is default page==========================================================
-//    Loader {
-//        id: loader
-//        anchors.fill: parent
-//        sourceComponent: homePageComponent
-//        width: parent.width*0.7
-//    }
-
-
 
     // Main body, title==================================================================
     Component{
@@ -97,12 +88,10 @@ App{
                 switch(action){
                 case "settings":
                     console.log("In menu drawer > settings");
-//                    loader.sourceComponent = settingsPageComponent;
                         formStackView.loadSettingsPage();
                     break;
                 case "about":
                     console.log("In menu drawer > about");
-//                    loader.sourceComponent = aboutPageComponent;
                         formStackView.loadAboutPage();
                     break;
                 default:
