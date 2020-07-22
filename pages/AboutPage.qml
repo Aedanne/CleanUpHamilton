@@ -16,7 +16,7 @@ Page {
     anchors.fill: HomePage
 
     header: ToolBar{
-        contentHeight: 50*app.scaleFactor
+        contentHeight: app.btnHdrFtrHeightSize
         Material.primary: app.primaryColor
 
         RowLayout {

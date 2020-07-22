@@ -16,7 +16,7 @@ Page {
     property var descText
 
     header: ToolBar{
-        contentHeight: 50*app.scaleFactor
+        contentHeight: app.btnHdrFtrHeightSize
         Material.primary: app.primaryColor
 
         RowLayout {
@@ -83,14 +83,14 @@ Page {
 
 
     footer: Rectangle{
-        id: reportRectangle
-        height: 50*app.scaleFactor
+
+        height: app.btnHdrFtrHeightSize*1.1
 
         width: parent.width
         radius: 10
 
         //Set background color for button
-        color:app.appBackgroundColor
+        //color:app.appBackgroundColor
 
         //Button row for new report
         RowLayout{
@@ -103,12 +103,14 @@ Page {
                 id: backButton
                 text: qsTr("Back")
                 width: parent.width*.5
+                height: app.btnHdrFtrHeightSize
 
 
                 contentItem: Item{
 
                     RowLayout{
                         anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
 
                         Image{
                             Layout.preferredWidth: 35*app.scaleFactor
@@ -128,12 +130,12 @@ Page {
 
                 background: Rectangle {
                     implicitWidth: app.width*.5
-                    implicitHeight: reportRectangle.height
+                    implicitHeight: app.btnHdrFtrHeightSize*1.05
                     opacity: enabled ? 1 : 0.3
                     border.color: app.appBackgroundColor
-                    border.width: 1
+                    border.width: 0.5
                     color: app.primaryColor
-                    radius: 5
+                    radius: 3
                 }
 
                 onClicked: {
@@ -146,12 +148,14 @@ Page {
                 id: nextButton
                 text: qsTr("Next")
                 width: parent.width*.5
+                height: app.btnHdrFtrHeightSize
 
 
                 contentItem: Item{
 
                     RowLayout{
                         anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
 
                         Text {
                             text: nextButton.text
@@ -169,12 +173,12 @@ Page {
 
                 background: Rectangle {
                     implicitWidth: app.width*.5
-                    implicitHeight: reportRectangle.height
+                    implicitHeight: app.btnHdrFtrHeightSize*1.05
                     opacity: enabled ? 1 : 0.3
                     border.color: app.appBackgroundColor
-                    border.width: 1
+                    border.width: 0.5
                     color: app.primaryColor
-                    radius: 5
+                    radius: 3
                 }
 
                 onClicked: {

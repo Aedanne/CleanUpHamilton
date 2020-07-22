@@ -40,6 +40,7 @@ App{
     readonly property real subtitleFontSize: 1.1 * app.baseFontSize
     readonly property real captionFontSize: 0.6 * app.baseFontSize
     readonly property real headerFontSize: baseFontSize*0.60
+    readonly property real btnHdrFtrHeightSize: 50*app.scaleFactor
 
     // Stackview properties
     property int steps: -1
