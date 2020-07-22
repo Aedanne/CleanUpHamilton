@@ -103,7 +103,7 @@ Page {
                 id: backButton
                 text: qsTr("Back")
                 width: parent.width*.5
-                height: app.btnHdrFtrHeightSize
+                height: app.btnHdrFtrHeightSize*1.2
 
 
                 contentItem: Item{
@@ -130,7 +130,7 @@ Page {
 
                 background: Rectangle {
                     implicitWidth: app.width*.5
-                    implicitHeight: app.btnHdrFtrHeightSize*1.05
+                    implicitHeight: app.btnHdrFtrHeightSize
                     opacity: enabled ? 1 : 0.3
                     border.color: app.appBackgroundColor
                     border.width: 0.5
@@ -148,7 +148,7 @@ Page {
                 id: nextButton
                 text: qsTr("Next")
                 width: parent.width*.5
-                height: app.btnHdrFtrHeightSize
+                height: app.btnHdrFtrHeightSize*1.2
 
 
                 contentItem: Item{
@@ -173,7 +173,7 @@ Page {
 
                 background: Rectangle {
                     implicitWidth: app.width*.498
-                    implicitHeight: app.btnHdrFtrHeightSize*1.05
+                    implicitHeight: app.btnHdrFtrHeightSize
                     opacity: enabled ? 1 : 0.3
                     border.color: app.appBackgroundColor
                     border.width: 0.5
