@@ -27,7 +27,7 @@ Page {
                 Layout.preferredWidth: 250*app.scaleFactor
                 horizontalAlignment: Qt.AlignLeft
                 verticalAlignment: Qt.AlignVCenter
-                font.pixelSize: app.baseFontSize*0.70
+                font.pixelSize: app.headerFontSize
                 font.bold: true
                 wrapMode: Text.Wrap
                 leftPadding: 10*app.scaleFactor

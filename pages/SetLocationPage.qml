@@ -47,7 +47,7 @@ Page {
                 Layout.preferredWidth: 250*app.scaleFactor
                 horizontalAlignment: Qt.AlignLeft
                 verticalAlignment: Qt.AlignVCenter
-                font.pixelSize: app.baseFontSize*0.70
+                font.pixelSize: app.headerFontSize
                 font.bold: true
                 wrapMode: Text.Wrap
                 leftPadding: 10*app.scaleFactor
@@ -117,7 +117,7 @@ Page {
                         }
                         Text {
                             text: backButton.text
-                            font.pointSize: app.baseFontSize*.5
+                            font.pixelSize: app.headerFontSize
                             font.bold: true
                             color: app.menuPrimaryTextColor
                             horizontalAlignment: Text.AlignHCenter
@@ -155,7 +155,7 @@ Page {
 
                         Text {
                             text: nextButton.text
-                            font.pointSize: app.baseFontSize*.5
+                            font.pixelSize: app.headerFontSize
                             font.bold: true
                             color: app.menuPrimaryTextColor
                         }
@@ -183,10 +183,5 @@ Page {
                 }
             }
         }
-
     }
-
-
-
-
 }
