@@ -35,14 +35,16 @@ Page {
             anchors.fill: parent
             spacing: 0
 
-            Item {
-                Layout.preferredWidth: 6
-                Layout.fillHeight: true
-            }
-
-            Item{
-                Layout.minimumWidth: 250*app.scaleFactor
-                Layout.fillHeight: true
+            Label{
+                Layout.preferredWidth: 250*app.scaleFactor
+                horizontalAlignment: Qt.AlignLeft
+                verticalAlignment: Qt.AlignVCenter
+                font.pixelSize: app.baseFontSize*0.70
+                font.bold: true
+                wrapMode: Text.Wrap
+                leftPadding: 10*app.scaleFactor
+                text: titleText > ""? titleText:""
+                color: app.menuPrimaryTextColor
             }
 
             ToolButton {

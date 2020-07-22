@@ -186,6 +186,22 @@ App{
             }
 
             onNextPage: {
+                formStackView.loadSetLocationPage();
+            }
+        }
+    }
+
+    Component {
+        id: setLocationPageComponent
+
+        SetLocationPage {
+            titleText:qsTr("Set Location")
+            descText: qsTr("TODO: \nSet Location")
+            onPreviousPage: {
+                formStackView.pop()
+            }
+
+            onNextPage: {
 
             }
         }
@@ -225,6 +241,12 @@ App{
         function loadSettingsPage() {
             console.log("Inside StackView.loadSettingsPage()")
             push(settingsPageComponent);
+        }
+
+        //Load SetLocation Page
+        function loadSetLocationPage() {
+            console.log("Inside StackView.loadSetLocationPage()")
+            push(setLocationPageComponent);
         }
     }
 

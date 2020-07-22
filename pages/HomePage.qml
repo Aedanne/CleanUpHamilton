@@ -121,7 +121,7 @@ Page {
 
                 Layout.alignment: Qt.AlignHCenter
                 width: app.width*0.60
-                radius: 15
+                radius: 5
 
                 //Set background color for button
                 color:app.primaryColor
