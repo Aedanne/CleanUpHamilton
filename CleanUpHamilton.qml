@@ -86,6 +86,10 @@ App{
             onMenuSelected: {
                 sideMenuDrawer.close();
                 switch(action){
+                case "fileareport":
+                    console.log("In menu drawer > fileareport");
+                        formStackView.loadFormPage();
+                    break;
                 case "settings":
                     console.log("In menu drawer > settings");
                         formStackView.loadSettingsPage();
@@ -106,6 +110,18 @@ App{
         id: sideMenuDrawerModel
 
         ListElement {
+            action:"fileareport";
+            type: "delegate";
+            name: qsTr("File a Report");
+            iconSource: "../images/add_note.png"
+        }
+        ListElement {
+            action:"divider";
+            type: "";
+            name: "divider";
+            iconSource: ""
+        }
+        ListElement {
             action:"about";
             type: "delegate";
             name: qsTr("About");
@@ -125,7 +141,7 @@ App{
     Component{
         id: aboutPageComponent
         AboutPage{
-            titleText:qsTr("")
+            titleText:qsTr("About")
             descText: qsTr("TODO: \nABOUT")
             onOpenMenu: {
                 sideMenuDrawer.open();
@@ -144,7 +160,7 @@ App{
     Component{
         id: settingsPageComponent
         SettingsPage{
-            titleText:qsTr("")
+            titleText:qsTr("Settings")
             descText: qsTr("TODO: \nSettings")
             onOpenMenu: {
                 sideMenuDrawer.open();
@@ -163,7 +179,7 @@ App{
         id: formPageComponent
 
         FormPage {
-            titleText:qsTr("")
+            titleText:qsTr("New Report")
             descText: qsTr("TODO: \nFile a Report")
             onPreviousPage: {
                 formStackView.pop()
