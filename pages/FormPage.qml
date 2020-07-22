@@ -172,7 +172,7 @@ Page {
                 }
 
                 background: Rectangle {
-                    implicitWidth: app.width*.5
+                    implicitWidth: app.width*.498
                     implicitHeight: app.btnHdrFtrHeightSize*1.05
                     opacity: enabled ? 1 : 0.3
                     border.color: app.appBackgroundColor
