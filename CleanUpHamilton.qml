@@ -22,7 +22,7 @@ App{
     property bool lightTheme: true
 
     // App-level color properties===============================================================
-    readonly property color primaryColor: "#CF5300"//"#DA674A" //"#255D83"
+    readonly property color primaryColor: Qt.darker("#CF5300",0.9) //"#DA674A" //"#255D83"
     readonly property color accentColor: Qt.lighter(primaryColor,1.2)
     readonly property color appBackgroundColor: lightTheme? "#FAFAFA":"#303030"
     readonly property color appDialogColor: lightTheme? "#FFFFFF":"424242"
@@ -40,16 +40,17 @@ App{
     readonly property real subtitleFontSize: 1.1 * app.baseFontSize
     readonly property real captionFontSize: 0.6 * app.baseFontSize
 
-
+    // Stackview properties
+    property int steps: -1
 
 
     // HomePage is default page==========================================================
-    Loader {
-        id: loader
-        anchors.fill: parent
-        sourceComponent: homePageComponent
-        width: parent.width*0.7
-    }
+//    Loader {
+//        id: loader
+//        anchors.fill: parent
+//        sourceComponent: homePageComponent
+//        width: parent.width*0.7
+//    }
 
 
 
@@ -62,21 +63,19 @@ App{
             descText1: qsTr("Clean-Up")
             descText2: qsTr("Hamilton")
             onOpenMenu: {
+                console.log("In home page component > open menu");
                 sideMenuDrawer.open();
+            }
+            //Navigating to the form page from home page
+            onNextPage: {
+//                switch(action) {
+//                    case "fileareport":
+                        formStackView.loadFormPage();
+                    //more cases to add later
+//                }
             }
         }
     }
-
-
-//    Rectangle{
-//        id: mask
-//        anchors.fill: parent
-//        color: "black"
-//        opacity: drawer.position*0.54
-//        Material.theme: app.lightTheme ? Material.Light : Material.Dark
-//    }
-
-
 
 
     // QML type for side menu============================================================
@@ -97,10 +96,14 @@ App{
                 sideMenuDrawer.close();
                 switch(action){
                 case "settings":
-                    loader.sourceComponent = settingsPageComponent;
+                    console.log("In menu drawer > settings");
+//                    loader.sourceComponent = settingsPageComponent;
+                        formStackView.loadSettingsPage();
                     break;
                 case "about":
-                    loader.sourceComponent = aboutPageComponent;
+                    console.log("In menu drawer > about");
+//                    loader.sourceComponent = aboutPageComponent;
+                        formStackView.loadAboutPage();
                     break;
                 default:
                     break;
@@ -134,9 +137,16 @@ App{
         id: aboutPageComponent
         AboutPage{
             titleText:qsTr("")
-            descText: qsTr("TODO: ABOUT")
+            descText: qsTr("TODO: \nABOUT")
             onOpenMenu: {
                 sideMenuDrawer.open();
+            }
+            onPreviousPage: {
+                formStackView.pop()
+            }
+
+            onNextPage: {
+
             }
         }
     }
@@ -146,12 +156,75 @@ App{
         id: settingsPageComponent
         SettingsPage{
             titleText:qsTr("")
-            descText: qsTr("TODO: Settings")
+            descText: qsTr("TODO: \nSettings")
             onOpenMenu: {
                 sideMenuDrawer.open();
             }
+            onPreviousPage: {
+                formStackView.pop()
+            }
+
+            onNextPage: {
+
+            }
         }
     }
+
+    Component {
+        id: formPageComponent
+
+        FormPage {
+            titleText:qsTr("")
+            descText: qsTr("TODO: \nFile a Report")
+            onPreviousPage: {
+                formStackView.pop()
+            }
+
+            onNextPage: {
+
+            }
+        }
+    }
+
+
+    //Creating stackview for form pages =================================================
+    StackView {
+        id: formStackView
+        anchors.fill: parent
+        initialItem: homePageComponent
+
+        function loadHomePage() {
+            console.log("Inside StackView.loadHomePage()")
+            while (formStackView.count > 0)
+                formStackView.pop()
+
+            push(formStackView.initialItem)
+
+            //TODO: to clear any data from this point on
+            steps = -1;
+        }
+
+        //Load form page
+        function loadFormPage() {
+            console.log("Inside StackView.loadFormPage()")
+            push(formPageComponent);
+        }
+
+        //Load About Page
+        function loadAboutPage() {
+            console.log("Inside StackView.loadAboutPage()")
+            push(aboutPageComponent);
+        }
+
+        //Load Settings Page
+        function loadSettingsPage() {
+            console.log("Inside StackView.loadSettingsPage()")
+            push(settingsPageComponent);
+        }
+    }
+
+
+
 
 
 }

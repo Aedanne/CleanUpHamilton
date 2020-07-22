@@ -6,10 +6,15 @@ import ArcGIS.AppFramework 1.0
 
 Page {
     id:aboutPage
-    anchors.fill: SideMenuPage
     signal openMenu()
+
+    signal nextPage();
+    signal previousPage();
+
     property string titleText:""
     property var descText
+    anchors.fill: HomePage
+
     header: ToolBar{
         contentHeight: 50*app.scaleFactor
         Material.primary: app.primaryColor
@@ -23,19 +28,19 @@ Page {
                 Layout.fillHeight: true
             }
 
-            ToolButton {
-                indicator: Image{
-                    width: parent.width*0.9
-                    height: parent.height*1.2
-                    anchors.centerIn: parent
-                    source: "../images/menu.png"
-                    fillMode: Image.PreserveAspectFit
-                    mipmap: true
-                }
-                onClicked: {
-                    openMenu();
-                }
-            }
+//            ToolButton {
+//                indicator: Image{
+//                    width: parent.width*0.9
+//                    height: parent.height*1.2
+//                    anchors.centerIn: parent
+//                    source: "../images/menu.png"
+//                    fillMode: Image.PreserveAspectFit
+//                    mipmap: true
+//                }
+//                onClicked: {
+//                    openMenu();
+//                }
+//            }
             Item{
                 Layout.preferredWidth: 250*app.scaleFactor
                 Layout.fillHeight: true
@@ -53,7 +58,7 @@ Page {
                     mipmap: true
                 }
                 onClicked: {
-                    loader.sourceComponent = homePageComponent;
+                    previousPage();
                 }
             }
             Item {
@@ -78,9 +83,5 @@ Page {
         }
     }
 
-//    OptionsMenuPanel{
-//        id:optionsPanel
-//        x: page.width-optionsPanel.width-8*app.scaleFactor
-//        y: page.y-36*app.scaleFactor
-//    }
+
 }

@@ -6,10 +6,15 @@ import ArcGIS.AppFramework 1.0
 
 Page {
     id:homePage
-    signal openMenu()
+    signal openMenu();
+    signal nextPage();
+    signal previousPage();
+    anchors.fill: parent
 
     property var descText1
     property var descText2
+    property var reportButtonText: "File a Report"
+
     header: ToolBar {
         contentHeight: 50*app.scaleFactor
         Material.primary: app.primaryColor
@@ -57,6 +62,7 @@ Page {
         anchors.fill: parent
         color: app.appBackgroundColor
 
+        //Background image for homepage
         Image {
             opacity: 0.85
             width: parent.width
@@ -65,32 +71,112 @@ Page {
             fillMode: Image.Stretch
             mipmap: true
         }
-        //Homepage title
-        Label {
-            Material.theme: app.lightTheme? Material.Light : Material.Dark
-            anchors.centerIn: parent
-            font.pixelSize: app.titleFontSize
-            font.bold: true
-            style: Text.Raised
-            styleColor: app.homePageTitleTextColor
-            color: app.primaryColor
-            wrapMode: Text.Wrap
-            bottomPadding: 220*app.scaleFactor
-            text: descText1
-        }
-        Label {
-            Material.theme: app.lightTheme? Material.Light : Material.Dark
-            anchors.centerIn: parent
-            font.pixelSize: app.titleFontSize*1.25
-            font.bold: true
-            style: Text.Sunken
-            styleColor: app.homePageTitleTextColor
-            color: app.primaryColor
-            wrapMode: Text.Wrap
-            bottomPadding: 120*app.scaleFactor
-            text: descText2
+
+        //Layout for the home page - title, then file report button
+        ColumnLayout{
+            anchors.fill: parent
+            spacing: 10*app.scaleFactor
+
+            //Homepage title
+            Rectangle {
+                Layout.alignment: Qt.AlignCenter
+                height: 20*app.scaleFactor
+                width: parent.width*0.5
+
+                Label {
+                    Material.theme: app.lightTheme? Material.Light : Material.Dark
+                    anchors.centerIn: parent
+                    font.pixelSize: app.titleFontSize
+                    font.bold: true
+                    style: Text.Raised
+                    styleColor: app.homePageTitleTextColor
+                    color: app.primaryColor
+                    wrapMode: Text.Wrap
+                    topPadding: 90*app.scaleFactor
+                    text: descText1
+
+                }
+                Label {
+                    Material.theme: app.lightTheme? Material.Light : Material.Dark
+                    anchors.centerIn: parent
+                    font.pixelSize: app.titleFontSize*1.25
+                    font.bold: true
+                    style: Text.Sunken
+                    styleColor: app.homePageTitleTextColor
+                    color: app.primaryColor
+                    wrapMode: Text.Wrap
+                    topPadding: 180*app.scaleFactor
+                    text: descText2
+                }
+
+            }
+
+
+
+            //"Make a report" button
+            Rectangle{
+                id: reportRectangle
+                height: 50*app.scaleFactor
+
+
+                Layout.alignment: Qt.AlignHCenter
+                width: app.width*0.60
+                radius: 15
+
+                //Set background color for button
+                color:app.primaryColor
+
+                //Button row for new report
+                RowLayout{
+
+                    spacing: 5*app.scaleFactor
+                    visible: true
+                    anchors.centerIn: parent
+
+                    //padding
+                    Item{
+                        width: 5
+                    }
+
+                    Image{
+                        Layout.preferredWidth: 28*app.scaleFactor
+                        Layout.preferredHeight: 28*app.scaleFactor
+                        source: "../images/add_note.png"
+
+                    }
+                    Label{
+                        horizontalAlignment: Text.AlignHCenter
+                        text: reportButtonText
+                        font.pixelSize: app.baseFontSize*0.65
+                        font.bold: true
+                        maximumLineCount: 1
+                        color: app.menuPrimaryTextColor
+                    }
+                    //padding
+                    Item{
+                        width: 5
+                    }
+                }
+
+                MouseArea {
+                    id: reportFormButtonMouseArea
+                    visible: true
+                    enabled: true
+                    anchors.centerIn: parent
+                    hoverEnabled: true
+                    anchors.fill: parent
+                    onClicked: {
+                        console.log("File a Report button clicked");
+                        nextPage();
+                    }
+
+                }
+            }
         }
     }
+
+
+
 
 
 }
