@@ -164,6 +164,8 @@ Page {
 
 
     //Footer custom QML =================================================================
-    footer: FooterSection {}
+    footer: FooterSection {
+        logMessage: "In Set Location Page - Footer..."
+    }
 
 }

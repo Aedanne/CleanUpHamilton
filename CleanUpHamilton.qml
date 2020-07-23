@@ -1,5 +1,8 @@
-//Clean-Up Hamilton Student Project
-//Using ESRI ArcGIS frameworks and libraries
+/**
+Clean-Up Hamilton Student Project
+Using ESRI ArcGIS frameworks and libraries
+Charisse Hanson
+*/
 
 import QtQuick 2.13
 import QtQuick.Layouts 1.13

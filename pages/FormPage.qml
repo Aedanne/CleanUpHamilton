@@ -51,7 +51,9 @@ Page {
 
 
     //Footer custom QML =================================================================
-    footer: FooterSection {}
+    footer: FooterSection {
+        logMessage: "In Form Page - Footer..."
+    }
 
 }
 
