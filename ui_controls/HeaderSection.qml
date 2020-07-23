@@ -38,8 +38,8 @@ ToolBar{
 
         ToolButton {
             indicator: Image{
-                width: parent.width*0.8
-                height: parent.height*0.8
+                width: parent.width*0.7
+                height: parent.height*0.7
                 anchors.centerIn: parent
                 source: "../images/help.png"
                 fillMode: Image.PreserveAspectFit
