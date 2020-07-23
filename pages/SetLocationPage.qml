@@ -18,20 +18,26 @@ import Esri.ArcGISRuntime 100.2
 
 import "../ui_controls"
 
+/*
+Main mapping page for Clean-Up Hamilton app
+*/
+
+
 Page {
-    id:formPage
-    anchors.fill: parent
+
+    id:formPage;
+    anchors.fill: parent;
 
     signal nextPage();
     signal previousPage();
 
-    property string titleText:""
-    property var descText
+    property string titleText:"";
+    property var descText;
 
 
     //Header custom QML =================================================================
     header: HeaderSection {
-        logMessage: "TODO: SET LOCATION INFO PAGE"
+        logMessage: "TODO: SET LOCATION INFO PAGE";
     }
 
 
@@ -39,23 +45,23 @@ Page {
     //Map and MapView QML Types
 
     contentItem: Rectangle{
-        anchors.top:header.bottom
+        anchors.top:header.bottom;
 
         MapView {
-            id:mapView
+            id:mapView;
 
-            property real initialMapRotation: 0
-            anchors.fill:parent
+            property real initialMapRotation: 0;
+            anchors.fill:parent;
 
             anchors {
-                left: parent.left
-                right: parent.right
-                top: titleRect.bottom
-                bottom: parent.bottom
+                left: parent.left;
+                right: parent.right;
+                top: titleRect.bottom;
+                bottom: parent.bottom;
             }
 
-            rotationByPinchingEnabled: true
-            zoomByPinchingEnabled: true
+            rotationByPinchingEnabled: true;
+            zoomByPinchingEnabled: true;
 
             locationDisplay {
                 positionSource: PositionSource {
@@ -64,46 +70,46 @@ Page {
 
             // Set starting map to Clean-Up Hamilton webmap
             Map{
-                id:map
-                initUrl: app.webMapRootUrl + app.webMapId
+                id:map;
+                initUrl: app.webMapRootUrl + app.webMapId;
             }
 
 //            //Add Cases layer
 //            GraphicsOverlay {
-//                id: casesOverlay
+//                id: casesOverlay;
 //            }
 
 //            //Default point - Hamilton coords, WGS84 projection
 //            Point {
-//                id: pointInit
-//                y: -37.7833
-//                x: 175.2833
-//                spatialReference: SpatialReference { wkid: 4326 }
+//                id: pointInit;
+//                y: -37.7833;
+//                x: 175.2833;
+//                spatialReference: SpatialReference { wkid: 4326 };
 //            }
 
 //            SimpleMarkerSymbol {
-//                id: pointSymbol
-//                style: Enums.SimpleMarkerSymbolStyleDiamond
-//                color: "orange"
-//                size: 10
+//                id: pointSymbol;
+//                style: Enums.SimpleMarkerSymbolStyleDiamond;
+//                color: "orange";
+//                size: 10;
 //            }
 
 //            Graphic {
-//                id: pointGraphic
-//                symbol: pointSymbol
-//                geometry: pointInit
+//                id: pointGraphic;
+//                symbol: pointSymbol;
+//                geometry: pointInit;
 //            }
 
             Image {
-                id: centerPin
-                source: "../images/pin.png"
-                width: 40 * app.scaleFactor
-                height: 40 * app.scaleFactor
+                id: centerPin;
+                source: "../images/pin.png";
+                width: 40 * app.scaleFactor;
+                height: 40 * app.scaleFactor;
                 anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    bottom: parent.verticalCenter
+                    horizontalCenter: parent.horizontalCenter;
+                    bottom: parent.verticalCenter;
                 }
-                visible: true
+                visible: true;
             }
 
             //Add default point to layer
@@ -113,41 +119,41 @@ Page {
 
             //Map control buttons
             Column{
-                id:mapButtons
-                spacing: 5 * app.scaleFactor
+                id:mapButtons;
+                spacing: 5 * app.scaleFactor;
                 anchors {
-                    verticalCenter: parent.verticalCenter
-                    right: parent.right
-                    margins: 5 * scaleFactor
+                    verticalCenter: parent.verticalCenter;
+                    right: parent.right;
+                    margins: 5 * scaleFactor;
                 }
 
                 Button{
-                    id:myLocButton
+                    id:myLocButton;
                     Image{
-                        id: mylocImage
-                        source:"../images/my_loc.png"
-                        height: 30 * scaleFactor
-                        width: height
-                        anchors.centerIn: parent
+                        id: mylocImage;
+                        source:"../images/my_loc.png";
+                        height: 30 * scaleFactor;
+                        width: height;
+                        anchors.centerIn: parent;
                     }
 
                     ColorOverlay{
-                        anchors.fill: mylocImage
-                        source: mylocImage
-                        color: app.mapBorderColor
+                        anchors.fill: mylocImage;
+                        source: mylocImage;
+                        color: app.mapBorderColor;
                     }
 
                     onHoveredChanged: hovered ? myLocButton.opacity = 1 : myLocButton.opacity = .5;
-                    height: 40 * scaleFactor
-                    width : height
-                    opacity: .5
+                    height: 40 * scaleFactor;
+                    width : height;
+                    opacity: .5;
 
                     onClicked: {
                         if (!mapView.locationDisplay.started) {
-                            mapView.locationDisplay.start()
-                            mapView.locationDisplay.autoPanMode = Enums.LocationDisplayAutoPanModeRecenter
+                            mapView.locationDisplay.start();
+                            mapView.locationDisplay.autoPanMode = Enums.LocationDisplayAutoPanModeRecenter;
                         } else {
-                            mapView.locationDisplay.stop()
+                            mapView.locationDisplay.stop();
                         }
                     }
                 }

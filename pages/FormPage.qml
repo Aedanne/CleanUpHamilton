@@ -7,39 +7,45 @@ import ArcGIS.AppFramework 1.0
 
 import "../ui_controls"
 
+
+/*
+Form page for Clean-Up Hamilton app
+*/
+
 Page {
-    id:formPage
-    anchors.fill: parent
+
+    id:formPage;
+    anchors.fill: parent;
 
     signal nextPage();
     signal previousPage();
 
     property string titleText:""
-    property var descText
+    property var descText;
 
 
     //Header custom QML =================================================================
     header: HeaderSection {
-        logMessage: "TODO: FORM PAGE INFO PAGE"
+        logMessage: "TODO: FORM PAGE INFO PAGE";
     }
 
 
     //Main body of the page =============================================================
     Rectangle{
-        anchors.fill: parent
-        color: app.appBackgroundColor
-        width: parent.width*0.75
-        Layout.alignment: Qt.AlignCenter
+        anchors.fill: parent;
+        color: app.appBackgroundColor;
+        width: parent.width*0.75;
+        Layout.alignment: Qt.AlignCenter;
 
         Label{
-            Material.theme: app.lightTheme? Material.Light : Material.Dark
-            anchors.centerIn: parent
-            font.pixelSize: app.titleFontSize
-            font.bold: true
-            wrapMode: Text.Wrap
-            padding: 16*app.scaleFactor
-            text: descText > ""? descText:""
-            leftPadding: 100
+            Material.theme: app.lightTheme? Material.Light : Material.Dark;
+            anchors.centerIn: parent;
+            font.pixelSize: app.titleFontSize;
+            font.bold: true;
+            wrapMode: Text.Wrap;
+            padding: 16*app.scaleFactor;
+            text: descText > ""? descText:"";
+            leftPadding: 100;
         }
     }
 
