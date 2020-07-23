@@ -10,7 +10,7 @@ import QtGraphicalEffects 1.0
 import ArcGIS.AppFramework 1.0
 import Esri.ArcGISRuntime 100.7
 
-import "controls"
+import "ui_controls"
 import "pages"
 import "images"
 
@@ -21,7 +21,7 @@ App{
 
     property bool lightTheme: true
 
-    // App-level color properties===============================================================
+    // App-level color properties========================================================
     readonly property color primaryColor: Qt.darker("#CF5300",0.9) //"#DA674A" //"#255D83"
     readonly property color accentColor: Qt.lighter(primaryColor,1.2)
     readonly property color appBackgroundColor: lightTheme? "#FAFAFA":"#303030"
@@ -33,7 +33,7 @@ App{
     readonly property color homePageTitleTextColor:"#FCFCFC"
     //readonly property color listViewDividerColor:"#19000000"
 
-    // App-level size properties================================================================
+    // App-level size properties=========================================================
     property real scaleFactor: AppFramework.displayScaleFactor
     readonly property real baseFontSize: (app.width < 450*app.scaleFactor) ? (35 * scaleFactor) : (40 * scaleFactor)
     readonly property real titleFontSize: app.baseFontSize
@@ -42,9 +42,13 @@ App{
     readonly property real headerFontSize: baseFontSize*0.60
     readonly property real btnHdrFtrHeightSize: 50*app.scaleFactor
 
-    // Stackview properties
+    // Stackview properties==============================================================
     property int steps: -1
 
+    //Map properties=====================================================================
+    property string webMapRootUrl: "https://waikato.maps.arcgis.com/home/item.html?id="
+    property string webMapId: "7152b9397a1b446292d67076bfa4e842"  //Clean-Up Hamilton Map
+    readonly property color mapBorderColor: "#303030"
 
 
     // Main body, title==================================================================

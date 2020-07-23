@@ -112,12 +112,10 @@ Page {
             }
 
 
-
-            //"Make a report" button
+            //"File a report" button=======================================
             Rectangle{
                 id: reportRectangle
                 height: 50*app.scaleFactor
-
 
                 Layout.alignment: Qt.AlignHCenter
                 width: app.width*0.60
@@ -169,7 +167,6 @@ Page {
                         console.log("File a Report button clicked");
                         nextPage();
                     }
-
                 }
             }
         }

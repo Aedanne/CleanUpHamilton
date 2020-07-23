@@ -1,9 +1,22 @@
 import QtQuick 2.13
 import QtQuick.Layouts 1.13
 import QtQuick.Controls 2.13
-import QtQuick.Controls.Material 2.13
+import QtQuick.Controls.Material 2.2
 import QtQuick.Controls.Styles 1.4
+import QtQuick.Dialogs 1.2
+import QtPositioning 5.8
+import QtSensors 5.3
+import QtMultimedia 5.2
+import QtGraphicalEffects 1.0
+
 import ArcGIS.AppFramework 1.0
+import ArcGIS.AppFramework.Networking 1.0
+import ArcGIS.AppFramework.Platform 1.0
+
+import Esri.ArcGISRuntime 100.2
+
+
+import "../ui_controls"
 
 Page {
     id:formPage
@@ -15,177 +28,136 @@ Page {
     property string titleText:""
     property var descText
 
-    header: ToolBar{
-        contentHeight: app.btnHdrFtrHeightSize
-        Material.primary: app.primaryColor
 
-        RowLayout {
-            anchors.fill: parent
-            spacing: 0
+    //Header custom QML =================================================================
+    header: HeaderSection {
+        logMessage: "TODO: SET LOCATION INFO PAGE"
+    }
 
-            Item {
-                Layout.preferredWidth: 6
-                Layout.fillHeight: true
+
+    //Main body of the page =============================================================
+    //Map and MapView QML Types
+
+    contentItem: Rectangle{
+        anchors.top:header.bottom
+
+        MapView {
+            id:mapView
+
+            property real initialMapRotation: 0
+            anchors.fill:parent
+
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: titleRect.bottom
+                bottom: parent.bottom
             }
 
-//            ToolButton {
-//                indicator: Image{
-//                    width: parent.width*0.9
-//                    height: parent.height*1.2
-//                    anchors.centerIn: parent
-//                    source: "../images/back.png"
-//                    fillMode: Image.PreserveAspectFit
-//                    mipmap: true
-//                }
-//                //Go back to home page when hit back here
-//                onClicked: {
-//                    previousPage();
-//                }
+            rotationByPinchingEnabled: true
+            zoomByPinchingEnabled: true
+
+            locationDisplay {
+                positionSource: PositionSource {
+                }
+            }
+
+            // Set starting map to Clean-Up Hamilton webmap
+            Map{
+                id:map
+                initUrl: app.webMapRootUrl + app.webMapId
+            }
+
+//            //Add Cases layer
+//            GraphicsOverlay {
+//                id: casesOverlay
 //            }
 
-            Label{
-                Layout.preferredWidth: 250*app.scaleFactor
-                horizontalAlignment: Qt.AlignLeft
-                verticalAlignment: Qt.AlignVCenter
-                font.pixelSize: app.headerFontSize
-                font.bold: true
-                wrapMode: Text.Wrap
-                leftPadding: 10*app.scaleFactor
-                text: titleText > ""? titleText:""
-                color: app.menuPrimaryTextColor
+//            //Default point - Hamilton coords, WGS84 projection
+//            Point {
+//                id: pointInit
+//                y: -37.7833
+//                x: 175.2833
+//                spatialReference: SpatialReference { wkid: 4326 }
+//            }
+
+//            SimpleMarkerSymbol {
+//                id: pointSymbol
+//                style: Enums.SimpleMarkerSymbolStyleDiamond
+//                color: "orange"
+//                size: 10
+//            }
+
+//            Graphic {
+//                id: pointGraphic
+//                symbol: pointSymbol
+//                geometry: pointInit
+//            }
+
+            Image {
+                id: centerPin
+                source: "../images/pin.png"
+                width: 40 * app.scaleFactor
+                height: 40 * app.scaleFactor
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    bottom: parent.verticalCenter
+                }
+                visible: true
             }
 
-            Item {
-                Layout.preferredWidth: 1
-                Layout.fillHeight: true
+            //Add default point to layer
+//            Component.onCompleted: {
+//                casesOverlay.graphics.append(pointGraphic);
+//            }
+
+            //Map control buttons
+            Column{
+                id:mapButtons
+                spacing: 5 * app.scaleFactor
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    right: parent.right
+                    margins: 5 * scaleFactor
+                }
+
+                Button{
+                    id:myLocButton
+                    Image{
+                        id: mylocImage
+                        source:"../images/my_loc.png"
+                        height: 30 * scaleFactor
+                        width: height
+                        anchors.centerIn: parent
+                    }
+
+                    ColorOverlay{
+                        anchors.fill: mylocImage
+                        source: mylocImage
+                        color: app.mapBorderColor
+                    }
+
+                    onHoveredChanged: hovered ? myLocButton.opacity = 1 : myLocButton.opacity = .5;
+                    height: 40 * scaleFactor
+                    width : height
+                    opacity: .5
+
+                    onClicked: {
+                        if (!mapView.locationDisplay.started) {
+                            mapView.locationDisplay.start()
+                            mapView.locationDisplay.autoPanMode = Enums.LocationDisplayAutoPanModeRecenter
+                        } else {
+                            mapView.locationDisplay.stop()
+                        }
+                    }
+                }
             }
         }
     }
 
-//    //Main body of the page
-//    Rectangle{
-//        anchors.fill: parent
-//        color: app.appBackgroundColor
-//        width: parent.width*0.75
-//        Layout.alignment: Qt.AlignCenter
-
-//        Label{
-//            Material.theme: app.lightTheme? Material.Light : Material.Dark
-//            anchors.centerIn: parent
-//            font.pixelSize: app.titleFontSize
-//            font.bold: true
-//            wrapMode: Text.Wrap
-//            padding: 16*app.scaleFactor
-//            text: descText > ""? descText:""
-//            leftPadding: 100
-//        }
-//    }
 
 
-    footer: Rectangle{
+    //Footer custom QML =================================================================
+    footer: FooterSection {}
 
-        height: app.btnHdrFtrHeightSize*1.1
-
-        width: parent.width
-        radius: 10
-
-        //Set background color for button
-        //color:app.appBackgroundColor
-
-        //Button row for new report
-        RowLayout{
-
-            spacing: 0
-            visible: true
-            anchors.fill: parent
-
-            Button {
-                id: backButton
-                text: qsTr("Back")
-                width: parent.width*.5
-                height: app.btnHdrFtrHeightSize*1.2
-
-
-                contentItem: Item{
-
-                    RowLayout{
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-
-                        Image{
-                            Layout.preferredWidth: 35*app.scaleFactor
-                            Layout.preferredHeight: 35*app.scaleFactor
-                            source: "../images/back.png"
-                        }
-                        Text {
-                            text: backButton.text
-                            font.pixelSize: app.headerFontSize
-                            font.bold: true
-                            color: app.menuPrimaryTextColor
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                        }
-                    }
-                }
-
-                background: Rectangle {
-                    implicitWidth: app.width*.5
-                    implicitHeight: app.btnHdrFtrHeightSize
-                    opacity: enabled ? 1 : 0.3
-                    border.color: app.appBackgroundColor
-                    border.width: 0.5
-                    color: app.primaryColor
-                    radius: 3
-                }
-
-                onClicked: {
-                    console.log("In setlocationpage > back button clicked")
-                    previousPage();
-                }
-            }
-
-            Button {
-                id: nextButton
-                text: qsTr("Next")
-                width: parent.width*.5
-                height: app.btnHdrFtrHeightSize*1.1
-
-
-                contentItem: Item{
-
-                    RowLayout{
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-
-                        Text {
-                            text: nextButton.text
-                            font.pixelSize: app.headerFontSize
-                            font.bold: true
-                            color: app.menuPrimaryTextColor
-                        }
-                        Image{
-                            Layout.preferredWidth: 35*app.scaleFactor
-                            Layout.preferredHeight: 35*app.scaleFactor
-                            source: "../images/next.png"
-                        }
-                    }
-                }
-
-                background: Rectangle {
-                    implicitWidth: app.width*.498
-                    implicitHeight: app.btnHdrFtrHeightSize
-                    opacity: enabled ? 1 : 0.3
-                    border.color: app.appBackgroundColor
-                    border.width: 0.5
-                    color: app.primaryColor
-                    radius: 3
-                }
-
-                onClicked: {
-                    console.log("In setLocation page > next button clicked")
-                    nextPage();
-                }
-            }
-        }
-    }
 }

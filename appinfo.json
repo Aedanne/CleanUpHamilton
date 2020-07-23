@@ -1,6 +1,6 @@
 {
     "appLink": "",
-    "arcgisRuntime": 1007,
+    "arcgisRuntime": 1002,
     "capabilities": {
         "audio": false,
         "backgroundModes": {
@@ -93,7 +93,6 @@
     "multipleInstances": true,
     "projectFile": "CleanUpHamilton.qmlproject",
     "properties": {
-        "backgroundImage": "images/hamilton.jfif",
         "pageBackgroundColor": "#F8F8F8"
     },
     "resources": {
@@ -107,6 +106,6 @@
     "urlScheme": "",
     "version": {
         "major": 1,
-        "micro": 7
+        "micro": 9
     }
 }
