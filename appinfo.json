@@ -42,7 +42,7 @@
         },
         "arcgisRuntimeExtensionsLicense": "",
         "arcgisRuntimeLicense": "",
-        "clientId": "",
+        "clientId": "y5uFdm2AiF58sqBj",
         "ios": {
             "bundleId": "",
             "codeSignIdentity": ""
@@ -97,7 +97,7 @@
     },
     "resources": {
         "appIcon": "appicon.png",
-        "launchImageBackground": "",
+        "launchImageBackground": "launchimage-background.png",
         "launchImageBackgroundColor": "#ffffff",
         "launchImageOverlay": "launchimage-overlay.png"
     },

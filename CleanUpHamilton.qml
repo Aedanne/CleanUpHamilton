@@ -12,6 +12,8 @@ import QtGraphicalEffects 1.0
 
 import ArcGIS.AppFramework 1.0
 import Esri.ArcGISRuntime 100.7
+import ArcGIS.AppFramework.Sql 1.0
+import ArcGIS.AppFramework.Platform 1.0
 
 import "ui_controls"
 import "pages"
@@ -52,6 +54,13 @@ App{
     property string webMapRootUrl: "https://waikato.maps.arcgis.com/home/item.html?id="
     property string webMapId: "7152b9397a1b446292d67076bfa4e842"  //Clean-Up Hamilton Map
     readonly property color mapBorderColor: "#303030"
+
+    //Database properties================================================================
+    property var attributesArray
+    property var attributesArrayCopy
+    property var savedReportLocationJson
+    property var localDB
+
 
 
     // Main body, title==================================================================
@@ -260,8 +269,123 @@ App{
     }
 
 
+    //Creating database for application==================================================
+    FileFolder {
+        id: dbFileFolder;
+        path: "~/ArcGIS/QuickReport/Sql";
+    }
+
+    SqlDatabase {
+        id: db;
+        databaseName: dbFileFolder.filePath("cleanuphamilton.sqlite");
+
+        Component.onCompleted: {
+            console.log("sqlite: dbFileFolder.makeFolder", dbFileFolder.makeFolder());
+            console.log("sqlite: dbFileFolder.makePath", dbFileFolder.makePath(fileFolder.path));
+            console.log("sqlite: db open", db.open());
+            console.log("sqlite: dbFileFolder.INITIALIZED", dbFileFolder.path);
+            initDB();
+            readDataFromDevice();
+
+            attributesArray = {};
+            updateSavedReportsCount();
+        }
+    }
+
+//    function randomColor (colortype) {
+//        var types = {
+//            "primary": ["#4A148C", "#0D47A1", "#004D40", "#006064", "#1B5E20", "#827717", "#3E2723"],
+//            "background": ["#F5F5F5", "#EEEEEE"],
+//            "foreground": ["#22000000"],
+//            "accent": ["#FF9800", "yellow", "red"]
+//        },
+//        type = types[colortype]
+//        return type[Math.floor(Math.random() * type.length)]
+//    }
+
+    function getProperty (name, fallback) {
+        if (!fallback && typeof fallback !== "boolean") fallback = ""
+        return app.info.propertyValue(name, fallback) || fallback
+    }
+
+    function initDB(){
+        db.query("CREATE TABLE IF NOT EXISTS DRAFTS(id INT, typeIndex INT, size INT, attributes TEXT, date TEXT)");
+    }
+
+    //Read saved data from local storage
+    function readDataFromDevice() {
+        var dbname = app.info.itemId;
+        if(dbname) {
+            localDB = LocalStorage.openDatabaseSync(dbname, "1.0", "Draft Reports", 1000000);
+            try {
+                queryDataToInsert();
+            } catch(error) {
+                console.log("Error reading data from device...")
+            }
+        }
+    }
+
+    function queryDataToInsert() {
+        db.query("BEGIN TRANSACTION");
+        localDB.transaction(function(tx){
+            var rs = tx.executeSql('SELECT * FROM DRAFTS');
+
+            for(var i = 0; i < rs.rows.length; i++) {
+                var attributes = rs.rows.item(i).attributes;
+                var id = rs.rows[i].id;
+                var typeIndex = rs.rows[i].pickListIndex;
+                var size = rs.rows[i].size;
+                var date = rs.rows[i].date;
+
+                //insert into database
+                var insert_query = db.query();
+                insert_query.prepare("INSERT INTO DRAFTS(id, typeIndex, size, attributes, date)  VALUES(:id, :typeIndex, :size, :attributes, :date);")
+                insert_query.executePrepared({id:id, typeIndex:typeIndex, size:size, attributes:attributes, date:date});
+                insert_query.finish();
+
+                //remove from local
+                tx.executeSql('DELETE FROM DRAFTS WHERE id = ?', id)
+            }
+        })
+        db.query("END TRANSACTION")
+    }
+
+    function db_prepare_sql(db, sql) {
+        var dbQuery = db.query();
+        dbQuery.prepare(sql);
+        return dbQuery;
+    }
+
+    function db_error(dbError) {
+        return new Error( "Error %1 (Type %2)\n%3\n%4\n"
+                         .arg(dbError.nativeErrorCode)
+                         .arg(dbError.type)
+                         .arg(dbError.driverText)
+                         .arg(dbError.databaseText)
+                         );
+    }
+
+    function db_exec_sql(db, sql, obj) {
+        var dbQuery = obj ? db.query(sql) : db.query(sql, obj);
+        if (dbQuery.error) throw db_error(dbQuery.error);
+        var ok = dbQuery.first();
+
+        while (ok) {
+            console.log("while ok", JSON.stringify(dbQuery.values));
+            ok = dbQuery.next();
+        }
+        dbQuery.finish();
+    }
 
 
+    Component.onCompleted: {
+
+        //Check permissions to access storage
+        if(Permission.checkPermission(Permission.PermissionTypeStorage) && Qt.platform.os === "android"){
+            storageAccessDialog.visible = true;
+        }
+
+    }
 
 }
 
