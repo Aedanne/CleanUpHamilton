@@ -259,6 +259,8 @@ Page {
     //Footer custom QML =================================================================
     footer: FooterSection {
         logMessage: "In Form Page - Footer..."
+        rightButtonText: "SAVE"
+        overrideRightIconSrc: "../images/save.png"
     }
 
 

@@ -12,6 +12,10 @@ FooterSection QML Type to simplify adding footer to the pages
 Rectangle{
 
         property string logMessage;
+        property string leftButtonText;
+        property string rightButtonText;
+        property string overrideRightIconSrc;
+        property string overrideLeftIconSrc;
 
         id: footerRectangle;
         height: app.btnHdrFtrHeightSize*1.1;
@@ -31,9 +35,9 @@ Rectangle{
 
             //Back button
             CustomImageButton {
-                labelText: "Back";
+                labelText: leftButtonText > "" ? leftButtonText : "BACK";
                 logMessage: footerRectangle.logMessage + " BACK Button ";
-                imageSource: "../images/back.png";
+                imageSource: overrideLeftIconSrc > "" ?  overrideLeftIconSrc : "../images/back.png";
                 imageLeft: true;
                 imageRight: false;
                 previousControl: true;
@@ -42,9 +46,9 @@ Rectangle{
 
             //Next button
             CustomImageButton {
-                labelText: "Next";
+                labelText: rightButtonText > "" ? rightButtonText : "NEXT";
                 logMessage: footerRectangle.logMessage + " NEXT Button ";
-                imageSource: "../images/next.png";
+                imageSource: overrideRightIconSrc > "" ? overrideRightIconSrc : "../images/next.png";
                 imageLeft: false;
                 imageRight: true;
                 previousControl: false;

@@ -68,14 +68,12 @@ Page {
                 compass: Compass {}
             }
 
-
-
             // Set starting map to Clean-Up Hamilton webmap
             Map{
                 id:map;
                 initUrl: app.webMapRootUrl + app.webMapId;
 
-                // start the location display
+                // start the location display when map is loaded
                 onLoadStatusChanged: {
                     panToLocation();
                 }

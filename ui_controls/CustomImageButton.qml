@@ -24,34 +24,45 @@ Button {
     width: parent.width*.5;
     height: app.btnHdrFtrHeightSize*1.2;
 
+//    anchors.horizontalCenter: parent.horizontalCenter;
+//            anchors.verticalCenter: parent.verticalCenter;
+
 
     contentItem: Item{
 
         RowLayout{
-            anchors.horizontalCenter: parent.horizontalCenter;
-            anchors.verticalCenter: parent.verticalCenter;
+//            anchors.horizontalCenter: parent.horizontalCenter;
+//            anchors.verticalCenter: parent.verticalCenter;
+            anchors.centerIn: parent;
 
             Image{
-                Layout.preferredWidth: (btn.imageLeft === true? 35*app.scaleFactor: 0);
-                Layout.preferredHeight: (btn.imageLeft === true? 35*app.scaleFactor: 0);
+                Layout.preferredWidth: (btn.imageLeft === true? 30*app.scaleFactor: 0);
+                Layout.preferredHeight: (btn.imageLeft === true? 30*app.scaleFactor: 0);
                 source: btn.imageSource;
                 visible: btn.imageLeft === true;
                 enabled: btn.imageLeft === true;
+//                verticalAlignment: parent.verticalCenter;
+//                anchors.verticalCenter: parent.verticalCenter;
+//                verticalAlignment: btn.verticalCenter;
             }
+
+
             Text {
                 text: btn.labelText;
-                font.pixelSize: app.headerFontSize;
+                font.pixelSize: app.headerFontSize ;
                 font.bold: true;
                 color: app.menuPrimaryTextColor;
-                horizontalAlignment: Text.AlignHCenter;
-                verticalAlignment: Text.AlignVCenter;
+//                horizontalAlignment: Text.AlignHCenter;
+//                verticalAlignment: Text.AlignVCenter;
             }
             Image{
-                Layout.preferredWidth: (btn.imageRight === true? 35*app.scaleFactor: 0);
-                Layout.preferredHeight: (btn.imageRight === true? 35*app.scaleFactor: 0);
+                Layout.preferredWidth: (btn.imageRight === true? 30*app.scaleFactor: 0);
+                Layout.preferredHeight: (btn.imageRight === true? 30*app.scaleFactor: 0);
                 source: btn.imageSource;
                 visible: btn.imageRight === true;
                 enabled: btn.imageRight === true;
+//                verticalAlignment: parent.verticalCenter;
+//                anchors.verticalCenter: parent.verticalCenter;
             }
         }
     }
