@@ -45,12 +45,18 @@ Page {
     //Map and MapView QML Types
 
     contentItem: Rectangle{
-        anchors.top:header.bottom;
-        Layout.preferredWidth: 50 * app.scaleFactor
-        Layout.preferredHeight: 50 * app.scaleFactor
+//        anchors.top:header.bottom;
+//        anchors.fill: parent
+//        width: parent.width
+//        height: parent.height
 
         MapView {
             id:mapView;
+
+            Layout.preferredWidth: (parent.width - 2000 *app.scaleFactor)
+            Layout.fillHeight: true
+            Layout.maximumWidth: 600 * app.scaleFactor
+            Layout.alignment: Qt.AlignHCenter
 
             property real initialMapRotation: 0;
             anchors.fill:parent;

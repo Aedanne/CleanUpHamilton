@@ -193,6 +193,11 @@ Page {
                            console.log("char count: " + (maxLimit - descriptionField.text.length))
                            console.log("line count"+ (descriptionField.contentHeight / descriptionField.lineCount))
                         }
+
+                        onActiveFocusChanged: {
+
+
+                        }
                     }
                 }
             }

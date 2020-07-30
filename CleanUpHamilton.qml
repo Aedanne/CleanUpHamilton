@@ -9,6 +9,7 @@ import QtQuick.Layouts 1.13
 import QtQuick.Controls 2.13
 import QtQuick.Controls.Material 2.13
 import QtGraphicalEffects 1.0
+import QtQuick.LocalStorage 2.0
 
 import ArcGIS.AppFramework 1.0
 import Esri.ArcGISRuntime 100.7
@@ -27,7 +28,7 @@ App{
     property bool lightTheme: true
 
     // App-level color properties========================================================
-    readonly property color primaryColor: Qt.darker("#CF5300",0.9) //"#DA674A" //"#255D83"
+    readonly property color primaryColor: "#30475e"//'#1f4068'//"#555555"//Qt.darker("#CF5300",0.9) //"#255D83"
     readonly property color accentColor: Qt.lighter(primaryColor,1.2)
     readonly property color appBackgroundColor: lightTheme? "#FAFAFA":"#303030"
     readonly property color appDialogColor: lightTheme? "#FFFFFF":"424242"
@@ -206,7 +207,7 @@ App{
         id: formPageComponent
 
         FormPage {
-            titleText:qsTr("Add Report Information")
+            titleText:qsTr("Add Report Details")
             descText: qsTr("TODO: \nFile a Report")
             onPreviousPage: {
                 formStackView.pop()
@@ -222,7 +223,7 @@ App{
         id: setLocationPageComponent
 
         SetLocationPage {
-            titleText:qsTr("Set Location to Report")
+            titleText:qsTr("Set Report Location")
             descText: qsTr("TODO: \nSet Location")
             onPreviousPage: {
                 formStackView.pop()
@@ -279,218 +280,36 @@ App{
 
 
     //Creating database for application==================================================
-    FileFolder {
-        id: dbFileFolder;
-        path: "~/ArcGIS/QuickReport/Sql";
-    }
 
     SqlDatabase {
-        id: db;
-        databaseName: dbFileFolder.filePath("cleanuphamilton.sqlite");
+        id: db
+
+        property FileInfo fileInfo: AppFramework.fileInfo("~/ArcGIS/Data/Sql/cleanuphamilton.sqlite")
+        databaseName: fileInfo.filePath
 
         Component.onCompleted: {
-            console.log("sqlite: dbFileFolder.makeFolder", dbFileFolder.makeFolder());
-            console.log("sqlite: dbFileFolder.makePath", dbFileFolder.makePath(fileFolder.path));
-            console.log("sqlite: db open", db.open());
-            console.log("sqlite: dbFileFolder.INITIALIZED", dbFileFolder.path);
-            initDB();
-            readDataFromDevice();
-
-            attributesArray = {};
-            updateSavedReportsCount();
-        }
-    }
-
-    function getProperty (name, fallback) {
-        if (!fallback && typeof fallback !== "boolean") fallback = ""
-        return app.info.propertyValue(name, fallback) || fallback
-    }
-
-    function initDB(){
-        db.query("CREATE TABLE IF NOT EXISTS DRAFTS(id INT, typeIndex INT, size INT, attributes TEXT, date TEXT)");
-    }
-
-    //Read saved data from local storage
-    function readDataFromDevice() {
-        var dbname = app.info.itemId;
-        if(dbname) {
-            localDB = LocalStorage.openDatabaseSync(dbname, "1.0", "Draft Reports", 1000000);
-            try {
-                queryDataToInsert();
-            } catch(error) {
-                console.log("Error reading data from device...")
-            }
-        }
-    }
-
-    function queryDataToInsert() {
-        db.query("BEGIN TRANSACTION");
-        localDB.transaction(function(tx){
-            var rs = tx.executeSql('SELECT * FROM DRAFTS');
-
-            for(var i = 0; i < rs.rows.length; i++) {
-                var attributes = rs.rows.item(i).attributes;
-                var id = rs.rows[i].id;
-                var typeIndex = rs.rows[i].pickListIndex;
-                var size = rs.rows[i].size;
-                var date = rs.rows[i].date;
-
-                //insert into database
-                var insert_query = db.query();
-                insert_query.prepare("INSERT INTO DRAFTS(id, typeIndex, size, attributes, date)  VALUES(:id, :typeIndex, :size, :attributes, :date);")
-                insert_query.executePrepared({id:id, typeIndex:typeIndex, size:size, attributes:attributes, date:date});
-                insert_query.finish();
-
-                //remove from local
-                tx.executeSql('DELETE FROM DRAFTS WHERE id = ?', id)
-            }
-        })
-        db.query("END TRANSACTION")
-    }
-
-    function db_prepare_sql(db, sql) {
-        var dbQuery = db.query();
-        dbQuery.prepare(sql);
-        return dbQuery;
-    }
-
-    function db_error(dbError) {
-        return new Error( "Error %1 (Type %2)\n%3\n%4\n"
-                         .arg(dbError.nativeErrorCode)
-                         .arg(dbError.type)
-                         .arg(dbError.driverText)
-                         .arg(dbError.databaseText)
-                         );
-    }
-
-    function db_exec_sql(db, sql, obj) {
-        var dbQuery = obj ? db.query(sql) : db.query(sql, obj);
-        if (dbQuery.error) throw db_error(dbQuery.error);
-        var ok = dbQuery.first();
-
-        while (ok) {
-            console.log("while ok", JSON.stringify(dbQuery.values));
-            ok = dbQuery.next();
-        }
-        dbQuery.finish();
-    }
-
-
-    function saveReport(){
-        app.focus = true;
-        var savedNameofitem;
-        if(app.isFromSaved){
-            if(app.currentEditedSavedIndex !== undefined)
-            {
-                var select_query = db.query("SELECT * FROM DRAFTS WHERE id=:id;", {id: app.currentEditedSavedIndex});
-
-                db.query("BEGIN TRANSACTION")
-
-                for(var ok = select_query.first(); ok; ok = select_query.next()) {
-                    var rs = select_query.values;
-                    var attributes = rs.attributes;
-                    savedNameofitem = JSON.parse(attributes)["index"];
-                    var delete_query1 = db.query();
-                    delete_query1.prepare("DELETE FROM DRAFTS WHERE id = :id;")
-
-                    delete_query1.executePrepared({id: app.currentEditedSavedIndex});
-                    delete_query1.finish();
-                    db.query("END TRANSACTION");
-
-
-                }
-
-            }
+            fileInfo.folder.makeFolder();
+            db.open();
+            db.exec( "DROP TABLE IF EXISTS SAVEDREPORTS" );
+            db.exec( "CREATE TABLE IF NOT EXISTS SAVEDREPORTS ( reporttype TEXT, description TEXT, reportdate DATE, latitude REAL, longitude REAL ); " );
+            db.insertSavedReports( "graffiti", "this is a test desc", Date("2020-07-28"), -37.9716929, 144.7729583 );
+            db.exec( "SELECT COUNT(*) as saved_reports FROM SAVEDREPORTS" );
+            db.exec( "SELECT * FROM SAVEDREPORTS" );
         }
 
-        var geometryForFeatureToEdit;
-        if(captureType === "point")geometryForFeatureToEdit = app.theNewPoint;
-        else if(captureType === "line")geometryForFeatureToEdit = app.polylineObj;
-        else geometryForFeatureToEdit = app.polygonObj;
+        function exec( sql, ...params ) {
+            let q = db.query( sql, ...params );
+            console.log( " >>> db.query.SQL: ", sql );
 
-        var attributesToEdit = {};
-
-        for ( var field in attributesArray) {
-            if ( attributesArray[field] === "" || attributesArray[field] === null) {
-                attributesToEdit[field] = null;
-            } else {
-                attributesToEdit[field] = attributesArray[field];
-            }
+            for ( let ok = q.first() ; ok ; ok = q.next() )
+                console.log( " >>> db.query.values: ", JSON.stringify( q.values ) );
+            q.finish();
         }
 
-        if(theFeatureTypesModel.count>0) attributesToEdit[app.typeIdField] =  theFeatureTypesModel.get(pickListIndex).value;
-        var finalJSONEdits = [{"attributes": attributesToEdit, "geometry": geometryForFeatureToEdit.json}]
-        console.log("JSON for save feature json", JSON.stringify(finalJSONEdits))
-
-        var currentDate = new Date();
-        var id = currentDate.getTime();
-        var dateString = currentDate.toLocaleString(Qt.locale(),"MMM d, hh:mm AP");
-
-        var filePaths = [];
-        var size = 0;
-
-        for(var i=0;i<app.appModel.count;i++){
-            temp = app.appModel.get(i).path;
-            exifInfo.load(temp.toString().replace(Qt.platform.os == "windows"? "file:///": "file://",""))
-            fileInfo.filePath = exifInfo.filePath;
-            size+=fileInfo.size;
-            app.selectedImageFilePath = AppFramework.resolvedPath(temp);
-            filePaths.push(AppFramework.resolvedPath(temp))
+        function insertSavedReports( reporttype, description, reportdate, latitude, longitude ) {
+            db.exec( "INSERT INTO SAVEDREPORTS VALUES (:reporttype, :description, :reportdate, :latitude, :longitude) ",
+                 { reporttype, description, reportdate, latitude, longitude } );
         }
-        var count = 0;
-
-        var select_query1 = db.query("SELECT MAX(5) as maxdraft FROM DRAFTS")
-                if(theFeatureTypesModel.count === 0)
-                {
-                    for(var name = select_query1.first(); name; name = select_query1.next()) {
-                        var rs_name = select_query1.values;
-                        var itemname =rs_name["maxdraft"]
-                        count = itemname + 1
-
-
-                    }
-                }
-
-
-        var nameofitem = theFeatureTypesModel.count>0 ? theFeatureTypesModel.get(pickListIndex).label : (app.isFromSaved? "Draft "+(savedNameofitem+1): "Draft "+count);
-        var xmax = app.centerExtent? app.centerExtent.xMax : null;
-        var xmin = app.centerExtent? app.centerExtent.xMin : null;
-        var ymax = app.centerExtent? app.centerExtent.yMax: null;
-        var ymin = app.centerExtent? app.centerExtent.yMin: null;
-
-        console.log("app.centerExtent", xmax, xmin, ymax, ymin);
-
-        attributesArray["_xMax"] = xmax;
-        attributesArray["_xMin"] = xmin;
-        attributesArray["_yMax"] = ymax;
-        attributesArray["_yMin"] = ymin;
-        attributesArray["_realValue"] = app.measureValue? app.measureValue:0;
-        attributesArray["hasAttachment"] = app.hasAttachment;
-        attributesArray["isReadyForSubmit"] = app.isReadyForSubmit;
-        attributesArray["index"] = app.isFromSaved?savedNameofitem:(theFeatureTypesModel.count>0? -1:count-1);
-
-        var insert_query = db.query();
-        insert_query.prepare("INSERT INTO DRAFTS(id, pickListIndex, size, nameofitem, editsjson, attributes, date, attachments, featureLayerURL)  VALUES(:id, :pickListIndex, :size, :nameofitem, :editsjson, :attributes, :date, :attachements, :featureLayerURL);")
-
-        insert_query.executePrepared({id:id, pickListIndex:pickListIndex, size:size, nameofitem:nameofitem, editsjson:JSON.stringify(finalJSONEdits), attributes:JSON.stringify(attributesArray), date:dateString, attachements:JSON.stringify(filePaths), featureLayerURL:featureLayerURL.toString()});
-
-        db.query("END TRANSACTION")
-
-        isShowCustomText = false
-
-        app.theFeatureEditingAllDone = true;
-        app.theFeatureEditingSuccess = true;
-
-
-    }
-
-    Component.onCompleted: {
-
-        //Check permissions to access storage
-        if(Permission.checkPermission(Permission.PermissionTypeStorage) && Qt.platform.os === "android"){
-            storageAccessDialog.visible = true;
-        }
-
     }
 
 }

@@ -16,6 +16,8 @@ Rectangle{
         property string rightButtonText;
         property string overrideRightIconSrc;
         property string overrideLeftIconSrc;
+        property string leftButtonBackgroundColor;
+        property string rightButtonBackgroundColor;
 
         id: footerRectangle;
         height: app.btnHdrFtrHeightSize*1.1;
@@ -42,6 +44,7 @@ Rectangle{
                 imageRight: false;
                 previousControl: true;
                 nextControl: false;
+                backgroundColorOverride: leftButtonBackgroundColor
             }
 
             //Next button
@@ -53,6 +56,7 @@ Rectangle{
                 imageRight: true;
                 previousControl: false;
                 nextControl: true;
+                backgroundColorOverride: rightButtonBackgroundColor
             }
         }
     }

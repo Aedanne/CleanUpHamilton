@@ -19,6 +19,8 @@ Button {
     property bool imageRight;
     property bool previousControl;
     property bool nextControl;
+    property string backgroundColor: app.primaryColor
+    property string backgroundColorOverride;
 
     id: btn;
     width: parent.width*.5;
@@ -73,7 +75,7 @@ Button {
         opacity: enabled ? 1 : 0.3;
         border.color: app.appBackgroundColor;
         border.width: 3;
-        color: app.primaryColor;
+        color: backgroundColor;
         radius: 5;
     }
 

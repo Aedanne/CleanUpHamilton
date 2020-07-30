@@ -12,9 +12,10 @@ HeaderSection QML Type to simplify adding footer to the pages
 ToolBar{
 
     property string logMessage;
+    property string backgroundColor: app.primaryColor
 
     contentHeight: app.btnHdrFtrHeightSize;
-    Material.primary: app.primaryColor;
+    Material.primary: backgroundColor;
 
     RowLayout {
         anchors.fill: parent;
