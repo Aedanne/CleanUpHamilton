@@ -32,10 +32,11 @@ App{
     readonly property color appBackgroundColor: lightTheme? "#FAFAFA":"#303030"
     readonly property color appDialogColor: lightTheme? "#FFFFFF":"424242"
     readonly property color menuBackgroundColor: "#DA674A"
-    readonly property color appPrimaryTextColor: lightTheme? "#000000":"#FFFFFF"
+    readonly property color appPrimaryTextColor: lightTheme? '#4C4C4C':"#FFFFFF"
     readonly property color menuPrimaryTextColor: Qt.lighter("#FFFFFF",1.5)
-    readonly property color appSecondaryTextColor: Qt.darker(appPrimaryTextColor)
+    readonly property color appSecondaryTextColor: lightTheme? '#8A8A8A':"#FFFFFF"
     readonly property color homePageTitleTextColor:"#FCFCFC"
+    readonly property color appPrimaryTextColorInverted: lightTheme? "#FFFFFF":'#4C4C4C'
     //readonly property color listViewDividerColor:"#19000000"
 
     // App-level size properties=========================================================
@@ -377,6 +378,114 @@ App{
         dbQuery.finish();
     }
 
+
+    function saveReport(){
+        app.focus = true;
+        var savedNameofitem;
+        if(app.isFromSaved){
+            if(app.currentEditedSavedIndex !== undefined)
+            {
+                var select_query = db.query("SELECT * FROM DRAFTS WHERE id=:id;", {id: app.currentEditedSavedIndex});
+
+                db.query("BEGIN TRANSACTION")
+
+                for(var ok = select_query.first(); ok; ok = select_query.next()) {
+                    var rs = select_query.values;
+                    var attributes = rs.attributes;
+                    savedNameofitem = JSON.parse(attributes)["index"];
+                    var delete_query1 = db.query();
+                    delete_query1.prepare("DELETE FROM DRAFTS WHERE id = :id;")
+
+                    delete_query1.executePrepared({id: app.currentEditedSavedIndex});
+                    delete_query1.finish();
+                    db.query("END TRANSACTION");
+
+
+                }
+
+            }
+        }
+
+        var geometryForFeatureToEdit;
+        if(captureType === "point")geometryForFeatureToEdit = app.theNewPoint;
+        else if(captureType === "line")geometryForFeatureToEdit = app.polylineObj;
+        else geometryForFeatureToEdit = app.polygonObj;
+
+        var attributesToEdit = {};
+
+        for ( var field in attributesArray) {
+            if ( attributesArray[field] === "" || attributesArray[field] === null) {
+                attributesToEdit[field] = null;
+            } else {
+                attributesToEdit[field] = attributesArray[field];
+            }
+        }
+
+        if(theFeatureTypesModel.count>0) attributesToEdit[app.typeIdField] =  theFeatureTypesModel.get(pickListIndex).value;
+        var finalJSONEdits = [{"attributes": attributesToEdit, "geometry": geometryForFeatureToEdit.json}]
+        console.log("JSON for save feature json", JSON.stringify(finalJSONEdits))
+
+        var currentDate = new Date();
+        var id = currentDate.getTime();
+        var dateString = currentDate.toLocaleString(Qt.locale(),"MMM d, hh:mm AP");
+
+        var filePaths = [];
+        var size = 0;
+
+        for(var i=0;i<app.appModel.count;i++){
+            temp = app.appModel.get(i).path;
+            exifInfo.load(temp.toString().replace(Qt.platform.os == "windows"? "file:///": "file://",""))
+            fileInfo.filePath = exifInfo.filePath;
+            size+=fileInfo.size;
+            app.selectedImageFilePath = AppFramework.resolvedPath(temp);
+            filePaths.push(AppFramework.resolvedPath(temp))
+        }
+        var count = 0;
+
+        var select_query1 = db.query("SELECT MAX(5) as maxdraft FROM DRAFTS")
+                if(theFeatureTypesModel.count === 0)
+                {
+                    for(var name = select_query1.first(); name; name = select_query1.next()) {
+                        var rs_name = select_query1.values;
+                        var itemname =rs_name["maxdraft"]
+                        count = itemname + 1
+
+
+                    }
+                }
+
+
+        var nameofitem = theFeatureTypesModel.count>0 ? theFeatureTypesModel.get(pickListIndex).label : (app.isFromSaved? "Draft "+(savedNameofitem+1): "Draft "+count);
+        var xmax = app.centerExtent? app.centerExtent.xMax : null;
+        var xmin = app.centerExtent? app.centerExtent.xMin : null;
+        var ymax = app.centerExtent? app.centerExtent.yMax: null;
+        var ymin = app.centerExtent? app.centerExtent.yMin: null;
+
+        console.log("app.centerExtent", xmax, xmin, ymax, ymin);
+
+        attributesArray["_xMax"] = xmax;
+        attributesArray["_xMin"] = xmin;
+        attributesArray["_yMax"] = ymax;
+        attributesArray["_yMin"] = ymin;
+        attributesArray["_realValue"] = app.measureValue? app.measureValue:0;
+        attributesArray["hasAttachment"] = app.hasAttachment;
+        attributesArray["isReadyForSubmit"] = app.isReadyForSubmit;
+        attributesArray["index"] = app.isFromSaved?savedNameofitem:(theFeatureTypesModel.count>0? -1:count-1);
+
+        var insert_query = db.query();
+        insert_query.prepare("INSERT INTO DRAFTS(id, pickListIndex, size, nameofitem, editsjson, attributes, date, attachments, featureLayerURL)  VALUES(:id, :pickListIndex, :size, :nameofitem, :editsjson, :attributes, :date, :attachements, :featureLayerURL);")
+
+        insert_query.executePrepared({id:id, pickListIndex:pickListIndex, size:size, nameofitem:nameofitem, editsjson:JSON.stringify(finalJSONEdits), attributes:JSON.stringify(attributesArray), date:dateString, attachements:JSON.stringify(filePaths), featureLayerURL:featureLayerURL.toString()});
+
+        db.query("END TRANSACTION")
+
+        isShowCustomText = false
+
+        app.theFeatureEditingAllDone = true;
+        app.theFeatureEditingSuccess = true;
+
+
+    }
 
     Component.onCompleted: {
 

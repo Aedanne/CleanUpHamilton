@@ -93,7 +93,9 @@
     "multipleInstances": true,
     "projectFile": "CleanUpHamilton.qmlproject",
     "properties": {
-        "pageBackgroundColor": "#F8F8F8"
+        "pageBackgroundColor": "#F8F8F8",
+        "customTextFontTTF": "assets/OpenSans-Regular.ttf",
+        "customTitleFontTTF": "assets/OpenSans-Regular.ttf",
     },
     "resources": {
         "appIcon": "appicon.png",
