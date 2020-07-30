@@ -33,10 +33,12 @@ Page {
 
     property string titleText:""
     property var descText;
+    property int maxLimit: 200
+    property int currChars;
 
     //Camera picture properties==========================================================
     property string activeTool:""
-    property string fileLocation: "../images/placeholder.png"
+    property string fileLocation: "../images/temp.png"
     property int defaultImgRes: 1024
     property var photoAction: "take_photo"
     property string selectedImageFilePath: ""
@@ -59,7 +61,7 @@ Page {
 
     //Main body of the page =============================================================
 
-    //Position of the device
+    //Position of the device - will be used for tracking GPS information in the photos
     PositionSource {
         id: positionSource
         updateInterval: 5000
@@ -71,7 +73,6 @@ Page {
         Layout.preferredHeight: 50 * app.scaleFactor
 
         ColumnLayout {
-
             Layout.preferredWidth: parent.width*0.75;
             spacing: 1
 
@@ -80,27 +81,29 @@ Page {
                 margins: 20 * AppFramework.displayScaleFactor
             }
 
-            Text {
+            Label {
                 Layout.fillWidth: true
                 font.pixelSize: app.baseFontSize*.5
                 font.bold: true
                 text: "Select incident to report:"
-                color: app.appPrimaryTextColor;
+                color: app.appSecondaryTextColor;
+                bottomPadding: 5 * app.scaleFactor
             }
 
             ComboBox {
                 id: typeComboBox
                 Layout.fillWidth: true
-                currentIndex: 0
+                currentIndex: -1
                 font.bold: true
                 font.pixelSize: app.baseFontSize*.4
 //                font.family: app.appFontTTF
+                displayText: currentIndex === -1 ? "Please Choose..." : currentText
 
                 delegate: ItemDelegate {
                     width: parent.width
                     contentItem: Text {
                         text: modelData
-                        color: app.appSecondaryTextColor
+                        color: app.appPrimaryTextColor
                         font: typeComboBox.font
                         elide: Text.ElideRight
                         verticalAlignment: Text.AlignVCenter
@@ -118,15 +121,45 @@ Page {
 
                 width: 200
                 onCurrentIndexChanged: console.log(typeIndex.get(currentIndex).text + ", " + typeIndex.get(currentIndex).color)
+
+                contentItem: Text {
+                        leftPadding: 5 * app.scaleFactor
+                        rightPadding: typeComboBox.indicator.width + typeComboBox.spacing
+
+                        text: typeComboBox.displayText
+                        font: typeComboBox.font
+                        color: (typeComboBox.currentIndex === -1) ? "red": app.appPrimaryTextColor
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
             }
 
-            Text {
-                Layout.fillWidth: true
-                font.pixelSize: app.baseFontSize*.5
-                font.bold: true
-                text: "Enter description:"
-                color: app.appPrimaryTextColor;
-                topPadding: 20 * app.scaleFactor
+            RowLayout{
+
+                spacing: 0;
+                visible: true;
+//                anchors.fill: parent;
+
+                Label {
+                    Layout.fillWidth: true
+                    font.pixelSize: app.baseFontSize*.5
+                    font.bold: true
+                    text: "Enter description: "
+                    color: app.appSecondaryTextColor;
+                    topPadding: 30 * app.scaleFactor
+                    bottomPadding: 10 * app.scaleFactor
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    font.pixelSize: app.baseFontSize*.3
+                    text: "(" + currChars + "/" + maxLimit + ")";
+                    color: (currChars == maxLimit) ? "red" : app.appSecondaryTextColor;
+                    topPadding: 30 * app.scaleFactor
+                    bottomPadding: 5 * app.scaleFactor
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignBottom
+                }
             }
 
             Rectangle {
@@ -134,7 +167,7 @@ Page {
                 Layout.preferredHeight: 75 * scaleFactor
                 border.color: app.appPrimaryTextColor
                 border.width: 1 * scaleFactor
-                radius: 2
+                radius: 4
                 ScrollView {
                     anchors.fill: parent
                     contentItem: parent
@@ -142,46 +175,94 @@ Page {
                     TextArea {
                         id: descriptionField
                         width: parent.width*.8
-                        Material.accent: "#8f499c"
+                        Material.accent: app.backgroundAccent
+                        background: null
                         padding: 5 * scaleFactor
                         selectByMouse: true
                         wrapMode: TextEdit.WrapAnywhere
                         placeholderText: "Enter additional information..."
-                        text: ""
+                        color: app.appPrimaryTextColor
+                        text:""
 
                         onTextChanged: {
+                           currChars = descriptionField.text.length
+                           if (currChars >= maxLimit) {
+                              descriptionField.text = descriptionField.text.substring(0, maxLimit);
+                           }
+
+                           console.log("char count: " + (maxLimit - descriptionField.text.length))
                            console.log("line count"+ (descriptionField.contentHeight / descriptionField.lineCount))
                         }
                     }
                 }
             }
 
-            Text {
+            Label {
                 Layout.fillWidth: true
                 font.pixelSize: app.baseFontSize*.5
                 font.bold: true
                 text: "Add photos:"
-                color: app.appPrimaryTextColor;
-                topPadding: 20 * app.scaleFactor
+                color: app.appSecondaryTextColor;
+                topPadding: 30 * app.scaleFactor
+                bottomPadding: 5 * app.scaleFactor
             }
 
-            IconTemplate{
 
-                containerSize: 40 * app.scaleFactor
-                imageSource: "../images/camera.png"
-                color: "#6e6e6e"
-                Layout.alignment: Qt.AlignJustify
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 75 * scaleFactor
+//                border.color: app.appPrimaryTextColor
+//                border.width: 1 * scaleFactor
 
-                onIconClicked: {
-                    activeTool = photoAction
+                RowLayout {
 
-                    //Device location
-                    positionSource.start();
+                    anchors.fill: parent;
+                    Layout.alignment: Qt.AlignLeft
 
-                    //Start camera
-                    cameraDialog.open();
+                    IconTemplate{
+
+                        containerSize: 50*AppFramework.displayScaleFactor
+                        imageSource: "../images/camera.png"
+                        color: "#6e6e6e"
+                        Layout.alignment: Qt.AlignLeft
+
+                        onIconClicked: {
+                            activeTool = photoAction
+
+                            //Device location
+                            positionSource.start();
+
+                            //Start camera
+                            cameraDialog.open();
+                        }
+                    }
+
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 75 * scaleFactor
+//                        border.color: app.appPrimaryTextColor
+//                        border.width: 1 * scaleFactor
+
+                        Label {
+                            horizontalAlignment: Text.AlignHCenter;
+                            verticalAlignment: Text.AlignVCenter;
+                            Text {
+                                id: placeHolder
+                                text: qsTr("TODO: image section")
+                                color: "red"
+                                font.pixelSize: app.baseFontSize*0.6
+                                horizontalAlignment: Text.AlignHCenter;
+                                verticalAlignment: Text.AlignVCenter;
+                                leftPadding: 20 * app.scaleFactor
+                                topPadding: 20 * app.scaleFactor
+                            }
+                        }
+                    }
+
                 }
             }
+
 
 
             Text {
@@ -190,7 +271,7 @@ Page {
                 font.bold: true
                 text: ""
                 color: app.appPrimaryTextColor;
-                topPadding: 20 * app.scaleFactor
+                topPadding: 200 * app.scaleFactor
             }
 
 

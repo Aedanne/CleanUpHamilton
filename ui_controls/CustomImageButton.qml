@@ -36,8 +36,8 @@ Button {
             anchors.centerIn: parent;
 
             Image{
-                Layout.preferredWidth: (btn.imageLeft === true? 30*app.scaleFactor: 0);
-                Layout.preferredHeight: (btn.imageLeft === true? 30*app.scaleFactor: 0);
+                Layout.preferredWidth: (btn.imageLeft === true? 28*app.scaleFactor: 0);
+                Layout.preferredHeight: (btn.imageLeft === true? 28*app.scaleFactor: 0);
                 source: btn.imageSource;
                 visible: btn.imageLeft === true;
                 enabled: btn.imageLeft === true;
@@ -56,8 +56,8 @@ Button {
 //                verticalAlignment: Text.AlignVCenter;
             }
             Image{
-                Layout.preferredWidth: (btn.imageRight === true? 30*app.scaleFactor: 0);
-                Layout.preferredHeight: (btn.imageRight === true? 30*app.scaleFactor: 0);
+                Layout.preferredWidth: (btn.imageRight === true? 28*app.scaleFactor: 0);
+                Layout.preferredHeight: (btn.imageRight === true? 28*app.scaleFactor: 0);
                 source: btn.imageSource;
                 visible: btn.imageRight === true;
                 enabled: btn.imageRight === true;

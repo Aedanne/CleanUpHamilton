@@ -46,6 +46,8 @@ Page {
 
     contentItem: Rectangle{
         anchors.top:header.bottom;
+        
+        width: parent.width*
         Layout.preferredWidth: 50 * app.scaleFactor
         Layout.preferredHeight: 50 * app.scaleFactor
 
