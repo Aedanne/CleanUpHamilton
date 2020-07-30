@@ -64,14 +64,21 @@ Page {
             zoomByPinchingEnabled: true;
 
             locationDisplay {
-                positionSource: PositionSource {
-                }
+                positionSource: PositionSource {}
+                compass: Compass {}
             }
+
+
 
             // Set starting map to Clean-Up Hamilton webmap
             Map{
                 id:map;
                 initUrl: app.webMapRootUrl + app.webMapId;
+
+                // start the location display
+                onLoadStatusChanged: {
+                    panToLocation();
+                }
             }
 
 //            //Add Cases layer
@@ -150,8 +157,7 @@ Page {
 
                     onClicked: {
                         if (!mapView.locationDisplay.started) {
-                            mapView.locationDisplay.start();
-                            mapView.locationDisplay.autoPanMode = Enums.LocationDisplayAutoPanModeRecenter;
+                            panToLocation();
                         } else {
                             mapView.locationDisplay.stop();
                         }
@@ -166,6 +172,12 @@ Page {
     //Footer custom QML =================================================================
     footer: FooterSection {
         logMessage: "In Set Location Page - Footer..."
+    }
+
+    //Pan to current location
+    function panToLocation() {
+        mapView.locationDisplay.start();
+        mapView.locationDisplay.autoPanMode = Enums.LocationDisplayAutoPanModeRecenter;
     }
 
 }

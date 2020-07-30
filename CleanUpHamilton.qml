@@ -83,7 +83,11 @@ App{
             onNextPage: {
 //                switch(action) {
 //                    case "fileareport":
-                        formStackView.loadFormPage();
+
+                        //Changing the order - file a report will open with the location
+                        formStackView.loadSetLocationPage();
+
+//                        formStackView.loadFormPage();
                     //more cases to add later
 //                }
             }
@@ -110,7 +114,7 @@ App{
                 switch(action){
                 case "fileareport":
                     console.log("In menu drawer > fileareport");
-                        formStackView.loadFormPage();
+                        formStackView.loadSetLocationPage();
                     break;
                 case "settings":
                     console.log("In menu drawer > settings");
@@ -201,14 +205,14 @@ App{
         id: formPageComponent
 
         FormPage {
-            titleText:qsTr("New Report")
+            titleText:qsTr("Add Report")
             descText: qsTr("TODO: \nFile a Report")
             onPreviousPage: {
                 formStackView.pop()
             }
 
             onNextPage: {
-                formStackView.loadSetLocationPage();
+                console.log(">>>>> No Next page set for form page at this time.....")
             }
         }
     }
@@ -217,14 +221,14 @@ App{
         id: setLocationPageComponent
 
         SetLocationPage {
-            titleText:qsTr("Set Location")
+            titleText:qsTr("Set Location to Report")
             descText: qsTr("TODO: \nSet Location")
             onPreviousPage: {
                 formStackView.pop()
             }
 
             onNextPage: {
-
+                formStackView.loadFormPage();
             }
         }
     }
@@ -295,17 +299,6 @@ App{
             updateSavedReportsCount();
         }
     }
-
-//    function randomColor (colortype) {
-//        var types = {
-//            "primary": ["#4A148C", "#0D47A1", "#004D40", "#006064", "#1B5E20", "#827717", "#3E2723"],
-//            "background": ["#F5F5F5", "#EEEEEE"],
-//            "foreground": ["#22000000"],
-//            "accent": ["#FF9800", "yellow", "red"]
-//        },
-//        type = types[colortype]
-//        return type[Math.floor(Math.random() * type.length)]
-//    }
 
     function getProperty (name, fallback) {
         if (!fallback && typeof fallback !== "boolean") fallback = ""
