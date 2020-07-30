@@ -39,6 +39,9 @@ App{
     readonly property color appPrimaryTextColorInverted: lightTheme? "#FFFFFF":'#4C4C4C'
     //readonly property color listViewDividerColor:"#19000000"
 
+    //App fonts==========================================================================
+    property string appFontTTF: "/assets/customTextFontTTF"
+
     // App-level size properties=========================================================
     property real scaleFactor: AppFramework.displayScaleFactor
     readonly property real baseFontSize: (app.width < 450*app.scaleFactor) ? (35 * scaleFactor) : (40 * scaleFactor)
