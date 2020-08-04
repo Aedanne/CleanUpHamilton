@@ -13,6 +13,7 @@ ToolBar{
 
     property string logMessage;
     property string backgroundColor: app.primaryColor
+    property string overrideText;
 
     contentHeight: app.btnHdrFtrHeightSize;
     Material.primary: backgroundColor;
@@ -33,7 +34,7 @@ ToolBar{
             font.pixelSize: app.headerFontSize;
             font.bold: true;
             leftPadding: 10*app.scaleFactor;
-            text: titleText > ""? titleText:"";
+            text: overrideText > "" ? overrideText : (titleText > ""? titleText:"");
             color: app.menuPrimaryTextColor;
         }
 

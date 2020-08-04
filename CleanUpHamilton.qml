@@ -67,6 +67,12 @@ App{
     property var savedReportLocationJson
     property var localDB
 
+    //Attachment properties==============================================================
+    property int countAttachments: 0
+    property int maxAttachments: 3
+
+    property int inCameraMode: 0
+
 
 
     // Main body, title==================================================================
@@ -311,6 +317,8 @@ App{
                  { reporttype, description, reportdate, latitude, longitude } );
         }
     }
+
+
 
 }
 

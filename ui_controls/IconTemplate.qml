@@ -15,6 +15,7 @@ Rectangle {
     property color iconOverlayColor: "white"
     property bool enabled: true
     signal iconClicked()
+    property bool maxAttach;
 
     width: containerSize + sidePadding
     height: containerSize
@@ -41,7 +42,7 @@ Rectangle {
     ColorOverlay{
         anchors.fill: iconImg
         source: iconImg
-        color: iconOverlayColor
+        color: maxAttach ? Qt.lighter(iconOverlayColor, 0.5) : iconOverlayColor
     }
 
     MouseArea {

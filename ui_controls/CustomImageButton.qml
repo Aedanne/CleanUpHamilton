@@ -21,10 +21,13 @@ Button {
     property bool nextControl;
     property string backgroundColor: app.primaryColor
     property string backgroundColorOverride;
+    property var btnWidth;
+    property var btnHeight;
+    property string btnColor;
 
     id: btn;
-    width: parent.width*.5;
-    height: app.btnHdrFtrHeightSize*1.2;
+    width: btnWidth > "" ? btnWidth : parent.width*.5;
+    height: btnHeight > "" ? btnHeight : app.btnHdrFtrHeightSize*1.2;
 
 //    anchors.horizontalCenter: parent.horizontalCenter;
 //            anchors.verticalCenter: parent.verticalCenter;
