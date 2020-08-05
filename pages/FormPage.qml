@@ -381,233 +381,6 @@ Page {
                             }
                         }
                     }
-
-
-
-
-
-//                    ConfirmBox{
-//                        id: deleteAlertBox
-//                        anchors.fill: parent
-//                        standardButtons: StandardButton.Yes | StandardButton.No
-//                        onAccepted: {
-//                            var filename =  AppFramework.fileInfo(selectedFilePath).fileName
-
-//                            if(attachmentsFolder.fileExists(filename)){
-//                                attachmentsFolder.removeFile(filename)
-//                            }
-//                            app.appModel.remove(thumbGridView.currentIndex)
-
-//                            displayPreviewListModel.initdisplayPreviewListModel()
-
-
-//                        }
-//                    }
-
-//                    Popup {
-//                        id: popupOption
-//                        padding: 10
-//                        width:  thumbGridView.width
-//                        height: app.isIPhoneX ?fldialog.height + 16 * scaleFactor:fldialog.height
-//                        x: Math.round((parent.width - width) / 2)
-//                        y: Math.round((parent.height - height) )
-
-//                        Material.background: app.pageBackgroundColor
-//                        modal: true
-//                        focus: true
-
-//                        contentItem:Rectangle {
-
-//                            id:gridpopup
-//                            width:popupOption - 20 * scaleFactor
-//                            height:app.isIPhoneX?fldialog.height + 16 * scaleFactor:fldialog.height
-//                            color: app.appBackgroundColor
-
-//                            ColumnLayout{
-//                                id:fldialog
-//                                spacing: 1 * app.scaleFactor
-
-//                                anchors.leftMargin: 10 * scaleFactor
-//                                anchors.rightMargin: 10 * scaleFactor
-
-
-//                                Text{
-
-//                                    Layout.topMargin: 10 * scaleFactor
-//                                    text: "PLACE HOLDER FILE NAME"
-//                                    Layout.preferredWidth:gridpopup.width - 20 * scaleFactor
-//                                    elide: Text.ElideRight
-//                                    font.pixelSize: app.subtitleFontSize
-//                                    color: app.appPrimaryTextColor
-
-//                                }
-//                                RowLayout{
-//                                    spacing: 8 * app.scaleFactor
-//                                    Text{
-
-//                                        text:"place holder selectedFileSuffix"
-//                                        font.pixelSize: app.baseFontSize*0.7
-//                                        color: app.appDialogColor
-
-//                                    }
-//                                    Rectangle {
-//                                        id:icon
-//                                        width: 4
-//                                        height:4
-//                                        radius: 2
-//                                        color: app.appPrimaryTextColor
-//                                        Layout.alignment: Qt.AlignVCenter
-//                                    }
-//                                    Text{
-//                                        text:"fileSize"
-//                                        font.pixelSize: app.baseFontSize*0.7
-//                                        color: app.appPrimaryTextColor
-//                                    }
-
-
-
-//                                }
-//                                Rectangle {
-//                                    Layout.fillWidth: true
-//                                    Layout.preferredHeight: 10 * scaleFactor
-//                                    color: "transparent"
-
-//                                }
-
-//                                Rectangle {
-//                                    Layout.preferredWidth: gridpopup.width - 20 * scaleFactor
-
-//                                    Layout.preferredHeight: 1
-//                                    color: 'black'
-//                                    opacity: 0.6
-//                                }
-//                                Rectangle {
-
-//                                    Layout.fillWidth: true
-//                                    Layout.preferredHeight: 16 * scaleFactor
-//                                    color: "transparent"
-
-//                                }
-//                                Rectangle {
-//                                    id:buttonbox
-//                                    Layout.preferredWidth: gridpopup.width - 20 * scaleFactor
-//                                    Layout.preferredHeight: 50 * scaleFactor
-//                                    Layout.bottomMargin: app.isIPhoneX?26 * scaleFactor: 16 * scaleFactor
-
-
-//                                    color: "transparent"
-//                                    CustomImageButton {
-//                                        labelText: qsTr("Delete")
-//                                        btnColor:"#FF0000"
-////                                        buttonFill: false
-//                                        anchors.left:buttonbox.left
-
-//                                        btnHeight: parent.height
-//                                        btnWidth: (buttonbox.width - 20 * scaleFactor)/2
-
-
-
-//                                        MouseArea {
-//                                            anchors.fill: parent
-//                                            onClicked: {
-////                                                popupOption.close()
-
-////                                                deleteAlertBox.text = qsTr("Are you sure you want to delete the file?")+"\n";
-////                                                deleteAlertBox.visible = true;
-
-
-//                                                var filename =  AppFramework.fileInfo(selectedFilePath).fileName
-
-//                                                if(attachmentsFolder.fileExists(filename)){
-//                                                    attachmentsFolder.removeFile(filename)
-//                                                }
-//                                                attachmentListModel.remove(thumbGridView.currentIndex)
-
-//                                                displayPreviewListModel.initdisplayPreviewListModel()
-
-//                                                return;
-
-//                                            }
-//                                        }
-//                                    }
-//                                    CustomImageButton {
-//                                        id: previewBtn
-//                                        anchors.right: buttonbox.right
-//                                        labelText: qsTr("Preview")
-////                                        buttonColor: app.buttonColor
-////                                        buttonFill: true
-//                                        btnHeight: parent.height
-//                                        btnWidth: (buttonbox.width - 20 * scaleFactor)/2
-
-//                                        visible: AppFramework.network.isOnline
-
-//                                        MouseArea {
-//                                            anchors.fill: parent
-//                                            onClicked: {
-//                                                popupOption.close()
-
-//                                                AppFramework.clipboard.share(selectedFileUrl)
-//                                            }
-//                                        }
-//                                    }
-
-//                                }
-
-
-
-
-
-//                                Rectangle {
-//                                    Layout.fillWidth: true
-//                                    Layout.preferredHeight:10 * scaleFactor
-//                                    color: "transparent"
-
-//                                }
-//                            }
-//                        }
-//                    }
-
-
-
-
-
-//                    Component {
-//                        id: imageEditorComponent
-
-//                        ImageEditor {
-//                            anchors.fill: parent
-//                            visible: false
-
-//                            onSaved: {
-//                                app.appModel.set(thumbGridView.currentIndex, {path: saveUrl.toString(), type: "attachment"});
-//                                displayPreviewListModel.initDisplayPreviewListModel();
-//                                previewSection.visible = false;
-//                            }
-//                        }
-//                    }
-
-//                    Component {
-//                        id: imageViewerComponent
-//                        AttachmentReviewPage {
-//                            anchors.fill: parent
-//                            visible: false
-
-//                            onSaved: {
-//                                console.log("I am here - imageViewerComponent")
-//                                previewImage.source = "../images/placeholder.png";
-//                                previewImage.source = newFileUrl;
-
-//                                var path = AppFramework.resolvedPath(newFileUrl);
-//                                var filePath = "file:///" + path
-//                                filePath = filePath.replace("////","///");
-
-//                                attachmentListModel.set(thumbGridView.currentIndex, {path: filePath, type: "attachment"});
-//                                displayPreviewListModel.initDisplayPreviewListModel();
-
-//                            }
-//                        }
-//                    }
-
                 }
             } //End rectangle for thumbnail previewBtn
 
@@ -620,7 +393,6 @@ Page {
                 color: app.appPrimaryTextColor;
                 topPadding: 200 * app.scaleFactor
             }
-
 
         }
 
@@ -696,6 +468,36 @@ Page {
             onRefresh: {
                 displayPreviewListModel.initDisplayPreviewListModel();
             }
+
+
+//            FeatureLayer {
+//                id: featureLayer
+
+//                selectionColor: "cyan"
+//                selectionWidth: 3
+
+//                // declare as child of feature layer, as featureTable is the default property
+//                ServiceFeatureTable {
+//                    id: featureTable
+//                    url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0"
+
+//                    // make sure edits are successfully applied to the service
+//                    onApplyEditsStatusChanged: {
+//                        if (applyEditsStatus === Enums.TaskStatusCompleted) {
+//                            console.log("successfully added feature");
+//                        }
+//                    }
+
+//                    // signal handler for the asynchronous addFeature method
+//                    onAddFeatureStatusChanged: {
+//                        if (addFeatureStatus === Enums.TaskStatusCompleted) {
+//                            // apply the edits to the service
+//                            featureTable.applyEdits();
+//                        }
+//                    }
+//                }
+//            }
+
         }
     }
 
@@ -713,9 +515,9 @@ Page {
         id: formPageFooter
 //        visible: camera.cameraStatus != Camera.ActiveStatus
         logMessage: "In Form Page - Footer..."
-        rightButtonText: "SEND"
-        overrideRightIconSrc: "../images/done.png"
-        overrideRightIconSz: 20
+        rightButtonText: "SUBMIT"
+        overrideRightIconSrc: "../images/send.png"
+//        overrideRightIconSz: 20
     }
 
 

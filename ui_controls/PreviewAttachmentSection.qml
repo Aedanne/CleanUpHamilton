@@ -76,7 +76,7 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 iconOverlayColor: "#FFFFFF"
                 onIconClicked: {
-                    console.log(">>>> rootPreview.source: " + rootPreview.source )
+                    console.log(">>>> X button clicked - rootPreview.source: " + rootPreview.source )
                     rootPreview.visible = false;
                     formPageFooter.visible = true;
                     formPageHeader.visible = true;
@@ -197,7 +197,7 @@ Rectangle {
                 anchors.verticalCenter: parent.top
                 iconOverlayColor: "#FFFFFF"
                 onIconClicked: {
-                    console.log(">>>> rootPreview.source: " + rootPreview.source)
+                    console.log(">>>> Delete icon - rootPreview.source: " + rootPreview.source)
                     discarded();
                     rootPreview.visible = false; //Go back to previous page after deleting
                     formPageFooter.visible = true;
@@ -235,6 +235,20 @@ Rectangle {
         app.tempImageFilePath = AppFramework.resolvedPath(app.tempPath);
         fileFolder.removeFile (app.tempImageFilePath);
     }
+
+    //Not working.... to do with time
+//    Keys.onPressed:  {
+//        console.log(">>>> Preview page, key pressed");
+//        if (event.key == Qt.Key_Back) {
+//            console.log(">>>> Back button pressed - rootPreview.source: " + rootPreview.source )
+//            rootPreview.visible = false;
+//            formPageFooter.visible = true;
+//            formPageHeader.visible = true;
+//            refresh();
+//        }
+//    }
+
+
 
 }
 

@@ -22,7 +22,7 @@ import "images"
 
 App{
     id: app
-    width: 480
+    width: 460
     height: 750
 
     property bool lightTheme: true
@@ -224,7 +224,7 @@ App{
             }
 
             onNextPage: {
-                console.log(">>>>> No Next page set for form page at this time.....")
+                formStackView.loadSubmitPage();
             }
         }
     }
@@ -245,6 +245,18 @@ App{
         }
     }
 
+    Component {
+        id: setSubmitPageComponent
+
+        SubmitPage {
+            titleText:qsTr("Report Submitted!")
+
+            onNextPage: {
+                formStackView.loadHomePage();
+            }
+        }
+    }
+
 
     //Creating stackview for form pages =================================================
     StackView {
@@ -259,8 +271,6 @@ App{
 
             push(formStackView.initialItem)
 
-            //TODO: to clear any data from this point on
-            steps = -1;
         }
 
         //Load form page
@@ -286,6 +296,13 @@ App{
             console.log("Inside StackView.loadSetLocationPage()")
             push(setLocationPageComponent);
         }
+
+        //Load Submit Page
+        function loadSubmitPage() {
+            console.log("Inside StackView.loadSubmitPage()")
+            push(setSubmitPageComponent);
+        }
+
     }
 
 
