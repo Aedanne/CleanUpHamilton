@@ -61,6 +61,8 @@ App{
     property string webMapRootUrl: "https://waikato.maps.arcgis.com/home/item.html?id="
     property string webMapId: "7152b9397a1b446292d67076bfa4e842"  //Clean-Up Hamilton Map
     readonly property color mapBorderColor: "#303030"
+    property Point currentLocationPoint
+    property string currentLonLat
 
     //Database properties================================================================
     property var attributesArray

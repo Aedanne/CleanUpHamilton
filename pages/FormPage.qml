@@ -91,7 +91,7 @@ Page {
                     Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
                     font.bold: true
-                    text: "Location: PLACEHOLDER"
+                    text: "Location: "+ app.currentLonLat
                     color: app.appSecondaryTextColor;
                     bottomPadding: 5 * app.scaleFactor
                 }

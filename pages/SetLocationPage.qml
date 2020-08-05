@@ -45,130 +45,138 @@ Page {
     //Map and MapView QML Types
 
     contentItem: Rectangle{
-//        anchors.top:header.bottom;
-//        anchors.fill: parent
-//        width: parent.width
-//        height: parent.height
 
-        MapView {
-            id:mapView;
+        ColumnLayout {
 
-            Layout.preferredWidth: (parent.width - 2000 *app.scaleFactor)
-            Layout.fillHeight: true
-            Layout.maximumWidth: 600 * app.scaleFactor
-            Layout.alignment: Qt.AlignHCenter
+            anchors.fill: parent
 
-            property real initialMapRotation: 0;
-            anchors.fill:parent;
+            Rectangle {
+                id: locationLonLatRect
+                color: app.appBackgroundColor
+                Layout.preferredWidth: parent.width
+                Layout.preferredHeight: 30 * app.scaleFactor
 
-            anchors {
-                left: parent.left;
-                right: parent.right;
-                top: parent.header;
-                bottom: parent.bottom;
-            }
-
-            rotationByPinchingEnabled: true;
-            zoomByPinchingEnabled: true;
-
-            locationDisplay {
-                positionSource: PositionSource {}
-                compass: Compass {}
-            }
-
-            // Set starting map to Clean-Up Hamilton webmap
-            Map{
-                id:map;
-                initUrl: app.webMapRootUrl + app.webMapId;
-
-                // start the location display when map is loaded
-                onLoadStatusChanged: {
-                    panToLocation();
+                Label {
+                    Layout.fillWidth: true
+                    font.pixelSize: app.baseFontSize*.4
+                    text: "My Location: "+app.currentLonLat;
+                    color: app.appSecondaryTextColor;
+                    topPadding: 5 * app.scaleFactor
+                    bottomPadding: 5 * app.scaleFactor
+                    horizontalAlignment: Text.AlignHCentern
+                    verticalAlignment: Text.AlignBottom
+                    anchors.centerIn: parent
+                    font.bold: true
                 }
             }
 
-//            //Add Cases layer
-//            GraphicsOverlay {
-//                id: casesOverlay;
-//            }
 
-//            //Default point - Hamilton coords, WGS84 projection
-//            Point {
-//                id: pointInit;
-//                y: -37.7833;
-//                x: 175.2833;
-//                spatialReference: SpatialReference { wkid: 4326 };
-//            }
+            MapView {
+                id:mapView;
 
-//            SimpleMarkerSymbol {
-//                id: pointSymbol;
-//                style: Enums.SimpleMarkerSymbolStyleDiamond;
-//                color: "orange";
-//                size: 10;
-//            }
+                Layout.preferredWidth: parent.width
+                Layout.fillHeight: parent.height*0.7
+                Layout.maximumWidth: 600 * app.scaleFactor
+                Layout.alignment: Qt.AlignHCenter
 
-//            Graphic {
-//                id: pointGraphic;
-//                symbol: pointSymbol;
-//                geometry: pointInit;
-//            }
+                property real initialMapRotation: 0;
 
-            Image {
-                id: centerPin;
-                source: "../images/pin.png";
-                width: 40 * app.scaleFactor;
-                height: 40 * app.scaleFactor;
-                anchors {
-                    horizontalCenter: parent.horizontalCenter;
-                    bottom: parent.verticalCenter;
-                }
-                visible: true;
-            }
+                rotationByPinchingEnabled: true;
+                zoomByPinchingEnabled: true;
 
-            //Add default point to layer
-//            Component.onCompleted: {
-//                casesOverlay.graphics.append(pointGraphic);
-//            }
-
-            //Map control buttons
-            Column{
-                id:mapButtons;
-                spacing: 5 * app.scaleFactor;
-                anchors {
-                    verticalCenter: parent.verticalCenter;
-                    right: parent.right;
-                    margins: 5 * scaleFactor;
+                locationDisplay {
+                    positionSource: PositionSource {}
+                    compass: Compass {}
                 }
 
-                Button{
-                    id:myLocButton;
-                    Image{
-                        id: mylocImage;
-                        source:"../images/my_loc.png";
-                        height: 30 * scaleFactor;
-                        width: height;
-                        anchors.centerIn: parent;
+
+                // Set starting map to Clean-Up Hamilton webmap
+                Map{
+                    id:map;
+                    initUrl: app.webMapRootUrl + app.webMapId;
+
+                    // start the location display when map is loaded
+                    onLoadStatusChanged: {
+                        panToLocation();
+                    }
+                }
+
+                //Default point - Hamilton coords, WGS84 projection
+                Point {
+                    id: pointInit;
+                    y: -37.7833;
+                    x: 175.2833;
+                    spatialReference: SpatialReference { wkid: 4326 }
+                }
+
+                Image {
+                    id: centerPin;
+                    source: "../images/pin.png";
+                    width: 40 * app.scaleFactor;
+                    height: 40 * app.scaleFactor;
+                    anchors {
+                        horizontalCenter: parent.horizontalCenter;
+                        bottom: parent.verticalCenter;
+                    }
+                    visible: true;
+                }
+
+                //Add default point to layer
+    //            Component.onCompleted: {
+    //                casesOverlay.graphics.append(pointGraphic);
+    //            }
+
+                //Map control buttons
+                Column{
+                    id:mapButtons;
+                    spacing: 5 * app.scaleFactor;
+                    anchors {
+                        verticalCenter: parent.verticalCenter;
+                        right: parent.right;
+                        margins: 5 * scaleFactor;
                     }
 
-                    ColorOverlay{
-                        anchors.fill: mylocImage;
-                        source: mylocImage;
-                        color: app.mapBorderColor;
-                    }
+                    Button{
+                        id:myLocButton;
+                        Image{
+                            id: mylocImage;
+                            source:"../images/my_loc.png";
+                            height: 30 * scaleFactor;
+                            width: height;
+                            anchors.centerIn: parent;
+                        }
 
-                    onHoveredChanged: hovered ? myLocButton.opacity = 1 : myLocButton.opacity = .5;
-                    height: 40 * scaleFactor;
-                    width : height;
-                    opacity: .5;
+                        ColorOverlay{
+                            anchors.fill: mylocImage;
+                            source: mylocImage;
+                            color: app.mapBorderColor;
+                        }
 
-                    onClicked: {
-                        if (!mapView.locationDisplay.started) {
-                            panToLocation();
-                        } else {
-                            mapView.locationDisplay.stop();
+                        onHoveredChanged: hovered ? myLocButton.opacity = 1 : myLocButton.opacity = .5;
+                        height: 40 * scaleFactor;
+                        width : height;
+                        opacity: .5;
+
+                        onClicked: {
+                            if (!mapView.locationDisplay.started) {
+                                panToLocation();
+                            } else {
+                                mapView.locationDisplay.stop();
+                            }
                         }
                     }
                 }
+
+                onMouseClicked:{
+                    if(mapView.map.loadStatus === Enums.LoadStatusLoaded){
+                        panToLocation();
+                    }
+                }
+
+                onCurrentViewpointCenterChanged: {
+                    getLonLatValue();
+                }
+
             }
         }
     }
@@ -184,6 +192,32 @@ Page {
     function panToLocation() {
         mapView.locationDisplay.start();
         mapView.locationDisplay.autoPanMode = Enums.LocationDisplayAutoPanModeRecenter;
+
+        //Log current mapview center point
+        console.log(">>>> mapView.currentViewpointCenter>>>>", mapView.currentViewpointCenter.center);
+        var currLonLat = getLonLatValue();
+        console.log(">>>> Long and Lat: ", currLonLat);
+
+        app.currentLocationPoint = mapView.currentViewpointCenter.center;
+        app.currentLonLat = currLonLat;
     }
+
+    function getLonLatValue(){
+        var centerLocation = (mapView.currentViewpointCenter &&
+                              mapView.currentViewpointCenter.center &&
+                              mapView.map.loadStatus === Enums.LoadStatusLoaded
+                              ) ?
+                                    CoordinateFormatter.toLatitudeLongitude(mapView.currentViewpointCenter.center, Enums.LatitudeLongitudeFormatDecimalDegrees, 3)
+                                    : "";
+
+        app.currentLocationPoint = mapView.currentViewpointCenter.center;
+        app.currentLonLat = centerLocation;
+
+        console.log(">>>> Long and Lat: ", app.currentLonLat);
+
+        return centerLocation;
+    }
+
+
 
 }
