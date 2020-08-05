@@ -18,6 +18,8 @@ Rectangle{
         property string overrideLeftIconSrc;
         property string leftButtonBackgroundColor;
         property string rightButtonBackgroundColor;
+        property int overrideLeftIconSz: 0;
+        property int overrideRightIconSz: 0;
 
         id: footerRectangle;
         height: app.btnHdrFtrHeightSize*1.1;
@@ -45,6 +47,7 @@ Rectangle{
                 previousControl: true;
                 nextControl: false;
                 backgroundColorOverride: leftButtonBackgroundColor
+                overrideLeftSize: overrideLeftIconSz > 0 ? overrideLeftIconSz:0
             }
 
             //Next button
@@ -57,6 +60,7 @@ Rectangle{
                 previousControl: false;
                 nextControl: true;
                 backgroundColorOverride: rightButtonBackgroundColor
+                overrideRightSize: overrideRightIconSz > 0 ? overrideRightIconSz:0
             }
         }
     }

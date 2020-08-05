@@ -77,8 +77,37 @@ Page {
 
             anchors {
                 fill: parent
-                margins: 20 * AppFramework.displayScaleFactor
+                margins: 20 * app.scaleFactor
             }
+
+            //Location placeholder
+            RowLayout{
+
+                spacing: 0;
+                visible: true;
+
+                Label {
+                    Layout.fillWidth: true
+                    font.pixelSize: app.baseFontSize*.4
+                    font.bold: true
+                    text: "Location: PLACEHOLDER"
+                    color: app.appSecondaryTextColor;
+                    bottomPadding: 5 * app.scaleFactor
+                }
+
+                Label {
+                    Layout.fillWidth: true
+                    font.pixelSize: app.baseFontSize*.4
+                    text: "";
+                    color: app.appSecondaryTextColor
+                    bottomPadding: 5 * app.scaleFactor
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignBottom
+                }
+            }
+
+
+
 
             Label {
                 Layout.fillWidth: true
@@ -86,6 +115,7 @@ Page {
                 font.bold: true
                 text: "Select incident to report:"
                 color: app.appSecondaryTextColor;
+                topPadding: 20 * app.scaleFactor
                 bottomPadding: 5 * app.scaleFactor
             }
 
@@ -242,7 +272,7 @@ Page {
 
                     IconTemplate {
                         imgRadius: 2
-                        containerSize: 50*AppFramework.displayScaleFactor
+                        containerSize: 50*app.scaleFactor
                         imageSource: "../images/camera.png"
                         color: (attachmentListModel.count === app.maxAttachments) ? Qt.lighter("#6e6e6e", 0.5) : "#6e6e6e"
                         Layout.alignment: Qt.AlignLeft
@@ -336,12 +366,17 @@ Page {
                                     id: previewPhotoIcons
                                     imgSource: path
                                     onImageIconClicked: {
-                                        console.log(">>> image clicked - thumbgridview >>> " + "path:" + path)
-                                        thumbGridView.currentIndex = index;
-                                        console.log(">>> thumbGridView.currentIndex >>> " + thumbGridView.currentIndex)
-                                        previewSection.source = path;
-                                        previewSection.visible = true
-                                        previewSection.init();
+                                        if (attachmentListModel.count > 0) {
+                                            console.log(">>> image clicked - thumbgridview >>> " + "path:" + path)
+                                            thumbGridView.currentIndex = index;
+                                            if (thumbGridView.currentIndex < attachmentListModel.count) {
+
+                                                console.log(">>> thumbGridView.currentIndex >>> " + thumbGridView.currentIndex)
+                                                previewSection.source = path;
+                                                previewSection.visible = true
+                                                previewSection.init();
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -537,66 +572,6 @@ Page {
 
 
 
-                    PreviewAttachmentSection {
-                        id: previewSection
-
-                        onDiscarded: {
-                            console.log("thumbGridView.currentIndex", thumbGridView.currentIndex);
-                            attachmentListModel.remove(thumbGridView.currentIndex);
-                            displayPreviewListModel.initDisplayPreviewListModel();
-                        }
-                        onEdited: {
-                            previewSection.infoPanelVisible = false;
-                            var component = imageEditorComponent;
-                            imageEditor = component.createObject(rectContainer);
-                            imageEditor.visible = true;
-                            imageEditor.workFolder = outputFolder;
-                            imageEditor.exif_latitude = previewSection.copy_latitude;
-                            imageEditor.exif_longtitude = previewSection.copy_longtitude;
-                            imageEditor.exif_altitude = previewSection.copy_altitude;
-
-                            //copy
-                            var pictureUrl = source;
-                            var pictureUrlInfo = AppFramework.urlInfo(pictureUrl);
-                            var picturePath = pictureUrlInfo.localFile;
-                            var assetInfo = AppFramework.urlInfo(picturePath);
-
-                            var outputFileName;
-
-                            var suffix = AppFramework.fileInfo(picturePath).suffix;
-                            var fileName = AppFramework.fileInfo(picturePath).baseName+AppFramework.createUuidString(2);
-                            var a = suffix.match(/&ext=(.+)/);
-                            if (Array.isArray(a) && a.length > 1) {
-                                suffix = a[1];
-                            }
-
-                            if (assetInfo.scheme === "assets-library") {
-                                pictureUrl = assetInfo.url;
-                            }
-
-                            outputFileName = "draft" + "-" + fileName + "." + suffix;
-
-                            var outputFileInfo = outputFolder.fileInfo(outputFileName);
-
-                            outputFolder.removeFile(outputFileName);
-                            outputFolder.copyFile(picturePath, outputFileInfo.filePath);
-
-                            pictureUrl = outputFolder.fileUrl(outputFileName);
-
-                            fixRotate(pictureUrl)
-
-                            imageEditor.pasteImage(pictureUrl);
-                        }
-                        onDirty: {
-                            attachmentListModel.set(thumbGridView.currentIndex, {path: source, type: "attachment"});
-                            displayPreviewListModel.initDisplayPreviewListModel();
-                        }
-                        onRefresh: {
-                            displayPreviewListModel.initDisplayPreviewListModel();
-                        }
-                    }
-
-
 //                    Component {
 //                        id: imageEditorComponent
 
@@ -612,59 +587,30 @@ Page {
 //                        }
 //                    }
 
-                    Component {
-                        id: imageViewerComponent
-                        AttachmentReviewPage {
-                            anchors.fill: parent
-                            visible: false
+//                    Component {
+//                        id: imageViewerComponent
+//                        AttachmentReviewPage {
+//                            anchors.fill: parent
+//                            visible: false
 
-                            onSaved: {
-                                console.log("I am here - imageViewerComponent")
-                                previewImage.source = "../images/placeholder.png";
-                                previewImage.source = newFileUrl;
+//                            onSaved: {
+//                                console.log("I am here - imageViewerComponent")
+//                                previewImage.source = "../images/placeholder.png";
+//                                previewImage.source = newFileUrl;
 
-                                var path = AppFramework.resolvedPath(newFileUrl);
-                                var filePath = "file:///" + path
-                                filePath = filePath.replace("////","///");
+//                                var path = AppFramework.resolvedPath(newFileUrl);
+//                                var filePath = "file:///" + path
+//                                filePath = filePath.replace("////","///");
 
-                                attachmentListModel.set(thumbGridView.currentIndex, {path: filePath, type: "attachment"});
-                                displayPreviewListModel.initDisplayPreviewListModel();
+//                                attachmentListModel.set(thumbGridView.currentIndex, {path: filePath, type: "attachment"});
+//                                displayPreviewListModel.initDisplayPreviewListModel();
 
-                            }
-                        }
-                    }
+//                            }
+//                        }
+//                    }
 
                 }
             } //End rectangle for thumbnail previewBtn
-
-            //Location placeholder
-            RowLayout{
-
-                spacing: 0;
-                visible: true;
-
-                Label {
-                    Layout.fillWidth: true
-                    font.pixelSize: app.baseFontSize*.4
-                    font.bold: true
-                    text: "Location: PLACEHOLDER"
-                    color: app.appSecondaryTextColor;
-                    topPadding: 20 * app.scaleFactor
-                    bottomPadding: 5 * app.scaleFactor
-                }
-
-                Label {
-                    Layout.fillWidth: true
-                    font.pixelSize: app.baseFontSize*.4
-                    text: "";
-                    color: app.appSecondaryTextColor
-                    topPadding: 20 * app.scaleFactor
-                    bottomPadding: 5 * app.scaleFactor
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignBottom
-                }
-            }
-
 
 
             Text {
@@ -678,6 +624,25 @@ Page {
 
 
         }
+
+
+        //Arcgis appframework for checking permissions
+        //Not needed for Android - overrides
+//        PermissionDialog {
+//            id: permissionDialog
+//            openSettingsWhenDenied: true
+//            onAccepted: {
+//                if (activeTool == photoAction) {
+//                    if (Permission.checkPermission(Permission.PermissionTypeCamera) === Permission.PermissionResultGranted) {
+//                        cameraDialog.open()
+//                    }
+//                }
+//            }
+
+//            onRejected: {
+//                console.log("Camera permission rejected...");
+//            }
+//        }
 
 
         //Arcgis CameraDialog QML Type ========================================
@@ -719,28 +684,26 @@ Page {
             id: imageObject
         }
 
-        //Arcgis appframework for checking permissions
-        //Not needed for Android - overrides
-//        PermissionDialog {
-//            id: permissionDialog
-//            openSettingsWhenDenied: true
-//            onAccepted: {
-//                if (activeTool == photoAction) {
-//                    if (Permission.checkPermission(Permission.PermissionTypeCamera) === Permission.PermissionResultGranted) {
-//                        cameraDialog.open()
-//                    }
-//                }
-//            }
 
-//            onRejected: {
-//                console.log("Camera permission rejected...");
-//            }
-//        }
+        PreviewAttachmentSection {
+            id: previewSection
 
+            onDiscarded: {
+                console.log("thumbGridView.currentIndex", thumbGridView.currentIndex);
+                attachmentListModel.remove(thumbGridView.currentIndex);
+                displayPreviewListModel.initDisplayPreviewListModel();
+            }
 
-
-
+            onRefresh: {
+                displayPreviewListModel.initDisplayPreviewListModel();
+            }
+        }
     }
+
+
+
+
+
 
 
 
@@ -750,8 +713,9 @@ Page {
     footer: FooterSection {
 //        visible: camera.cameraStatus != Camera.ActiveStatus
         logMessage: "In Form Page - Footer..."
-        rightButtonText: "SAVE"
-        overrideRightIconSrc: "../images/save.png"
+        rightButtonText: "SEND"
+        overrideRightIconSrc: "../images/done.png"
+        overrideRightIconSz: 20
     }
 
 

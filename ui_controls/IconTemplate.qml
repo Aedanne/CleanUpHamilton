@@ -6,8 +6,8 @@ import QtGraphicalEffects 1.0
 Rectangle {
     id: root
 
-    property int imageSize: 42*AppFramework.displayScaleFactor
-    property int containerSize: 40*AppFramework.displayScaleFactor
+    property int imageSize: 42*app.scaleFactor
+    property int containerSize: 40*app.scaleFactor
     property int sidePadding: 0
     property url imageSource: ""
     property color backgroundColor: "transparent"
@@ -22,7 +22,7 @@ Rectangle {
     Layout.preferredWidth: containerSize*1.3
     Layout.preferredHeight: containerSize*1.2
     color: backgroundColor
-    radius: imgRadius === 0 ? 4*AppFramework.displayScaleFactor : imgRadius
+    radius: imgRadius === 0 ? 4*app.scaleFactor : imgRadius
 
     border.width: 0
 

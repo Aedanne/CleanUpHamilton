@@ -24,6 +24,9 @@ Button {
     property var btnWidth;
     property var btnHeight;
     property string btnColor;
+    property int overrideRightSize;
+    property int overrideLeftSize;
+    property int unitVal: 28;
 
     id: btn;
     width: btnWidth > "" ? btnWidth : parent.width*.5;
@@ -41,8 +44,8 @@ Button {
             anchors.centerIn: parent;
 
             Image{
-                Layout.preferredWidth: (btn.imageLeft === true? 28*app.scaleFactor: 0);
-                Layout.preferredHeight: (btn.imageLeft === true? 28*app.scaleFactor: 0);
+                Layout.preferredWidth: (btn.imageLeft === true? (overrideLeftSize>0?overrideLeftSize:unitVal)*app.scaleFactor: 0);
+                Layout.preferredHeight: (btn.imageLeft === true? (overrideLeftSize>0?overrideLeftSize:unitVal)*app.scaleFactor: 0);
                 source: btn.imageSource;
                 visible: btn.imageLeft === true;
                 enabled: btn.imageLeft === true;
@@ -61,8 +64,8 @@ Button {
 //                verticalAlignment: Text.AlignVCenter;
             }
             Image{
-                Layout.preferredWidth: (btn.imageRight === true? 28*app.scaleFactor: 0);
-                Layout.preferredHeight: (btn.imageRight === true? 28*app.scaleFactor: 0);
+                Layout.preferredWidth: (btn.imageRight === true? (overrideRightSize>0?overrideRightSize:unitVal)*app.scaleFactor: 0);
+                Layout.preferredHeight: (btn.imageRight === true? (overrideRightSize>0?overrideRightSize:unitVal)*app.scaleFactor: 0);
                 source: btn.imageSource;
                 visible: btn.imageRight === true;
                 enabled: btn.imageRight === true;

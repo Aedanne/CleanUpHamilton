@@ -9,8 +9,8 @@ Rectangle {
     signal imageIconClicked();
 
     anchors.centerIn: parent
-    width: 60*AppFramework.displayScaleFactor
-    height: 60*AppFramework.displayScaleFactor
+    width: 60*app.scaleFactor
+    height: 60*app.scaleFactor
     color: "transparent"
     radius: 2
     border.color: "#80cccccc"

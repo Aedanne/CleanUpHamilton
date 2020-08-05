@@ -40,6 +40,7 @@ App{
     readonly property color appPrimaryTextColorInverted: lightTheme? "#FFFFFF":'#555555'
     readonly property color backgroundAccent: '#AEAEAE'
     //readonly property color listViewDividerColor:"#19000000"
+    readonly property color cameraViewBackgroundColor: "#1C1C1C"
 
     //App fonts==========================================================================
     property string appFontTTF: "/assets/customTextFontTTF"
@@ -72,6 +73,7 @@ App{
     property int maxAttachments: 3
     property string tempImageFilePath: ""
     property int inCameraMode: 0
+    property string tempPath: ""
 
 
 
