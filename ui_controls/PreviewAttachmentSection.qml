@@ -1,19 +1,3 @@
-/* Copyright 2019 Esri
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
-
 import QtQuick 2.7
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.1
@@ -30,29 +14,31 @@ import "../ui_controls"
 import "../"
 
 Rectangle {
-    id: prevAttachRectangle
-    width: parent.width
-    height: parent.height
+    id: previewImageRect
+    width: formPage.width
+    height: formPage.height
     color: "#1C1C1C"
     visible: false
 
+    anchors.fill: parent;
+
     property var source
-    property bool hasAnimation: true
-    property bool isSupportRotate: false
-    property bool isDebug: false
+//    property bool hasAnimation: true
+//    property bool isSupportRotate: false
+//    property bool isDebug: false
     property bool hasGeoExif: false
     property var fileSize
     property var fileWidth
     property var fileHeight
-    property bool isRename: false
+//    property bool isRename: false
     property alias infoPanelVisible: infoPanel.visible
-//    property alias discardBox: discardConfirmBox
-    property alias renameTextField: renameField
+//    property alias discardBox //: discardConfirmBox
+//    property alias renameTextField: renameField
     property string imageExtendedExif: ""
     property string exifPhoneModel: ""
-    property var copy_latitude
-    property var copy_longtitude
-    property var copy_altitude
+//    property var copy_latitude
+//    property var copy_longtitude
+//    property var copy_altitude
 
 
     signal dirty()
@@ -64,50 +50,50 @@ Rectangle {
         imageExtendedExif = "";
         exifPhoneModel = "";
 
-        hasAnimation = false;
-        photoFrame.x = prevAttachRectangle.x + (createPage_content.width - photoFrame.width) / 2
-        photoFrame.y = prevAttachRectangle.y + (createPage_content.height - photoFrame.height) / 2
+//        hasAnimation = false;
+        photoFrame.x = previewImageRect.x + (createPage_content.width - photoFrame.width) / 2
+        photoFrame.y = previewImageRect.y + (createPage_content.height - photoFrame.height) / 2
         photoFrame.rotation = 0;
         photoFrame.scale = 1;
-        hasAnimation = true;
+//        hasAnimation = true;
 
         exifInfo.load(source.toString().replace(Qt.platform.os == "windows"? "file:///": "file://",""));
-        var gpsLongValue = exifInfo.gpsLongitude;
-        if(gpsLongValue) hasGeoExif = true;
-        else hasGeoExif = false;
-        console.log("Source", source)
-        console.log("hasGeo", hasGeoExif)
+//        var gpsLongValue = exifInfo.gpsLongitude;
+//        if(gpsLongValue) hasGeoExif = true;
+//        else hasGeoExif = false;
+//        console.log("Source", source)
+//        console.log("hasGeo", hasGeoExif)
         fileInfo.filePath = exifInfo.filePath;
-        fileSize = getFileSizeString();
+//        fileSize = getFileSizeString();
         imageObject.load(source.toString().replace(Qt.platform.os == "windows"? "file:///": "file://",""))
         fileWidth = imageObject.width;
         fileHeight = imageObject.height;
-        renameField.text = fileInfo.fileName
+//        renameField.text = fileInfo.fileName
         console.log("fileWidth, fileHeight:", fileWidth, fileHeight);
         imageExtendedExif = getImageExtendedExif();
         exifPhoneModel = getExifPhoneModel();
     }
 
-    function getFileSizeString(){
-        var fileSizeInBytes = fileInfo.size;
-        console.log("fileSizeOfImg", fileSizeInBytes)
-        if(fileSizeInBytes>1048576)return (fileSizeInBytes/1048576).toFixed(2)+qsTr("MB");
-        else return (fileSizeInBytes/1024).toFixed(2)+qsTr("KB");
-    }
+//    function getFileSizeString(){
+//        var fileSizeInBytes = fileInfo.size;
+//        console.log("fileSizeOfImg", fileSizeInBytes)
+//        if(fileSizeInBytes>1048576)return (fileSizeInBytes/1048576).toFixed(2)+qsTr("MB");
+//        else return (fileSizeInBytes/1024).toFixed(2)+qsTr("KB");
+//    }
 
-    function renameFile(sourcePath, newFileName){
-        var oldName = fileInfo.fileName;
-        if(oldName != newFileName){
-            var fileFolderPath = sourcePath.replace("/"+oldName,"");
-            console.log("filefolderpath:", fileFolderPath);
-            fileFolder.url = fileFolderPath;
-            fileFolder.renameFile(oldName, newFileName);
-            var newSource = sourcePath.replace(oldName,newFileName);
-            source = newSource;
-            init();
-            dirty();
-        }
-    }
+//    function renameFile(sourcePath, newFileName){
+//        var oldName = fileInfo.fileName;
+//        if(oldName != newFileName){
+//            var fileFolderPath = sourcePath.replace("/"+oldName,"");
+//            console.log("filefolderpath:", fileFolderPath);
+//            fileFolder.url = fileFolderPath;
+//            fileFolder.renameFile(oldName, newFileName);
+//            var newSource = sourcePath.replace(oldName,newFileName);
+//            source = newSource;
+//            init();
+//            dirty();
+//        }
+//    }
 
     ExifInfo {
         id: exifInfo
@@ -128,14 +114,14 @@ Rectangle {
     PositionSource {
         id: positionSource
         updateInterval: 5000
-        active: prevAttachRectangle.visible
+        active: previewImageRect.visible
     }
 
     onDiscarded: {
-        app.temp = app.appModel.get(grid.currentIndex).path;
-        console.log("grid.currentIndex", grid.currentIndex, app.temp);
-        app.selectedImageFilePath = AppFramework.resolvedPath(app.temp);
-        fileFolder.removeFile (app.selectedImageFilePath);
+        app.temp = attachmentListModel.get(thumbGridView.currentIndex).path;
+        console.log(">>>> thumbGridView.currentIndex: ", thumbGridView.currentIndex, app.temp);
+        app.tempImageFilePath = AppFramework.resolvedPath(app.temp);
+        fileFolder.removeFile (app.tempImageFilePath);
     }
 
     ColumnLayout {
@@ -148,7 +134,7 @@ Rectangle {
             color: "#1C1C1C"
             Layout.preferredWidth: parent.width
             Layout.preferredHeight: 50 * app.scaleFactor
-            z: createPage_content.z+1
+//            z: createPage_content.z+1
 
             MouseArea {
                 anchors.fill: parent
@@ -159,18 +145,15 @@ Rectangle {
 
             CustomImageButton {
                 imageSource: "../images/back.png"
-                btnHeight: 30 * app.scaleFactor
-                btnWidth: 30 * app.scaleFactor
-//                checkedColor : "transparent"
-//                pressedColor : "transparent"
-//                hoverColor : "transparent"
-//                glowColor : "transparent"
-                anchors.rightMargin: 10
-                anchors.leftMargin: 10
-                anchors.left: parent.left
+                height: 50 * app.scaleFactor
+                width: 50 * app.scaleFactor
+
+//                anchors.rightMargin: 10
+//                anchors.leftMargin: 10
+//                anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 onClicked: {
-                    prevAttachRectangle.visible = false;
+                    previewImageRect.visible = false;
                     infoPanel.visible = false;
                     refresh();
                 }
@@ -195,8 +178,8 @@ Rectangle {
             MouseArea{
                 anchors.fill: parent
                 onDoubleClicked: {
-                    photoFrame.x = prevAttachRectangle.x + (createPage_content.width - photoFrame.width) / 2
-                    photoFrame.y = prevAttachRectangle.y + (createPage_content.height - photoFrame.height) / 2
+                    photoFrame.x = previewImageRect.x + (createPage_content.width - photoFrame.width) / 2
+                    photoFrame.y = previewImageRect.y + (createPage_content.height - photoFrame.height) / 2
                     photoFrame.rotation = 0;
                     photoFrame.scale = 1;
                 }
@@ -207,23 +190,23 @@ Rectangle {
                 width: parent.width
                 height: parent.height
                 scale: 1.0
-                Behavior on scale { NumberAnimation { duration: hasAnimation? 200:0} }
-                Behavior on rotation { NumberAnimation { duration: hasAnimation? 200:0} }
-                Behavior on x { NumberAnimation { duration: hasAnimation? 200:0} }
-                Behavior on y { NumberAnimation { duration: hasAnimation? 200:0} }
+//                Behavior on scale { NumberAnimation { duration: hasAnimation? 200:0} }
+//                Behavior on rotation { NumberAnimation { duration: hasAnimation? 200:0} }
+//                Behavior on x { NumberAnimation { duration: hasAnimation? 200:0} }
+//                Behavior on y { NumberAnimation { duration: hasAnimation? 200:0} }
                 color: "transparent"
                 border.color: "transparent"
                 border.width: 0
                 smooth: true
                 antialiasing: true
-                x: prevAttachRectangle.x + (createPage_content.width - photoFrame.width) / 2
-                y: prevAttachRectangle.y + (createPage_content.height - photoFrame.height) / 2
+//                x: previewImageRect.x + (createPage_content.width - photoFrame.width) / 2
+//                y: previewImageRect.y + (createPage_content.height - photoFrame.height) / 2
 
                 Image {
                     id: image
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectFit
-                    source: prevAttachRectangle.source? prevAttachRectangle.source : ""
+                    source: previewImageRect.source? previewImageRect.source : ""
                     antialiasing: true
                     autoTransform: true
                 }
@@ -272,8 +255,8 @@ Rectangle {
                         }
 
                         onDoubleClicked: {
-                            photoFrame.x = prevAttachRectangle.x + (createPage_content.width - photoFrame.width) / 2
-                            photoFrame.y = prevAttachRectangle.y + (createPage_content.height - photoFrame.height) / 2
+                            photoFrame.x = previewImageRect.x + (createPage_content.width - photoFrame.width) / 2
+                            photoFrame.y = previewImageRect.y + (createPage_content.height - photoFrame.height) / 2
                             photoFrame.rotation = 0;
                             photoFrame.scale = 1;
                         }
@@ -324,12 +307,11 @@ Rectangle {
                                 text: qsTr("Name")
                                 color: "#80ffffff"
                                 font.pixelSize: app.subtitleFontSize*0.9
-                                font.family: app.customTextFont.name
                                 fontSizeMode: Text.VerticalFit
                                 Rectangle{
                                     anchors.fill: parent
                                     color: "transparent"
-                                    visible: isDebug
+                                    visible: true
                                     border.width: 1
                                     border.color: "white"
                                 }
@@ -350,12 +332,11 @@ Rectangle {
                                     elide: Text.ElideMiddle
                                     font.pixelSize: app.subtitleFontSize
                                     verticalAlignment: Text.AlignVCenter
-                                    font.family: app.customTextFont.name
                                     fontSizeMode: Text.VerticalFit
                                     Rectangle{
                                         anchors.fill: parent
                                         color: "transparent"
-                                        visible: isDebug
+                                        visible: true
                                         border.width: 1
                                         border.color: "blue"
                                     }
@@ -366,9 +347,6 @@ Rectangle {
                                     visible: false
 
                                         font.pixelSize: app.subtitleFontSize
-
-                                        font.family: app.customTextFont.name
-
 
                                     text: fileInfo.fileName
                                     verticalAlignment:TextInput.AlignVCenter
@@ -407,7 +385,7 @@ Rectangle {
                                     Rectangle{
                                         anchors.fill: parent
                                         color: "transparent"
-                                        visible: isDebug
+                                        visible: true
                                         border.width: 1
                                         border.color: "white"
                                     }
@@ -422,7 +400,7 @@ Rectangle {
                             imageSize: 16*AppFramework.displayScaleFactor
                             Layout.alignment: Qt.AlignVCenter
                             backgroundColor: "#1C1C1C"
-                            imageSource: renameField.focus?"../images/done_white.png":"../images/ic_edit_white_48dp.png"
+                            imageSource: renameField.focus?"../images/done.png":"../edit.png"
                             radius: width/2
                             onIconClicked: {
                                 renameFieldLabel.visible = !renameFieldLabel.visible;
@@ -450,11 +428,10 @@ Rectangle {
 
                                 color: "#80ffffff"
                                 font.pixelSize: app.subtitleFontSize*0.9
-                                font.family: app.customTextFont.name
                                 Rectangle{
                                     anchors.fill: parent
                                     color: "transparent"
-                                    visible: isDebug
+                                    visible: true
                                     border.width: 1
                                     border.color: "white"
                                 }
@@ -467,41 +444,40 @@ Rectangle {
                                 color: "white"
                                 font.pixelSize: app.subtitleFontSize
                                 verticalAlignment: Text.AlignVCenter
-                                font.family: app.customTextFont.name
                                 fontSizeMode: Text.VerticalFit
                                 Rectangle{
                                     anchors.fill: parent
                                     color: "transparent"
-                                    visible: isDebug
+                                    visible: true
                                     border.width: 1
                                     border.color: "white"
                                 }
                             }
                         }
 
-//                        IconTemplate {
-//                            id: locationButton
-//                            Layout.preferredHeight: 30*AppFramework.displayScaleFactor
-//                            Layout.preferredWidth: 30*AppFramework.displayScaleFactor
-//                            imageSize: 16*AppFramework.displayScaleFactor
-//                            imageSource: hasGeoExif? "../images/delete.png":"../images/add_location.png"
-//                            backgroundColor: "#1C1C1C"
-//                            radius: width/2
-//                            enabled: hasGeoExif || (positionSource.valid && positionSource.position.coordinate.latitude)
-//                            onIconClicked: {
-//                                if(hasGeoExif){
-//                                    exifInfo.removeGpsValue(ExifInfo.GpsLatitude);
-//                                    exifInfo.removeGpsValue(ExifInfo.GpsLongitude);
-//                                    exifInfo.save(exifInfo.filePath);
-//                                    hasGeoExif = false;
-//                                } else {
-//                                    exifInfo.gpsLatitude = positionSource.position.coordinate.latitude;
-//                                    exifInfo.gpsLongitude = positionSource.position.coordinate.longitude;
-//                                    exifInfo.save(exifInfo.filePath);
-//                                    hasGeoExif = true;
-//                                }
-//                            }
-//                        }
+                        IconTemplate {
+                            id: locationButton
+                            Layout.preferredHeight: 30*AppFramework.displayScaleFactor
+                            Layout.preferredWidth: 30*AppFramework.displayScaleFactor
+                            imageSize: 16*AppFramework.displayScaleFactor
+                            imageSource: hasGeoExif? "../images/delete.png":"../images/add_location.png"
+                            backgroundColor: "#1C1C1C"
+                            radius: width/2
+                            enabled: hasGeoExif || (positionSource.valid && positionSource.position.coordinate.latitude)
+                            onIconClicked: {
+                                if(hasGeoExif){
+                                    exifInfo.removeGpsValue(ExifInfo.GpsLatitude);
+                                    exifInfo.removeGpsValue(ExifInfo.GpsLongitude);
+                                    exifInfo.save(exifInfo.filePath);
+                                    hasGeoExif = false;
+                                } else {
+                                    exifInfo.gpsLatitude = positionSource.position.coordinate.latitude;
+                                    exifInfo.gpsLongitude = positionSource.position.coordinate.longitude;
+                                    exifInfo.save(exifInfo.filePath);
+                                    hasGeoExif = true;
+                                }
+                            }
+                        }
                     }
 
                     ColumnLayout{
@@ -518,11 +494,10 @@ Rectangle {
                             fontSizeMode: Text.VerticalFit
                             color: "#80ffffff"
                             font.pixelSize: app.subtitleFontSize*0.9
-                            font.family: app.customTextFont.name
                             Rectangle{
                                 anchors.fill: parent
                                 color: "transparent"
-                                visible: isDebug
+                                visible: true
                                 border.width: 1
                                 border.color: "white"
                             }
@@ -535,12 +510,11 @@ Rectangle {
                             color: "white"
                             font.pixelSize: app.subtitleFontSize
                             verticalAlignment: Text.AlignVCenter
-                            font.family: app.customTextFont.name
                             fontSizeMode: Text.VerticalFit
                             Rectangle{
                                 anchors.fill: parent
                                 color: "transparent"
-                                visible: isDebug
+                                visible: true
                                 border.width: 1
                                 border.color: "white"
                             }
@@ -559,11 +533,10 @@ Rectangle {
                             fontSizeMode: Text.VerticalFit
                             color: "#80ffffff"
                             font.pixelSize: app.subtitleFontSize*0.9
-                            font.family: app.customTextFont.name
                             Rectangle{
                                 anchors.fill: parent
                                 color: "transparent"
-                                visible: isDebug
+                                visible: true
                                 border.width: 1
                                 border.color: "white"
                             }
@@ -576,12 +549,11 @@ Rectangle {
                             color: "white"
                             font.pixelSize: app.subtitleFontSize
                             verticalAlignment: Text.AlignVCenter
-                            font.family: app.customTextFont.name
                             fontSizeMode: Text.VerticalFit
                             Rectangle{
                                 anchors.fill: parent
                                 color: "transparent"
-                                visible: isDebug
+                                visible: true
                                 border.width: 1
                                 border.color: "white"
                             }
@@ -601,12 +573,11 @@ Rectangle {
                             text: exifPhoneModel
                             color: "#80ffffff"
                             font.pixelSize: app.subtitleFontSize*0.9
-                            font.family: app.customTextFont.name
                             fontSizeMode: Text.VerticalFit
                             Rectangle{
                                 anchors.fill: parent
                                 color: "transparent"
-                                visible: isDebug
+                                visible: true
                                 border.width: 1
                                 border.color: "white"
                             }
@@ -619,12 +590,11 @@ Rectangle {
                             color: "white"
                             font.pixelSize: app.subtitleFontSize
                             verticalAlignment: Text.AlignVCenter
-                            font.family: app.customTextFont.name
                             fontSizeMode: Text.VerticalFit
                             Rectangle{
                                 anchors.fill: parent
                                 color: "transparent"
-                                visible: isDebug
+                                visible: true
                                 border.width: 1
                                 border.color: "white"
                             }
@@ -642,12 +612,11 @@ Rectangle {
                             text: qsTr("Created Date")
                             color: "#80ffffff"
                             font.pixelSize: app.subtitleFontSize*0.9
-                            font.family: app.customTextFont.name
                             fontSizeMode: Text.VerticalFit
                             Rectangle{
                                 anchors.fill: parent
                                 color: "transparent"
-                                visible: isDebug
+                                visible: true
                                 border.width: 1
                                 border.color: "white"
                             }
@@ -660,12 +629,11 @@ Rectangle {
                             color: "white"
                             font.pixelSize: app.subtitleFontSize
                             verticalAlignment: Text.AlignVCenter
-                            font.family: app.customTextFont.name
                             fontSizeMode: Text.VerticalFit
                             Rectangle{
                                 anchors.fill: parent
                                 color: "transparent"
-                                visible: isDebug
+                                visible: true
                                 border.width: 1
                                 border.color: "white"
                             }
@@ -705,39 +673,39 @@ Rectangle {
                 imageSource: "../images/delete.png"
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                iconOverlayColor: discardConfirmBox.visible?"white":"#bebebe"
+                iconOverlayColor: "#bebebe"
                 onIconClicked: {
 //                    discardConfirmBox.visible = true;
-                     discarded();
-                     infoPanel.visible = false;
-                     prevAttachRectangle.visible = false;
+                    discarded();
+                    infoPanel.visible = false;
+                    previewImageRect.visible = false;
                 }
             }
 
-//            IconTemplate {
-//                backgroundColor: "#1C1C1C"
-//                height: 45*app.scaleFactor
-//                width: 45*app.scaleFactor
-//                imageSource: "../images/ic_edit_white_48dp.png"
-//                anchors.horizontalCenter: parent.horizontalCenter
-//                anchors.verticalCenter: parent.verticalCenter
-//                enabled: true
-//                iconOverlayColor: "#bebebe"
-//                visible: !isGif(prevAttachRectangle.source)
+            IconTemplate {
+                backgroundColor: "#1C1C1C"
+                height: 45*app.scaleFactor
+                width: 45*app.scaleFactor
+                imageSource: "../images/ic_edit_white_48dp.png"
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                enabled: true
+                iconOverlayColor: "#bebebe"
+                visible: !isGif(previewImageRect.source)
 
-//                onIconClicked: {
-//                    copy_latitude = exifInfo.gpsLatitude;
-//                    copy_longtitude = exifInfo.gpsLongitude;
-//                    copy_altitude = exifInfo.gpsAltitude;
-//                    edited(prevAttachRectangle.source);
-//                }
+                onIconClicked: {
+                    copy_latitude = exifInfo.gpsLatitude;
+                    copy_longtitude = exifInfo.gpsLongitude;
+                    copy_altitude = exifInfo.gpsAltitude;
+                    edited(previewImageRect.source);
+                }
 
-//                function isGif(filePath) {
-//                    console.log("filePath", filePath)
-//                    if (filePath === undefined) return false;
-//                    return filePath.indexOf(".gif") > 0;
-//                }
-//            }
+                function isGif(filePath) {
+                    console.log("filePath", filePath)
+                    if (filePath === undefined) return false;
+                    return filePath.indexOf(".gif") > 0;
+                }
+            }
 
             IconTemplate {
                 backgroundColor: "#1C1C1C"
@@ -788,14 +756,14 @@ Rectangle {
         return res;
     }
 
-//    ConfirmBox{
+//    ConfirmBox {
 //        id: discardConfirmBox
 //        anchors.fill: parent
 //        text: qsTr("Are you sure you want to discard the changes?")
 //        onAccepted: {
 //            discarded();
 //            infoPanel.visible = false;
-//            prevAttachRectangle.visible = false;
+//            previewImageRect.visible = false;
 //        }
 //    }
 }

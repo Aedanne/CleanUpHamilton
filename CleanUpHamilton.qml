@@ -4,10 +4,10 @@ Using ESRI ArcGIS frameworks and libraries
 Charisse Hanson
 */
 
-import QtQuick 2.13
+import QtQuick 2.7
 import QtQuick.Layouts 1.13
-import QtQuick.Controls 2.13
-import QtQuick.Controls.Material 2.13
+import QtQuick.Controls 2.2
+import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import QtQuick.LocalStorage 2.0
 
@@ -70,7 +70,7 @@ App{
     //Attachment properties==============================================================
     property int countAttachments: 0
     property int maxAttachments: 3
-
+    property string tempImageFilePath: ""
     property int inCameraMode: 0
 
 

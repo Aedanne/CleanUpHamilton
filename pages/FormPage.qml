@@ -1,7 +1,7 @@
-import QtQuick 2.13
+import QtQuick 2.7
 import QtQuick.Layouts 1.13
 import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.13
+import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.13
 
 import QtPositioning 5.13
@@ -32,18 +32,14 @@ Page {
     signal nextPage();
     signal previousPage();
 
-
     property var descText;
     property int maxLimit: 200
     property int currChars;
     property string titleText: ""
 
     //Camera picture properties==========================================================
-    property string activeTool:""
     property string fileLocation: "../images/temp.png"
     property int defaultImgRes: 1024
-    property var photoAction: "take_photo"
-    property string selectedImageFilePath: ""
 
     //Used for media that will be included with the report
     ListModel{
@@ -58,7 +54,7 @@ Page {
     //Header custom QML =================================================================
     header: HeaderSection {
         logMessage: "TODO: FORM PAGE INFO PAGE";
-        overrideText: app.inCameraMode ? qsTr("Add Photo Evidence") : qsTr("Add Report Details")
+
     }
 
 
@@ -244,8 +240,8 @@ Page {
                     anchors.fill: parent;
                     Layout.alignment: Qt.AlignLeft
 
-                    IconTemplate{
-
+                    IconTemplate {
+                        imgRadius: 2
                         containerSize: 50*AppFramework.displayScaleFactor
                         imageSource: "../images/camera.png"
                         color: (attachmentListModel.count === app.maxAttachments) ? Qt.lighter("#6e6e6e", 0.5) : "#6e6e6e"
@@ -254,38 +250,36 @@ Page {
                         maxAttach: (attachmentListModel.count === app.maxAttachments) ? true: false
 
                         onIconClicked: {
-                            if (!maxAttach) {
-                               app.inCameraMode = 1;
-                            }
 
                             //Device location
                             positionSource.start();
 
                             //Start camera
-                            cameraViewPage.open();
+                            cameraDialog.open();
 
 
                         }
+
+
+
 
 
 
                     }
 
 
-                    //Datamodel for displaying the photos
+                    //Datamodel for displaying the preview photos
                     ListModel {
-                        id: visualListModel
+                        id: displayPreviewListModel
 
                         Component.onCompleted: {
-                            visualListModel.initVisualListModel();
+                            displayPreviewListModel.initDisplayPreviewListModel();
                         }
 
-                        function initVisualListModel(){
+                        function initDisplayPreviewListModel(){
                             var temp;
-                            visualListModel.clear()
+                            displayPreviewListModel.clear()
                             var hasTag;
-//                            var countVideos = 0;
-//                            var countAudio = 0;
                             var countAttach = 0;
                             for (var i = 0; i < app.maxAttachments; i++) {
 
@@ -299,30 +293,22 @@ Page {
 
                                     exifInfo.load(tempPath.toString().replace(Qt.platform.os == "windows"? "file:///": "file://",""));
 
-//                                    if(exifInfo.gpsLongitude && exifInfo.gpsLatitude) {
-//                                        hasTag = true;
-//                                    } else {
-//                                        hasTag = false;
-//                                    }
-//                                    if(tempType === "attachment2") countVideos++;
-//                                    if(tempType === "attachment3") countAudio++;
-                                    visualListModel.append({path: tempPath, type: tempType, hasTag: hasTag});
+                                    displayPreviewListModel.append({path: tempPath, type: tempType, hasTag: hasTag});
 
-                                    console.log(">>>>>visualListModel.size", visualListModel.count);
+                                    console.log(">>>>>displayPreviewListModel.size", displayPreviewListModel.count);
 
                                     countAttach++;
                                 }else{
-                                    visualListModel.append({path: "", type:"placehold", hasTag: false})
+                                    displayPreviewListModel.append({path: "", type:"placehold", hasTag: false})
                                 }
                             }
-//                            hasVideoAttachment = countVideos > 0;
-//                            hasAudioAttachment = countAudio > 0;
+
                             app.countAttachments = countAttach;
                         }
                     }
 
 
-                    //Display thumbnail of images usign gridview
+                    //Display thumbnail of images using gridview
                     Rectangle {
                         id: thumbnailRectangle
                         color: "transparent"
@@ -338,7 +324,7 @@ Page {
                             height: parent.height
                             focus: true
                             visible: true
-                            model: visualListModel
+                            model: displayPreviewListModel
                             cellWidth: parent.width/3
                             cellHeight: parent.height
 
@@ -346,65 +332,16 @@ Page {
                                 width: thumbGridView.cellWidth
                                 height: thumbGridView.cellHeight
 
-                                Rectangle {
-                                    anchors.centerIn: parent
-                                    width: parent.width-16*app.scaleFactor
-                                    height: parent.height-16*app.scaleFactor
-                                    color: "transparent"
-                                    radius: 4
-                                    border.color: "#80cccccc"
-                                    border.width: 1*app.scaleFactor
-
-
-                                    Image {
-                                        id: myIcon
-                                        source: path
-                                        width: parent.width
-                                        height: parent.heigh
-                                        fillMode: Image.PreserveAspectCrop
-                                        anchors.centerIn: parent
-                                        autoTransform: true
-                                        visible: true
-                                        cache: false
-                                        sourceSize.width: width
-                                        sourceSize.height: height
-                                    }
-
-                                    Rectangle{
-                                        width: 16*app.scaleFactor
-                                        height: 16*app.scaleFactor
-                                        anchors.top: parent.top
-                                        anchors.left: parent.left
-                                        anchors.topMargin: 4*app.scaleFactor
-                                        anchors.leftMargin: 4*app.scaleFactor
-                                        clip: true
-
-                                        color: "#80ffffff"
-                                        visible: hasTag
-                                        Image{
-                                            id: indicatorImg
-                                            width: 12*app.scaleFactor
-                                            height: 12*app.scaleFactor
-                                            source: "../images/location.png"
-                                            anchors.centerIn: parent
-                                        }
-                                        ColorOverlay{
-                                            anchors.fill: indicatorImg
-                                            source: indicatorImg
-                                            color: "#6E6E6E"
-                                        }
-                                    }
-
-                                    MouseArea {
-                                        enabled: true
-                                        onClicked: {
-
-                                                thumbGridView.currentIndex = index;
-                                                previewSection.source = path;
-                                                previewSection.visible = true
-                                                previewSection.init();
-
-                                        }
+                                ImageIconTemplate {
+                                    id: previewPhotoIcons
+                                    imgSource: path
+                                    onImageIconClicked: {
+                                        console.log(">>> image clicked - thumbgridview >>> " + "path:" + path)
+                                        thumbGridView.currentIndex = index;
+                                        console.log(">>> thumbGridView.currentIndex >>> " + thumbGridView.currentIndex)
+                                        previewSection.source = path;
+                                        previewSection.visible = true
+                                        previewSection.init();
                                     }
                                 }
                             }
@@ -427,181 +364,174 @@ Page {
 //                            }
 //                            app.appModel.remove(thumbGridView.currentIndex)
 
-//                            visualListModel.initVisualListModel()
+//                            displayPreviewListModel.initdisplayPreviewListModel()
 
 
 //                        }
 //                    }
 
+//                    Popup {
+//                        id: popupOption
+//                        padding: 10
+//                        width:  thumbGridView.width
+//                        height: app.isIPhoneX ?fldialog.height + 16 * scaleFactor:fldialog.height
+//                        x: Math.round((parent.width - width) / 2)
+//                        y: Math.round((parent.height - height) )
+
+//                        Material.background: app.pageBackgroundColor
+//                        modal: true
+//                        focus: true
+
+//                        contentItem:Rectangle {
+
+//                            id:gridpopup
+//                            width:popupOption - 20 * scaleFactor
+//                            height:app.isIPhoneX?fldialog.height + 16 * scaleFactor:fldialog.height
+//                            color: app.appBackgroundColor
+
+//                            ColumnLayout{
+//                                id:fldialog
+//                                spacing: 1 * app.scaleFactor
+
+//                                anchors.leftMargin: 10 * scaleFactor
+//                                anchors.rightMargin: 10 * scaleFactor
+
+
+//                                Text{
+
+//                                    Layout.topMargin: 10 * scaleFactor
+//                                    text: "PLACE HOLDER FILE NAME"
+//                                    Layout.preferredWidth:gridpopup.width - 20 * scaleFactor
+//                                    elide: Text.ElideRight
+//                                    font.pixelSize: app.subtitleFontSize
+//                                    color: app.appPrimaryTextColor
+
+//                                }
+//                                RowLayout{
+//                                    spacing: 8 * app.scaleFactor
+//                                    Text{
+
+//                                        text:"place holder selectedFileSuffix"
+//                                        font.pixelSize: app.baseFontSize*0.7
+//                                        color: app.appDialogColor
+
+//                                    }
+//                                    Rectangle {
+//                                        id:icon
+//                                        width: 4
+//                                        height:4
+//                                        radius: 2
+//                                        color: app.appPrimaryTextColor
+//                                        Layout.alignment: Qt.AlignVCenter
+//                                    }
+//                                    Text{
+//                                        text:"fileSize"
+//                                        font.pixelSize: app.baseFontSize*0.7
+//                                        color: app.appPrimaryTextColor
+//                                    }
 
 
 
+//                                }
+//                                Rectangle {
+//                                    Layout.fillWidth: true
+//                                    Layout.preferredHeight: 10 * scaleFactor
+//                                    color: "transparent"
 
-                    Popup {
-                        id: popupOption
-                        padding: 10
-                        width:  isSmallScreen?parent.width:thumbGridView.width
-                        height: app.isIPhoneX ?fldialog.height + 16 * scaleFactor:fldialog.height
-                        x: Math.round((parent.width - width) / 2)
-                        y: Math.round((parent.height - height) )
+//                                }
 
-                        Material.background: app.pageBackgroundColor
-                        modal: true
-                        focus: true
+//                                Rectangle {
+//                                    Layout.preferredWidth: gridpopup.width - 20 * scaleFactor
 
-                        contentItem:Rectangle {
+//                                    Layout.preferredHeight: 1
+//                                    color: 'black'
+//                                    opacity: 0.6
+//                                }
+//                                Rectangle {
 
-                            id:gridpopup
-                            width:popupOption - 20 * scaleFactor
-                            height:app.isIPhoneX?fldialog.height + 16 * scaleFactor:fldialog.height
-                            color: app.pageBackgroundColor
+//                                    Layout.fillWidth: true
+//                                    Layout.preferredHeight: 16 * scaleFactor
+//                                    color: "transparent"
 
-                            ColumnLayout{
-                                id:fldialog
-                                spacing: 1 * app.scaleFactor
-
-                                anchors.leftMargin: 10 * scaleFactor
-                                anchors.rightMargin: 10 * scaleFactor
+//                                }
+//                                Rectangle {
+//                                    id:buttonbox
+//                                    Layout.preferredWidth: gridpopup.width - 20 * scaleFactor
+//                                    Layout.preferredHeight: 50 * scaleFactor
+//                                    Layout.bottomMargin: app.isIPhoneX?26 * scaleFactor: 16 * scaleFactor
 
 
-                                Text{
+//                                    color: "transparent"
+//                                    CustomImageButton {
+//                                        labelText: qsTr("Delete")
+//                                        btnColor:"#FF0000"
+////                                        buttonFill: false
+//                                        anchors.left:buttonbox.left
 
-                                    Layout.topMargin: 10 * scaleFactor
-                                    text:selectedFileName
-                                    Layout.preferredWidth:gridpopup.width - 20 * scaleFactor
-                                    elide: Text.ElideRight
-                                    font.pixelSize: app.subtitleFontSize
-                                    font.family: app.customTitleFont.name
-                                    color: app.textColor
-
-                                }
-                                RowLayout{
-                                    spacing: 8 * app.scaleFactor
-                                    Text{
-
-                                        text:selectedFileSuffix
-                                        font.pixelSize: app.subtitleFontSize
-                                        font.family: app.customTextFont.name
-                                        color: app.subtitleColor
-
-                                    }
-                                    Rectangle {
-                                        id:icon
-                                        width: 4
-                                        height:4
-                                        radius: 2
-                                        color: app.textColor
-                                        Layout.alignment: Qt.AlignVCenter
-                                    }
-                                    Text{
-                                        text:fileSize
-                                        font.pixelSize: app.subtitleFontSize
-                                        font.family: app.customTextFont.name
-                                        color: app.textColor
-                                    }
+//                                        btnHeight: parent.height
+//                                        btnWidth: (buttonbox.width - 20 * scaleFactor)/2
 
 
 
-                                }
-                                Rectangle {
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 10 * scaleFactor
-                                    color: "transparent"
+//                                        MouseArea {
+//                                            anchors.fill: parent
+//                                            onClicked: {
+////                                                popupOption.close()
 
-                                }
-
-                                Rectangle {
-                                    Layout.preferredWidth: gridpopup.width - 20 * scaleFactor
-
-                                    Layout.preferredHeight: 1
-                                    color: blk_030
-                                    opacity: 0.6
-                                }
-                                Rectangle {
-
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: 16 * scaleFactor
-                                    color: "transparent"
-
-                                }
-                                Rectangle {
-                                    id:buttonbox
-                                    Layout.preferredWidth: gridpopup.width - 20 * scaleFactor
-                                    Layout.preferredHeight: 50 * scaleFactor
-                                    Layout.bottomMargin: app.isIPhoneX?26 * scaleFactor: 16 * scaleFactor
+////                                                deleteAlertBox.text = qsTr("Are you sure you want to delete the file?")+"\n";
+////                                                deleteAlertBox.visible = true;
 
 
-                                    color: "transparent"
-                                    CustomImageButton {
-                                        labelText: qsTr("Delete")
-                                        btnColor:"#FF0000"
-//                                        buttonFill: false
-                                        anchors.left:buttonbox.left
+//                                                var filename =  AppFramework.fileInfo(selectedFilePath).fileName
 
-                                        btnHeight: parent.height
-                                        btnWidth: (buttonbox.width - 20 * scaleFactor)/2
+//                                                if(attachmentsFolder.fileExists(filename)){
+//                                                    attachmentsFolder.removeFile(filename)
+//                                                }
+//                                                attachmentListModel.remove(thumbGridView.currentIndex)
 
+//                                                displayPreviewListModel.initdisplayPreviewListModel()
 
+//                                                return;
 
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            onClicked: {
+//                                            }
+//                                        }
+//                                    }
+//                                    CustomImageButton {
+//                                        id: previewBtn
+//                                        anchors.right: buttonbox.right
+//                                        labelText: qsTr("Preview")
+////                                        buttonColor: app.buttonColor
+////                                        buttonFill: true
+//                                        btnHeight: parent.height
+//                                        btnWidth: (buttonbox.width - 20 * scaleFactor)/2
+
+//                                        visible: AppFramework.network.isOnline
+
+//                                        MouseArea {
+//                                            anchors.fill: parent
+//                                            onClicked: {
 //                                                popupOption.close()
 
-//                                                deleteAlertBox.text = qsTr("Are you sure you want to delete the file?")+"\n";
-//                                                deleteAlertBox.visible = true;
+//                                                AppFramework.clipboard.share(selectedFileUrl)
+//                                            }
+//                                        }
+//                                    }
 
-
-                                                var filename =  AppFramework.fileInfo(selectedFilePath).fileName
-
-                                                if(attachmentsFolder.fileExists(filename)){
-                                                    attachmentsFolder.removeFile(filename)
-                                                }
-                                                attachmentListModel.remove(thumbGridView.currentIndex)
-
-                                                visualListModel.initVisualListModel()
-
-                                                return;
-
-                                            }
-                                        }
-                                    }
-                                    CustomImageButton {
-                                        id: previewBtn
-                                        anchors.right: buttonbox.right
-                                        labelText: qsTr("Preview")
-//                                        buttonColor: app.buttonColor
-//                                        buttonFill: true
-                                        btnHeight: parent.height
-                                        btnWidth: (buttonbox.width - 20 * scaleFactor)/2
-
-                                        visible: AppFramework.network.isOnline
-
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            onClicked: {
-                                                popupOption.close()
-
-                                                AppFramework.clipboard.share(selectedFileUrl)
-                                            }
-                                        }
-                                    }
-
-                                }
+//                                }
 
 
 
 
 
-                                Rectangle {
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight:10 * scaleFactor
-                                    color: "transparent"
+//                                Rectangle {
+//                                    Layout.fillWidth: true
+//                                    Layout.preferredHeight:10 * scaleFactor
+//                                    color: "transparent"
 
-                                }
-                            }
-                        }
-                    }
+//                                }
+//                            }
+//                        }
+//                    }
 
 
 
@@ -613,7 +543,7 @@ Page {
                         onDiscarded: {
                             console.log("thumbGridView.currentIndex", thumbGridView.currentIndex);
                             attachmentListModel.remove(thumbGridView.currentIndex);
-                            visualListModel.initVisualListModel();
+                            displayPreviewListModel.initDisplayPreviewListModel();
                         }
                         onEdited: {
                             previewSection.infoPanelVisible = false;
@@ -659,10 +589,10 @@ Page {
                         }
                         onDirty: {
                             attachmentListModel.set(thumbGridView.currentIndex, {path: source, type: "attachment"});
-                            visualListModel.initVisualListModel();
+                            displayPreviewListModel.initDisplayPreviewListModel();
                         }
                         onRefresh: {
-                            visualListModel.initVisualListModel();
+                            displayPreviewListModel.initDisplayPreviewListModel();
                         }
                     }
 
@@ -676,7 +606,7 @@ Page {
 
 //                            onSaved: {
 //                                app.appModel.set(thumbGridView.currentIndex, {path: saveUrl.toString(), type: "attachment"});
-//                                visualListModel.initVisualListModel();
+//                                displayPreviewListModel.initDisplayPreviewListModel();
 //                                previewSection.visible = false;
 //                            }
 //                        }
@@ -689,6 +619,7 @@ Page {
                             visible: false
 
                             onSaved: {
+                                console.log("I am here - imageViewerComponent")
                                 previewImage.source = "../images/placeholder.png";
                                 previewImage.source = newFileUrl;
 
@@ -697,7 +628,7 @@ Page {
                                 filePath = filePath.replace("////","///");
 
                                 attachmentListModel.set(thumbGridView.currentIndex, {path: filePath, type: "attachment"});
-                                visualListModel.initVisualListModel();
+                                displayPreviewListModel.initDisplayPreviewListModel();
 
                             }
                         }
@@ -751,8 +682,35 @@ Page {
 
         //Arcgis CameraDialog QML Type ========================================
         //This will open up the camera view
-        CameraViewPage {
-            id: cameraViewPage
+        CameraDialog {
+
+            id: cameraDialog
+
+            onAccepted: {
+
+                if (captureMode === CameraDialog.CameraCaptureModeStillImage) {
+
+                    //If position source is enabled and lattitude exists, then add GPS data to image
+                    if (positionSource.position.coordinate.latitude) addGPSParameters(fileUrl);
+
+                    //Check if image is too big and resize
+                    console.log(">>>>>>>fileUrl="+fileUrl);
+                    resizeImage(fileUrl);
+
+                    app.tempImageFilePath = fileUrl;
+                    console.log(">>>>>>>app.tempImageFilePath="+fileUrl);
+
+                    //Append multiple attachments to list model
+                    attachmentListModel.append({path: app.tempImageFilePath.toString(), type: "attachment"})
+
+                    displayPreviewListModel.initDisplayPreviewListModel();
+
+                    positionSource.stop();
+
+
+                }
+            }
+
         }
 
 
@@ -769,7 +727,7 @@ Page {
 //            onAccepted: {
 //                if (activeTool == photoAction) {
 //                    if (Permission.checkPermission(Permission.PermissionTypeCamera) === Permission.PermissionResultGranted) {
-//                        cameraViewPage.open()
+//                        cameraDialog.open()
 //                    }
 //                }
 //            }
@@ -786,9 +744,11 @@ Page {
 
 
 
+
+
     //Footer custom QML =================================================================
     footer: FooterSection {
-        visible: !app.inCameraMode
+//        visible: camera.cameraStatus != Camera.ActiveStatus
         logMessage: "In Form Page - Footer..."
         rightButtonText: "SAVE"
         overrideRightIconSrc: "../images/save.png"
@@ -850,6 +810,8 @@ Page {
 
         exifInfo.save(filePath);
     }
+
+
 
 
 }

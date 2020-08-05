@@ -168,7 +168,6 @@ Rectangle {
                         anchors.fill: parent
                         text: saveButtonString
                         fontSizeMode: Text.Fit
-                        font.family: app.customTextFont.name
                         opacity: 0.6
                         color: "white"
                         verticalAlignment: Text.AlignVCenter
@@ -701,7 +700,6 @@ Rectangle {
                                     Layout.preferredHeight: 20*AppFramework.displayScaleFactor
                                     text: qsTr("NAME")
                                     color: "#80ffffff"
-                                    font.family: app.customTextFont.name
                                 }
 
                                 Rectangle{
@@ -731,7 +729,7 @@ Rectangle {
                                 anchors.verticalCenter: parent.verticalCenter
                                 iconOverlayColor: currentOperation === "rename"? "#0079C1":"#888888"
                                 backgroundColor: "#323232"
-                                imageSource: currentOperation === "rename"?"../images/done_white.png":"../images/ic_edit_white_48dp.png"
+                                imageSource: currentOperation === "rename"?"../images/done_white.png":"../images/edit.png"
                                 radius: width/2
                                 onIconClicked: {
                                     if(currentOperation==="rename"){
@@ -760,7 +758,6 @@ Rectangle {
                                     Layout.preferredHeight: 20*AppFramework.displayScaleFactor
                                     text: qsTr("LOCATION")
                                     color: "#80ffffff"
-                                    font.family: app.customTextFont.name
                                 }
 
                                 Text{
@@ -769,7 +766,6 @@ Rectangle {
                                     text: hasGeoExif? "("+exifInfo.gpsLatitude.toFixed(2)+","+exifInfo.gpsLongitude.toFixed(2)+")" : qsTr("Not Set")
                                     color: "white"
                                     verticalAlignment: Text.AlignVCenter
-                                    font.family: app.customTextFont.name
                                 }
                             }
 
@@ -934,7 +930,7 @@ Rectangle {
                         id: drawButton
                         Layout.preferredHeight: parent.height
                         Layout.preferredWidth: parent.height
-                        imageSource: "../images/ic_edit_white_48dp.png"
+                        imageSource: "../images/edit.png"
                         backgroundColor: "#323232"
                         radius: width/2
                         onIconClicked: {

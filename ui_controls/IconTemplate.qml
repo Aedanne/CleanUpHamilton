@@ -6,7 +6,6 @@ import QtGraphicalEffects 1.0
 Rectangle {
     id: root
 
-    property bool isDebug: false
     property int imageSize: 42*AppFramework.displayScaleFactor
     property int containerSize: 40*AppFramework.displayScaleFactor
     property int sidePadding: 0
@@ -16,15 +15,16 @@ Rectangle {
     property bool enabled: true
     signal iconClicked()
     property bool maxAttach;
+    property int imgRadius: 0
 
     width: containerSize + sidePadding
     height: containerSize
     Layout.preferredWidth: containerSize*1.3
     Layout.preferredHeight: containerSize*1.2
     color: backgroundColor
-    radius: 4*AppFramework.displayScaleFactor
+    radius: imgRadius === 0 ? 4*AppFramework.displayScaleFactor : imgRadius
 
-    border.width: isDebug
+    border.width: 0
 
     Image {
         id: iconImg

@@ -1,6 +1,6 @@
-import QtQuick 2.13
+import QtQuick 2.7
 import QtQuick.Layouts 1.13
-import QtQuick.Controls 2.13
+import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Dialogs 1.2
@@ -64,7 +64,7 @@ Page {
             anchors {
                 left: parent.left;
                 right: parent.right;
-                top: titleRect.bottom;
+                top: parent.header;
                 bottom: parent.bottom;
             }
 
