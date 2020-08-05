@@ -53,6 +53,7 @@ Page {
 
     //Header custom QML =================================================================
     header: HeaderSection {
+        id: formPageHeader
         logMessage: "TODO: FORM PAGE INFO PAGE";
 
     }
@@ -287,14 +288,7 @@ Page {
                             //Start camera
                             cameraDialog.open();
 
-
                         }
-
-
-
-
-
-
                     }
 
 
@@ -375,6 +369,10 @@ Page {
                                                 previewSection.source = path;
                                                 previewSection.visible = true
                                                 previewSection.init();
+
+                                                //hide header and footer
+                                                formPageFooter.visible = false;
+                                                formPageHeader.visible = false;
                                             }
                                         }
                                     }
@@ -711,6 +709,7 @@ Page {
 
     //Footer custom QML =================================================================
     footer: FooterSection {
+        id: formPageFooter
 //        visible: camera.cameraStatus != Camera.ActiveStatus
         logMessage: "In Form Page - Footer..."
         rightButtonText: "SEND"

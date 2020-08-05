@@ -63,27 +63,13 @@ Rectangle {
                 }
             }
 
-            IconTemplate {
-                backgroundColor: app.camer
-                height: 25*app.scaleFactor
-                width: 25*app.scaleFactor
-                imageSource: "../images/delete.png"
-                anchors.rightMargin: 10
-                anchors.leftMargin: 15
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                iconOverlayColor: "#FFFFFF"
-                onIconClicked: {
-                    console.log(">>>> rootPreview.source: " + rootPreview.source)
-                    discarded();
-                    rootPreview.visible = false; //Go back to previous page after deleting
-                }
-            }
+
 
             IconTemplate {
                 imageSource: "../images/clear.png"
                 height: 25*app.scaleFactor
                 width: 25*app.scaleFactor
+                imageSize: 25*app.scaleFactor
                 anchors.rightMargin: 15
                 anchors.leftMargin: 10
                 anchors.right: parent.right
@@ -92,7 +78,8 @@ Rectangle {
                 onIconClicked: {
                     console.log(">>>> rootPreview.source: " + rootPreview.source )
                     rootPreview.visible = false;
-                    infoPanel.visible = false;
+                    formPageFooter.visible = true;
+                    formPageHeader.visible = true;
                     refresh();
                 }
             }
@@ -196,7 +183,28 @@ Rectangle {
             Layout.alignment: Qt.AlignTop
             color: app.cameraViewBackgroundColor
             Layout.preferredWidth: parent.width
-            Layout.preferredHeight: 50 * app.scaleFactor
+            Layout.preferredHeight: 75 * app.scaleFactor
+
+
+            IconTemplate {
+                backgroundColor: app.camer
+                height: 60*app.scaleFactor
+                width: 60*app.scaleFactor
+                imageSource: "../images/delete.png"
+                anchors.rightMargin: 15
+                anchors.leftMargin: 15
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.top
+                iconOverlayColor: "#FFFFFF"
+                onIconClicked: {
+                    console.log(">>>> rootPreview.source: " + rootPreview.source)
+                    discarded();
+                    rootPreview.visible = false; //Go back to previous page after deleting
+                    formPageFooter.visible = true;
+                    formPageHeader.visible = true;
+                }
+            }
+
         }
 
         Item {
