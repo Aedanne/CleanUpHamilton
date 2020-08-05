@@ -41,10 +41,6 @@ Page {
     property string fileLocation: "../images/temp.png"
     property int defaultImgRes: 1024
 
-    //Used for media that will be included with the report
-    ListModel{
-        id: attachmentListModel
-    }
 
     //Used for editing exchangeable image (exif) file medatadata
     ExifInfo{
@@ -126,7 +122,6 @@ Page {
                 currentIndex: -1
                 font.bold: true
                 font.pixelSize: app.baseFontSize*.4
-//                font.family: app.appFontTTF
                 displayText: currentIndex === -1 ? "Please Choose..." : currentText
 
                 delegate: ItemDelegate {
@@ -250,8 +245,8 @@ Page {
                 Label {
                     Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.3
-                    text: "(" + attachmentListModel.count + "/" + maxAttachments + ")";
-                    color: (attachmentListModel.count == maxAttachments) ? "red" : app.appSecondaryTextColor;
+                    text: "(" + app.attListModel.count + "/" + maxAttachments + ")";
+                    color: (app.attListModel.count == maxAttachments) ? "red" : app.appSecondaryTextColor;
                     topPadding: 20 * app.scaleFactor
                     bottomPadding: 2 * app.scaleFactor
                     horizontalAlignment: Text.AlignRight
@@ -276,10 +271,10 @@ Page {
                         imgRadius: 2
                         containerSize: 50*app.scaleFactor
                         imageSource: "../images/camera.png"
-                        color: (attachmentListModel.count === app.maxAttachments) ? Qt.lighter("#6e6e6e", 0.5) : "#6e6e6e"
+                        color: (app.attListModel.count === app.maxAttachments) ? Qt.lighter("#6e6e6e", 0.5) : "#6e6e6e"
                         Layout.alignment: Qt.AlignLeft
-                        enabled: (attachmentListModel.count === app.maxAttachments) ? false: true
-                        maxAttach: (attachmentListModel.count === app.maxAttachments) ? true: false
+                        enabled: (app.attListModel.count === app.maxAttachments) ? false: true
+                        maxAttach: (app.attListModel.count === app.maxAttachments) ? true: false
 
                         onIconClicked: {
 
@@ -308,11 +303,11 @@ Page {
                             var countAttach = 0;
                             for (var i = 0; i < app.maxAttachments; i++) {
 
-                                console.log(">>>>>>attachmentListModel.count", attachmentListModel.count);
+                                console.log(">>>>>>app.attListModel.count", app.attListModel.count);
 
-                                if(i < attachmentListModel.count){
-                                    console.log(">>>>>> i < attachmentListModel.count, i=" + i + " ... ", attachmentListModel.count);
-                                    temp = attachmentListModel.get(i);
+                                if(i < app.attListModel.count){
+                                    console.log(">>>>>> i < app.attListModel.count, i=" + i + " ... ", app.attListModel.count);
+                                    temp = app.attListModel.get(i);
                                     var tempPath = temp.path;
                                     var tempType = temp.type;
 
@@ -361,10 +356,10 @@ Page {
                                     id: previewPhotoIcons
                                     imgSource: path
                                     onImageIconClicked: {
-                                        if (attachmentListModel.count > 0) {
+                                        if (app.attListModel.count > 0) {
                                             console.log(">>> image clicked - thumbgridview >>> " + "path:" + path)
                                             thumbGridView.currentIndex = index;
-                                            if (thumbGridView.currentIndex < attachmentListModel.count) {
+                                            if (thumbGridView.currentIndex < app.attListModel.count) {
 
                                                 console.log(">>> thumbGridView.currentIndex >>> " + thumbGridView.currentIndex)
                                                 previewSection.source = path;
@@ -437,7 +432,7 @@ Page {
                     console.log(">>>>>>>app.tempImageFilePath="+fileUrl);
 
                     //Append multiple attachments to list model
-                    attachmentListModel.append({path: app.tempImageFilePath.toString(), type: "attachment"})
+                    app.attListModel.append({path: app.tempImageFilePath.toString(), type: "attachment"})
 
                     displayPreviewListModel.initDisplayPreviewListModel();
 
@@ -461,7 +456,7 @@ Page {
 
             onDiscarded: {
                 console.log("thumbGridView.currentIndex", thumbGridView.currentIndex);
-                attachmentListModel.remove(thumbGridView.currentIndex);
+                app.attListModel.remove(thumbGridView.currentIndex);
                 displayPreviewListModel.initDisplayPreviewListModel();
             }
 
@@ -469,38 +464,8 @@ Page {
                 displayPreviewListModel.initDisplayPreviewListModel();
             }
 
-
-//            FeatureLayer {
-//                id: featureLayer
-
-//                selectionColor: "cyan"
-//                selectionWidth: 3
-
-//                // declare as child of feature layer, as featureTable is the default property
-//                ServiceFeatureTable {
-//                    id: featureTable
-//                    url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/DamageAssessment/FeatureServer/0"
-
-//                    // make sure edits are successfully applied to the service
-//                    onApplyEditsStatusChanged: {
-//                        if (applyEditsStatus === Enums.TaskStatusCompleted) {
-//                            console.log("successfully added feature");
-//                        }
-//                    }
-
-//                    // signal handler for the asynchronous addFeature method
-//                    onAddFeatureStatusChanged: {
-//                        if (addFeatureStatus === Enums.TaskStatusCompleted) {
-//                            // apply the edits to the service
-//                            featureTable.applyEdits();
-//                        }
-//                    }
-//                }
-//            }
-
         }
     }
-
 
 
 
@@ -575,6 +540,206 @@ Page {
         }
 
         exifInfo.save(filePath);
+    }
+
+
+    function submitReportData() {
+        console.log(">>>> INSIDE submitReportData() ")
+//        if(app.useGlobalIDForEditing)
+//            sendReportUsingAttachmentFirst()
+//        else
+            submitReport()
+    }
+
+    function submitReport(index){
+
+        app.isFromSaved = true
+        app.isFromSend = true
+        app.isShowCustomText = true;
+
+        var featureattributes = {}
+        var mailpayload = {
+            "meta":{},
+            "reportInfo":{},
+            "attachmentInfo":[]
+
+        }
+        var attachments={}
+
+        //Build metadata
+        var metaObjInfo = {}
+        metaObjInfo.os = Qt.platform.os
+        metaObjInfo.systemInfo  = AppFramework.systemInformation
+        metaObjInfo.appVersion = app.info.version
+        metaObjInfo.appName = app.info.title
+        metaObjInfo.deviceLocale = Qt.locale().name
+        metaObjInfo.appStudioVersion = AppFramework.version
+
+        var currentdate =  new Date().toLocaleString();
+        metaObjInfo.submitDate = currentdate
+
+        mailpayload.meta = metaObjInfo
+
+
+//        if(app.submitStatusModel.count > 0) app.submitStatusModel.clear();
+        app.theFeatureAttachmentsSuccess = true;
+        app.theFeatureEditingAllDone = false;
+        app.theFeatureEditingSuccess = false;
+
+        app.currentEditedSavedIndex = app.savedReportsModel.get(index).id;
+        app.currentObjectId = -1;
+
+        //Data in JSON format
+        var finalJSONEdits = JSON.parse(app.savedReportsModel.get(index).editsJson);
+        var attachements = JSON.parse(app.savedReportsModel.get(index).attachements);
+
+
+        featureServiceManager.url = app.featureServerURL;
+
+        featureServiceManager.applyEditsUsingFeatureFirst(finalJSONEdits, function(objectId, errorCode){
+//            if(errorCode===-1){
+//                stackView.showResultsPage();
+//                app.theFeatureEditingAllDone = true
+//                app.theFeatureEditingSuccess = false
+//                app.theFeatureAttachmentsSuccess = false
+
+//                app.submitStatusModel.append({"type": "feature", "loadStatus": "failed", "objectId": objectId, "fileName": ""});
+//            } else if(errorCode === -498){
+//                if(app.isNeedGenerateToken){
+//                    serverDialog.isReportSubmit = true;
+//                    serverDialog.submitFunction = submitReport;
+//                    serverDialog.handleGenerateToken();
+//                    app.isNeedGenerateToken = false;
+//                } else {
+//                    featureServiceManager.token = app.token;
+//                    app.isNeedGenerateToken = true;
+//                    send(index)
+//                }
+//            } else{
+                mailpayload.reportInfo.objectId = objectId
+                mailpayload.reportInfo.attributes = finalJSONEdits
+                mailpayload.reportInfo.featureServiceUrl = (featureServiceManager.url).toString()
+
+                stackView.showResultsPage();
+
+                app.submitStatusModel.append({"type": "feature", "loadStatus": "success", "objectId": objectId, "fileName": ""});
+                app.currentObjectId = objectId;
+                app.theFeatureEditingSuccess = true;
+
+                if(attachements.length>0){
+                    var sentAttachmentCount = 0;
+
+                    for(var i=0;i<attachements.length;i++){
+                        temp = attachements[i] + "";
+                        var tempstring = attachements[i]+"";
+
+                        var fileName = AppFramework.fileInfo(tempstring).fileName;
+                        var fileInfo = AppFramework.fileInfo(tempstring);
+
+                        var filePath = tempstring
+                        if(Qt.platform.os === "windows")
+                        {
+                            var res = tempstring.charAt(0)
+                            if(res === "/")
+                                filePath = tempstring.substring(1)
+                        }
+                         var sizeOfAttachment = app.getFileSize(filePath)
+
+
+
+
+                        var arr = fileName.split(".");
+                        var suffix = arr[1];
+                        var type = "";
+                        if(suffix == "jpg" || suffix == "jpeg" || suffix == "png" || suffix == "tif" || suffix == "tiff" || suffix == "gif") type = "attachment";
+
+//                        else  {
+//                            var fileFolderName = fileInfo.folder.folderName;
+//                            if(fileFolderName === "Video") type = "attachment2"
+//                            if(fileFolderName === "Audio") type = "attachment3"
+//                            if(fileFolderName === "Attachments")
+//                            {
+//                                if(suffix == "jpg" || suffix == "jpeg" || suffix == "png" || suffix == "tif" || suffix == "tiff" || suffix == "gif")
+//                                    type = "attachment4";
+
+//                                else
+//                                    type = "attachment5"
+
+
+//                            }
+
+
+
+//                        }
+
+                        app.submitStatusModel.append({"type": type, "loadStatus": "loading", "objectId": "", "fileName": fileName});
+                        fileInfo.filePath = tempstring
+                        tempstring = fileInfo.filePath
+                        if(tempstring.includes(":"))
+                        {
+                            var temparr = tempstring.split(":");
+                            tempstring = temparr[1]
+                        }
+
+                        attachments[i] = {"type":suffix,"size":sizeOfAttachment,"name":fileInfo.fileName,"filePath":filePath}
+
+                        featureServiceManager.addAttachment(tempstring, objectId, function(errorcode, attachmentObjectId, fileIndex){
+                            if(errorcode===0){
+                                sentAttachmentCount++;
+                                var attachmentUrl = featureServiceManager.url + "/"+ objectId + "/attachments/" + attachmentObjectId
+
+                                mailpayload.attachmentInfo.push({url:attachmentUrl,type:attachments[sentAttachmentCount - 1].type,size:attachments[sentAttachmentCount - 1].size,name:attachments[sentAttachmentCount - 1].name})
+
+
+
+                                app.submitStatusModel.setProperty(fileIndex+1, "loadStatus", "success");
+
+                                if(sentAttachmentCount==attachements.length)
+                                {
+                                    app.theFeatureEditingAllDone = true
+                                    if(app.theFeatureEditingSuccess === true){
+                                        app.removeItemFromSavedReportPage(tempId, tempIndex, attachements);
+                                    }
+                                    if(app.payloadUrl)
+                                     featureServiceManager.sendEmail(mailpayload)
+
+                                }
+                            }else{
+
+                                app.submitStatusModel.setProperty(fileIndex+1, "loadStatus", "failed");
+                                app.theFeatureAttachmentsSuccess = false;
+
+                                sentAttachmentCount++;
+                                if(sentAttachmentCount==attachements.length){
+                                    app.theFeatureEditingAllDone = true
+
+                                    //send email with attachment info
+                                    if(app.payloadUrl)
+                                    featureServiceManager.sendEmail(mailpayload)
+
+                                }
+                            }
+                        }, i);
+                    }
+
+
+                }
+                else{
+                    app.theFeatureEditingAllDone = true;
+                    app.theFeatureAttachmentsSuccess = true;
+                    if(app.theFeatureEditingSuccess === true){
+                        app.removeItemFromSavedReportPage(tempId, tempIndex, attachements);
+                    }
+                    //send email
+                    if(app.payloadUrl)
+                    featureServiceManager.sendEmail(mailpayload)
+                }
+
+
+//            }
+
+        });
+
     }
 
 

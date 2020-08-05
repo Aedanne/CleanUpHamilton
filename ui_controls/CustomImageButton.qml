@@ -90,6 +90,12 @@ Button {
 
        if (btn.previousControl) previousPage();
 
-       if (btn.nextControl) nextPage();
+       if (btn.nextControl) {
+
+           nextPage();
+           if (btn.labelText === "SUBMIT") {
+               formPage.submitReportData();
+           }
+       }
     }
 }

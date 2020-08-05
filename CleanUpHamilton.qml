@@ -11,8 +11,13 @@ import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import QtQuick.LocalStorage 2.0
 
+import ArcGIS.AppFramework.Networking 1.0
+import ArcGIS.AppFramework.Multimedia 1.0
+import ArcGIS.AppFramework.Notifications 1.0
+import ArcGIS.AppFramework.WebView 1.0
 import ArcGIS.AppFramework 1.0
-import Esri.ArcGISRuntime 100.7
+
+import Esri.ArcGISRuntime 100.5
 import ArcGIS.AppFramework.Sql 1.0
 import ArcGIS.AppFramework.Platform 1.0
 
@@ -42,9 +47,6 @@ App{
     //readonly property color listViewDividerColor:"#19000000"
     readonly property color cameraViewBackgroundColor: "#1C1C1C"
 
-    //App fonts==========================================================================
-    property string appFontTTF: "/assets/customTextFontTTF"
-
     // App-level size properties=========================================================
     property real scaleFactor: AppFramework.displayScaleFactor
     readonly property real baseFontSize: (app.width < 450*app.scaleFactor) ? (35 * scaleFactor) : (40 * scaleFactor)
@@ -54,15 +56,13 @@ App{
     readonly property real headerFontSize: baseFontSize*0.60
     readonly property real btnHdrFtrHeightSize: 50*app.scaleFactor
 
-    // Stackview properties==============================================================
-    property int steps: -1
-
     //Map properties=====================================================================
-    property string webMapRootUrl: "https://waikato.maps.arcgis.com/home/item.html?id="
-    property string webMapId: "7152b9397a1b446292d67076bfa4e842"  //Clean-Up Hamilton Map
+    readonly property string webMapRootUrl: "https://waikato.maps.arcgis.com/home/item.html?id="
+    readonly property string webMapId: "7152b9397a1b446292d67076bfa4e842"  //Clean-Up Hamilton Map
     readonly property color mapBorderColor: "#303030"
     property Point currentLocationPoint
     property string currentLonLat
+    readonly property string featureServerURL: "https://services1.arcgis.com/gjbU5qa8FJmAPFZX/arcgis/rest/services/Cases/FeatureServer/0"
 
     //Database properties================================================================
     property var attributesArray
@@ -76,6 +76,15 @@ App{
     property string tempImageFilePath: ""
     property int inCameraMode: 0
     property string tempPath: ""
+    property alias attListModel:attachmentListModel
+
+    ListModel {
+        id: attachmentListModel
+    }
+
+    FeatureServiceManager {
+        id: featureServiceManager
+    }
 
 
 
@@ -253,6 +262,7 @@ App{
 
             onNextPage: {
                 formStackView.loadHomePage();
+                clearData();
             }
         }
     }
@@ -339,6 +349,11 @@ App{
         }
     }
 
+    //Clear data after submission
+    function clearData() {
+        console.log(" >>> CLEARING DATA <<< ");
+        app.attListModel.clear();
+    }
 
 
 }

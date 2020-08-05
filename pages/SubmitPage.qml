@@ -12,7 +12,6 @@ About page for Clean-Up Hamilton app
 Page {
 
     id:submitPage;
-    signal openMenu();
 
     signal nextPage(); //go straight to home
 //    signal previousPage(); //No previous either - go straight to home
@@ -166,13 +165,11 @@ Page {
                     hoverEnabled: true;
                     anchors.fill: parent;
                     onClicked: {
-                        console.log("Back to Home");
+                        console.log(">>>>Back to Home");
                         nextPage();
                     }
                 }
             }
         }
     }
-
-
 }

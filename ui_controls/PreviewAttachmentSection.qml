@@ -229,7 +229,7 @@ Rectangle {
 
     //Delete image signal
     onDiscarded: {
-        app.tempPath = attachmentListModel.get(thumbGridView.currentIndex).path;
+        app.tempPath = app.attListModel.get(thumbGridView.currentIndex).path;
         console.log(">>>> thumbGridView.currentIndex: ", thumbGridView.currentIndex, app.tempPath);
 
         app.tempImageFilePath = AppFramework.resolvedPath(app.tempPath);
