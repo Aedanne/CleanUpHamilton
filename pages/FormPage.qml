@@ -270,6 +270,7 @@ Page {
 
                     anchors.fill: parent;
                     Layout.alignment: Qt.AlignLeft
+                    spacing: 10*app.scaleFactor
 
                     IconTemplate {
                         imgRadius: 2
@@ -310,7 +311,7 @@ Page {
                                 console.log(">>>>>>attachmentListModel.count", attachmentListModel.count);
 
                                 if(i < attachmentListModel.count){
-                                    console.log(">>>>>> i<attachmentListModel.count i=" + i + " ... ", attachmentListModel.count);
+                                    console.log(">>>>>> i < attachmentListModel.count, i=" + i + " ... ", attachmentListModel.count);
                                     temp = attachmentListModel.get(i);
                                     var tempPath = temp.path;
                                     var tempType = temp.type;
@@ -353,7 +354,7 @@ Page {
                             cellHeight: parent.height
 
                             delegate: Item {
-                                width: thumbGridView.cellWidth
+                                width: thumbGridView.cellWidth*1.1
                                 height: thumbGridView.cellHeight
 
                                 ImageIconTemplate {

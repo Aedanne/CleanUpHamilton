@@ -22,8 +22,8 @@ import "images"
 
 App{
     id: app
-    width: 420
-    height: 640
+    width: 480
+    height: 750
 
     property bool lightTheme: true
 
