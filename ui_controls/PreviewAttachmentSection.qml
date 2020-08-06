@@ -91,7 +91,7 @@ Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
             width: parent.width
-            anchors.verticalCenter: parent.verticalCenter
+            Layout.alignment: parent.verticalCenter
             color: app.cameraViewBackgroundColor
             clip: true
 

@@ -24,13 +24,13 @@ Item {
 
         Rectangle {
             id: clockHand
-            width: 100*app.scaleFactor
-            height: 10*app.scaleFactor
+            width: 125*app.scaleFactor
+            height: 15*app.scaleFactor
             x: loadingAnimation.width / 2
             y: loadingAnimation.height / 2
             transformOrigin: Item.Left
             antialiasing: true
-            color: app.primaryColor
+            color: app.appBackgroundColor
             radius: 10*app.scaleFactor
         }
 

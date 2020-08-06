@@ -504,7 +504,8 @@ Page {
                 if (addFeatureStatus === Enums.TaskStatusCompleted) {
                     console.log(">>>> successfully added feature");
                     //apply edits to the feature layer
-                    if (applyEditsStatus != Enums.TaskStatusCompleted) {
+                    if (applyEditsStatus != Enums.TaskStatusCompleted &&
+                         applyEditsStatus != Enums.TaskStatusInProgress) {
                         applyEdits();
                     }
                 }

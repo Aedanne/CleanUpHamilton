@@ -89,11 +89,24 @@ Page {
                     compass: Compass {}
                 }
 
+//                //Default extent
+//                Envelope {
+
+//                    id: defaultExtent
+//                    xMax: -37.782125
+//                    yMax: 175.275192
+//                    xMin: -37.793498
+//                    yMin: 175.291729
+//                }
+
 
                 // Set starting map to Clean-Up Hamilton webmap
                 Map{
                     id:map;
                     initUrl: app.webMapRootUrl + app.webMapId;
+
+                    maxScale: 2
+                    minScale: 1
 
                     // start the location display when map is loaded
                     onLoadStatusChanged: {
