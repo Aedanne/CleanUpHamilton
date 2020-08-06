@@ -165,7 +165,7 @@ Page {
                     hoverEnabled: true;
                     anchors.fill: parent;
                     onClicked: {
-                        console.log(">>>>Back to Home");
+                        console.log(">>>> Back to Home");
                         nextPage();
                     }
                 }

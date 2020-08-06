@@ -10,11 +10,8 @@ import QtPositioning 5.13
 import ArcGIS.AppFramework 1.0
 import ArcGIS.AppFramework.Multimedia 1.0
 
-import Esri.ArcGISRuntime 100.5 as EsriRT
+import Esri.ArcGISRuntime 100.5
 import ArcGIS.AppFramework.Platform 1.0
-
-
-
 
 
 import "../ui_controls"
@@ -42,10 +39,20 @@ Page {
     property int defaultImgRes: 1024
 
 
+
     //Used for editing exchangeable image (exif) file medatadata
     ExifInfo{
         id: exifInfo
     }
+
+    function initFeatureService() {
+        //load the feature server when page is loaded, if not already running
+        if (casesFeatureTable.loadStatus != Enums.LoadStatusLoaded) {
+            console.log(">>>> Form page initFeatureService() -- loading feature layer...");
+            casesFeatureTable.load();
+        }
+    }
+
 
     //Header custom QML =================================================================
     header: HeaderSection {
@@ -62,6 +69,7 @@ Page {
         id: positionSource
         updateInterval: 5000
         active: false
+
     }
 
     contentItem: Rectangle {
@@ -123,6 +131,7 @@ Page {
                 font.bold: true
                 font.pixelSize: app.baseFontSize*.4
                 displayText: currentIndex === -1 ? "Please Choose..." : currentText
+                enabled: !formMissingData.visible
 
                 delegate: ItemDelegate {
                     width: parent.width
@@ -145,7 +154,13 @@ Page {
                 }
 
                 width: 200
-                onCurrentIndexChanged: console.log(typeIndex.get(currentIndex).text + ", " + typeIndex.get(currentIndex).color)
+                onCurrentIndexChanged: {
+
+                    console.log(">>>> Combo Box selected: " + typeIndex.get(currentIndex).text);
+                    app.reportType = typeComboBox.displayText
+
+                    initFeatureService();
+                }
 
                 contentItem: Text {
                         leftPadding: 5 * app.scaleFactor
@@ -199,7 +214,7 @@ Page {
 
                     TextArea {
                         id: descriptionField
-                        width: parent.width*.8
+//                        width: parent.width*.8
                         Material.accent: app.backgroundAccent
                         background: null
                         padding: 5 * scaleFactor
@@ -208,6 +223,7 @@ Page {
                         placeholderText: "Enter additional information..."
                         color: app.appPrimaryTextColor
                         text:""
+                        enabled: !formMissingData.visible
 
                         onTextChanged: {
                            currChars = descriptionField.text.length
@@ -215,8 +231,8 @@ Page {
                               descriptionField.text = descriptionField.text.substring(0, maxLimit);
                            }
 
-                           console.log("char count: " + (maxLimit - descriptionField.text.length))
-                           console.log("line count"+ (descriptionField.contentHeight / descriptionField.lineCount))
+                           console.log(">>>> char count: " + (maxLimit - descriptionField.text.length))
+                           console.log(">>>> line count"+ (descriptionField.contentHeight / descriptionField.lineCount))
                         }
 
                         onActiveFocusChanged: {
@@ -273,7 +289,8 @@ Page {
                         imageSource: "../images/camera.png"
                         color: (app.attListModel.count === app.maxAttachments) ? Qt.lighter("#6e6e6e", 0.5) : "#6e6e6e"
                         Layout.alignment: Qt.AlignLeft
-                        enabled: (app.attListModel.count === app.maxAttachments) ? false: true
+                        enabled: (app.attListModel.count === app.maxAttachments) ? false: !formMissingData.visible
+
                         maxAttach: (app.attListModel.count === app.maxAttachments) ? true: false
 
                         onIconClicked: {
@@ -298,9 +315,11 @@ Page {
 
                         function initDisplayPreviewListModel(){
                             var temp;
-                            displayPreviewListModel.clear()
-                            var hasTag;
-                            var countAttach = 0;
+
+                            //clear the previews before reloading from attListModel
+                            displayPreviewListModel.clear();
+
+                            var attachCount = 0;
                             for (var i = 0; i < app.maxAttachments; i++) {
 
                                 console.log(">>>>>>app.attListModel.count", app.attListModel.count);
@@ -308,22 +327,22 @@ Page {
                                 if(i < app.attListModel.count){
                                     console.log(">>>>>> i < app.attListModel.count, i=" + i + " ... ", app.attListModel.count);
                                     temp = app.attListModel.get(i);
-                                    var tempPath = temp.path;
-                                    var tempType = temp.type;
+                                    var tempPath = temp.path
 
+                                    //Fix file path url if windows vs android
                                     exifInfo.load(tempPath.toString().replace(Qt.platform.os == "windows"? "file:///": "file://",""));
 
-                                    displayPreviewListModel.append({path: tempPath, type: tempType, hasTag: hasTag});
+                                    displayPreviewListModel.append({path: tempPath});
 
                                     console.log(">>>>>displayPreviewListModel.size", displayPreviewListModel.count);
 
-                                    countAttach++;
-                                }else{
-                                    displayPreviewListModel.append({path: "", type:"placehold", hasTag: false})
+                                    attachCount++;
+                                } else {
+                                    displayPreviewListModel.append({path: ""})
                                 }
                             }
 
-                            app.countAttachments = countAttach;
+                            app.countAttachments = attachCount;
                         }
                     }
 
@@ -342,7 +361,7 @@ Page {
                             id: thumbGridView
                             width: parent.width
                             height: parent.height
-                            focus: true
+//                            focus: true
                             visible: true
                             model: displayPreviewListModel
                             cellWidth: parent.width/3
@@ -354,6 +373,7 @@ Page {
 
                                 ImageIconTemplate {
                                     id: previewPhotoIcons
+                                    enabled: !formMissingData.visible
                                     imgSource: path
                                     onImageIconClicked: {
                                         if (app.attListModel.count > 0) {
@@ -416,6 +436,7 @@ Page {
         CameraDialog {
 
             id: cameraDialog
+            enabled: !formMissingData.visible
 
             onAccepted: {
 
@@ -441,7 +462,6 @@ Page {
 
                 }
             }
-
         }
 
 
@@ -455,7 +475,7 @@ Page {
             id: previewSection
 
             onDiscarded: {
-                console.log("thumbGridView.currentIndex", thumbGridView.currentIndex);
+                console.log(">>>> thumbGridView.currentIndex", thumbGridView.currentIndex);
                 app.attListModel.remove(thumbGridView.currentIndex);
                 displayPreviewListModel.initDisplayPreviewListModel();
             }
@@ -468,11 +488,51 @@ Page {
     }
 
 
+    //Handles connection to ArcGIS Waikato feature server for Clean-up Hamilton project
+    FeatureLayer {
+
+        ServiceFeatureTable {
+            id: casesFeatureTable
+            url: app.featureServerURL
+
+            onLoadStatusChanged: {
+                console.log(">>>> onLoadStatusChanged --- " + loadStatus);
+            }
+
+            onAddFeatureStatusChanged: {
+                console.log(">>>> onAddFeaturesStatusChanged --- " + addFeatureStatus);
+                if (addFeatureStatus === Enums.TaskStatusCompleted) {
+                    console.log(">>>> successfully added feature");
+                    //apply edits to the feature layer
+//                    applyEdits();
+                }
+            }
+
+            onApplyEditsStatusChanged: {
+               console.log(">>>> onApplyEditsStatusChanged --- " + applyEditsStatus);
+               if (applyEditsStatus === Enums.TaskStatusCompleted) {
+                   console.log(">>>> successfully updated feature");
+                   app.clearData();
+               }
+            }
 
 
 
+            //No updates, just new report cases .... FOR NOW....
+//            onUpdateFeatureStatusChanged: {
+//               console.log(">>>> onUpdateFeatureStatusChanged ---");
+//               if (updateFeatureStatus === Enums.TaskStatusCompleted) {
+//                   // apply the edits to the feature server endpoint
+//                   casesFeatureTable.applyEdits();
+//                }
+//            }
+        }
+    }
 
-
+    AlertPopup {
+        id: formMissingData
+        alertText: "Select incident to report.";
+    }
 
 
     //Footer custom QML =================================================================
@@ -483,34 +543,35 @@ Page {
         rightButtonText: "SUBMIT"
         overrideRightIconSrc: "../images/send.png"
 //        overrideRightIconSz: 20
+        enabled: !formMissingData.visible
     }
 
 
     //Function to resize image if exceeds 1024
     function resizeImage(path) {
-        console.log("Resize image function from camera: ", path)
+        console.log(">>>> resizeImage() from camera: ", path)
 
         var imageInfo = AppFramework.fileInfo(path);
         if (!imageInfo.exists) {
-            console.error("Image does not exist:", path);
+            console.error(">>>>> Image invalid:", path);
             return;
         }
 
         if (!imageObject.load(path)) {
-            console.error("Unable to load image:", path);
+            console.error(">>>>> Can't load:", path);
             return;
         }
 
         if (imageObject.width > defaultImgRes) {
-            console.log("Resizing image:", imageObject.width, "x", imageObject.height, "size:", imageInfo.size);
+            console.log(">>>>> Resizing image:", imageObject.width, "x", imageObject.height, "size:", imageInfo.size);
             imageObject.scaleToWidth(defaultImgRes);
         } else {
-            console.log("Image does not need to be resized:", imageObject.width, "<=", defaultImgRes);
+            console.log(">>>>> Does not need image resizing:", imageObject.width, "<=", defaultImgRes);
             return;
         }
 
         if (!imageObject.save(path)) {
-            console.error("Unable to save image:", path);
+            console.error(">>>>> Can't save to path:", path);
             return;
         }
 
@@ -543,202 +604,63 @@ Page {
     }
 
 
+    //Submit data to feature server - load feature layer
     function submitReportData() {
-        console.log(">>>> INSIDE submitReportData() ")
-//        if(app.useGlobalIDForEditing)
-//            sendReportUsingAttachmentFirst()
-//        else
-            submitReport()
-    }
 
-    function submitReport(index){
+        if (casesFeatureTable.loadStatus === Enums.LoadStatusLoaded) {
+            //Create JSON for data to submit
+            var reportAttributes = buildAttributesJSON();
 
-        app.isFromSaved = true
-        app.isFromSend = true
-        app.isShowCustomText = true;
+            // create a new feature using the mouse's map point
+            var reportFeature = casesFeatureTable.createFeatureWithAttributes(reportAttributes, app.currentLocationPoint);
 
-        var featureattributes = {}
-        var mailpayload = {
-            "meta":{},
-            "reportInfo":{},
-            "attachmentInfo":[]
+            // add attachments
+            if (app.countAttachments > 0) {
+                console.log(">>>> add attachments to feature.... ");
+
+                for (var i = 0; i < app.attListModel.count; i++) {
+                    var img = app.attListModel.get(i);
+                    console.log(">>>> Attaching image: " + img + " >>> " + img["path"]);
+                    reportFeature.attachments.addAttachment(img["path"], "image/jpeg", "Attachment"+(i+1));
+                }
+
+            }
+
+            console.log(">>> submitReportData(): casesFeatureTable.canAdd() -- " + casesFeatureTable.canAdd())
+            console.log(">>> submitReportData(): casesFeatureTable.canUpdate() -- " + casesFeatureTable.editable)
+
+            console.log(">>>> reportFeature = " + reportFeature);
+
+            // add the new feature to the feature table
+            casesFeatureTable.addFeature(reportFeature);
 
         }
-        var attachments={}
-
-        //Build metadata
-        var metaObjInfo = {}
-        metaObjInfo.os = Qt.platform.os
-        metaObjInfo.systemInfo  = AppFramework.systemInformation
-        metaObjInfo.appVersion = app.info.version
-        metaObjInfo.appName = app.info.title
-        metaObjInfo.deviceLocale = Qt.locale().name
-        metaObjInfo.appStudioVersion = AppFramework.version
-
-        var currentdate =  new Date().toLocaleString();
-        metaObjInfo.submitDate = currentdate
-
-        mailpayload.meta = metaObjInfo
 
 
-//        if(app.submitStatusModel.count > 0) app.submitStatusModel.clear();
-        app.theFeatureAttachmentsSuccess = true;
-        app.theFeatureEditingAllDone = false;
-        app.theFeatureEditingSuccess = false;
-
-        app.currentEditedSavedIndex = app.savedReportsModel.get(index).id;
-        app.currentObjectId = -1;
-
-        //Data in JSON format
-        var finalJSONEdits = JSON.parse(app.savedReportsModel.get(index).editsJson);
-        var attachements = JSON.parse(app.savedReportsModel.get(index).attachements);
-
-
-        featureServiceManager.url = app.featureServerURL;
-
-        featureServiceManager.applyEditsUsingFeatureFirst(finalJSONEdits, function(objectId, errorCode){
-//            if(errorCode===-1){
-//                stackView.showResultsPage();
-//                app.theFeatureEditingAllDone = true
-//                app.theFeatureEditingSuccess = false
-//                app.theFeatureAttachmentsSuccess = false
-
-//                app.submitStatusModel.append({"type": "feature", "loadStatus": "failed", "objectId": objectId, "fileName": ""});
-//            } else if(errorCode === -498){
-//                if(app.isNeedGenerateToken){
-//                    serverDialog.isReportSubmit = true;
-//                    serverDialog.submitFunction = submitReport;
-//                    serverDialog.handleGenerateToken();
-//                    app.isNeedGenerateToken = false;
-//                } else {
-//                    featureServiceManager.token = app.token;
-//                    app.isNeedGenerateToken = true;
-//                    send(index)
-//                }
-//            } else{
-                mailpayload.reportInfo.objectId = objectId
-                mailpayload.reportInfo.attributes = finalJSONEdits
-                mailpayload.reportInfo.featureServiceUrl = (featureServiceManager.url).toString()
-
-                stackView.showResultsPage();
-
-                app.submitStatusModel.append({"type": "feature", "loadStatus": "success", "objectId": objectId, "fileName": ""});
-                app.currentObjectId = objectId;
-                app.theFeatureEditingSuccess = true;
-
-                if(attachements.length>0){
-                    var sentAttachmentCount = 0;
-
-                    for(var i=0;i<attachements.length;i++){
-                        temp = attachements[i] + "";
-                        var tempstring = attachements[i]+"";
-
-                        var fileName = AppFramework.fileInfo(tempstring).fileName;
-                        var fileInfo = AppFramework.fileInfo(tempstring);
-
-                        var filePath = tempstring
-                        if(Qt.platform.os === "windows")
-                        {
-                            var res = tempstring.charAt(0)
-                            if(res === "/")
-                                filePath = tempstring.substring(1)
-                        }
-                         var sizeOfAttachment = app.getFileSize(filePath)
+    }
 
 
 
+    function buildAttributesJSON() {
+        //Set global properties
+        app.reportType = typeComboBox.displayText;
+        app.reportDescription = descriptionField.text;
+        app.reportDate = new Date();
 
-                        var arr = fileName.split(".");
-                        var suffix = arr[1];
-                        var type = "";
-                        if(suffix == "jpg" || suffix == "jpeg" || suffix == "png" || suffix == "tif" || suffix == "tiff" || suffix == "gif") type = "attachment";
+        console.log(">>>> Pre-submit data check:");
+        console.log(">>>> reportType: " + app.reportType);
+        console.log(">>>> reportDescription: " + app.reportDescription);
+        console.log(">>>> reportDate: " + app.reportDate);
 
-//                        else  {
-//                            var fileFolderName = fileInfo.folder.folderName;
-//                            if(fileFolderName === "Video") type = "attachment2"
-//                            if(fileFolderName === "Audio") type = "attachment3"
-//                            if(fileFolderName === "Attachments")
-//                            {
-//                                if(suffix == "jpg" || suffix == "jpeg" || suffix == "png" || suffix == "tif" || suffix == "tiff" || suffix == "gif")
-//                                    type = "attachment4";
+        var reportAttributes = {
+                "Type" : app.reportType,
+                "Description" : app.reportDescription,
+                "ReportedDate" : app.reportDate
+        };
 
-//                                else
-//                                    type = "attachment5"
+        console.log(">>>> JSON Report Attributes: " + reportAttributes);
 
-
-//                            }
-
-
-
-//                        }
-
-                        app.submitStatusModel.append({"type": type, "loadStatus": "loading", "objectId": "", "fileName": fileName});
-                        fileInfo.filePath = tempstring
-                        tempstring = fileInfo.filePath
-                        if(tempstring.includes(":"))
-                        {
-                            var temparr = tempstring.split(":");
-                            tempstring = temparr[1]
-                        }
-
-                        attachments[i] = {"type":suffix,"size":sizeOfAttachment,"name":fileInfo.fileName,"filePath":filePath}
-
-                        featureServiceManager.addAttachment(tempstring, objectId, function(errorcode, attachmentObjectId, fileIndex){
-                            if(errorcode===0){
-                                sentAttachmentCount++;
-                                var attachmentUrl = featureServiceManager.url + "/"+ objectId + "/attachments/" + attachmentObjectId
-
-                                mailpayload.attachmentInfo.push({url:attachmentUrl,type:attachments[sentAttachmentCount - 1].type,size:attachments[sentAttachmentCount - 1].size,name:attachments[sentAttachmentCount - 1].name})
-
-
-
-                                app.submitStatusModel.setProperty(fileIndex+1, "loadStatus", "success");
-
-                                if(sentAttachmentCount==attachements.length)
-                                {
-                                    app.theFeatureEditingAllDone = true
-                                    if(app.theFeatureEditingSuccess === true){
-                                        app.removeItemFromSavedReportPage(tempId, tempIndex, attachements);
-                                    }
-                                    if(app.payloadUrl)
-                                     featureServiceManager.sendEmail(mailpayload)
-
-                                }
-                            }else{
-
-                                app.submitStatusModel.setProperty(fileIndex+1, "loadStatus", "failed");
-                                app.theFeatureAttachmentsSuccess = false;
-
-                                sentAttachmentCount++;
-                                if(sentAttachmentCount==attachements.length){
-                                    app.theFeatureEditingAllDone = true
-
-                                    //send email with attachment info
-                                    if(app.payloadUrl)
-                                    featureServiceManager.sendEmail(mailpayload)
-
-                                }
-                            }
-                        }, i);
-                    }
-
-
-                }
-                else{
-                    app.theFeatureEditingAllDone = true;
-                    app.theFeatureAttachmentsSuccess = true;
-                    if(app.theFeatureEditingSuccess === true){
-                        app.removeItemFromSavedReportPage(tempId, tempIndex, attachements);
-                    }
-                    //send email
-                    if(app.payloadUrl)
-                    featureServiceManager.sendEmail(mailpayload)
-                }
-
-
-//            }
-
-        });
+        return reportAttributes;
 
     }
 

@@ -58,7 +58,7 @@ App{
 
     //Map properties=====================================================================
     readonly property string webMapRootUrl: "https://waikato.maps.arcgis.com/home/item.html?id="
-    readonly property string webMapId: "7152b9397a1b446292d67076bfa4e842"  //Clean-Up Hamilton Map
+    readonly property string webMapId: "bedb6a09b8b54d9f866f49de216b87c7"  //Clean-Up Hamilton Default Map
     readonly property color mapBorderColor: "#303030"
     property Point currentLocationPoint
     property string currentLonLat
@@ -70,11 +70,15 @@ App{
     property var savedReportLocationJson
     property var localDB
 
+    //Report data properties=============================================================
+    property string reportType
+    property string reportDescription
+    property date reportDate
+
     //Attachment properties==============================================================
     property int countAttachments: 0
     property int maxAttachments: 3
     property string tempImageFilePath: ""
-    property int inCameraMode: 0
     property string tempPath: ""
     property alias attListModel:attachmentListModel
 
@@ -82,9 +86,7 @@ App{
         id: attachmentListModel
     }
 
-    FeatureServiceManager {
-        id: featureServiceManager
-    }
+
 
 
 
@@ -97,7 +99,7 @@ App{
             descText1: qsTr("Clean-Up")
             descText2: qsTr("Hamilton")
             onOpenMenu: {
-                console.log("In home page component > open menu");
+                console.log(">>>> In home page component > open menu");
                 sideMenuDrawer.open();
             }
             //Navigating to the form page from home page
@@ -134,15 +136,15 @@ App{
                 sideMenuDrawer.close();
                 switch(action){
                 case "fileareport":
-                    console.log("In menu drawer > fileareport");
+                    console.log(">>>> In menu drawer > fileareport");
                         formStackView.loadSetLocationPage();
                     break;
                 case "settings":
-                    console.log("In menu drawer > settings");
+                    console.log(">>>> In menu drawer > settings");
                         formStackView.loadSettingsPage();
                     break;
                 case "about":
-                    console.log("In menu drawer > about");
+                    console.log(">>>> In menu drawer > about");
                         formStackView.loadAboutPage();
                     break;
                 default:
@@ -262,7 +264,6 @@ App{
 
             onNextPage: {
                 formStackView.loadHomePage();
-                clearData();
             }
         }
     }
@@ -275,41 +276,43 @@ App{
         initialItem: homePageComponent
 
         function loadHomePage() {
-            console.log("Inside StackView.loadHomePage()")
+            console.log(">>>> Inside StackView.loadHomePage()")
             while (formStackView.count > 0)
                 formStackView.pop()
 
-            push(formStackView.initialItem)
+            push(formStackView.initialItem);
+
+
 
         }
 
         //Load form page
         function loadFormPage() {
-            console.log("Inside StackView.loadFormPage()")
+            console.log(">>>> Inside StackView.loadFormPage()")
             push(formPageComponent);
         }
 
         //Load About Page
         function loadAboutPage() {
-            console.log("Inside StackView.loadAboutPage()")
+            console.log(">>>> Inside StackView.loadAboutPage()")
             push(aboutPageComponent);
         }
 
         //Load Settings Page
         function loadSettingsPage() {
-            console.log("Inside StackView.loadSettingsPage()")
+            console.log(">>>> Inside StackView.loadSettingsPage()")
             push(settingsPageComponent);
         }
 
         //Load SetLocation Page
         function loadSetLocationPage() {
-            console.log("Inside StackView.loadSetLocationPage()")
+            console.log(">>>> Inside StackView.loadSetLocationPage()")
             push(setLocationPageComponent);
         }
 
         //Load Submit Page
         function loadSubmitPage() {
-            console.log("Inside StackView.loadSubmitPage()")
+            console.log(">>>> Inside StackView.loadSubmitPage()")
             push(setSubmitPageComponent);
         }
 
@@ -349,10 +352,18 @@ App{
         }
     }
 
+
+
+
+
+
     //Clear data after submission
     function clearData() {
         console.log(" >>> CLEARING DATA <<< ");
         app.attListModel.clear();
+        app.currentLocationPoint = null;
+        app.reportType = "";
+        app.reportDescription = "";
     }
 
 

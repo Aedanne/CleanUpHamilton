@@ -124,6 +124,7 @@ Page {
             Rectangle{
                 id: reportRectangle;
                 height: 50*app.scaleFactor;
+                z:10
 
                 Layout.alignment: Qt.AlignHCenter;
                 width: app.width*0.60;
@@ -172,7 +173,7 @@ Page {
                     hoverEnabled: true;
                     anchors.fill: parent;
                     onClicked: {
-                        console.log("File a Report button clicked");
+                        console.log(">>>> File a Report button clicked from HomePage");
                         nextPage();
                     }
                 }

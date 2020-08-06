@@ -92,10 +92,18 @@ Button {
 
        if (btn.nextControl) {
 
-           nextPage();
            if (btn.labelText === "SUBMIT") {
-               formPage.submitReportData();
+               if (app.reportType === "") {
+                    formMissingData.visible = true;
+                    return;
+               } else {
+                   formPage.submitReportData();
+               }
            }
+           nextPage();
+
+
+
        }
     }
 }

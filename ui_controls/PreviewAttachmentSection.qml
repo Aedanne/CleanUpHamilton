@@ -125,7 +125,7 @@ Rectangle {
                     id: image
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectFit
-                    source: rootPreview.source
+                    source: (rootPreview.source > "") ? rootPreview.source : ""
                     antialiasing: true
                     autoTransform: true
                 }
@@ -187,7 +187,7 @@ Rectangle {
 
 
             IconTemplate {
-                backgroundColor: app.camer
+                backgroundColor: app.cameraViewBackgroundColor
                 height: 60*app.scaleFactor
                 width: 60*app.scaleFactor
                 imageSource: "../images/delete.png"

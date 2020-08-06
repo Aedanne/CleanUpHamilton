@@ -97,7 +97,7 @@ Page{
                     hoverEnabled: true;
                     anchors.fill: parent;
                     onClicked: {
-                        console.log("Menu Item clicked");
+                        console.log(">>>> Menu Item clicked");
                         menuSelected(action);
                     }
                 }
