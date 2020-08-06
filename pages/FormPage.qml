@@ -618,6 +618,8 @@ Page {
             if (app.countAttachments > 0) {
                 console.log(">>>> add attachments to feature.... ");
 
+                console.log(">>>> TODO: MULTIPLE ATTACHMENTS NOT GETTING SUBMITTED.... ");
+
                 for (var i = 0; i < app.attListModel.count; i++) {
                     var img = app.attListModel.get(i);
                     console.log(">>>> Attaching image: " + img + " >>> " + img["path"]);

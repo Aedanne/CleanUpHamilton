@@ -126,6 +126,9 @@ Page {
 
                 color:app.primaryColor;
 
+                border.color: app.backgroundAccent
+                border.width: 1
+
                 RowLayout{
 
                     spacing: 5*app.scaleFactor;

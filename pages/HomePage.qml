@@ -130,6 +130,9 @@ Page {
                 width: app.width*0.60;
                 radius: 3;
 
+                border.color: app.accentColor
+                border.width: 1
+
                 //Set background color for button
                 color:app.primaryColor;
 
