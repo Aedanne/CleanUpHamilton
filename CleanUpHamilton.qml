@@ -82,6 +82,9 @@ App{
     property string tempPath: ""
     property alias attListModel:attachmentListModel
 
+    //Misc properties====================================================================
+
+
     ListModel {
         id: attachmentListModel
     }

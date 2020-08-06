@@ -504,7 +504,9 @@ Page {
                 if (addFeatureStatus === Enums.TaskStatusCompleted) {
                     console.log(">>>> successfully added feature");
                     //apply edits to the feature layer
-//                    applyEdits();
+                    if (applyEditsStatus != Enums.TaskStatusCompleted) {
+                        applyEdits();
+                    }
                 }
             }
 
@@ -513,6 +515,11 @@ Page {
                if (applyEditsStatus === Enums.TaskStatusCompleted) {
                    console.log(">>>> successfully updated feature");
                    app.clearData();
+
+                   loadingAnimationFormPage.visible = false;
+                   formPageFooter.enabled = !loadingAnimationFormPage.visible
+
+                   nextPage();
                }
             }
 
@@ -532,6 +539,11 @@ Page {
     AlertPopup {
         id: formMissingData
         alertText: "Select incident to report.";
+    }
+
+    LoadingAnimation {
+        id: loadingAnimationFormPage
+        visible: false
     }
 
 
@@ -606,6 +618,10 @@ Page {
 
     //Submit data to feature server - load feature layer
     function submitReportData() {
+
+        loadingAnimationFormPage.visible = true;
+        formPageFooter.enabled = !loadingAnimationFormPage.visible
+
 
         if (casesFeatureTable.loadStatus === Enums.LoadStatusLoaded) {
             //Create JSON for data to submit

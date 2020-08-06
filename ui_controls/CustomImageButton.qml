@@ -99,8 +99,10 @@ Button {
                } else {
                    formPage.submitReportData();
                }
+           } else {
+
+             nextPage();
            }
-           nextPage();
 
 
 
