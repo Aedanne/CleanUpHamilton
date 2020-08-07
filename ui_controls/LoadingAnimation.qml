@@ -20,29 +20,39 @@ Item {
         color: app.backgroundAccent
         opacity: 0.8
 
-        Component.onCompleted: rotationAnimation.start()
+        BusyIndicator {
+            id: busy
+            anchors.centerIn: parent
+            Material.accent: app.primaryColor
+            running: loadingAnimation.visible
 
-        Rectangle {
-            id: clockHand
-            width: 125*app.scaleFactor
-            height: 15*app.scaleFactor
-            x: loadingAnimation.width / 2
-            y: loadingAnimation.height / 2
-            transformOrigin: Item.Left
-            antialiasing: true
-            color: app.appBackgroundColor
-            radius: 10*app.scaleFactor
+
         }
 
-        NumberAnimation {
-            id: rotationAnimation
-            target: clockHand
-            property: "rotation"
-            duration: 1500
-            from: 0
-            to: 360
-            easing.type: Easing.OutExpo
-            loops: Animation.Infinite
-        }
+//        Component.onCompleted: rotationAnimation.start()
+
+//        Rectangle {
+//            id: clockHand
+//            width: 125*app.scaleFactor
+//            height: 15*app.scaleFactor
+//            x: loadingAnimation.width / 2
+//            y: loadingAnimation.height / 2
+//            transformOrigin: Item.Left
+//            antialiasing: true
+//            color: app.appBackgroundColor
+//            radius: 10*app.scaleFactor
+//        }
+
+//        NumberAnimation {
+//            id: rotationAnimation
+//            target: clockHand
+//            property: "rotation"
+//            duration: 1500
+//            from: 0
+//            to: 360
+//            easing.type: Easing.OutExpo
+//            loops: Animation.Infinite
+//        }
+
     }
 }

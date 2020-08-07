@@ -95,6 +95,7 @@ Button {
            if (btn.labelText === "SUBMIT") {
                if (app.reportType === "") {
                     formMissingData.visible = true;
+                    disableFormElements(false);
                     return;
                } else {
                    formPage.submitReportData();

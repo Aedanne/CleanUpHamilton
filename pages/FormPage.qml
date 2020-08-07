@@ -62,6 +62,8 @@ Page {
     }
 
 
+
+
     //Main body of the page =============================================================
 
     //Position of the device - will be used for tracking GPS information in the photos
@@ -131,7 +133,7 @@ Page {
                 font.bold: true
                 font.pixelSize: app.baseFontSize*.4
                 displayText: currentIndex === -1 ? "Please Choose..." : currentText
-                enabled: !formMissingData.visible
+
 
                 delegate: ItemDelegate {
                     width: parent.width
@@ -223,7 +225,6 @@ Page {
                         placeholderText: "Enter additional information..."
                         color: app.appPrimaryTextColor
                         text:""
-                        enabled: !formMissingData.visible
 
                         onTextChanged: {
                            currChars = descriptionField.text.length
@@ -284,13 +285,14 @@ Page {
                     spacing: 10*app.scaleFactor
 
                     IconTemplate {
+                        id: cameraIconTemplate
                         imgRadius: 2
                         containerSize: 50*app.scaleFactor
                         imageSource: "../images/camera.png"
                         color: (app.attListModel.count === app.maxAttachments) ? Qt.lighter("#6e6e6e", 0.5) : "#6e6e6e"
                         Layout.alignment: Qt.AlignLeft
-                        enabled: (app.attListModel.count === app.maxAttachments) ? false: !formMissingData.visible
 
+                        enabled: (app.attListModel.count === app.maxAttachments) ? false: true
                         maxAttach: (app.attListModel.count === app.maxAttachments) ? true: false
 
                         onIconClicked: {
@@ -371,9 +373,10 @@ Page {
                                 width: thumbGridView.cellWidth*1.1
                                 height: thumbGridView.cellHeight
 
+
                                 ImageIconTemplate {
                                     id: previewPhotoIcons
-                                    enabled: !formMissingData.visible
+                                    enabled: cameraDialog.enabled
                                     imgSource: path
                                     onImageIconClicked: {
                                         if (app.attListModel.count > 0) {
@@ -436,7 +439,6 @@ Page {
         CameraDialog {
 
             id: cameraDialog
-            enabled: !formMissingData.visible
 
             onAccepted: {
 
@@ -504,10 +506,10 @@ Page {
                 if (addFeatureStatus === Enums.TaskStatusCompleted) {
                     console.log(">>>> successfully added feature");
                     //apply edits to the feature layer
-                    if (applyEditsStatus != Enums.TaskStatusCompleted &&
-                         applyEditsStatus != Enums.TaskStatusInProgress) {
-                        applyEdits();
-                    }
+//                    if (applyEditsStatus != Enums.TaskStatusCompleted &&
+//                         applyEditsStatus != Enums.TaskStatusInProgress) {
+//                        applyEdits();
+//                    }
                 }
             }
 
@@ -517,11 +519,19 @@ Page {
                    console.log(">>>> successfully updated feature");
                    app.clearData();
 
-                   loadingAnimationFormPage.visible = false;
-                   formPageFooter.enabled = !loadingAnimationFormPage.visible
+//                   busy.running = false;
+//                   loadingAnimationFormPage.visible = false;
+//                   formPageFooter.enabled = !loadingAnimationFormPage.visible
+
+                   enableFormElements(true);
 
                    nextPage();
                }
+            }
+
+            onHasAttachmentsChanged: {
+                console.log(">>>> onHasAttachmentsChanged --- ");
+
             }
 
 
@@ -556,7 +566,6 @@ Page {
         rightButtonText: "SUBMIT"
         overrideRightIconSrc: "../images/send.png"
 //        overrideRightIconSz: 20
-        enabled: !formMissingData.visible
     }
 
 
@@ -620,8 +629,11 @@ Page {
     //Submit data to feature server - load feature layer
     function submitReportData() {
 
-        loadingAnimationFormPage.visible = true;
-        formPageFooter.enabled = !loadingAnimationFormPage.visible
+//        loadingAnimationFormPage.visible = true;
+//        formPageFooter.enabled = !loadingAnimationFormPage.visible
+//        busy.running = true;
+
+        disableFormElements(true);
 
 
         if (casesFeatureTable.loadStatus === Enums.LoadStatusLoaded) {
@@ -636,6 +648,7 @@ Page {
                 console.log(">>>> add attachments to feature.... ");
 
                 console.log(">>>> TODO: MULTIPLE ATTACHMENTS NOT GETTING SUBMITTED.... ");
+                reportFeature.attachments.autoApplyEdits = true;
 
                 for (var i = 0; i < app.attListModel.count; i++) {
                     var img = app.attListModel.get(i);
@@ -643,6 +656,7 @@ Page {
                     reportFeature.attachments.addAttachment(img["path"], "image/jpeg", "Attachment"+(i+1));
                 }
 
+                console.log(">>>> reportFeature.attachments.count >>>" + reportFeature.attachments.count)
             }
 
             console.log(">>> submitReportData(): casesFeatureTable.canAdd() -- " + casesFeatureTable.canAdd())
@@ -683,6 +697,28 @@ Page {
 
     }
 
+    function enableFormElements(withBusy) {
+        console.log(">>>> In enableFormElements --- ")
+        if (withBusy) loadingAnimationFormPage.visible = false;
+        formPageFooter.enabled = true;
+        formPageHeader.enabled = true;
+        cameraDialog.enabled = true;
+        typeComboBox.enabled = true;
+        descriptionField.enabled = true;
+        cameraIconTemplate.enabled = true;
+
+    }
+
+    function disableFormElements(withBusy) {
+        console.log(">>>> In disableFormElements --- ")
+        if (withBusy) loadingAnimationFormPage.visible = true;
+        formPageFooter.enabled = false;
+        formPageHeader.enabled = false;
+        cameraDialog.enabled = false;
+        typeComboBox.enabled = false;
+        descriptionField.enabled = false;
+        cameraIconTemplate.enabled = false;
+    }
 
 
 
