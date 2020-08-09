@@ -11,6 +11,7 @@ Item {
     height: parent.width
     anchors.centerIn: parent
     anchors.fill: parent
+    property string loadingText;
 
     Rectangle {
         width: 150*app.scaleFactor
@@ -25,34 +26,18 @@ Item {
             anchors.centerIn: parent
             Material.accent: app.primaryColor
             running: loadingAnimation.visible
-
-
         }
 
-//        Component.onCompleted: rotationAnimation.start()
-
-//        Rectangle {
-//            id: clockHand
-//            width: 125*app.scaleFactor
-//            height: 15*app.scaleFactor
-//            x: loadingAnimation.width / 2
-//            y: loadingAnimation.height / 2
-//            transformOrigin: Item.Left
-//            antialiasing: true
-//            color: app.appBackgroundColor
-//            radius: 10*app.scaleFactor
-//        }
-
-//        NumberAnimation {
-//            id: rotationAnimation
-//            target: clockHand
-//            property: "rotation"
-//            duration: 1500
-//            from: 0
-//            to: 360
-//            easing.type: Easing.OutExpo
-//            loops: Animation.Infinite
-//        }
+        Label {
+            Material.theme: app.lightTheme? Material.Light : Material.Dark;
+            anchors.centerIn: parent;
+            font.pixelSize: app.baseFontSize*0.5;
+            color: app.primaryColor;
+            font.bold: true
+            wrapMode: Text.Wrap;
+            topPadding: 150*app.scaleFactor;
+            text: loadingText;
+        }
 
     }
 }

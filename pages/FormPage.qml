@@ -34,6 +34,11 @@ Page {
     property int currChars;
     property string titleText: ""
 
+    property ArcGISFeature reportFeature;
+    property int attIndex;
+    property string qryString;
+    property int objectID;
+
     //Camera picture properties==========================================================
     property string fileLocation: "../images/temp.png"
     property int defaultImgRes: 1024
@@ -497,6 +502,7 @@ Page {
             id: casesFeatureTable
             url: app.featureServerURL
 
+
             onLoadStatusChanged: {
                 console.log(">>>> onLoadStatusChanged --- " + loadStatus);
             }
@@ -506,8 +512,8 @@ Page {
                 if (addFeatureStatus === Enums.TaskStatusCompleted) {
                     console.log(">>>> successfully added feature");
                     //apply edits to the feature layer
-//                    if (applyEditsStatus != Enums.TaskStatusCompleted &&
-//                         applyEditsStatus != Enums.TaskStatusInProgress) {
+
+//                    if (applyEditsStatus != Enums.TaskStatusCompleted) {
 //                        applyEdits();
 //                    }
                 }
@@ -517,33 +523,46 @@ Page {
                console.log(">>>> onApplyEditsStatusChanged --- " + applyEditsStatus);
                if (applyEditsStatus === Enums.TaskStatusCompleted) {
                    console.log(">>>> successfully updated feature");
-                   app.clearData();
+                   if (attIndex != -1) {
 
-//                   busy.running = false;
-//                   loadingAnimationFormPage.visible = false;
-//                   formPageFooter.enabled = !loadingAnimationFormPage.visible
+                       //Query for feature just added to add more attachments
+                       queryAddedFeatureForAttachments();
 
-                   enableFormElements(true);
-
-                   nextPage();
+                   } else {
+                       enableFormElements(true);
+                       app.clearData();
+                       nextPage();
+                   }
                }
+            }
+
+            onUpdateFeatureStatusChanged: {
+                console.log(">>>> onUpdateFeatureStatusChanged --- " + updateFeatureStatus);
+                if (updateFeatureStatus === Enums.TaskStatusCompleted) {
+                    console.log(">>>> successfully updated feature");
+//                    applyEdits();
+                }
             }
 
             onHasAttachmentsChanged: {
                 console.log(">>>> onHasAttachmentsChanged --- ");
-
             }
 
 
+            onQueryFeaturesStatusChanged: {
+                if (queryFeaturesStatus === Enums.TaskStatusCompleted) {
 
-            //No updates, just new report cases .... FOR NOW....
-//            onUpdateFeatureStatusChanged: {
-//               console.log(">>>> onUpdateFeatureStatusChanged ---");
-//               if (updateFeatureStatus === Enums.TaskStatusCompleted) {
-//                   // apply the edits to the feature server endpoint
-//                   casesFeatureTable.applyEdits();
-//                }
-//            }
+                     //set this to the report feature just entered
+                     reportFeature = queryFeaturesResult.iterator.next();
+
+                     objectID = reportFeature.attributes.attributeValue("OBJECTID");
+                     console.log(">>>> QUERY: reportFeature --- Obj ID: " + objectID );
+
+                     if (objectID != -1) {
+                         addAdditionalAttachments();
+                     }
+                }
+            }
         }
     }
 
@@ -556,6 +575,14 @@ Page {
         id: loadingAnimationFormPage
         visible: false
     }
+
+
+    QueryParameters {
+        id: params
+        maxFeatures: 1
+    }
+
+
 
 
     //Footer custom QML =================================================================
@@ -629,34 +656,33 @@ Page {
     //Submit data to feature server - load feature layer
     function submitReportData() {
 
-//        loadingAnimationFormPage.visible = true;
-//        formPageFooter.enabled = !loadingAnimationFormPage.visible
-//        busy.running = true;
+        //init
+        attIndex = 0;
+        objectID = -1;
 
         disableFormElements(true);
-
+        loadingAnimationFormPage.loadingText = "Submitting data...";
 
         if (casesFeatureTable.loadStatus === Enums.LoadStatusLoaded) {
             //Create JSON for data to submit
             var reportAttributes = buildAttributesJSON();
 
             // create a new feature using the mouse's map point
-            var reportFeature = casesFeatureTable.createFeatureWithAttributes(reportAttributes, app.currentLocationPoint);
+            reportFeature = casesFeatureTable.createFeatureWithAttributes(reportAttributes, app.currentLocationPoint);
 
-            // add attachments
+
             if (app.countAttachments > 0) {
-                console.log(">>>> add attachments to feature.... ");
+                console.log(">>>> submitReportData(): Add attachment index: " + attIndex);
 
-                console.log(">>>> TODO: MULTIPLE ATTACHMENTS NOT GETTING SUBMITTED.... ");
-                reportFeature.attachments.autoApplyEdits = true;
+                var img = app.attListModel.get(attIndex);
+                console.log(">>>> Attaching image: " + img + " >>> " + img["path"]);
+                reportFeature.attachments.addAttachment(img["path"], "image/jpeg", "Attachment"+(attIndex+1));
 
-                for (var i = 0; i < app.attListModel.count; i++) {
-                    var img = app.attListModel.get(i);
-                    console.log(">>>> Attaching image: " + img + " >>> " + img["path"]);
-                    reportFeature.attachments.addAttachment(img["path"], "image/jpeg", "Attachment"+(i+1));
+                if (app.attListModel.count > attIndex+1) {
+                    attIndex++;
+                } else {
+                    attIndex = -1; //No more
                 }
-
-                console.log(">>>> reportFeature.attachments.count >>>" + reportFeature.attachments.count)
             }
 
             console.log(">>> submitReportData(): casesFeatureTable.canAdd() -- " + casesFeatureTable.canAdd())
@@ -666,10 +692,7 @@ Page {
 
             // add the new feature to the feature table
             casesFeatureTable.addFeature(reportFeature);
-
         }
-
-
     }
 
 
@@ -680,6 +703,9 @@ Page {
         app.reportDescription = descriptionField.text;
         app.reportDate = new Date();
 
+        qryString = "QRY:"+app.reportType+""+app.reportDate.toISOString()+""+app.currentLonLat;
+        console.log(">>>> qryString: " + qryString);
+
         console.log(">>>> Pre-submit data check:");
         console.log(">>>> reportType: " + app.reportType);
         console.log(">>>> reportDescription: " + app.reportDescription);
@@ -688,14 +714,42 @@ Page {
         var reportAttributes = {
                 "Type" : app.reportType,
                 "Description" : app.reportDescription,
-                "ReportedDate" : app.reportDate
+                "ReportedDate" : app.reportDate,
+                "QryString" : qryString
         };
 
         console.log(">>>> JSON Report Attributes: " + reportAttributes);
-
         return reportAttributes;
-
     }
+
+
+    // function to form and execute the query
+    function queryAddedFeatureForAttachments() {
+        // set the where clause
+        params.whereClause = "QryString = '" + qryString + "'";
+
+        // start the query
+        casesFeatureTable.queryFeatures(params);
+    }
+
+
+    function addAdditionalAttachments() {
+        loadingAnimationFormPage.loadingText = "Submitting attachments...";
+        console.log(">>>> addAdditionalAttachments() index: " + attIndex);
+
+        var img = app.attListModel.get(attIndex);
+        console.log(">>>> Attaching image: " + img + " >>> " + img["path"]);
+        reportFeature.attachments.addAttachment(img["path"], "image/jpeg", "Attachment"+(attIndex+1));
+
+        if (app.attListModel.count > attIndex+1) {
+            attIndex++;
+        } else {
+            attIndex = -1; //No more
+        }
+
+        casesFeatureTable.updateFeature(reportFeature);
+    }
+
 
     function enableFormElements(withBusy) {
         console.log(">>>> In enableFormElements --- ")
