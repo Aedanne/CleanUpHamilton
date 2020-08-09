@@ -39,6 +39,9 @@ Page {
     property string qryString;
     property int objectID;
 
+    property bool isDebug: true;
+    property string debugText: "Debug on";
+
     //Camera picture properties==========================================================
     property string fileLocation: "../images/temp.png"
     property int defaultImgRes: 1024
@@ -53,7 +56,8 @@ Page {
     function initFeatureService() {
         //load the feature server when page is loaded, if not already running
         if (casesFeatureTable.loadStatus != Enums.LoadStatusLoaded) {
-            console.log(">>>> Form page initFeatureService() -- loading feature layer...");
+            debugText = ">>>> Form page initFeatureService() -- loading feature layer...";
+            console.log(debugText);
             casesFeatureTable.load();
         }
     }
@@ -162,8 +166,8 @@ Page {
 
                 width: 200
                 onCurrentIndexChanged: {
-
-                    console.log(">>>> Combo Box selected: " + typeIndex.get(currentIndex).text);
+                    debugText = ">>>> Combo Box selected: " + typeIndex.get(currentIndex).text;
+                    console.log(debugText);
                     app.reportType = typeComboBox.displayText
 
                     initFeatureService();
@@ -236,9 +240,10 @@ Page {
                            if (currChars >= maxLimit) {
                               descriptionField.text = descriptionField.text.substring(0, maxLimit);
                            }
-
-                           console.log(">>>> char count: " + (maxLimit - descriptionField.text.length))
-                           console.log(">>>> line count"+ (descriptionField.contentHeight / descriptionField.lineCount))
+                           debugText = ">>>> char count: " + (maxLimit - descriptionField.text.length);
+                           console.log(debugText)
+                           debugText = ">>>> line count"+ (descriptionField.contentHeight / descriptionField.lineCount);
+                           console.log(debugText)
                         }
 
                         onActiveFocusChanged: {
@@ -329,10 +334,14 @@ Page {
                             var attachCount = 0;
                             for (var i = 0; i < app.maxAttachments; i++) {
 
-                                console.log(">>>>>>app.attListModel.count", app.attListModel.count);
+                                debugText = ">>>>>>app.attListModel.count" + app.attListModel.count;
+                                console.log(debugText);
 
                                 if(i < app.attListModel.count){
-                                    console.log(">>>>>> i < app.attListModel.count, i=" + i + " ... ", app.attListModel.count);
+
+                                    debugText = ">>>>>> i < app.attListModel.count, i=" + i + " ... " + app.attListModel.count;
+                                    console.log(debugText);
+
                                     temp = app.attListModel.get(i);
                                     var tempPath = temp.path
 
@@ -341,7 +350,8 @@ Page {
 
                                     displayPreviewListModel.append({path: tempPath});
 
-                                    console.log(">>>>>displayPreviewListModel.size", displayPreviewListModel.count);
+                                    debugText = ">>>>>displayPreviewListModel.size" + displayPreviewListModel.count;
+                                    console.log(debugText);
 
                                     attachCount++;
                                 } else {
@@ -385,11 +395,15 @@ Page {
                                     imgSource: path
                                     onImageIconClicked: {
                                         if (app.attListModel.count > 0) {
-                                            console.log(">>> image clicked - thumbgridview >>> " + "path:" + path)
+
+                                            debugText = ">>> image clicked - thumbgridview >>> " + "path:" + path;
+                                            console.log(debugText);
+
                                             thumbGridView.currentIndex = index;
                                             if (thumbGridView.currentIndex < app.attListModel.count) {
 
-                                                console.log(">>> thumbGridView.currentIndex >>> " + thumbGridView.currentIndex)
+                                                debugText = ">>> thumbGridView.currentIndex >>> " + thumbGridView.currentIndex;
+                                                console.log(debugText);
                                                 previewSection.source = path;
                                                 previewSection.visible = true
                                                 previewSection.init();
@@ -408,12 +422,27 @@ Page {
             } //End rectangle for thumbnail previewBtn
 
 
+            RowLayout{
+
+                spacing: 0;
+                visible: isDebug;
+
+                Label {
+                    Layout.fillWidth: true
+                    font.pixelSize: app.baseFontSize*.3
+                    text: debugText
+                    color: 'red';
+                    topPadding: 25 * app.scaleFactor
+                }
+            }
+
             Text {
                 Layout.fillWidth: true
-                font.pixelSize: app.baseFontSize*.5
+                font.pixelSize: app.baseFontSize*.2
                 font.bold: true
                 text: ""
                 color: app.appPrimaryTextColor;
+                verticalAlignment: Text.AlignTop
                 topPadding: 200 * app.scaleFactor
             }
 
@@ -453,11 +482,13 @@ Page {
                     if (positionSource.position.coordinate.latitude) addGPSParameters(fileUrl);
 
                     //Check if image is too big and resize
-                    console.log(">>>>>>>fileUrl="+fileUrl);
+                    debugText = ">>>>>>>fileUrl="+fileUrl;
+                    console.log(debugText);
                     resizeImage(fileUrl);
 
                     app.tempImageFilePath = fileUrl;
-                    console.log(">>>>>>>app.tempImageFilePath="+fileUrl);
+                    debugText = ">>>>>>>app.tempImageFilePath="+fileUrl;
+                    console.log(debugText);
 
                     //Append multiple attachments to list model
                     app.attListModel.append({path: app.tempImageFilePath.toString(), type: "attachment"})
@@ -482,7 +513,8 @@ Page {
             id: previewSection
 
             onDiscarded: {
-                console.log(">>>> thumbGridView.currentIndex", thumbGridView.currentIndex);
+                debugText = ">>>> thumbGridView.currentIndex"+ thumbGridView.currentIndex;
+                console.log(debugText);
                 app.attListModel.remove(thumbGridView.currentIndex);
                 displayPreviewListModel.initDisplayPreviewListModel();
             }
@@ -504,13 +536,16 @@ Page {
 
 
             onLoadStatusChanged: {
-                console.log(">>>> onLoadStatusChanged --- " + loadStatus);
+                debugText = ">>>> onLoadStatusChanged --- " + loadStatus;
+                console.log(debugText);
             }
 
             onAddFeatureStatusChanged: {
-                console.log(">>>> onAddFeaturesStatusChanged --- " + addFeatureStatus);
+                debugText = ">>>> onAddFeaturesStatusChanged --- " + addFeatureStatus;
+                console.log(debugText);
                 if (addFeatureStatus === Enums.TaskStatusCompleted) {
-                    console.log(">>>> successfully added feature");
+                    debugText = ">>>> successfully added feature";
+                    console.log(debugText);
                     //apply edits to the feature layer
 
 //                    if (applyEditsStatus != Enums.TaskStatusCompleted) {
@@ -520,9 +555,11 @@ Page {
             }
 
             onApplyEditsStatusChanged: {
-               console.log(">>>> onApplyEditsStatusChanged --- " + applyEditsStatus);
+                debugText = ">>>> onApplyEditsStatusChanged --- " + applyEditsStatus;
+               console.log(debugText);
                if (applyEditsStatus === Enums.TaskStatusCompleted) {
-                   console.log(">>>> successfully updated feature");
+                   debugText = ">>>> successfully updated feature"
+                   console.log(debugText);
                    if (attIndex != -1) {
 
                        //Query for feature just added to add more attachments
@@ -537,15 +574,18 @@ Page {
             }
 
             onUpdateFeatureStatusChanged: {
-                console.log(">>>> onUpdateFeatureStatusChanged --- " + updateFeatureStatus);
+                debugText = ">>>> onUpdateFeatureStatusChanged --- " + updateFeatureStatus;
+                console.log(debugText);
                 if (updateFeatureStatus === Enums.TaskStatusCompleted) {
-                    console.log(">>>> successfully updated feature");
+                    debugText = ">>>> successfully updated feature";
+                    console.log(debugText);
 //                    applyEdits();
                 }
             }
 
             onHasAttachmentsChanged: {
-                console.log(">>>> onHasAttachmentsChanged --- ");
+                debugText = ">>>> onHasAttachmentsChanged --- " ;
+                console.log(debugText);
             }
 
 
@@ -556,7 +596,8 @@ Page {
                      reportFeature = queryFeaturesResult.iterator.next();
 
                      objectID = reportFeature.attributes.attributeValue("OBJECTID");
-                     console.log(">>>> QUERY: reportFeature --- Obj ID: " + objectID );
+                     debugText = ">>>> QUERY: reportFeature --- Obj ID: " + objectID;
+                     console.log(debugText);
 
                      if (objectID != -1) {
                          addAdditionalAttachments();
@@ -598,29 +639,35 @@ Page {
 
     //Function to resize image if exceeds 1024
     function resizeImage(path) {
-        console.log(">>>> resizeImage() from camera: ", path)
+        debugText =  ">>>> resizeImage() from camera: "+ path;
+        console.log(debugText)
 
         var imageInfo = AppFramework.fileInfo(path);
         if (!imageInfo.exists) {
-            console.error(">>>>> Image invalid:", path);
+            debugText = ">>>>> Image invalid:" + path;
+            console.error(debugText);
             return;
         }
 
         if (!imageObject.load(path)) {
-            console.error(">>>>> Can't load:", path);
+            debugText = ">>>>> Can't load:" + path;
+            console.error(debugText);
             return;
         }
 
         if (imageObject.width > defaultImgRes) {
-            console.log(">>>>> Resizing image:", imageObject.width, "x", imageObject.height, "size:", imageInfo.size);
+            debugText = ">>>>> Resizing image: "+ imageObject.width+ " x"+ imageObject.height+ " size:"+ imageInfo.size;
+            console.log(debugText);
             imageObject.scaleToWidth(defaultImgRes);
         } else {
-            console.log(">>>>> Does not need image resizing:", imageObject.width, "<=", defaultImgRes);
+            debugText = ">>>>> Does not need image resizing:" + imageObject.width + "<=" + defaultImgRes;
+            console.log(debugText);
             return;
         }
 
         if (!imageObject.save(path)) {
-            console.error(">>>>> Can't save to path:", path);
+            debugText = ">>>>> Can't save to path:" + path;
+            console.error(debugText);
             return;
         }
 
@@ -672,10 +719,12 @@ Page {
 
 
             if (app.countAttachments > 0) {
-                console.log(">>>> submitReportData(): Add attachment index: " + attIndex);
+                debugText = ">>>> submitReportData(): Add attachment index: " + attIndex;
+                console.log(debugText);
 
                 var img = app.attListModel.get(attIndex);
-                console.log(">>>> Attaching image: " + img + " >>> " + img["path"]);
+                debugText = ">>>> Attaching image: " + img + " >>> " + img["path"];
+                console.log(debugText);
                 reportFeature.attachments.addAttachment(img["path"], "image/jpeg", "Attachment"+(attIndex+1));
 
                 if (app.attListModel.count > attIndex+1) {
@@ -685,10 +734,11 @@ Page {
                 }
             }
 
-            console.log(">>> submitReportData(): casesFeatureTable.canAdd() -- " + casesFeatureTable.canAdd())
-            console.log(">>> submitReportData(): casesFeatureTable.canUpdate() -- " + casesFeatureTable.editable)
+//            console.log(">>> submitReportData(): casesFeatureTable.canAdd() -- " + casesFeatureTable.canAdd())
+//            console.log(">>> submitReportData(): casesFeatureTable.canUpdate() -- " + casesFeatureTable.editable)
 
-            console.log(">>>> reportFeature = " + reportFeature);
+            debugText = ">>>> reportFeature = " + reportFeature;
+            console.log(debugText);
 
             // add the new feature to the feature table
             casesFeatureTable.addFeature(reportFeature);
@@ -704,7 +754,9 @@ Page {
         app.reportDate = new Date();
 
         qryString = "QRY:"+app.reportType+""+app.reportDate.toISOString()+""+app.currentLonLat;
-        console.log(">>>> qryString: " + qryString);
+
+        debugText = ">>>> qryString: " + qryString;
+        console.log(debugText);
 
         console.log(">>>> Pre-submit data check:");
         console.log(">>>> reportType: " + app.reportType);
@@ -735,10 +787,12 @@ Page {
 
     function addAdditionalAttachments() {
         loadingAnimationFormPage.loadingText = "Submitting attachments...";
-        console.log(">>>> addAdditionalAttachments() index: " + attIndex);
+        debugText = ">>>> addAdditionalAttachments() index: " + attIndex;
+        console.log(debugText);
 
         var img = app.attListModel.get(attIndex);
-        console.log(">>>> Attaching image: " + img + " >>> " + img["path"]);
+        debugText = ">>>> Attaching image: " + img + " >>> " + img["path"];
+        console.log(debugText);
         reportFeature.attachments.addAttachment(img["path"], "image/jpeg", "Attachment"+(attIndex+1));
 
         if (app.attListModel.count > attIndex+1) {
@@ -752,7 +806,8 @@ Page {
 
 
     function enableFormElements(withBusy) {
-        console.log(">>>> In enableFormElements --- ")
+        debugText = ">>>> In enableFormElements --- ";
+        console.log(debugText)
         if (withBusy) loadingAnimationFormPage.visible = false;
         formPageFooter.enabled = true;
         formPageHeader.enabled = true;
@@ -764,7 +819,8 @@ Page {
     }
 
     function disableFormElements(withBusy) {
-        console.log(">>>> In disableFormElements --- ")
+        debugText = ">>>> In disableFormElements --- ";
+        console.log(debugText)
         if (withBusy) loadingAnimationFormPage.visible = true;
         formPageFooter.enabled = false;
         formPageHeader.enabled = false;

@@ -31,6 +31,7 @@ App{
     height: 750
 
     property bool lightTheme: true
+    property string version: "1.0.5"
 
     // App-level color properties========================================================
     readonly property color primaryColor: "#30475e"//'#1f4068'//"#555555"//Qt.darker("#CF5300",0.9) //"#255D83"
@@ -194,7 +195,7 @@ App{
         id: aboutPageComponent
         AboutPage{
             titleText:qsTr("About")
-            descText: qsTr("TODO: \nABOUT")
+            descText: qsTr("TODO: \nABOUT\nVersion:"+ app.version)
             onOpenMenu: {
                 sideMenuDrawer.open();
             }
