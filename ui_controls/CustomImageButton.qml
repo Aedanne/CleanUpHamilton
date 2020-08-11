@@ -30,7 +30,7 @@ Button {
 
     id: btn;
     width: btnWidth > "" ? btnWidth : parent.width*.5;
-    height: btnHeight > "" ? btnHeight : app.btnHdrFtrHeightSize*1.2;
+    height: btnHeight > "" ? btnHeight : app.btnHdrFtrHeightSize*1.1;
 
 //    anchors.horizontalCenter: parent.horizontalCenter;
 //            anchors.verticalCenter: parent.verticalCenter;
@@ -76,13 +76,20 @@ Button {
     }
 
     background: Rectangle {
-        implicitWidth: app.width*.5;
-        implicitHeight: app.btnHdrFtrHeightSize;
+//        anchors.centerIn: parent
+        implicitWidth: app.width*.49;
+        implicitHeight: app.btnHdrFtrHeightSize*0.9;
         opacity: enabled ? 1 : 0.3;
-        border.color: app.appBackgroundColor;
-        border.width: 3;
+//        border.color: app.appBackgroundColor;
+//        border.width: 3;
         color: backgroundColor;
-        radius: 5;
+        radius: 2;
+
+        gradient: Gradient {
+            GradientStop { position: 0 ; color: btn.pressed ? Qt.lighter(app.primaryColor, 1.3) : Qt.lighter(app.primaryColor, 0.7) }
+            GradientStop { position: 1 ; color: btn.pressed ? Qt.lighter(app.primaryColor, 0.7) : Qt.lighter(app.primaryColor, 1.3) }
+        }
+
     }
 
     onClicked: {
@@ -93,12 +100,12 @@ Button {
        if (btn.nextControl) {
 
            if (btn.labelText === "SUBMIT") {
-               if (app.reportType === "") {
-                    formMissingData.visible = true;
-                    disableFormElements(false);
-                    return;
-               } else {
+               if (app.reportType !== "" && app.attListModel.count > 0) {
                    formPage.submitReportData();
+               } else {
+                   formMissingData.visible = true;
+                   disableFormElements(false, false);
+                   return;
                }
            } else {
 

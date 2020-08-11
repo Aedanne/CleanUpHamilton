@@ -86,6 +86,7 @@ Page {
     contentItem: Rectangle {
         Layout.preferredWidth: parent.width
         Layout.preferredHeight: 50 * app.scaleFactor
+        color: app.appBackgroundColor
 
         ColumnLayout {
             Layout.preferredWidth: parent.width*0.75;
@@ -609,7 +610,8 @@ Page {
 
     AlertPopup {
         id: formMissingData
-        alertText: "Select incident to report.";
+        alertText: (app.reportType === "" ? "Select incident to report." : "")
+                    + ((app.attListModel.count == 0) ? ((app.reportType === "" ? "\n":"") + "Include at least 1 photo.") : "") ;
     }
 
     LoadingAnimation {
@@ -707,7 +709,7 @@ Page {
         attIndex = 0;
         objectID = -1;
 
-        disableFormElements(true);
+        disableFormElements(true, true);
         loadingAnimationFormPage.loadingText = "Submitting data...";
 
         if (casesFeatureTable.loadStatus === Enums.LoadStatusLoaded) {
@@ -810,6 +812,7 @@ Page {
         console.log(debugText)
         if (withBusy) loadingAnimationFormPage.visible = false;
         formPageFooter.enabled = true;
+        formPageFooter.visible = true;
         formPageHeader.enabled = true;
         thumbGridView.enabled = true;
         typeComboBox.enabled = true;
@@ -818,11 +821,12 @@ Page {
 
     }
 
-    function disableFormElements(withBusy) {
+    function disableFormElements(withBusy, hideFooter) {
         debugText = ">>>> In disableFormElements --- ";
         console.log(debugText)
         if (withBusy) loadingAnimationFormPage.visible = true;
         formPageFooter.enabled = false;
+        if (hideFooter) formPageFooter.visible = false;
         formPageHeader.enabled = false;
         thumbGridView.enabled = false;
         typeComboBox.enabled = false;

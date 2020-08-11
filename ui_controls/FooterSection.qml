@@ -27,15 +27,19 @@ Rectangle{
         width: parent.width;
         radius: 10;
 
+        anchors.horizontalCenter: parent.horizontalCenter
+
         //Set background color for button
         //color:app.appBackgroundColor
 
         //Button row for new report
         RowLayout{
 
-            spacing: 0;
+            spacing: 2;
             visible: true;
             anchors.fill: parent;
+            anchors.centerIn: parent
+            anchors.margins: 2*app.scaleFactor
 
             //Back button
             CustomImageButton {

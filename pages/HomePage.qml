@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.13
 import ArcGIS.AppFramework 1.0
 
-
+import "../ui_controls"
 /*
 Home page for Clean-Up Hamilton app
 */
@@ -55,6 +55,28 @@ Page {
                 Layout.preferredWidth: 250*app.scaleFactor;
                 Layout.fillHeight: true;
             }
+
+            Label {
+                id: signInLabel
+                Layout.preferredWidth: 250*app.scaleFactor;
+                anchors.right: parent.right
+                horizontalAlignment: Qt.AlignRight;
+                verticalAlignment: Qt.AlignVCenter;
+                font.pixelSize: app.headerFontSize;
+                font.bold: true;
+                wrapMode: Text.Wrap;
+                rightPadding: 10*app.scaleFactor;
+                text: "Sign In";
+                color: app.menuPrimaryTextColor;
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        signInPopup.visible = true;
+                    }
+                }
+            }
+
             Item{
                 Layout.fillHeight: true;
             }
@@ -121,69 +143,86 @@ Page {
 
 
             //"File a report" button=======================================
-            Rectangle{
-                id: reportRectangle;
-                height: 50*app.scaleFactor;
-                z:10
 
-                Layout.alignment: Qt.AlignHCenter;
-                width: app.width*0.60;
-                radius: 3;
+            Button {
+                id: fileReportButton
+                text: ""
+                font.bold: true
+                font.pixelSize: app.baseFontSize*0.65;
+                Layout.alignment: Qt.AlignHCenter
 
-                border.color: app.accentColor
-                border.width: 1
+                contentItem: Text {
+                    text: fileReportButton.text
+                    color: app.menuPrimaryTextColor
+                    font.bold: fileReportButton.font.bold
+                    font.pixelSize: fileReportButton.font.pixelSize
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+                background: Rectangle {
 
-                //Set background color for button
-                color:app.primaryColor;
+                    implicitWidth: 220 * app.scaleFactor
+                    implicitHeight: 50 * app.scaleFactor
+//                    border.width: 1
+//                    border.color: app.mapBorderColor
 
-                //Button row for new report
-                RowLayout{
-
-                    spacing: 5*app.scaleFactor;
-                    visible: true;
-                    anchors.centerIn: parent;
-
-                    //padding
-                    Item{
-                        width: 5;
+                    radius: 2
+                    gradient: Gradient {
+                        GradientStop { position: 0 ; color: fileReportButton.pressed ? Qt.lighter(app.primaryColor, 1.3) : Qt.lighter(app.primaryColor, 0.7) }
+                        GradientStop { position: 1 ; color: fileReportButton.pressed ? Qt.lighter(app.primaryColor, 0.7) : Qt.lighter(app.primaryColor, 1.3) }
                     }
 
-                    Image{
-                        Layout.preferredWidth: 28*app.scaleFactor;
-                        Layout.preferredHeight: 28*app.scaleFactor;
-                        source: "../images/add_note.png";
+                    RowLayout {
+                        spacing: 5*app.scaleFactor;
+                        visible: true;
+                        anchors.centerIn: parent;
 
-                    }
-                    Label{
-                        horizontalAlignment: Text.AlignHCenter;
-                        text: reportButtonText;
-                        font.pixelSize: app.baseFontSize*0.65;
-                        font.bold: true;
-                        maximumLineCount: 1;
-                        color: app.menuPrimaryTextColor;
-                    }
-                    //padding
-                    Item{
-                        width: 5;
+                        //padding
+                        Item{
+                            width: 5;
+                        }
+
+                        Image{
+                            Layout.preferredWidth: 28*app.scaleFactor;
+                            Layout.preferredHeight: 28*app.scaleFactor;
+                            source: "../images/add_note.png";
+
+                        }
+
+                        Label{
+                            horizontalAlignment: Text.AlignHCenter;
+                            text: reportButtonText;
+                            font.pixelSize: app.baseFontSize*0.65;
+                            font.bold: true;
+                            maximumLineCount: 1;
+                            color: app.menuPrimaryTextColor;
+                        }
+
+                        //padding
+                        Item{
+                            width: 5;
+                        }
+
+
                     }
                 }
 
-                MouseArea {
-                    id: reportFormButtonMouseArea;
-                    visible: true;
-                    enabled: true;
-                    anchors.centerIn: parent;
-                    hoverEnabled: true;
-                    anchors.fill: parent;
-                    onClicked: {
-                        console.log(">>>> File a Report button clicked from HomePage");
-                        nextPage();
-                    }
+                onClicked: {
+                    console.log(">>>> File a Report button clicked from HomePage");
+                    nextPage();
                 }
             }
         }
 
+        //Default - do not display sign in page
+        SignInPopup {
+            id: signInPopup
+            visible: false
+        }
+
     }
+
+
 
 
 }

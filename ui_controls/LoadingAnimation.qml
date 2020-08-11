@@ -8,7 +8,7 @@ Item {
 
     id: loadingAnimation
     width: parent.width
-    height: parent.width
+    height: parent.height
     anchors.centerIn: parent
     anchors.fill: parent
     property string loadingText;
@@ -19,11 +19,13 @@ Item {
 
         anchors.fill: parent
         color: app.backgroundAccent
-        opacity: 0.8
+        opacity: 0.95
 
         BusyIndicator {
             id: busy
-            anchors.centerIn: parent
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: 200*app.scaleFactor
             Material.accent: app.primaryColor
             running: loadingAnimation.visible
         }
@@ -35,7 +37,7 @@ Item {
             color: app.primaryColor;
             font.bold: true
             wrapMode: Text.Wrap;
-            topPadding: 150*app.scaleFactor;
+            topPadding: 75*app.scaleFactor;
             text: loadingText;
         }
 

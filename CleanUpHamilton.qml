@@ -36,7 +36,7 @@ App{
     // App-level color properties========================================================
     readonly property color primaryColor: "#30475e"//'#1f4068'//"#555555"//Qt.darker("#CF5300",0.9) //"#255D83"
     readonly property color accentColor: Qt.lighter(primaryColor,1.2)
-    readonly property color appBackgroundColor: lightTheme? "#FAFAFA":"#303030"
+    readonly property color appBackgroundColor: lightTheme? "#FFFFFF":"#303030"
     readonly property color appDialogColor: lightTheme? "#FFFFFF":"424242"
     readonly property color menuBackgroundColor: "#DA674A"
     readonly property color appPrimaryTextColor: lightTheme? '#555555':"#FFFFFF"

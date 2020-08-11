@@ -22,8 +22,8 @@ Item {
     Rectangle {
         anchors.fill: parent
         z:10
-        color: "#FFFFFF"
-        opacity: 1
+        color: app.appBackgroundColor
+        opacity: 0.9
         border.color: "red"
         border.width: 5
 
