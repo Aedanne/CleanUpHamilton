@@ -811,7 +811,7 @@ Page {
         if (withBusy) loadingAnimationFormPage.visible = false;
         formPageFooter.enabled = true;
         formPageHeader.enabled = true;
-        cameraDialog.enabled = true;
+        thumbGridView.enabled = true;
         typeComboBox.enabled = true;
         descriptionField.enabled = true;
         cameraIconTemplate.enabled = true;
@@ -824,7 +824,7 @@ Page {
         if (withBusy) loadingAnimationFormPage.visible = true;
         formPageFooter.enabled = false;
         formPageHeader.enabled = false;
-        cameraDialog.enabled = false;
+        thumbGridView.enabled = false;
         typeComboBox.enabled = false;
         descriptionField.enabled = false;
         cameraIconTemplate.enabled = false;
