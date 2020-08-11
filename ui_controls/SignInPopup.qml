@@ -5,6 +5,10 @@ import QtQuick.Window 2.0
 import QtQuick.Layouts 1.13
 import QtQuick.Controls.Material 2.13
 
+
+//NOT USED - MOVED LOGIN PAGE TO SIDE MENU
+//Leaving file just in case....
+
 Item {
     id: root
     width: parent.width

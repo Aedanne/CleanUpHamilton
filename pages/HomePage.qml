@@ -56,27 +56,6 @@ Page {
                 Layout.fillHeight: true;
             }
 
-            Label {
-                id: signInLabel
-                Layout.preferredWidth: 250*app.scaleFactor;
-                anchors.right: parent.right
-                horizontalAlignment: Qt.AlignRight;
-                verticalAlignment: Qt.AlignVCenter;
-                font.pixelSize: app.headerFontSize;
-                font.bold: true;
-                wrapMode: Text.Wrap;
-                rightPadding: 10*app.scaleFactor;
-                text: "Sign In";
-                color: app.menuPrimaryTextColor;
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        signInPopup.visible = true;
-                    }
-                }
-            }
-
             Item{
                 Layout.fillHeight: true;
             }
@@ -213,13 +192,6 @@ Page {
                 }
             }
         }
-
-        //Default - do not display sign in page
-        SignInPopup {
-            id: signInPopup
-            visible: false
-        }
-
     }
 
 

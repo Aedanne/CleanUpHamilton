@@ -151,6 +151,10 @@ App{
                     console.log(">>>> In menu drawer > about");
                         formStackView.loadAboutPage();
                     break;
+                case "login":
+                    console.log(">>>> In menu drawer > login");
+                        formStackView.loadLoginPage();
+                    break;
                 default:
                     break;
                 }
@@ -185,6 +189,12 @@ App{
             type: "delegate";
             name: qsTr("Settings");
             iconSource: "../images/gear.png"
+        }
+        ListElement {
+            action:"login";
+            type: "delegate";
+            name: qsTr("Staff Login");
+            iconSource: "../images/login.png"
         }
 
     }
@@ -272,6 +282,25 @@ App{
         }
     }
 
+    //Login component when menu option selected
+    Component{
+        id: loginPageComponent
+        LoginPage{
+            titleText:qsTr("Staff Login")
+            descText: qsTr("")
+            onOpenMenu: {
+                sideMenuDrawer.open();
+            }
+            onPreviousPage: {
+                formStackView.pop()
+            }
+
+            onNextPage: {
+
+            }
+        }
+    }
+
 
     //Creating stackview for form pages =================================================
     StackView {
@@ -319,8 +348,14 @@ App{
             console.log(">>>> Inside StackView.loadSubmitPage()")
             push(setSubmitPageComponent);
         }
+        //Load Login Page
+        function loadLoginPage() {
+            console.log(">>>> Inside StackView.loadLoginPage()")
+            push(loginPageComponent);
+        }
 
     }
+
 
 
     //Creating database for application==================================================

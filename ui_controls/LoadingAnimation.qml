@@ -37,7 +37,7 @@ Item {
             color: app.primaryColor;
             font.bold: true
             wrapMode: Text.Wrap;
-            topPadding: 75*app.scaleFactor;
+            topPadding: 25*app.scaleFactor;
             text: loadingText;
         }
 

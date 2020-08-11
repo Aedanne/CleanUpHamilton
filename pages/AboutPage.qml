@@ -19,6 +19,7 @@ Page {
 
     property string titleText:"";
     property var descText;
+
     anchors.fill: HomePage;
 
     header: ToolBar{

@@ -54,6 +54,8 @@ Page{
                         Layout.preferredHeight: (name === "divider"? 1: 25*app.scaleFactor);
                         source: iconSource;
                         visible: (name === "divider"? false:true);
+                        antialiasing: true
+                        autoTransform: true
                     }
                     Label{
                         Layout.fillWidth: (name === "divider"? false:true);
