@@ -6,7 +6,7 @@ import QtQuick.Layouts 1.13
 import QtQuick.Controls.Material 2.13
 
 
-//NOT USED - MOVED LOGIN PAGE TO SIDE MENU
+//NOT USED - MOVED LOGIN PAGE TO SIDE MENU, and using PORTAL instead
 //Leaving file just in case....
 
 Item {

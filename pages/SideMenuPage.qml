@@ -21,7 +21,7 @@ Page{
 //    signal openSettings()
 
 
-    ColumnLayout{
+    ColumnLayout {
         anchors.fill: parent;
         spacing: 10*app.scaleFactor;
 
@@ -111,27 +111,26 @@ Page{
             id: signedInAsLabel
             visible: app.authenticated
             Material.theme: app.lightTheme? Material.Light : Material.Dark;
-            anchors.top: sideMenuListView.bottom
             font.pixelSize: app.baseFontSize*0.4;
-//            anchors.horizontalCenter: parent.horizontalCenter
             color: app.menuPrimaryTextColor;
             font.bold: true
             wrapMode: Text.Wrap;
-            bottomPadding: 10*app.scaleFactor;
+            topPadding: 55*app.scaleFactor;
             text: "Signed in as:"
          }
         Label {
             visible: app.authenticated
             Material.theme: app.lightTheme? Material.Light : Material.Dark;
-            anchors.top: signedInAsLabel.bottom
             font.pixelSize: app.baseFontSize*0.4;
-//            anchors.horizontalCenter: parent.horizontalCenter
             color: app.menuPrimaryTextColor;
             font.bold: true
             wrapMode: Text.Wrap;
-            bottomPadding: 25*app.scaleFactor;
             text: app.portalUser
          }
+
+        Item {
+            height: 10*app.scaleFactor;
+        }
 
 
     }

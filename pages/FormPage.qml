@@ -236,10 +236,8 @@ Page {
                            app.reportDescription = descriptionField.text;
                         }
 
-                        onActiveFocusChanged: {
-
-
-                        }
+//                        onActiveFocusChanged: {
+//                        }
                     }
                 }
             }
