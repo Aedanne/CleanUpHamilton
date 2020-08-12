@@ -159,7 +159,8 @@ Page {
             }
 
             onLoadErrorChanged: {
-                console.log(">>>> onLoadErrorChanged @ Portal Load: ", error.message);
+                if (error != null && error.message != null)
+                    console.log(">>>> onLoadErrorChanged @ Portal Load: ", error.message);
                 retryLoad();
             }
 

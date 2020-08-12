@@ -95,12 +95,15 @@ Button {
     onClicked: {
         console.log(btn.logMessage);
 
-       if (btn.previousControl) previousPage();
+       if (btn.previousControl) {
+
+           previousPage();
+       }
 
        if (btn.nextControl) {
 
            if (btn.labelText === "SUBMIT") {
-               if (app.reportType !== "" && app.attListModel.count > 0) {
+               if (app.reportTypeIndex !== -1 && app.attListModel.count > 0) {
                    formPage.submitReportData();
                } else {
                    formMissingData.visible = true;

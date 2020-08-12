@@ -126,7 +126,7 @@ Page {
             ComboBox {
                 id: typeComboBox
                 Layout.fillWidth: true
-                currentIndex: -1
+                currentIndex: app.reportTypeIndex
                 font.bold: true
                 font.pixelSize: app.baseFontSize*.4
                 displayText: currentIndex === -1 ? "Please Choose..." : currentText
@@ -156,7 +156,8 @@ Page {
                 onCurrentIndexChanged: {
                     debugText = ">>>> Combo Box selected: " + typeIndex.get(currentIndex).text;
                     console.log(debugText);
-                    app.reportType = typeComboBox.displayText
+                    app.reportTypeIndex = currentIndex;
+                    app.reportType = typeComboBox.displayText;
 
                     initFeatureService();
                 }
@@ -221,7 +222,7 @@ Page {
                         wrapMode: TextEdit.WrapAnywhere
                         placeholderText: "Enter additional information..."
                         color: app.appSecondaryTextColor
-                        text:""
+                        text: app.reportDescription
 
                         onTextChanged: {
                            currChars = descriptionField.text.length
@@ -232,6 +233,7 @@ Page {
                            console.log(debugText)
                            debugText = ">>>> line count"+ (descriptionField.contentHeight / descriptionField.lineCount);
                            console.log(debugText)
+                           app.reportDescription = descriptionField.text;
                         }
 
                         onActiveFocusChanged: {
@@ -869,6 +871,9 @@ Page {
         descriptionField.enabled = false;
         cameraIconTemplate.enabled = false;
     }
+
+
+
 
 
 

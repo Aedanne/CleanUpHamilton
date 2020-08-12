@@ -31,7 +31,7 @@ App{
     height: 750
 
     property bool lightTheme: true
-    property string version: "1.0.5"
+    property string version: app.info.version
 
     // App-level color properties========================================================
     readonly property color primaryColor: "#30475e"//'#1f4068'//"#555555"//Qt.darker("#CF5300",0.9) //"#255D83"
@@ -74,7 +74,8 @@ App{
 
     //Report data properties=============================================================
     property string reportType
-    property string reportDescription
+    property int reportTypeIndex: -1
+    property string reportDescription: ""
     property date reportDate
 
     //Attachment properties==============================================================
@@ -296,6 +297,7 @@ App{
         FormPage {
             titleText:qsTr("Add Report Details")
             descText: qsTr("TODO: \nFile a Report")
+
             onPreviousPage: {
                 formStackView.pop()
             }
@@ -317,7 +319,7 @@ App{
             }
 
             onNextPage: {
-                formStackView.loadFormPage();
+                formStackView.loadFormPage();                
             }
         }
     }
@@ -467,11 +469,12 @@ App{
 
     //Clear data after submission
     function clearData() {
-        console.log(" >>> CLEARING DATA <<< ");
+        console.log(">>>> CLEARING DATA <<<< ");
         app.attListModel.clear();
         app.currentLocationPoint = null;
         app.reportType = "";
         app.reportDescription = "";
+        app.reportTypeIndex = -1;
     }
 
 
