@@ -18,8 +18,8 @@ Item {
         height: 150*app.scaleFactor
 
         anchors.fill: parent
-        color: app.backgroundAccent
-        opacity: 0.95
+        color: app.appBackgroundColor
+//        opacity: 0.90
 
         BusyIndicator {
             id: busy

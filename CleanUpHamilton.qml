@@ -39,9 +39,9 @@ App{
     readonly property color appBackgroundColor: lightTheme? "#FFFFFF":"#303030"
     readonly property color appDialogColor: lightTheme? "#FFFFFF":"424242"
     readonly property color menuBackgroundColor: "#DA674A"
-    readonly property color appPrimaryTextColor: lightTheme? '#555555':"#FFFFFF"
+    readonly property color appPrimaryTextColor: lightTheme? primaryColor:"#FFFFFF"
     readonly property color menuPrimaryTextColor: Qt.lighter("#FFFFFF",1.5)
-    readonly property color appSecondaryTextColor: lightTheme? '#8A8A8A':"#FFFFFF"
+    readonly property color appSecondaryTextColor: lightTheme? '#787878':"#FFFFFF"
     readonly property color homePageTitleTextColor:"#FCFCFC"
     readonly property color appPrimaryTextColorInverted: lightTheme? "#FFFFFF":'#555555'
     readonly property color backgroundAccent: '#AEAEAE'

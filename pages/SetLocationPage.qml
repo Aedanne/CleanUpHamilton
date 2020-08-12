@@ -56,17 +56,35 @@ Page {
                 Layout.preferredWidth: parent.width
                 Layout.preferredHeight: 30 * app.scaleFactor
 
-                Label {
-                    Layout.fillWidth: true
-                    font.pixelSize: app.baseFontSize*.4
-                    text: "My Location: "+app.currentLonLat;
-                    color: app.appSecondaryTextColor;
-                    topPadding: 5 * app.scaleFactor
-                    bottomPadding: 5 * app.scaleFactor
-                    horizontalAlignment: Text.AlignHCentern
-                    verticalAlignment: Text.AlignBottom
+                RowLayout {
+                    spacing: 0
                     anchors.centerIn: parent
-                    font.bold: true
+
+
+                    Label {
+    //                    Layout.fillWidth: true
+                        font.pixelSize: app.baseFontSize*.4
+                        text: "My Location: "
+                        color: app.appPrimaryTextColor;
+                        topPadding: 5 * app.scaleFactor
+                        bottomPadding: 5 * app.scaleFactor
+//                        horizontalAlignment: Text.AlignHCentern
+                        verticalAlignment: Text.AlignBottom
+//                        anchors.centerIn: parent
+                        font.bold: true
+                    }
+                    Label {
+//                        Layout.fillWidth: true
+                        font.pixelSize: app.baseFontSize*.4
+                        text: app.currentLonLat;
+                        color: app.appSecondaryTextColor
+                        topPadding: 5 * app.scaleFactor
+                        bottomPadding: 5 * app.scaleFactor
+//                        horizontalAlignment: Text.AlignHCentern
+                        verticalAlignment: Text.AlignBottom
+//                        anchors.centerIn: parent
+                        font.bold: true
+                    }
                 }
             }
 

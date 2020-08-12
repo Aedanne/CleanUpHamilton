@@ -69,6 +69,7 @@ Item {
         }
 
         RowLayout {
+            id: btnRow
             spacing: 20 * app.scaleFactor
             anchors.top: passwordTextField.bottom
             anchors.topMargin: 15*app.scaleFactor;
@@ -144,6 +145,24 @@ Item {
                 }
             }
         }
+
+        Rectangle {
+            color: "#FFCCCC"
+            radius: 5
+            width: parent.width
+            anchors.top: btnRow.bottom
+            anchors.topMargin: 15*app.scaleFactor;
+            height: 20 * app.scaleFactor;
+            visible: challenge ? challenge.failureCount > 1 : false
+
+            Text {
+                anchors.centerIn: parent
+                text: qsTr("Invalid username or password.")
+                font.pixelSize: app.baseFontSize*0.4;
+                color: "red"
+            }
+        }
+
 
     }
 }

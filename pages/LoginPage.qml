@@ -131,16 +131,17 @@ Page {
             }
 
             RowLayout {
+                id: btnRow
                 spacing: 20 * app.scaleFactor
                 anchors.top: passwordTextField.bottom
-                anchors.topMargin: 15*app.scaleFactor;
+                anchors.topMargin: 15*app.scaleFactor
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 Button {
                     id: cancelButton
                     text: qsTr("CANCEL")
                     font.bold: true
-                    font.pixelSize: app.baseFontSize*0.4;
+                    font.pixelSize: app.baseFontSize*0.4
 
                     contentItem: Text {
                         text: cancelButton.text
@@ -209,6 +210,39 @@ Page {
                         previousPage();
                     }
                 }
+            }
+
+
+//            Rectangle {
+//                color: "#FFCCCC"
+//                radius: 5
+//                width: parent.width
+//                anchors.top: btnRow.bottom
+//                anchors.topMargin: 15*app.scaleFactor;
+//                height: 20 * app.scaleFactor;
+//                visible: true //authChallenge ? authChallenge.failureCount > 1 : false
+
+//                Text {
+//                    anchors.centerIn: parent
+//                    text: qsTr("Invalid username or password.")
+//                    font.pixelSize: app.baseFontSize*0.4;
+//                    color: "red"
+//                }
+//            }
+
+            Label {
+                id: errorLabel
+                visible: true //authChallenge ? authChallenge.failureCount > 1 : false
+                Material.theme: app.lightTheme? Material.Light : Material.Dark;
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pixelSize: app.baseFontSize*0.4;
+                color: "red"
+                font.bold: true
+                wrapMode: Text.Wrap;
+                anchors.top: btnRow.bottom
+                anchors.topMargin: 25*app.scaleFactor;
+//                topPadding: 150*app.scaleFactor;
+                text: qsTr("Invalid username or password.")
             }
 
         }

@@ -97,43 +97,30 @@ Page {
                 margins: 20 * app.scaleFactor
             }
 
-            //Location placeholder
+
             RowLayout{
 
                 spacing: 0;
                 visible: true;
 
                 Label {
-                    Layout.fillWidth: true
+//                    Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
                     font.bold: true
-                    text: "Location: "+ app.currentLonLat
-                    color: app.appSecondaryTextColor;
+                    text: "Report Type "
+                    color: app.appPrimaryTextColor;
+//                    topPadding: 35 * app.scaleFactor
                     bottomPadding: 5 * app.scaleFactor
                 }
-
                 Label {
-                    Layout.fillWidth: true
+//                    Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
-                    text: "";
-                    color: app.appSecondaryTextColor
+//                    font.bold: true
+                    text: "*"
+                    color: "red"
+//                    topPadding: 35 * app.scaleFactor
                     bottomPadding: 5 * app.scaleFactor
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignBottom
                 }
-            }
-
-
-
-
-            Label {
-                Layout.fillWidth: true
-                font.pixelSize: app.baseFontSize*.4
-                font.bold: true
-                text: "Select incident to report:"
-                color: app.appSecondaryTextColor;
-                topPadding: 20 * app.scaleFactor
-                bottomPadding: 5 * app.scaleFactor
             }
 
             ComboBox {
@@ -149,7 +136,7 @@ Page {
                     width: parent.width
                     contentItem: Text {
                         text: modelData
-                        color: app.appPrimaryTextColor
+                        color: app.appSecondaryTextColor
                         font: typeComboBox.font
                         elide: Text.ElideRight
                         verticalAlignment: Text.AlignVCenter
@@ -180,7 +167,7 @@ Page {
 
                         text: typeComboBox.displayText
                         font: typeComboBox.font
-                        color: (typeComboBox.currentIndex === -1) ? "red": app.appPrimaryTextColor
+                        color: (typeComboBox.currentIndex === -1) ? "red": app.appSecondaryTextColor
                         verticalAlignment: Text.AlignVCenter
                         elide: Text.ElideRight
                     }
@@ -196,9 +183,9 @@ Page {
                     Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
                     font.bold: true
-                    text: "Enter description: "
-                    color: app.appSecondaryTextColor;
-                    topPadding: 20 * app.scaleFactor
+                    text: "Description "
+                    color: app.appPrimaryTextColor;
+                    topPadding: 35 * app.scaleFactor
                     bottomPadding: 5 * app.scaleFactor
                 }
 
@@ -207,7 +194,7 @@ Page {
                     font.pixelSize: app.baseFontSize*.3
                     text: "(" + currChars + "/" + maxLimit + ")";
                     color: (currChars == maxLimit) ? "red" : app.appSecondaryTextColor;
-                    topPadding: 20 * app.scaleFactor
+                    topPadding: 35 * app.scaleFactor
                     bottomPadding: 5 * app.scaleFactor
                     horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignBottom
@@ -233,7 +220,7 @@ Page {
                         selectByMouse: true
                         wrapMode: TextEdit.WrapAnywhere
                         placeholderText: "Enter additional information..."
-                        color: app.appPrimaryTextColor
+                        color: app.appSecondaryTextColor
                         text:""
 
                         onTextChanged: {
@@ -261,12 +248,22 @@ Page {
                 visible: true;
 
                 Label {
-                    Layout.fillWidth: true
+//                    Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
                     font.bold: true
-                    text: "Add photos:"
-                    color: app.appSecondaryTextColor;
-                    topPadding: 20 * app.scaleFactor
+                    text: "Supporting Photos "
+                    color: app.appPrimaryTextColor;
+                    topPadding: 35 * app.scaleFactor
+                    bottomPadding: 2 * app.scaleFactor
+                }
+
+                Label {
+//                    Layout.fillWidth: true
+                    font.pixelSize: app.baseFontSize*.4
+//                    font.bold: true
+                    text: "*"
+                    color: "red"
+                    topPadding: 35 * app.scaleFactor
                     bottomPadding: 2 * app.scaleFactor
                 }
 
@@ -275,13 +272,12 @@ Page {
                     font.pixelSize: app.baseFontSize*.3
                     text: "(" + app.attListModel.count + "/" + maxAttachments + ")";
                     color: (app.attListModel.count == maxAttachments) ? "red" : app.appSecondaryTextColor;
-                    topPadding: 20 * app.scaleFactor
+                    topPadding: 35 * app.scaleFactor
                     bottomPadding: 2 * app.scaleFactor
                     horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignBottom
                 }
             }
-
 
             Rectangle {
                 Layout.fillWidth: true
@@ -421,6 +417,46 @@ Page {
                     }
                 }
             } //End rectangle for thumbnail previewBtn
+
+
+            //Location placeholder
+            RowLayout{
+
+                spacing: 0;
+                visible: true;
+
+                Label {
+//                    Layout.fillWidth: true
+                    font.pixelSize: app.baseFontSize*.4
+                    font.bold: true
+                    text: "Report Location "
+                    color: app.appPrimaryTextColor;
+                    topPadding: 35 * app.scaleFactor
+                    bottomPadding: 5 * app.scaleFactor
+                }
+                Label {
+//                    Layout.fillWidth: true
+                    font.pixelSize: app.baseFontSize*.4
+//                    font.bold: true
+                    text: "*"
+                    color: "red"
+                    topPadding: 35 * app.scaleFactor
+                    bottomPadding: 5 * app.scaleFactor
+                }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                font.pixelSize: app.baseFontSize*.4
+                text: app.currentLonLat
+                color: app.appSecondaryTextColor
+                font.bold: true
+//                    topPadding: 35 * app.scaleFactor
+                bottomPadding: 5 * app.scaleFactor
+//                    horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignBottom
+            }
+
 
 
             RowLayout{
@@ -610,7 +646,7 @@ Page {
 
     AlertPopup {
         id: formMissingData
-        alertText: (app.reportType === "" ? "Select incident to report." : "")
+        alertText: (app.reportType === "" ? "Select report type." : "")
                     + ((app.attListModel.count == 0) ? ((app.reportType === "" ? "\n":"") + "Include at least 1 photo.") : "") ;
     }
 
