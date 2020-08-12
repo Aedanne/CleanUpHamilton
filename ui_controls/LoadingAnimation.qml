@@ -14,8 +14,8 @@ Item {
     property string loadingText;
 
     Rectangle {
-        width: 150*app.scaleFactor
-        height: 150*app.scaleFactor
+//        width: parent.width
+//        height: parent.height
 
         anchors.fill: parent
         color: app.appBackgroundColor
@@ -24,20 +24,24 @@ Item {
         BusyIndicator {
             id: busy
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: parent.top
+//            anchors.top: parent.top
+            anchors.centerIn: parent
             anchors.topMargin: 200*app.scaleFactor
+            antialiasing: true
             Material.accent: app.primaryColor
             running: loadingAnimation.visible
         }
 
         Label {
             Material.theme: app.lightTheme? Material.Light : Material.Dark;
-            anchors.centerIn: parent;
+//            anchors.centerIn: parent;
             font.pixelSize: app.baseFontSize*0.5;
             color: app.primaryColor;
             font.bold: true
             wrapMode: Text.Wrap;
-            topPadding: 25*app.scaleFactor;
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: busy.top
+            bottomPadding: 25*app.scaleFactor;
             text: loadingText;
         }
 

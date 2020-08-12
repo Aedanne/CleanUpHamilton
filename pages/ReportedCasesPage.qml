@@ -6,20 +6,20 @@ import ArcGIS.AppFramework 1.0
 
 
 /*
-Settings page for Clean-Up Hamilton app
+Placeholder page for staff workflow
 */
 
 
 Page {
 
-    id:settingsPage;
+    id:reportedCasesPage;
 
     signal nextPage();
     signal previousPage();
 
     property string titleText:"";
     property var descText;
-    width: parent.width * 0.70;
+//    width: parent.width * 0.70;
     anchors.fill: parent;
 
     header: ToolBar{
@@ -77,7 +77,7 @@ Page {
         Label{
             Material.theme: app.lightTheme? Material.Light : Material.Dark;
             anchors.centerIn: parent;
-            font.pixelSize: app.titleFontSize;
+            font.pixelSize: app.titleFontSize*0.5;
             font.bold: true;
             wrapMode: Text.Wrap;
             padding: 16*app.scaleFactor;
@@ -85,3 +85,4 @@ Page {
         }
     }
 }
+

@@ -5,6 +5,12 @@ import QtQuick.Window 2.0
 import QtQuick.Layouts 1.13
 import QtQuick.Controls.Material 2.13
 
+import ArcGIS.AppFramework 1.0
+import Esri.ArcGISRuntime 100.7
+import Esri.ArcGISRuntime.Toolkit.Controls 100.7
+import Esri.ArcGISRuntime.Toolkit.Dialogs 100.1
+
+import "../ui_controls"
 
 /*
 Login page for Clean-Up Hamilton app
@@ -13,7 +19,6 @@ Login page for Clean-Up Hamilton app
 Page {
 
     id:loginPage;
-    signal openMenu();
 
     signal nextPage();
     signal previousPage();
@@ -21,9 +26,7 @@ Page {
     property string titleText:"";
     property var descText;
 
-    property var authChallenge;
-
-    anchors.fill: HomePage;
+//    anchors.fill: HomePage;
 
     header: ToolBar{
         contentHeight: app.btnHdrFtrHeightSize;
@@ -45,25 +48,35 @@ Page {
                 color: app.menuPrimaryTextColor;
             }
 
-//            ToolButton {
-//                indicator: Image{
-//                    width: (parent.width*0.5)*(1.25*app.scaleFactor);
-//                    height: (parent.height*0.5)*(1.25*app.scaleFactor);
-//                    anchors {
-//                        verticalCenter: parent.verticalCenter;
-//                        right: parent.right;
-//                        margins: 2*app.scaleFactor;
-//                    }
-//                    horizontalAlignment: Qt.AlignRight;
-//                    verticalAlignment: Qt.AlignVCenter;
-//                    source: "../images/clear.png";
-//                    fillMode: Image.PreserveAspectFit;
-//                    mipmap: true;
-//                }
-//                onClicked: {
-//                    previousPage();
-//                }
-//            }
+            ToolButton {
+
+                indicator: Image{
+                    width: (parent.width*0.5)*(1.25*app.scaleFactor);
+                    height: (parent.height*0.5)*(1.25*app.scaleFactor);
+                    anchors {
+                        verticalCenter: parent.verticalCenter;
+                        right: parent.right;
+                        margins: 2*app.scaleFactor;
+                    }
+                    horizontalAlignment: Qt.AlignRight;
+                    verticalAlignment: Qt.AlignVCenter;
+                    source: "../images/clear.png";
+                    fillMode: Image.PreserveAspectFit;
+                    mipmap: true;
+                }
+                onClicked: {
+                    if (portal.loadStatus === Enums.LoadStatusLoading) {
+                        console.log(">>>> Cancelling login from x button")
+                        portal.cancelLoad();
+
+                    } else {
+                        portal = null;
+                    }
+
+                    previousPage();
+                }
+            }
+
             Item {
                 Layout.preferredWidth: 1;
                 Layout.fillHeight: true;
@@ -75,177 +88,94 @@ Page {
         id: root
         width: parent.width
         height: parent.height
-        anchors.fill: parent
+//        anchors.fill: parent
 
-        property var authChallenge; //Authentication Challenge
 
-        Rectangle {
-            width: 150*app.scaleFactor
-            height: 150*app.scaleFactor
+        BusyIndicator {
+            id: busy
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.centerIn: parent
+            anchors.topMargin: 200*app.scaleFactor
+            Material.accent: app.primaryColor
+            running: portal.loadStatus !== Enums.LoadStatusLoaded
+        }
 
-            anchors.fill: parent
-            color: app.appBackgroundColor
+        Label {
+            Material.theme: app.lightTheme? Material.Light : Material.Dark;
+            anchors.bottom: busy.top
+            font.pixelSize: app.baseFontSize*0.5;
+            anchors.horizontalCenter: parent.horizontalCenter
+            color: app.primaryColor;
+            font.bold: true
+            wrapMode: Text.Wrap;
+            bottomPadding: 25*app.scaleFactor;
+            text: "Connecting to ArcGIS Portal..."
+         }
 
-            Label {
-                id: displayLabel
-                Material.theme: app.lightTheme? Material.Light : Material.Dark;
-                anchors.horizontalCenter: parent.horizontalCenter
-                font.pixelSize: app.baseFontSize*0.4;
-                color: app.primaryColor;
-                font.bold: true
-                wrapMode: Text.Wrap;
-                topPadding: 150*app.scaleFactor;
-                text: "Authentication Required";
-            }
-
-            Label {
-                id: hostLabel
-                Material.theme: app.lightTheme? Material.Light : Material.Dark;
-                anchors.horizontalCenter: parent.horizontalCenter
-                font.pixelSize: app.baseFontSize*0.5;
-                anchors.top: displayLabel.bottom
-                anchors.topMargin: 5*app.scaleFactor;
-                color: app.primaryColor;
-                font.bold: true
-                wrapMode: Text.Wrap;
-                text: "waikato.maps.arcgis.com";
-            }
-
-            TextField {
-                id: usernameTextField
-                width: 230 * app.scaleFactor
-                placeholderText: qsTr("Username")
-                anchors.top: hostLabel.bottom
-                anchors.topMargin: 25*app.scaleFactor;
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-
-            TextField {
-                id: passwordTextField
-                width: 230 * app.scaleFactor
-                placeholderText: qsTr("Password")
-                echoMode: TextInput.Password
-                anchors.top: usernameTextField.bottom
-                anchors.topMargin: 5*app.scaleFactor;
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-
-            RowLayout {
-                id: btnRow
-                spacing: 20 * app.scaleFactor
-                anchors.top: passwordTextField.bottom
-                anchors.topMargin: 15*app.scaleFactor
-                anchors.horizontalCenter: parent.horizontalCenter
-
-                Button {
-                    id: cancelButton
-                    text: qsTr("CANCEL")
-                    font.bold: true
-                    font.pixelSize: app.baseFontSize*0.4
-
-                    contentItem: Text {
-                        text: cancelButton.text
-                        color: app.menuPrimaryTextColor
-                        font.bold: cancelButton.font.bold
-                        font.pixelSize: cancelButton.font.pixelSize
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    background: Rectangle {
-                        implicitWidth: 105 * app.scaleFactor
-                        implicitHeight: 25 * app.scaleFactor
-    //                    border.width: 1
-    //                    border.color: app.mapBorderColor
-
-                        radius: 2
-                        gradient: Gradient {
-                            GradientStop { position: 0 ; color: cancelButton.pressed ? Qt.lighter(app.primaryColor, 1.3) : Qt.lighter(app.primaryColor, 0.7) }
-                            GradientStop { position: 1 ; color: cancelButton.pressed ? Qt.lighter(app.primaryColor, 0.7) : Qt.lighter(app.primaryColor, 1.3) }
-                        }
-                   }
-
-                    onClicked: {
-                        // cancel the authentication challenge and let the resource fail to load
-                        if (authChallenge) authChallenge.cancel();
-//                        root.visible = false;
-
-                        previousPage();
-                    }
-                }
-
-                Button {
-                    id: signInButton
-                    text: qsTr("SIGN IN")
-                    font.bold: true
-                    font.pixelSize: app.baseFontSize*0.4;
-
-                    contentItem: Text {
-                        text: signInButton.text
-                        color: app.menuPrimaryTextColor
-                        font.bold: signInButton.font.bold
-                        font.pixelSize: signInButton.font.pixelSize
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    background: Rectangle {
-                        implicitWidth: 105 * app.scaleFactor
-                        implicitHeight: 25 * app.scaleFactor
-                        border.width: 1
-    //                    border.color: app.mapBorderColor
-
-                        radius: 2
-                        gradient: Gradient {
-                            GradientStop { position: 0 ; color: signInButton.pressed ? Qt.lighter(app.primaryColor, 1.3) : Qt.lighter(app.primaryColor, 0.7) }
-                            GradientStop { position: 1 ; color: signInButton.pressed ? Qt.lighter(app.primaryColor, 0.7) : Qt.lighter(app.primaryColor, 1.3) }
-                        }
-                   }
-
-                   // isDefault: true
-                    onClicked: {
-                        // continue with the username and password
-                        if (authChallenge)
-                           console.log(">>>> TODO: Auth Login....");
-//                        root.visible = false;
-
-                        previousPage();
-                    }
+        Portal {
+            id: portal
+            credential: Credential {
+                oAuthClientInfo: OAuthClientInfo {
+                    oAuthMode: Enums.OAuthModeUser
+                    clientId: app.cleanUpHamiltonClientId
                 }
             }
 
+            Component.onCompleted: {
+                load();
+                console.log(">>>> fetchLicenseInfo(): ", fetchLicenseInfo());
+                if (!app.authenticated) {
+                    console.log(">>>> PortalUser: " + app.portalUser);
+                    console.log(">>>> Portal: Cancel and retry load -- force to login every time ");
+//                    if (loadStatus === Enums.LoadStatusLoading) {
+//                        cancelLoad();
 
-//            Rectangle {
-//                color: "#FFCCCC"
-//                radius: 5
-//                width: parent.width
-//                anchors.top: btnRow.bottom
-//                anchors.topMargin: 15*app.scaleFactor;
-//                height: 20 * app.scaleFactor;
-//                visible: true //authChallenge ? authChallenge.failureCount > 1 : false
+//                    } else if (loadStatus === Enums.LoadStatusLoaded) {
+//                        destroyed();
+//                    }
+                    cancelLoad();
+                    retryLoad();
+                }
 
-//                Text {
-//                    anchors.centerIn: parent
-//                    text: qsTr("Invalid username or password.")
-//                    font.pixelSize: app.baseFontSize*0.4;
-//                    color: "red"
-//                }
-//            }
+            }
 
-            Label {
-                id: errorLabel
-                visible: true //authChallenge ? authChallenge.failureCount > 1 : false
-                Material.theme: app.lightTheme? Material.Light : Material.Dark;
-                anchors.horizontalCenter: parent.horizontalCenter
-                font.pixelSize: app.baseFontSize*0.4;
-                color: "red"
-                font.bold: true
-                wrapMode: Text.Wrap;
-                anchors.top: btnRow.bottom
-                anchors.topMargin: 25*app.scaleFactor;
-//                topPadding: 150*app.scaleFactor;
-                text: qsTr("Invalid username or password.")
+            onLoadStatusChanged: {
+                if (loadStatus === Enums.LoadStatusFailedToLoad) {
+                    retryLoad();
+                } else if (loadStatus === Enums.LoadStatusLoaded) {
+                    app.authenticated = true;
+                    app.portalUser = portalUser.username;
+
+                    console.log(">>>> PORTAL >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+                    console.log(">>>> PORTAL AUTHENTICATED: " + app.authenticated)
+                    console.log(">>>> PORTALUSER.FULLNAME: " + portalUser.fullName)
+                    console.log(">>>> PORTALUSER.ROLE: " + portalUser.role)
+                    console.log(">>>> PORTALUSER.USERNAME: " + app.portalUser)
+
+
+                    previousPage();
+                }
+            }
+
+            onLoadErrorChanged: {
+                console.log(">>>> onLoadErrorChanged @ Portal Load: ", error.message);
+                retryLoad();
+            }
+
+            onErrorChanged: {
+                if (loadStatus === Enums.LoadStatusFailedToLoad) {
+                    console.log(">>>> Error @ Portal Load: ", error.message);
+                }
             }
 
         }
+
+        AuthenticationView {
+            id: authView
+            authenticationManager: AuthenticationManager
+        }
+
     }
 
 

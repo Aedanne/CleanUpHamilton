@@ -47,6 +47,7 @@ App{
     readonly property color backgroundAccent: '#AEAEAE'
     //readonly property color listViewDividerColor:"#19000000"
     readonly property color cameraViewBackgroundColor: "#1C1C1C"
+    readonly property color mapBorderColor: "#303030"
 
     // App-level size properties=========================================================
     property real scaleFactor: AppFramework.displayScaleFactor
@@ -60,7 +61,7 @@ App{
     //Map properties=====================================================================
     readonly property string webMapRootUrl: "https://waikato.maps.arcgis.com/home/item.html?id="
     readonly property string webMapId: "bedb6a09b8b54d9f866f49de216b87c7"  //Clean-Up Hamilton Default Map
-    readonly property color mapBorderColor: "#303030"
+    readonly property string staffWebMapId: "7152b9397a1b446292d67076bfa4e842"
     property Point currentLocationPoint
     property string currentLonLat
     readonly property string featureServerURL: "https://services1.arcgis.com/gjbU5qa8FJmAPFZX/arcgis/rest/services/Cases/FeatureServer/0"
@@ -84,14 +85,14 @@ App{
     property alias attListModel:attachmentListModel
 
     //Misc properties====================================================================
+    readonly property string cleanUpHamiltonClientId: "y5uFdm2AiF58sqBj"
+    property bool authenticated: false;
+    property string portalUser;
 
 
     ListModel {
         id: attachmentListModel
     }
-
-
-
 
 
     // Main body, title==================================================================
@@ -135,13 +136,17 @@ App{
         dragMargin: 0
         contentItem: SideMenuPage {
             //currentIndex: currIndex
-            menuModel: sideMenuDrawerModel
+            menuModel: app.authenticated ? sideMenuDrawerModel1 : sideMenuDrawerModel0
             onMenuSelected: {
                 sideMenuDrawer.close();
                 switch(action){
                 case "fileareport":
                     console.log(">>>> In menu drawer > fileareport");
                         formStackView.loadSetLocationPage();
+                    break;
+                case "reportedcases":
+                    console.log(">>>> In menu drawer > reportedcases");
+                        formStackView.loadReportedCasesPage();
                     break;
                 case "settings":
                     console.log(">>>> In menu drawer > settings");
@@ -153,8 +158,17 @@ App{
                     break;
                 case "login":
                     console.log(">>>> In menu drawer > login");
+                    console.log(">>>> AUTHENTICATED: " + app.authenticated);
+
                         formStackView.loadLoginPage();
                     break;
+//                case "logout":
+//                    console.log(">>>> In menu drawer > logout");
+//                    console.log(">>>> AUTHENTICATED: " + app.authenticated);
+
+////                        Portal.deleteLater()
+//                        //TODO
+//                    break;
                 default:
                     break;
                 }
@@ -164,7 +178,7 @@ App{
 
     // Side menu options to send to drawer model=========================================
     ListModel{
-        id: sideMenuDrawerModel
+        id: sideMenuDrawerModel0  //Login option
 
         ListElement {
             action:"fileareport";
@@ -199,16 +213,56 @@ App{
 
     }
 
+    ListModel{
+        id: sideMenuDrawerModel1  //Logout option
+
+        ListElement {
+            action:"fileareport";
+            type: "delegate";
+            name: qsTr("File a Report");
+            iconSource: "../images/add_note.png"
+        }
+        ListElement {
+            action:"reportedcases";
+            type: "delegate";
+            name: qsTr("Reported Cases");
+            iconSource: "../images/edit.png"
+        }
+        ListElement {
+            action:"divider";
+            type: "";
+            name: "divider";
+            iconSource: ""
+        }
+        ListElement {
+            action:"about";
+            type: "delegate";
+            name: qsTr("About");
+            iconSource: "../images/info.png"
+        }
+        ListElement {
+            action:"settings";
+            type: "delegate";
+            name: qsTr("Settings");
+            iconSource: "../images/gear.png"
+        }
+//        ListElement {
+//            action:"logout";
+//            type: "delegate";
+//            name: qsTr("Logout");
+//            iconSource: "../images/login.png"
+//        }
+
+    }
+
 
     //About component when menu option selected
     Component{
         id: aboutPageComponent
         AboutPage{
             titleText:qsTr("About")
-            descText: qsTr("TODO: \nABOUT\nVersion:"+ app.version)
-            onOpenMenu: {
-                sideMenuDrawer.open();
-            }
+            descText: qsTr("TODO: \nABOUT")
+            descText1: qsTr("Version: " +app.version)
             onPreviousPage: {
                 formStackView.pop()
             }
@@ -225,9 +279,7 @@ App{
         SettingsPage{
             titleText:qsTr("Settings")
             descText: qsTr("TODO: \nSettings")
-            onOpenMenu: {
-                sideMenuDrawer.open();
-            }
+
             onPreviousPage: {
                 formStackView.pop()
             }
@@ -285,12 +337,26 @@ App{
     //Login component when menu option selected
     Component{
         id: loginPageComponent
-        LoginPage{
+        LoginPage {
             titleText:qsTr("Staff Login")
             descText: qsTr("")
-            onOpenMenu: {
-                sideMenuDrawer.open();
+
+            onPreviousPage: {
+                formStackView.pop()
             }
+
+            onNextPage: {
+
+            }
+        }
+    }
+
+    //Reported Cases component when menu option selected
+    Component{
+        id: reportedCasesPageComponent
+        ReportedCasesPage{
+            titleText:qsTr("Reported Cases")
+            descText: qsTr("TODO: \nReported Cases")
             onPreviousPage: {
                 formStackView.pop()
             }
@@ -348,10 +414,17 @@ App{
             console.log(">>>> Inside StackView.loadSubmitPage()")
             push(setSubmitPageComponent);
         }
+
         //Load Login Page
         function loadLoginPage() {
             console.log(">>>> Inside StackView.loadLoginPage()")
             push(loginPageComponent);
+        }
+
+        //Load Reported Cases Page
+        function loadReportedCasesPage() {
+            console.log(">>>> Inside StackView.loadReportedCasesPage()")
+            push(reportedCasesPageComponent);
         }
 
     }
@@ -390,10 +463,6 @@ App{
                  { reporttype, description, reportdate, latitude, longitude } );
         }
     }
-
-
-
-
 
 
     //Clear data after submission

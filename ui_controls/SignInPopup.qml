@@ -15,7 +15,7 @@ Item {
     height: parent.height
     anchors.fill: parent
 
-    property var authChallenge; //Authentication Challenge
+    property var challenge; //AuthenticationChallenge roperty for ArcGIS Token, HTTP Basic, HTTP Digest, and IWA.
 
     Rectangle {
         width: 150*app.scaleFactor
@@ -104,7 +104,7 @@ Item {
 
                 onClicked: {
                     // cancel the authentication challenge and let the resource fail to load
-                    if (authChallenge) authChallenge.cancel();
+                    if (challenge) challenge.cancel();
                     root.visible = false;
                 }
             }
@@ -139,7 +139,7 @@ Item {
                // isDefault: true
                 onClicked: {
                     // continue with the username and password
-                    if (authChallenge)
+                    if (challenge)
                        console.log(">>>> TODO: Auth Login....");
                     root.visible = false;
                 }

@@ -12,17 +12,18 @@ About page for Clean-Up Hamilton app
 Page {
 
     id:aboutPage;
-    signal openMenu();
 
     signal nextPage();
     signal previousPage();
 
     property string titleText:"";
     property var descText;
-
-    anchors.fill: HomePage;
+    property var descText1;
+    width: parent.width * 0.70;
+    anchors.fill: parent;
 
     header: ToolBar{
+
         contentHeight: app.btnHdrFtrHeightSize;
         Material.primary: app.primaryColor;
 
@@ -43,6 +44,7 @@ Page {
             }
 
             ToolButton {
+
                 indicator: Image{
                     width: (parent.width*0.5)*(1.25*app.scaleFactor);
                     height: (parent.height*0.5)*(1.25*app.scaleFactor);
@@ -73,6 +75,7 @@ Page {
         color: app.appBackgroundColor;
 
         Label{
+            id: topLabel
             Material.theme: app.lightTheme? Material.Light : Material.Dark;
             anchors.centerIn: parent;
             font.pixelSize: app.titleFontSize;
@@ -81,7 +84,17 @@ Page {
             padding: 16*app.scaleFactor;
             text: descText > ""? descText:"";
         }
+
+        Label{
+            Material.theme: app.lightTheme? Material.Light : Material.Dark;
+            anchors.top: topLabel.bottom
+            anchors.topMargin: 20*app.scaleFactor
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.pixelSize: app.titleFontSize;
+            font.bold: true;
+            wrapMode: Text.Wrap;
+            padding: 16*app.scaleFactor;
+            text: descText1 > ""? descText1:"";
+        }
     }
-
-
 }

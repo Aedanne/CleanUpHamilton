@@ -32,7 +32,7 @@ Page{
             spacing: 1;
             clip: true;
 
-            model: sideMenuDrawerModel;
+            model: app.authenticated ? sideMenuDrawerModel1 : sideMenuDrawerModel0
             delegate:Rectangle{
                 height: 56*app.scaleFactor;
                 width: parent.width;
@@ -105,6 +105,35 @@ Page{
                 }
             }
         }
+
+
+        Label {
+            id: signedInAsLabel
+            visible: app.authenticated
+            Material.theme: app.lightTheme? Material.Light : Material.Dark;
+            anchors.top: sideMenuListView.bottom
+            font.pixelSize: app.baseFontSize*0.4;
+//            anchors.horizontalCenter: parent.horizontalCenter
+            color: app.menuPrimaryTextColor;
+            font.bold: true
+            wrapMode: Text.Wrap;
+            bottomPadding: 10*app.scaleFactor;
+            text: "Signed in as:"
+         }
+        Label {
+            visible: app.authenticated
+            Material.theme: app.lightTheme? Material.Light : Material.Dark;
+            anchors.top: signedInAsLabel.bottom
+            font.pixelSize: app.baseFontSize*0.4;
+//            anchors.horizontalCenter: parent.horizontalCenter
+            color: app.menuPrimaryTextColor;
+            font.bold: true
+            wrapMode: Text.Wrap;
+            bottomPadding: 25*app.scaleFactor;
+            text: app.portalUser
+         }
+
+
     }
 }
 
