@@ -24,7 +24,7 @@ Form page for Clean-Up Hamilton app
 Page {
 
     id:formPage;
-    anchors.fill: parent;
+//    anchors.fill: parent;
 
     signal nextPage();
     signal previousPage();

@@ -19,8 +19,8 @@ Page {
 
     property string titleText:"";
     property var descText;
-    width: parent.width * 0.70;
-    anchors.fill: parent;
+//    width: parent.width * 0.70;
+//    anchors.fill: parent;
 
     header: ToolBar{
 

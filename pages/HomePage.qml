@@ -15,7 +15,7 @@ Page {
     signal openMenu();
     signal nextPage();
     signal previousPage();
-    anchors.fill: parent;
+//    anchors.fill: parent;
 
     property var descText1;
     property var descText2;
