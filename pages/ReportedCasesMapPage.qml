@@ -26,7 +26,7 @@ Staff Workflow Reported Cases Map Page
 
 Page {
 
-    id:reportedCasesPage;
+    id:reportedCasesMapPage;
 
     signal nextPage();
     signal previousPage();
@@ -53,8 +53,6 @@ Page {
     //Map and MapView QML Types
 
     contentItem: Rectangle{
-
-
 
         ColumnLayout {
 
@@ -142,12 +140,9 @@ Page {
                     }
                 }
 
-//                onMouseReleased: {
-//                    queryFeaturesInExtent();
-//                }
-
                 onDrawStatusChanged: {
                     queryFeaturesInExtent();
+                    app.reportedCasesMapView = mapView
                 }
 
 

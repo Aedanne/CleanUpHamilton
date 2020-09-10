@@ -49,6 +49,8 @@ Button {
                 source: btn.imageSource;
                 visible: btn.imageLeft === true;
                 enabled: btn.imageLeft === true;
+                fillMode: Image.PreserveAspectCrop
+
 //                verticalAlignment: parent.verticalCenter;
 //                anchors.verticalCenter: parent.verticalCenter;
 //                verticalAlignment: btn.verticalCenter;
@@ -69,6 +71,8 @@ Button {
                 source: btn.imageSource;
                 visible: btn.imageRight === true;
                 enabled: btn.imageRight === true;
+                fillMode: Image.PreserveAspectCrop
+
 //                verticalAlignment: parent.verticalCenter;
 //                anchors.verticalCenter: parent.verticalCenter;
             }

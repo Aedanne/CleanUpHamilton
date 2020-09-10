@@ -69,6 +69,7 @@ App{
     // https://services1.arcgis.com/gjbU5qa8FJmAPFZX/arcgis/rest/services/Cases/FeatureServer/0
     readonly property string featureServerURL: "https://services1.arcgis.com/gjbU5qa8FJmAPFZX/arcgis/rest/services/Cases/FeatureServer/0"
     property var agolPortal
+    property var reportedCasesMapView
 
     //Database properties================================================================
     property var attributesArray
@@ -152,8 +153,8 @@ App{
                         formStackView.loadSetLocationPage();
                     break;
                 case "reportedcases":
-                    console.log(">>>> In menu drawer > reportedcases");
-                        formStackView.loadReportedCasesPage();
+                    console.log(">>>> In menu drawer > reportedcasesmap");
+                        formStackView.loadReportedCasesMapPage();
                     break;
                 case "settings":
                     console.log(">>>> In menu drawer > settings");
@@ -361,8 +362,24 @@ App{
 
     //Reported Cases component when menu option selected
     Component{
-        id: reportedCasesPageComponent
-        ReportedCasesPage{
+        id: reportedCasesMapPageComponent
+        ReportedCasesMapPage{
+            titleText:qsTr("Reported Cases Map")
+            descText: qsTr("TODO: \nReported Cases Map")
+            onPreviousPage: {
+                formStackView.pop()
+            }
+
+            onNextPage: {
+                formStackView.loadCasesListPage();
+            }
+        }
+    }
+
+    //Cases List component from Reported Cases Map page
+    Component{
+        id: casesListPageComponent
+        CasesListPage{
             titleText:qsTr("Reported Cases")
             descText: qsTr("TODO: \nReported Cases")
             onPreviousPage: {
@@ -370,7 +387,7 @@ App{
             }
 
             onNextPage: {
-
+                formStackView.loadHomePage();
             }
         }
     }
@@ -430,9 +447,15 @@ App{
         }
 
         //Load Reported Cases Page
-        function loadReportedCasesPage() {
-            console.log(">>>> Inside StackView.loadReportedCasesPage()")
-            push(reportedCasesPageComponent);
+        function loadReportedCasesMapPage() {
+            console.log(">>>> Inside StackView.loadReportedCasesMapPage()")
+            push(reportedCasesMapPageComponent);
+        }
+
+        //Load Cases List Page
+        function loadCasesListPage() {
+            console.log(">>>> Inside StackView.loadCasesListPage()")
+            push(casesListPageComponent);
         }
 
     }
