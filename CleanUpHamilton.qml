@@ -70,6 +70,7 @@ App{
     readonly property string featureServerURL: "https://services1.arcgis.com/gjbU5qa8FJmAPFZX/arcgis/rest/services/Cases/FeatureServer/0"
     property var agolPortal
     property var reportedCasesMapView
+    property var reportedCasesFeatureService
 
     //Database properties================================================================
     property var attributesArray

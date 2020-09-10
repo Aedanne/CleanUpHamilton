@@ -34,7 +34,7 @@ Page {
     property string titleText:"";
     property var descText;
 
-    property ArcGISFeature reportFeature;
+    property ArcGISFeature caseFeature;
     property string debugText;
     property bool querying;
     property string currentStatus;
@@ -89,6 +89,7 @@ Page {
             font.bold: true
             font.pixelSize: app.baseFontSize*.5
             displayText: currentText
+//            width: parent.width * 0.6
 
             delegate: ItemDelegate {
                 width: parent.width
@@ -102,18 +103,28 @@ Page {
             }
 
             model: ListModel {
-                id: statusIndex
+                id: statusIndexList
                 ListElement { text: "Pending"; }
                 ListElement { text: "Assigned";  }
                 ListElement { text: "Completed";  }
                 ListElement { text: "Cancelled";  }
             }
 
+            onDelegateChanged: {
+
+                debugText = ">>>> onDelegateChanged: Status Combo Box selected: " + statusIndexList.get(currentIndex).text;
+                console.log(debugText);
+                queryFeaturesByStatusAndExtent();
+            }
+
             onCurrentIndexChanged: {
-                debugText = ">>>> Status Combo Box selected: " + statusIndex.get(currentIndex).text;
+                statusIndex = currentIndex
+                debugText = ">>>> onCurrentIndexChanged: Status Combo Box selected: " + statusIndexList.get(currentIndex).text;
                 console.log(debugText);
 
-//                        initFeatureService();
+                queryFeaturesByStatusAndExtent();
+                currentStatus = statusComboBox.displayText;
+
             }
 
             contentItem: Text {
@@ -132,14 +143,142 @@ Page {
 
     contentItem: Rectangle{
 
+        anchors.top: statusComboBox.bottom
+//        anchors.topMargin: 30 * app.scaleFactor
+
+
         ColumnLayout {
 
             anchors.fill: parent
+            anchors.topMargin: 50 * app.scaleFactor
+
+            ListView {
+                id: listView
+
+                width: Math.min(parent.width, 600 * scaleFactor)
+                height: parent.height
+                anchors.horizontalCenter: parent.horizontalCenter
+                clip: true
+
+                currentIndex: -1
+
+                spacing: 0
+
+                model: casesListModel
+
+                delegate: Item {
+                    width: parent.width
+                    height: isVisible ? delegateLayout.height : 0
+
+                    property bool isOpenButtons: false
+                    property bool isVisible: true
+
+                    Behavior on height {
+                        NumberAnimation { duration: 200 }
+                    }
+
+                    clip: true
+
+                    ColumnLayout {
+                        id: delegateLayout
+                        width: parent.width
+                        spacing: 0
+
+                        // delegate content
+                        Rectangle {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 72 * scaleFactor
+
+                            clip: true
+
+                            RowLayout {
+                                anchors.fill: parent
+                                spacing: 0
+
+                                Item {
+                                    Layout.fillHeight: true
+                                    Layout.preferredWidth: 16 * scaleFactor
+                                }
+
+                                Rectangle {
+                                    Layout.preferredWidth: 32 * scaleFactor
+                                    Layout.preferredHeight: 32 * scaleFactor
+                                    radius: 16 * scaleFactor
+                                    Layout.alignment: Qt.AlignVCenter
+
+                                    clip: true
+
+                                    color: "#EFEFEF"
 
 
+                                }
+
+                                Item {
+                                    Layout.fillHeight: true
+                                    Layout.preferredWidth: 24 * scaleFactor
+                                }
+
+                                Item {
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: contentLayout.height
+                                    Layout.alignment: Qt.AlignVCenter
+
+                                    ColumnLayout {
+                                        id: contentLayout
+                                        width: parent.width
+                                        spacing: 6 * scaleFactor
+
+                                        Label {
+                                            Layout.fillWidth: true
+                                            text: "OBJECTID: " + objectId
+                                            color: app.appSecondaryTextColor
+                                            font.pixelSize: app.baseFontSize*.3
+                                            maximumLineCount: 1
+                                            clip: true
+                                            elide: Text.ElideRight
+                                        }
+
+                                        Label {
+                                            Layout.fillWidth: true
+                                            text: "TYPE: " + type + "  ---  DESCRIPTION: " + description
+                                            color: app.appSecondaryTextColor
+                                            font.pixelSize: app.baseFontSize*.3
+                                            clip: true
+                                        }
+                                    }
+                                }
+
+                                Item {
+                                    Layout.fillHeight: true
+                                    Layout.preferredWidth: 16 * app.scaleFactor
+                                }
+                            }
+
+                            Rectangle {
+                                width: parent.width
+                                height: 1
+                                color: app.appBackgroundColor
+                                anchors.bottom: parent.bottom
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    if(listView.currentIndex === index) listView.currentIndex = -1
+                                    else listView.currentIndex = index;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
+
+    ListModel{
+        id: casesListModel
+    }
 
     BusyIndicator {
         id: busy
@@ -160,37 +299,54 @@ Page {
     FeatureLayer {
 
         ServiceFeatureTable {
-            id: casesFeatureTable
+            id: casesListFeatureTable
             url: app.featureServerURL
 
             onLoadStatusChanged: {
-                debugText = ">>>> onLoadStatusChanged --- " + loadStatus;
+                debugText = ">>>> CasesListPage: onLoadStatusChanged --- " + loadStatus;
                 console.log(debugText);
+                queryFeaturesByStatusAndExtent()
             }
 
             onQueryFeaturesStatusChanged: {
 
                 if (queryFeaturesStatus === Enums.TaskStatusCompleted) {
-                    assignedCount = 0
-                    pendingCount = 0
                     querying = false
+
+                    console.log(">>>> Cases List: Query: ", queryFeaturesResult)
 
                     //Update the display counts
                     while (queryFeaturesResult.iterator.hasNext) {
-                        reportFeature = queryFeaturesResult.iterator.next();
+                        caseFeature = queryFeaturesResult.iterator.next();
 
-                        var status = reportFeature.attributes.attributeValue("CurrentStatus");
-                        console.log(">>>> QUERY: reportFeature --- status: " + status);
-                        if (status === 'Pending') {
-                            pendingCount = pendingCount + 1
-                        } else if (status === 'Assigned') {
-                            assignedCount = assignedCount + 1
-                        }
+                        console.log(" caseFeature.attributes. ", caseFeature.attributes.attributeNames)
+                        var objectId = caseFeature.attributes.attributeValue("OBJECTID");
+                        var type = caseFeature.attributes.attributeValue("Type");
+                        var description = caseFeature.attributes.attributeValue("Description");
+                        var currentStatus = caseFeature.attributes.attributeValue("CurrentStatus");
+                        var assignedUser = caseFeature.attributes.attributeValue("AssignedUser");
+                        var assignedDate = caseFeature.attributes.attributeValue("AssignedDate");
 
+
+                        console.log(">>>> QUERY: caseFeature --- values: ");
+                        console.log(">>>> objectId: ", objectId);
+                        console.log(">>>> type: ", type);
+                        console.log(">>>> description: ", description);
+                        console.log(">>>> currentStatus: ", currentStatus);
+                        console.log(">>>> assignedUser: ", assignedUser);
+                        console.log(">>>> assignedDate: ", assignedDate);
+
+                        casesListModel.append({objectId: objectId,
+                                               description:description,
+                                               type: type,
+                                               currentStatus: currentStatus,
+                                               assignedUser: assignedUser,
+                                               assignedDate: assignedDate
+                                              })
                      }
 
                 } else if (queryFeaturesStatus === Enums.TaskStatusInProgress) {
-                    console.log(">>>> QUERY: reportFeature --- TASK IN PROGRESS: ");
+                    console.log(">>>> QUERY: caseFeature --- TASK IN PROGRESS: ");
                     querying = true;
                 }
             }
@@ -210,13 +366,21 @@ Page {
 
     //Function to query the current extent
     function queryFeaturesByStatusAndExtent() {
+        console.log(">>>> CasesListPage: Inside queryFeaturesByStatusAndExtent() ----- ")
+        casesListModel.clear();
 
         // set the where clause
-        params.whereClause = "1=1 and (CurrentStatus = " + currentStatus + ") ";
+        currentStatus = statusComboBox.displayText
+
+        if (currentStatus === '') currentStatus = 'Pending'
+        params.whereClause = " 1=1 and (CurrentStatus = '" + currentStatus + "') ";
+
         //Find the current map extent
         params.geometry = app.reportedCasesMapView.visibleArea
+
         // start the query
-        casesFeatureTable.queryFeatures(params);
+        casesListFeatureTable.queryFeaturesWithFieldOptions(params, Enums.QueryFeatureFieldsLoadAll);
+
     }
 
 }
