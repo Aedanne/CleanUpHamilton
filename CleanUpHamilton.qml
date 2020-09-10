@@ -64,7 +64,11 @@ App{
     readonly property string staffWebMapId: "7152b9397a1b446292d67076bfa4e842"
     property Point currentLocationPoint
     property string currentLonLat
+    //Anon feature layer view and staff feature layer view
+    // https://services1.arcgis.com/gjbU5qa8FJmAPFZX/arcgis/rest/services/Cases_View/FeatureServer/0
+    // https://services1.arcgis.com/gjbU5qa8FJmAPFZX/arcgis/rest/services/Cases/FeatureServer/0
     readonly property string featureServerURL: "https://services1.arcgis.com/gjbU5qa8FJmAPFZX/arcgis/rest/services/Cases/FeatureServer/0"
+    property var agolPortal
 
     //Database properties================================================================
     property var attributesArray
@@ -89,6 +93,8 @@ App{
     readonly property string cleanUpHamiltonClientId: "y5uFdm2AiF58sqBj"
     property bool authenticated: false;
     property string portalUser;
+
+
 
 
     ListModel {

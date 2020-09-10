@@ -84,6 +84,14 @@ Page {
         }
     }
 
+    Credential {
+        id: credPort
+        oAuthClientInfo: OAuthClientInfo {
+            oAuthMode: Enums.OAuthModeUser
+            clientId: app.cleanUpHamiltonClientId
+        }
+    }
+
     contentItem: Item {
         id: root
         width: parent.width
@@ -115,18 +123,13 @@ Page {
 
         Portal {
             id: portal
-            credential: Credential {
-                oAuthClientInfo: OAuthClientInfo {
-                    oAuthMode: Enums.OAuthModeUser
-                    clientId: app.cleanUpHamiltonClientId
-                }
-            }
+            credential: credPort
 
             Component.onCompleted: {
                 load();
                 console.log(">>>> fetchLicenseInfo(): ", fetchLicenseInfo());
                 if (!app.authenticated) {
-                    console.log(">>>> PortalUser: " + app.portalUser);
+                    console.log(">>>> PortalUser: ", app.portalUser);
                     console.log(">>>> Portal: Cancel and retry load -- force to login every time ");
 //                    if (loadStatus === Enums.LoadStatusLoading) {
 //                        cancelLoad();
@@ -146,6 +149,7 @@ Page {
                 } else if (loadStatus === Enums.LoadStatusLoaded) {
                     app.authenticated = true;
                     app.portalUser = portalUser.username;
+                    app.agolPortal = portal
 
                     console.log(">>>> PORTAL >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
                     console.log(">>>> PORTAL AUTHENTICATED: " + app.authenticated)

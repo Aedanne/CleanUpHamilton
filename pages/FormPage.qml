@@ -800,12 +800,14 @@ Page {
         console.log(">>>> reportType: " + app.reportType);
         console.log(">>>> reportDescription: " + app.reportDescription);
         console.log(">>>> reportDate: " + app.reportDate);
+        console.log(">>>> status: Pending " );
 
         var reportAttributes = {
                 "Type" : app.reportType,
                 "Description" : app.reportDescription,
                 "ReportedDate" : app.reportDate,
-                "QryString" : qryString
+                "QryString" : qryString,
+                "CurrentStatus": "Pending"
         };
 
         console.log(">>>> JSON Report Attributes: " + reportAttributes);

@@ -142,8 +142,8 @@ Page {
 
                     implicitWidth: 220 * app.scaleFactor
                     implicitHeight: 50 * app.scaleFactor
-//                    border.width: 1
-//                    border.color: app.mapBorderColor
+//                    border.width: 2
+//                    border.color: Qt.lighter(app.primaryColor, 0.5)
 
                     radius: 2
                     gradient: Gradient {

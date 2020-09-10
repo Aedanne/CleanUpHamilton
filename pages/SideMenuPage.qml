@@ -33,6 +33,7 @@ Page{
             clip: true;
 
             model: app.authenticated ? sideMenuDrawerModel1 : sideMenuDrawerModel0
+//            model: sideMenuDrawerModel1
             delegate:Rectangle{
                 height: 56*app.scaleFactor;
                 width: parent.width;
