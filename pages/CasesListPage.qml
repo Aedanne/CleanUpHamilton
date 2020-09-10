@@ -110,20 +110,13 @@ Page {
                 ListElement { text: "Cancelled";  }
             }
 
-            onDelegateChanged: {
-
-                debugText = ">>>> onDelegateChanged: Status Combo Box selected: " + statusIndexList.get(currentIndex).text;
-                console.log(debugText);
-                queryFeaturesByStatusAndExtent();
-            }
-
             onCurrentIndexChanged: {
                 statusIndex = currentIndex
                 debugText = ">>>> onCurrentIndexChanged: Status Combo Box selected: " + statusIndexList.get(currentIndex).text;
                 console.log(debugText);
 
                 queryFeaturesByStatusAndExtent();
-                currentStatus = statusComboBox.displayText;
+                currentStatus = statusIndexList.get(currentIndex).text;
 
             }
 
@@ -370,10 +363,9 @@ Page {
         casesListModel.clear();
 
         // set the where clause
-        currentStatus = statusComboBox.displayText
-
         if (currentStatus === '') currentStatus = 'Pending'
         params.whereClause = " 1=1 and (CurrentStatus = '" + currentStatus + "') ";
+        console.log(">>>> CasesListPage: Inside queryFeaturesByStatusAndExtent() params.whereClause ----- ", params.whereClause)
 
         //Find the current map extent
         params.geometry = app.reportedCasesMapView.visibleArea
