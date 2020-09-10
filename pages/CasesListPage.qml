@@ -37,8 +37,7 @@ Page {
     property ArcGISFeature caseFeature;
     property string debugText;
     property bool querying;
-    property string currentStatus;
-    property string currentText: "Pending"
+    property string currentStatusValue;
     property int statusIndex: 0
 
     anchors.fill: parent;
@@ -88,7 +87,7 @@ Page {
             currentIndex: statusIndex
             font.bold: true
             font.pixelSize: app.baseFontSize*.5
-            displayText: currentText
+            displayText: currentStatusValue
 //            width: parent.width * 0.6
 
             delegate: ItemDelegate {
@@ -115,8 +114,8 @@ Page {
                 debugText = ">>>> onCurrentIndexChanged: Status Combo Box selected: " + statusIndexList.get(currentIndex).text;
                 console.log(debugText);
 
+                currentStatusValue = statusIndexList.get(currentIndex).text;
                 queryFeaturesByStatusAndExtent();
-                currentStatus = statusIndexList.get(currentIndex).text;
 
             }
 
@@ -313,28 +312,28 @@ Page {
                         caseFeature = queryFeaturesResult.iterator.next();
 
                         console.log(" caseFeature.attributes. ", caseFeature.attributes.attributeNames)
-                        var objectId = caseFeature.attributes.attributeValue("OBJECTID");
-                        var type = caseFeature.attributes.attributeValue("Type");
-                        var description = caseFeature.attributes.attributeValue("Description");
-                        var currentStatus = caseFeature.attributes.attributeValue("CurrentStatus");
-                        var assignedUser = caseFeature.attributes.attributeValue("AssignedUser");
-                        var assignedDate = caseFeature.attributes.attributeValue("AssignedDate");
+                        var objectIdF = caseFeature.attributes.attributeValue("OBJECTID");
+                        var typeF = caseFeature.attributes.attributeValue("Type");
+                        var descriptionF = caseFeature.attributes.attributeValue("Description");
+                        var currentStatusF = caseFeature.attributes.attributeValue("CurrentStatus");
+                        var assignedUserF = caseFeature.attributes.attributeValue("AssignedUser");
+                        var assignedDateF = caseFeature.attributes.attributeValue("AssignedDate");
 
 
                         console.log(">>>> QUERY: caseFeature --- values: ");
-                        console.log(">>>> objectId: ", objectId);
-                        console.log(">>>> type: ", type);
-                        console.log(">>>> description: ", description);
-                        console.log(">>>> currentStatus: ", currentStatus);
-                        console.log(">>>> assignedUser: ", assignedUser);
-                        console.log(">>>> assignedDate: ", assignedDate);
+                        console.log(">>>> objectId: ", objectIdF);
+                        console.log(">>>> type: ", typeF);
+                        console.log(">>>> description: ", descriptionF);
+                        console.log(">>>> currentStatus: ", currentStatusF);
+                        console.log(">>>> assignedUser: ", assignedUserF);
+                        console.log(">>>> assignedDate: ", assignedDateF);
 
-                        casesListModel.append({objectId: objectId,
-                                               description:description,
-                                               type: type,
-                                               currentStatus: currentStatus,
-                                               assignedUser: assignedUser,
-                                               assignedDate: assignedDate
+                        casesListModel.append({objectId: objectIdF,
+                                               description:descriptionF,
+                                               type: typeF,
+                                               currentStatus: currentStatusF,
+                                               assignedUser: assignedUserF,
+                                               assignedDate: assignedDateF
                                               })
                      }
 
@@ -359,12 +358,11 @@ Page {
 
     //Function to query the current extent
     function queryFeaturesByStatusAndExtent() {
-        console.log(">>>> CasesListPage: Inside queryFeaturesByStatusAndExtent() ----- ")
         casesListModel.clear();
 
         // set the where clause
-        if (currentStatus === '') currentStatus = 'Pending'
-        params.whereClause = " 1=1 and (CurrentStatus = '" + currentStatus + "') ";
+        if (currentStatusValue === '') currentStatusValue = 'Pending'
+        params.whereClause = " 1=1 and (CurrentStatus = '" + currentStatusValue + "') ";
         console.log(">>>> CasesListPage: Inside queryFeaturesByStatusAndExtent() params.whereClause ----- ", params.whereClause)
 
         //Find the current map extent
