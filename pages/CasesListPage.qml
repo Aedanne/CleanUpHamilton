@@ -50,11 +50,10 @@ Page {
 
 
     //Main body of the page =============================================================
-    //Map and MapView QML Types
 
     Label {
         id: topRow
-        font.pixelSize: app.baseFontSize*.3
+        font.pixelSize: app.baseFontSize*.2
         font.bold: true
         text: " "
         color: app.appPrimaryTextColor;
@@ -68,76 +67,89 @@ Page {
         visible: true;
         anchors.top: topRow.bottom
         anchors.bottomMargin: 20*app.scaleFactor
-
-
+        Layout.fillWidth: true
         anchors.horizontalCenter: parent.horizontalCenter
 
-        Label {
-            font.pixelSize: app.baseFontSize*.5
-            font.bold: true
-            text: "Case Status:  "
-            color: app.appPrimaryTextColor;
-            horizontalAlignment: Text.AlignLeft
-            verticalAlignment: Text.AlignBottom
 
-        }
+        Label {
+                font.pixelSize: app.baseFontSize*.5
+                font.bold: true
+                text: "Case Status:  "
+                color: app.appPrimaryTextColor;
+                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignBottom
+
+
+            }
 
         ComboBox {
-            id: statusComboBox
-            currentIndex: statusIndex
-            font.bold: true
-            font.pixelSize: app.baseFontSize*.5
-            displayText: currentStatusValue
-//            width: parent.width * 0.6
+                id: statusComboBox
+                currentIndex: statusIndex
+                font.bold: true
+                font.pixelSize: app.baseFontSize*.5
+                displayText: currentStatusValue
 
-            delegate: ItemDelegate {
-                width: parent.width
-                contentItem: Text {
-                    text: modelData
-                    color: app.appSecondaryTextColor
-                    font: statusComboBox.font
-                    verticalAlignment: Text.AlignVCenter
+
+                delegate: ItemDelegate {
+                    width: parent.width
+                    contentItem: Text {
+                        text: modelData
+                        color: app.appSecondaryTextColor
+                        font: statusComboBox.font
+                        verticalAlignment: Text.AlignVCenter
+
+                    }
+                    highlighted: statusComboBox.highlightedIndex === index
+
                 }
-                highlighted: statusComboBox.highlightedIndex === index
+
+                model: ListModel {
+                    id: statusIndexList
+                    ListElement { text: "Pending"; }
+                    ListElement { text: "Assigned";  }
+                    ListElement { text: "Completed";  }
+                    ListElement { text: "Cancelled";  }
+
+                }
+
+                onCurrentIndexChanged: {
+                    statusIndex = currentIndex
+                    debugText = ">>>> onCurrentIndexChanged: Status Combo Box selected: " + statusIndexList.get(currentIndex).text;
+                    console.log(debugText);
+
+                    currentStatusValue = statusIndexList.get(currentIndex).text;
+                    queryFeaturesByStatusAndExtent();
+
+                }
+
+                contentItem: Text {
+                        leftPadding: 5 * app.scaleFactor
+                        rightPadding: statusComboBox.indicator.width + statusComboBox.spacing
+
+                        text: statusComboBox.displayText
+                        font: statusComboBox.font
+                        color: app.appSecondaryTextColor
+                        verticalAlignment: Text.AlignVCenter
+
+
+                }
             }
 
-            model: ListModel {
-                id: statusIndexList
-                ListElement { text: "Pending"; }
-                ListElement { text: "Assigned";  }
-                ListElement { text: "Completed";  }
-                ListElement { text: "Cancelled";  }
-            }
 
-            onCurrentIndexChanged: {
-                statusIndex = currentIndex
-                debugText = ">>>> onCurrentIndexChanged: Status Combo Box selected: " + statusIndexList.get(currentIndex).text;
-                console.log(debugText);
 
-                currentStatusValue = statusIndexList.get(currentIndex).text;
-                queryFeaturesByStatusAndExtent();
-
-            }
-
-            contentItem: Text {
-                    leftPadding: 5 * app.scaleFactor
-                    rightPadding: statusComboBox.indicator.width + statusComboBox.spacing
-
-                    text: statusComboBox.displayText
-                    font: statusComboBox.font
-                    color: app.appSecondaryTextColor
-                    verticalAlignment: Text.AlignVCenter
-
-            }
-        }
     }
 
+    Label {
+        id: bottomRow
+        font.pixelSize: app.baseFontSize*.3
+        font.bold: true
+        text: " "
+        color: app.appPrimaryTextColor;
+        horizontalAlignment: Text.AlignLeft
+        verticalAlignment: Text.AlignBottom
+    }
 
     contentItem: Rectangle{
-
-        anchors.top: statusComboBox.bottom
-//        anchors.topMargin: 30 * app.scaleFactor
-
 
         ColumnLayout {
 
@@ -149,7 +161,7 @@ Page {
 
                 width: Math.min(parent.width, 600 * scaleFactor)
                 height: parent.height
-                anchors.horizontalCenter: parent.horizontalCenter
+//                anchors.horizontalCenter: parent.horizontalCenter
                 clip: true
 
                 currentIndex: -1
@@ -180,6 +192,9 @@ Page {
                         Rectangle {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 72 * scaleFactor
+                            border.color: app.accentColor
+                            border.width: 1
+
 
                             clip: true
 
@@ -366,7 +381,7 @@ Page {
         console.log(">>>> CasesListPage: Inside queryFeaturesByStatusAndExtent() params.whereClause ----- ", params.whereClause)
 
         //Find the current map extent
-        params.geometry = app.reportedCasesMapView.visibleArea
+        params.geometry = app.reportedCasesMapExtent//app.reportedCasesMapView.visibleArea
 
         // start the query
         casesListFeatureTable.queryFeaturesWithFieldOptions(params, Enums.QueryFeatureFieldsLoadAll);

@@ -71,6 +71,7 @@ App{
     property var agolPortal
     property var reportedCasesMapView
     property var reportedCasesFeatureService
+    property Geometry reportedCasesMapExtent
 
     //Database properties================================================================
     property var attributesArray

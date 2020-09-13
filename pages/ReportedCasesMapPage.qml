@@ -90,6 +90,7 @@ Page {
                         panToLocation();
                     }
 
+
                 }
 
                 //Map control buttons
@@ -135,13 +136,16 @@ Page {
 
                 onMouseClicked:{
                     if(mapView.map.loadStatus === Enums.LoadStatusLoaded){
-                        panToLocation();
+                        panToLocation();                       
                     }
                 }
 
                 onDrawStatusChanged: {
-                    queryFeaturesInExtent();
                     app.reportedCasesMapView = mapView
+                    if (map.loadStatus === Enums.LoadStatusLoaded) {
+                        queryFeaturesInExtent();
+                    }
+
                 }
 
 
@@ -215,16 +219,30 @@ Page {
                     }
                 }
             }
+
+
+
         }
     }
 
     // initial viewPoint
-    ViewpointCenter {
+//    ViewpointCenter {
+//        id: viewPoint
+//        center: Point {
+//            y: -37.7833;
+//            x: 175.2833;
+//            spatialReference: SpatialReference { wkid: 3857 }
+//        }
+//    }
+
+    ViewpointExtent {
         id: viewPoint
-        center: Point {
-            y: -37.7833;
-            x: 175.2833;
-            spatialReference: SpatialReference { wkid: 3857 }
+        extent: Envelope {
+            xMin: 19506648.3632595
+            yMin: -4550696.42243646
+            xMax: 19517176.4848016
+            yMax: -4548519.5856226
+            spatialReference: SpatialReference { wkid: 102100 }
         }
     }
 
@@ -300,7 +318,6 @@ Page {
     function panToLocation() {
         mapView.locationDisplay.start();
         mapView.locationDisplay.autoPanMode = Enums.LocationDisplayAutoPanModeRecenter;
-        queryFeaturesInExtent();
     }
 
     //Function to query the current extent
@@ -311,8 +328,12 @@ Page {
         //Find the current map extent
         params.geometry = mapView.visibleArea
         // start the query
+
         casesFeatureTable.queryFeatures(params);
         map.load();
+        app.reportedCasesMapExtent = mapView.visibleArea
+
+
     }
 
 }
