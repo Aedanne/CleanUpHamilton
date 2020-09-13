@@ -81,6 +81,7 @@ Page {
                     id: map;
                     initUrl: app.webMapRootUrl + app.staffWebMapId;
 
+                    initialViewpoint: viewPoint
                     maxScale: 2
                     minScale: 1
 
@@ -89,9 +90,7 @@ Page {
                         panToLocation();
                     }
 
-                    initialViewpoint: viewPoint
                 }
-
 
                 //Map control buttons
                 Column{
@@ -162,7 +161,7 @@ Page {
 
 
                     Label {
-                        font.pixelSize: app.baseFontSize*.4
+                        font.pixelSize: app.baseFontSize*.5
                         text: "Pending: "
                         color: app.appPrimaryTextColor;
                         topPadding: 5 * app.scaleFactor
@@ -172,7 +171,7 @@ Page {
                         font.bold: true
                     }
                     Label {
-                        font.pixelSize: app.baseFontSize*.4
+                        font.pixelSize: app.baseFontSize*.5
                         text: pendingCount;
                         color: app.appSecondaryTextColor
                         topPadding: 5 * app.scaleFactor
@@ -184,7 +183,7 @@ Page {
 
 
                     Label {
-                        font.pixelSize: app.baseFontSize*.4
+                        font.pixelSize: app.baseFontSize*.5
                         text: "    "
                         color: app.appPrimaryTextColor;
                         topPadding: 5 * app.scaleFactor
@@ -195,7 +194,7 @@ Page {
                     }
 
                     Label {
-                        font.pixelSize: app.baseFontSize*.4
+                        font.pixelSize: app.baseFontSize*.5
                         text: "Assigned: "
                         color: app.appPrimaryTextColor;
                         topPadding: 5 * app.scaleFactor
@@ -205,7 +204,7 @@ Page {
                         font.bold: true
                     }
                     Label {
-                        font.pixelSize: app.baseFontSize*.4
+                        font.pixelSize: app.baseFontSize*.5
                         text: assignedCount;
                         color: app.appSecondaryTextColor
                         topPadding: 5 * app.scaleFactor
@@ -214,10 +213,8 @@ Page {
                         verticalAlignment: Text.AlignBottom
                         font.bold: true
                     }
-
                 }
             }
-
         }
     }
 
@@ -231,24 +228,8 @@ Page {
         }
     }
 
-
-    BusyIndicator {
-        id: busy
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        anchors.centerIn: parent
-        anchors.topMargin: 200*app.scaleFactor
-        Material.accent: app.primaryColor
-        running: querying
-    }
-
-
-    QueryParameters {
-        id: params
-    }
-
-
     FeatureLayer {
+        id: reportedCasesFeatureLayer
 
         ServiceFeatureTable {
             id: casesFeatureTable
@@ -292,6 +273,24 @@ Page {
 
 
 
+
+    BusyIndicator {
+        id: busy
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.centerIn: parent
+        anchors.topMargin: 200*app.scaleFactor
+        Material.accent: app.primaryColor
+        running: querying
+    }
+
+
+    QueryParameters {
+        id: params
+    }
+
+
+
     //Footer custom QML =================================================================
     footer: FooterSection {
         logMessage: "In Reported Cases Page - Footer..."
@@ -313,6 +312,7 @@ Page {
         params.geometry = mapView.visibleArea
         // start the query
         casesFeatureTable.queryFeatures(params);
+        map.load();
     }
 
 }

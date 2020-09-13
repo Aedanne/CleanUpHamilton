@@ -61,7 +61,7 @@ App{
     //Map properties=====================================================================
     readonly property string webMapRootUrl: "https://waikato.maps.arcgis.com/home/item.html?id="
     readonly property string webMapId: "bedb6a09b8b54d9f866f49de216b87c7"  //Clean-Up Hamilton Default Map
-    readonly property string staffWebMapId: "7152b9397a1b446292d67076bfa4e842"
+    readonly property string staffWebMapId: "54892985091c4a5598010e0757bea00b"
     property Point currentLocationPoint
     property string currentLonLat
     //Anon feature layer view and staff feature layer view

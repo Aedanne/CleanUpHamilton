@@ -50,43 +50,7 @@ Page {
 
             anchors.fill: parent
 
-            Rectangle {
-                id: locationLonLatRect
-                color: app.appBackgroundColor
-                Layout.preferredWidth: parent.width
-                Layout.preferredHeight: 30 * app.scaleFactor
 
-                RowLayout {
-                    spacing: 0
-                    anchors.centerIn: parent
-
-
-                    Label {
-    //                    Layout.fillWidth: true
-                        font.pixelSize: app.baseFontSize*.4
-                        text: "My Location: "
-                        color: app.appPrimaryTextColor;
-                        topPadding: 5 * app.scaleFactor
-                        bottomPadding: 5 * app.scaleFactor
-//                        horizontalAlignment: Text.AlignHCentern
-                        verticalAlignment: Text.AlignBottom
-//                        anchors.centerIn: parent
-                        font.bold: true
-                    }
-                    Label {
-//                        Layout.fillWidth: true
-                        font.pixelSize: app.baseFontSize*.4
-                        text: app.currentLonLat;
-                        color: app.appSecondaryTextColor
-                        topPadding: 5 * app.scaleFactor
-                        bottomPadding: 5 * app.scaleFactor
-//                        horizontalAlignment: Text.AlignHCentern
-                        verticalAlignment: Text.AlignBottom
-//                        anchors.centerIn: parent
-                        font.bold: true
-                    }
-                }
-            }
 
 
             MapView {
@@ -209,6 +173,46 @@ Page {
                 }
 
             }
+
+
+            Rectangle {
+                id: locationLonLatRect
+                color: app.appBackgroundColor
+                Layout.preferredWidth: parent.width
+                Layout.preferredHeight: 30 * app.scaleFactor
+
+                RowLayout {
+                    spacing: 0
+                    anchors.centerIn: parent
+
+
+                    Label {
+    //                    Layout.fillWidth: true
+                        font.pixelSize: app.baseFontSize*.5
+                        text: "My Location: "
+                        color: app.appPrimaryTextColor;
+                        topPadding: 5 * app.scaleFactor
+                        bottomPadding: 5 * app.scaleFactor
+//                        horizontalAlignment: Text.AlignHCentern
+                        verticalAlignment: Text.AlignBottom
+//                        anchors.centerIn: parent
+                        font.bold: true
+                    }
+                    Label {
+//                        Layout.fillWidth: true
+                        font.pixelSize: app.baseFontSize*.5
+                        text: app.currentLonLat;
+                        color: app.appSecondaryTextColor
+                        topPadding: 5 * app.scaleFactor
+                        bottomPadding: 5 * app.scaleFactor
+//                        horizontalAlignment: Text.AlignHCentern
+                        verticalAlignment: Text.AlignBottom
+//                        anchors.centerIn: parent
+                        font.bold: true
+                    }
+                }
+            }
+
         }
     }
 
