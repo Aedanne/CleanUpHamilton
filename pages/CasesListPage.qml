@@ -17,6 +17,7 @@ import Esri.ArcGISRuntime 100.7
 
 
 import "../ui_controls"
+import "../images"
 
 
 /*
@@ -202,80 +203,91 @@ Page {
                                 anchors.fill: parent
                                 spacing: 0
 
-                                Item {
-                                    Layout.fillHeight: true
-                                    Layout.preferredWidth: 16 * scaleFactor
-                                }
-
                                 Rectangle {
-                                    Layout.preferredWidth: 32 * scaleFactor
-                                    Layout.preferredHeight: 32 * scaleFactor
-                                    radius: 16 * scaleFactor
+                                    Layout.preferredWidth: 20 * scaleFactor
+                                    Layout.preferredHeight: 20 * scaleFactor
                                     Layout.alignment: Qt.AlignVCenter
 
+                                    Image{
+                                        source: "../images/assigntome.png";
+                                        visible: true;
+                                        enabled: true;
+                                        fillMode: Image.Stretch
+                                    }
                                     clip: true
 
-                                    color: "#EFEFEF"
-
-
-                                }
-
-                                Item {
-                                    Layout.fillHeight: true
-                                    Layout.preferredWidth: 24 * scaleFactor
-                                }
-
-                                Item {
-                                    Layout.fillWidth: true
-                                    Layout.preferredHeight: contentLayout.height
-                                    Layout.alignment: Qt.AlignVCenter
-
-                                    ColumnLayout {
-                                        id: contentLayout
-                                        width: parent.width
-                                        spacing: 6 * scaleFactor
-
-                                        Label {
-                                            Layout.fillWidth: true
-                                            text: "OBJECTID: " + objectId
-                                            color: app.appSecondaryTextColor
-                                            font.pixelSize: app.baseFontSize*.3
-                                            maximumLineCount: 1
-                                            clip: true
-                                            elide: Text.ElideRight
-                                        }
-
-                                        Label {
-                                            Layout.fillWidth: true
-                                            text: "TYPE: " + type + "  ---  DESCRIPTION: " + description
-                                            color: app.appSecondaryTextColor
-                                            font.pixelSize: app.baseFontSize*.3
-                                            clip: true
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        onClicked: {
+                                            console.log(">>> MOUSE AREA: 1")
                                         }
                                     }
                                 }
 
-                                Item {
-                                    Layout.fillHeight: true
-                                    Layout.preferredWidth: 16 * app.scaleFactor
-                                }
-                            }
+                                Rectangle {
+                                    Layout.preferredWidth: 20 * scaleFactor
+                                    Layout.preferredHeight: 20 * scaleFactor
+                                    Layout.alignment: Qt.AlignVCenter
 
-                            Rectangle {
-                                width: parent.width
-                                height: 1
-                                color: app.appBackgroundColor
-                                anchors.bottom: parent.bottom
-                            }
+                                    Image{
+                                        source: "../images/assigned_green.png";
+                                        visible: true;
+                                        enabled: true;
+                                        fillMode: Image.Stretch
+                                    }
+                                    clip: true
 
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    if(listView.currentIndex === index) listView.currentIndex = -1
-                                    else listView.currentIndex = index;
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        onClicked: {
+                                            console.log(">>> MOUSE AREA: 2")
+                                        }
+                                    }
                                 }
                             }
                         }
+                        // delegate content
+                        Rectangle {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 72 * scaleFactor
+                            border.color: app.accentColor
+                            border.width: 1
+
+
+                            clip: true
+
+                            RowLayout {
+                                anchors.fill: parent
+                                spacing: 0
+
+                                Label {
+                                    Layout.fillWidth: true
+                                    text: "OBJECTID: " + objectId
+                                    color: app.appSecondaryTextColor
+                                    font.pixelSize: app.baseFontSize*.3
+                                    maximumLineCount: 1
+                                    clip: true
+                                    elide: Text.ElideRight
+                                }
+
+                                Label {
+                                    Layout.fillWidth: true
+                                    text: "TYPE: " + type + "  ---  DESCRIPTION: " + description
+                                    color: app.appSecondaryTextColor
+                                    font.pixelSize: app.baseFontSize*.3
+                                    clip: true
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        console.log(">>> MOUSE AREA: 3")
+                                    }
+                                }
+                            }
+                        }
+
+
                     }
                 }
             }
