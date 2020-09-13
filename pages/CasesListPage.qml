@@ -53,7 +53,7 @@ Page {
 
     Label {
         id: topRow
-        font.pixelSize: app.baseFontSize*.2
+        font.pixelSize: app.baseFontSize*.1
         font.bold: true
         text: " "
         color: app.appPrimaryTextColor;
@@ -141,7 +141,7 @@ Page {
 
     Label {
         id: bottomRow
-        font.pixelSize: app.baseFontSize*.3
+        font.pixelSize: app.baseFontSize*.2
         font.bold: true
         text: " "
         color: app.appPrimaryTextColor;
