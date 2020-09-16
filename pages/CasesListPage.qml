@@ -40,6 +40,19 @@ Page {
     property bool querying;
     property string currentStatusValue;
     property int statusIndex: 0
+    property int imgSize: 40 * app.scaleFactor
+
+    property string imgRubbish: "../images/type_rubbish.png"
+    property string typeRubbish: 'Illegal rubbish dumping'
+
+    property string imgOther: "../images/type_other.png"
+    property string typeOther: 'Other'
+
+    property string imgGraffiti: "../images/type_graffiti.png"
+    property string typeGraffiti: 'Graffiti'
+
+    property string imgBroken: "../images/type_broken.png"
+    property string typeBroken: 'Broken items'
 
     anchors.fill: parent;
 
@@ -89,6 +102,7 @@ Page {
                 font.bold: true
                 font.pixelSize: app.baseFontSize*.5
                 displayText: currentStatusValue
+                width: parent.width
 
 
                 delegate: ItemDelegate {
@@ -192,7 +206,7 @@ Page {
                         // delegate content
                         Rectangle {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 72 * scaleFactor
+                            Layout.preferredHeight: 72 * app.scaleFactor
                             border.color: app.accentColor
                             border.width: 1
 
@@ -204,85 +218,70 @@ Page {
                                 spacing: 0
 
                                 Rectangle {
-                                    Layout.preferredWidth: 20 * scaleFactor
-                                    Layout.preferredHeight: 20 * scaleFactor
-                                    Layout.alignment: Qt.AlignVCenter
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 72 * app.scaleFactor
+                                    border.color: app.accentColor
+                                    border.width: 1
+
+                                    Label {
+                                        Layout.fillWidth: true
+                                        text: "OBJECTID: " + objectId
+                                        color: app.appSecondaryTextColor
+                                        font.pixelSize: app.baseFontSize*.3
+                                        maximumLineCount: 1
+                                        clip: true
+                                        elide: Text.ElideRight
+                                    }
 
                                     Image{
+                                        anchors.centerIn: parent
+                                        width: imgSize
+                                        height: imgSize
+                                        source: (type===typeRubbish?imgRubbish:(type===typeGraffiti?imgGraffiti:(type===typeBroken?imgBroken:imgOther)))
+                                        visible: true;
+                                        enabled: true;
+                                        fillMode: Image.PreserveAspectCrop
+                                    }
+
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        onClicked: {
+                                            console.log(">>> MOUSE AREA: 3")
+                                        }
+                                    }
+
+                                }
+
+                                Rectangle {
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 72 * app.scaleFactor
+                                    border.color: app.accentColor
+                                    border.width: 1
+
+                                    Label {
+                                        Layout.fillWidth: true
+                                        text: "TYPE: " + type + "  ---  DESCRIPTION: " + description
+                                        color: app.appSecondaryTextColor
+                                        font.pixelSize: app.baseFontSize*.3
+                                        clip: true
+                                    }
+
+                                    Image{
+                                        anchors.centerIn: parent
+                                        width: imgSize
+                                        height: imgSize
                                         source: "../images/assigntome.png";
                                         visible: true;
                                         enabled: true;
-                                        fillMode: Image.Stretch
                                     }
-                                    clip: true
 
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: {
-                                            console.log(">>> MOUSE AREA: 1")
+                                            console.log(">>> MOUSE AREA: 4")
                                         }
                                     }
-                                }
 
-                                Rectangle {
-                                    Layout.preferredWidth: 20 * scaleFactor
-                                    Layout.preferredHeight: 20 * scaleFactor
-                                    Layout.alignment: Qt.AlignVCenter
-
-                                    Image{
-                                        source: "../images/assigned_green.png";
-                                        visible: true;
-                                        enabled: true;
-                                        fillMode: Image.Stretch
-                                    }
-                                    clip: true
-
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        onClicked: {
-                                            console.log(">>> MOUSE AREA: 2")
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        // delegate content
-                        Rectangle {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 72 * scaleFactor
-                            border.color: app.accentColor
-                            border.width: 1
-
-
-                            clip: true
-
-                            RowLayout {
-                                anchors.fill: parent
-                                spacing: 0
-
-                                Label {
-                                    Layout.fillWidth: true
-                                    text: "OBJECTID: " + objectId
-                                    color: app.appSecondaryTextColor
-                                    font.pixelSize: app.baseFontSize*.3
-                                    maximumLineCount: 1
-                                    clip: true
-                                    elide: Text.ElideRight
-                                }
-
-                                Label {
-                                    Layout.fillWidth: true
-                                    text: "TYPE: " + type + "  ---  DESCRIPTION: " + description
-                                    color: app.appSecondaryTextColor
-                                    font.pixelSize: app.baseFontSize*.3
-                                    clip: true
-                                }
-
-                                MouseArea {
-                                    anchors.fill: parent
-                                    onClicked: {
-                                        console.log(">>> MOUSE AREA: 3")
-                                    }
                                 }
                             }
                         }
