@@ -28,7 +28,7 @@ import "images"
 App{
     id: app
     width: 460
-    height: 750
+    height: 780
 
     property bool lightTheme: true
     property string version: app.info.version
@@ -52,6 +52,8 @@ App{
     //readonly property color listViewDividerColor:"#19000000"
     readonly property color cameraViewBackgroundColor: "#1C1C1C"
     readonly property color mapBorderColor: "#303030"
+    readonly property color disabledIconColor: "#B0B0B0"
+    readonly property color disabledIconShadowColor: "red"
 
     // App-level size properties=========================================================
     property real scaleFactor: AppFramework.displayScaleFactor

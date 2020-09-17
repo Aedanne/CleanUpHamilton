@@ -40,8 +40,8 @@ Page {
     property bool querying;
     property string currentStatusValue;
     property int statusIndex: 0
-    property int imgSizeTop: 55 * app.scaleFactor
-    property int imgSizeBottom: 35 * app.scaleFactor
+    property int imgSizeTop: 50 * app.scaleFactor
+    property int imgSizeBottom: 28 * app.scaleFactor
 
     property string imgRubbish: "../images/type_rubbish.png"
     property string typeRubbish: 'Illegal rubbish dumping'
@@ -66,7 +66,7 @@ Page {
     property string imgRevert: "../images/revert.png"
     property string imgAttachment: "../images/paperclip.png"
 
-
+    property bool isUpdate: false
 
     anchors.fill: parent;
 
@@ -247,7 +247,7 @@ Page {
                         // delegate content - top section of each list item
                         Rectangle {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 72 * app.scaleFactor
+                            Layout.preferredHeight: 60 * app.scaleFactor
 //                            border.width: 1
 
 
@@ -258,11 +258,31 @@ Page {
                                 anchors.fill: parent
                                 spacing: 0
 
+                                //Padding
+                                Rectangle {
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 60 * app.scaleFactor
+                                    color: app.appBackgroundColorCaseList
+                                    Layout.preferredWidth: parent.width*0.02
+
+                                    Image{
+                                        anchors.centerIn: parent
+                                        width: imgSizeTop
+                                        height: imgSizeTop
+                                        visible: true;
+                                        enabled: true;
+                                        fillMode: Image.PreserveAspectFit
+                                        antialiasing: true
+                                    }
+                                }
+
                                 //Report type - rubbish, graffiti, other, broken items
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 72 * app.scaleFactor
+                                    Layout.preferredHeight: 60 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
+                                    Layout.preferredWidth: parent.width*0.18
+                                    anchors.alignWhenCentered: Qt.AlignTop
 
 
                                     Image{
@@ -272,14 +292,8 @@ Page {
                                         source: (type===typeRubbish?imgRubbish:(type===typeGraffiti?imgGraffiti:(type===typeBroken?imgBroken:imgOther)))
                                         visible: true;
                                         enabled: true;
-                                        fillMode: Image.PreserveAspectCrop
-                                    }
-
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        onClicked: {
-                                            console.log(">>> MOUSE AREA: 1")
-                                        }
+                                        fillMode: Image.PreserveAspectFit
+                                        antialiasing: true
                                     }
 
                                 }
@@ -287,8 +301,11 @@ Page {
                                 // Assignment status
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 72 * app.scaleFactor
+                                    Layout.preferredHeight: 60 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
+                                    Layout.preferredWidth: parent.width*0.18
+//                                    anchors.centerIn: parent
+//                                    Layout.alignment: parent.Center
 
                                     Image{
                                         anchors.centerIn: parent
@@ -297,42 +314,118 @@ Page {
                                         source: (assignedUser===''?imgAssignedGray:(assignedUser===app.portalUser?imgAssignedGreen:imgAssignedYellow))
                                         visible: true;
                                         enabled: true;
-                                        fillMode: Image.PreserveAspectCrop
-                                    }
-
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        onClicked: {
-                                            console.log(">>> MOUSE AREA: 2")
-                                        }
+                                        fillMode: Image.PreserveAspectFit
+                                        antialiasing: true
                                     }
 
                                 }
 
-                                // Attachment view icon
+
+                                //Padding
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 72 * app.scaleFactor
+                                    Layout.preferredHeight: 60 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
+                                    Layout.preferredWidth: parent.width*0.04
 
                                     Image{
                                         anchors.centerIn: parent
                                         width: imgSizeTop
                                         height: imgSizeTop
-                                        source: imgAttachment
                                         visible: true;
                                         enabled: true;
-                                        fillMode: Image.PreserveAspectCrop
+                                        fillMode: Image.PreserveAspectFit
+                                        antialiasing: true
                                     }
-
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        onClicked: {
-                                            console.log(">>> MOUSE AREA: 3")
-                                        }
-                                    }
-
                                 }
+
+                                Rectangle {
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 60 * app.scaleFactor
+                                    border.color: app.appBackgroundColorCaseList
+                                    color: app.appBackgroundColorCaseList
+                                    Layout.preferredWidth: parent.width*0.58
+
+                                    ColumnLayout {
+
+//                                        anchors.centerIn: parent
+
+                                        Label {
+                                            Layout.fillWidth: true
+                                            text: " Case #"+objectId + ": " + (type===typeRubbish?'Rubbish':type)
+                                            visible: true;
+                                            color: app.appSecondaryTextColor
+                                            font.pixelSize: app.baseFontSize*.3
+                                            horizontalAlignment: Text.AlignLeft
+                                            verticalAlignment: Text.AlignVCenter
+                                            topPadding: 2 * app.scaleFactor
+                                            maximumLineCount: 1
+                                            font.bold: true
+                                        }
+
+                                        Label {
+                                            Layout.fillWidth: true
+                                            text: " Case Date: " + reportedDate
+                                            color: app.appSecondaryTextColor
+                                            font.pixelSize: app.baseFontSize*.3
+                                            horizontalAlignment: Text.AlignLeft
+                                            verticalAlignment: Text.AlignVCenter
+                                            topPadding: 2 * app.scaleFactor
+                                            maximumLineCount: 1
+                                            visible: true
+                                        }
+
+                                        Label {
+                                            Layout.fillWidth: true
+                                            text: " Desc: " + description
+                                            color: app.appSecondaryTextColor
+                                            font.pixelSize: app.baseFontSize*.3
+                                            horizontalAlignment: Text.AlignLeft
+                                            verticalAlignment: Text.AlignVCenter
+                                            topPadding: 2 * app.scaleFactor
+                                            maximumLineCount: 1
+                                            visible: true
+                                        }
+
+                                    }
+                                }
+
+//                                // Attachment view icon
+//                                Rectangle {
+//                                    Layout.fillWidth: true
+//                                    Layout.preferredHeight: 72 * app.scaleFactor
+//                                    color: app.appBackgroundColorCaseList
+
+//                                    Image{
+//                                        id: viewAttachment
+//                                        anchors.centerIn: parent
+//                                        width: imgSizeTop
+//                                        height: imgSizeTop
+//                                        source: imgAttachment
+//                                        visible: true;
+//                                        enabled: true;
+//                                        fillMode: Image.PreserveAspectFit
+//                                        antialiasing: true;
+//                                    }
+
+//                                    DropShadow {
+//                                            anchors.fill: viewAttachment
+//                                            horizontalOffset: 2
+//                                            verticalOffset: 2
+//                                            radius: 4.0
+//                                            samples: 17
+//                                            color: "#aa000000"
+//                                            source: viewAttachment
+//                                    }
+
+//                                    MouseArea {
+//                                        anchors.fill: parent
+//                                        onClicked: {
+//                                            console.log(">>> MOUSE AREA: View Attachments")
+//                                        }
+//                                    }
+
+//                                }
                             }
                         }
 
@@ -340,43 +433,68 @@ Page {
                         Rectangle {
                             Layout.fillWidth: true
                             implicitHeight: 1
-//                            border.color: app.appBackgroundColorDarkGray
                             color: "transparent"
                         }
 
                         Rectangle {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 25 * app.scaleFactor
+                            Layout.preferredHeight: 20 * app.scaleFactor
                             border.color: app.appBackgroundColorCaseList
                             color: app.appBackgroundColorCaseList
-//                            Layout.alignment: Qt.AlignVCenter
 
-                            Label {
-                                Layout.fillWidth: true
-                                text: "   [#"+objectId+"] Description: " + description
-                                color: app.appSecondaryTextColor
-                                font.pixelSize: app.baseFontSize*.4
-                                horizontalAlignment: Text.AlignLeft
-                                verticalAlignment: Text.AlignVCenter
-                                topPadding: 2 * app.scaleFactor
-                                maximumLineCount: 1
-//                                clip: true
-                                visible: true
+                            ColumnLayout {
+
+//                                Label {
+//                                    Layout.fillWidth: true
+//                                    text: "   [Case #"+objectId+"] Description: " + description
+//                                    color: app.appSecondaryTextColor
+//                                    font.pixelSize: app.baseFontSize*.3
+//                                    horizontalAlignment: Text.AlignLeft
+//                                    verticalAlignment: Text.AlignVCenter
+//                                    topPadding: 2 * app.scaleFactor
+//                                    maximumLineCount: 1
+//                                    visible: true
+//                                }
+
+//                                Label {
+//                                    Layout.fillWidth: true
+//                                    text: "   Reported Date: " + reportedDate
+//                                    color: app.appSecondaryTextColor
+//                                    font.pixelSize: app.baseFontSize*.3
+//                                    horizontalAlignment: Text.AlignLeft
+//                                    verticalAlignment: Text.AlignVCenter
+//                                    topPadding: 2 * app.scaleFactor
+//                                    maximumLineCount: 1
+//                                    visible: true
+//                                }
+
+                                Label {
+                                    Layout.fillWidth: true
+                                    text: "   Worker Note: " + workerNote
+                                    color: 'red'
+                                    font.pixelSize: app.baseFontSize*.3
+                                    horizontalAlignment: Text.AlignLeft
+                                    verticalAlignment: Text.AlignVCenter
+                                    topPadding: 2 * app.scaleFactor
+                                    maximumLineCount: 1
+                                    visible: true
+//                                    font.bold: true
+                                }
+
                             }
                         }
 
                         //Separator
-//                        Rectangle {
-//                            Layout.fillWidth: true
-//                            implicitHeight: 1
-////                            border.color: app.appBackgroundColorDarkGray
-//                            color: app.appBorderColorCaseList
-//                        }
+                        Rectangle {
+                            Layout.fillWidth: true
+                            implicitHeight: 1
+                            color: "transparent"
+                        }
 
 
                         Rectangle {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 50 * app.scaleFactor
+                            Layout.preferredHeight: 55 * app.scaleFactor
 
                             RowLayout {
                                 anchors.fill: parent
@@ -385,17 +503,18 @@ Page {
                                 //Padding
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 50 * app.scaleFactor
+                                    Layout.preferredHeight: 55 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
-                                    visible: currentStatus === 'Pending' ? true : false;
+                                    visible: currentStatus !== 'Assigned' ? true : false;
 
                                     Image{
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
                                         height: imgSizeBottom
-                                        visible: currentStatus === 'Pending' ? true : false;
-                                        enabled: currentStatus === 'Pending' ? true : false;
-                                        fillMode: Image.PreserveAspectCrop
+                                        visible: currentStatus !== 'Assigned' ? true : false;
+                                        enabled: currentStatus !== 'Assigned' ? true : false;
+                                        fillMode: Image.PreserveAspectFit
+                                        antialiasing: true;
                                     }
 
                                 }
@@ -403,24 +522,73 @@ Page {
                                 //Assign to me
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 50 * app.scaleFactor
+                                    Layout.preferredHeight: 55 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus === 'Pending' ? true : false;
 
                                     Image{
+                                        id: assign
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
                                         height: imgSizeBottom
                                         source: imgAssignToMe
                                         visible: currentStatus === 'Pending' ? true : false;
                                         enabled: currentStatus === 'Pending' ? true : false;
-                                        fillMode: Image.PreserveAspectCrop
+                                        fillMode: Image.PreserveAspectFit
+                                        antialiasing: true;
+                                    }
+
+                                    DropShadow {
+                                            anchors.fill: assign
+                                            horizontalOffset: 2
+                                            verticalOffset: 2
+                                            radius: 4.0
+                                            samples: 17
+                                            color: "#aa000000"
+                                            source: assign
                                     }
 
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: {
-                                            console.log(">>> MOUSE AREA: Bottom 1")
+                                            updateFeature(feature, 'AssignToMe', currentStatus, workerNote, index);
+                                        }
+                                    }
+
+                                }
+
+                                // Attachment view icon
+                                Rectangle {
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 55 * app.scaleFactor
+                                    color: app.appBackgroundColorCaseList
+
+                                    Image{
+                                        id: viewAttachment
+                                        anchors.centerIn: parent
+                                        width: imgSizeBottom
+                                        height: imgSizeBottom
+                                        source: imgAttachment
+                                        visible: true;
+                                        enabled: true;
+                                        fillMode: Image.PreserveAspectFit
+                                        antialiasing: true;
+                                    }
+
+                                    DropShadow {
+                                            anchors.fill: viewAttachment
+                                            horizontalOffset: 2
+                                            verticalOffset: 2
+                                            radius: 4.0
+                                            samples: 17
+                                            color: "#aa000000"
+                                            source: viewAttachment
+                                    }
+
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        onClicked: {
+                                            console.log(">>> MOUSE AREA: View Attachments")
                                         }
                                     }
 
@@ -430,24 +598,36 @@ Page {
                                 //Edit
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 50 * app.scaleFactor
+                                    Layout.preferredHeight: 55 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
                                     visible: true
 
                                     Image{
+                                        id: edit
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
                                         height: imgSizeBottom
                                         source: imgEdit
                                         visible: true;
                                         enabled: true;
-                                        fillMode: Image.PreserveAspectCrop
+                                        fillMode: Image.PreserveAspectFit
+                                        antialiasing: true;
+                                    }
+
+                                    DropShadow {
+                                            anchors.fill: edit
+                                            horizontalOffset: 2
+                                            verticalOffset: 2
+                                            radius: 4.0
+                                            samples: 17
+                                            color: "#aa000000"
+                                            source: edit
                                     }
 
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: {
-                                            console.log(">>> MOUSE AREA: Bottom 2")
+                                            console.log(">>> MOUSE AREA: Edit Feature")
                                         }
                                     }
 
@@ -456,24 +636,50 @@ Page {
                                 //Cancel item
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 50 * app.scaleFactor
+                                    Layout.preferredHeight: 55 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus === 'Assigned' ? true : false;
 
                                     Image{
+                                        id: cancel
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
                                         height: imgSizeBottom
                                         source: imgCancel
                                         visible: currentStatus === 'Assigned' ? true : false;
-                                        enabled: currentStatus === 'Assigned' ? true : false;
-                                        fillMode: Image.PreserveAspectCrop
+                                        enabled: (currentStatus === 'Assigned' && assignedUser === app.portalUser) ? true : false;
+                                        fillMode: Image.PreserveAspectFit
+                                        antialiasing: true;
+                                    }
+
+
+
+                                    DropShadow {
+                                            anchors.fill: cancel
+                                            horizontalOffset: 2
+                                            verticalOffset: 2
+                                            radius: 4.0
+                                            samples: 17
+                                            color: "#aa000000"
+                                            source: cancel
+                                            visible: assignedUser === app.portalUser ? true : false;
+                                    }
+
+                                    ColorOverlay {
+                                            anchors.fill: cancel
+                                            source: cancel
+                                            color: app.disabledIconColor
+                                            visible: assignedUser === app.portalUser ? false : true;
                                     }
 
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: {
-                                            console.log(">>> MOUSE AREA: Bottom 3")
+                                            if (assignedUser === app.portalUser) {
+                                                updateFeature(feature, 'Cancel', currentStatus, workerNote, index)
+                                            } else {
+                                               console.log(">>>> DISABLED: NOT ASSIGNED USER: updateFeature(feature, 'Cancel', currentStatus)")
+                                            }
                                         }
                                     }
 
@@ -482,24 +688,49 @@ Page {
                                 //Revert status of item
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 50 * app.scaleFactor
+                                    Layout.preferredHeight: 55 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus !== 'Pending' ? true : false;
 
                                     Image{
+                                        id: revert
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
                                         height: imgSizeBottom
                                         source: imgRevert
                                         visible: currentStatus !== 'Pending' ? true : false;
-                                        enabled: currentStatus !== 'Pending' ? true : false;
-                                        fillMode: Image.PreserveAspectCrop
+                                        enabled: (currentStatus !== 'Pending' && assignedUser === app.portalUser) ? true : false;
+                                        fillMode: Image.PreserveAspectFit
+                                        antialiasing: true;
+                                    }
+
+                                    DropShadow {
+                                            anchors.fill: revert
+                                            horizontalOffset: 2
+                                            verticalOffset: 2
+                                            radius: 4.0
+                                            samples: 17
+                                            color: "#aa000000"
+                                            source: revert
+                                            visible: assignedUser === app.portalUser ? true : false;
+                                    }
+
+                                    ColorOverlay {
+                                            anchors.fill: revert
+                                            source: revert
+                                            color: app.disabledIconColor
+                                            visible: assignedUser === app.portalUser ? false : true;
                                     }
 
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: {
-                                            console.log(">>> MOUSE AREA: Bottom 4")
+                                            if (assignedUser === app.portalUser) {
+                                                updateFeature(feature, 'Revert', currentStatus, workerNote, index)
+                                            } else {
+                                               console.log(">>>> DISABLED: NOT ASSIGNED USER: updateFeature(feature, 'Revert', currentStatus)")
+                                            }
+
                                         }
                                     }
 
@@ -508,24 +739,49 @@ Page {
                                 //Complete case
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 50 * app.scaleFactor
+                                    Layout.preferredHeight: 55 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus === 'Assigned' ? true : false;
 
                                     Image{
+                                        id: complete
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
                                         height: imgSizeBottom
                                         source: imgComplete
                                         visible: currentStatus === 'Assigned' ? true : false;
-                                        enabled: currentStatus === 'Assigned' ? true : false;
-                                        fillMode: Image.PreserveAspectCrop
+                                        enabled: (currentStatus === 'Assigned' && assignedUser === app.portalUser) ? true : false;
+                                        fillMode: Image.PreserveAspectFit
+                                        antialiasing: true;
+                                    }
+
+                                    DropShadow {
+                                            anchors.fill: complete
+                                            horizontalOffset: 2
+                                            verticalOffset: 2
+                                            radius: 4.0
+                                            samples: 17
+                                            color: "#aa000000"
+                                            source: complete
+                                            visible: assignedUser === app.portalUser ? true : false;
+                                    }
+
+                                    ColorOverlay {
+                                            anchors.fill: complete
+                                            source: complete
+                                            color: app.disabledIconColor
+                                            visible: assignedUser === app.portalUser ? false : true;
                                     }
 
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: {
-                                            console.log(">>> MOUSE AREA: Bottom 5")
+                                            if (assignedUser === app.portalUser) {
+                                                updateFeature(feature, 'Complete', currentStatus, workerNote, index)
+                                            } else {
+                                               console.log(">>>> DISABLED: NOT ASSIGNED USER: updateFeature(feature, 'Complete', currentStatus)")
+                                            }
+
                                         }
                                     }
 
@@ -534,18 +790,18 @@ Page {
                                 //Padding
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 50 * app.scaleFactor
+                                    Layout.preferredHeight: 55 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
-                                    visible: currentStatus === 'Pending' ? true : false;
+                                    visible: currentStatus !== 'Assigned' ? true : false;
 
                                     Image{
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
                                         height: imgSizeBottom
-//                                        source: imgAssignToMe
-                                        visible: currentStatus === 'Pending' ? true : false;
-                                        enabled: currentStatus === 'Pending' ? true : false;
-                                        fillMode: Image.PreserveAspectCrop
+                                        visible: currentStatus !== 'Assigned' ? true : false;
+                                        enabled: currentStatus !== 'Assigned' ? true : false;
+                                        fillMode: Image.PreserveAspectFit
+                                        antialiasing: true;
                                     }
 
                                 }
@@ -580,6 +836,10 @@ Page {
         id: casesListModel
     }
 
+    ListModel{
+        id: featureList
+    }
+
     BusyIndicator {
         id: busy
         anchors.horizontalCenter: parent.horizontalCenter
@@ -605,8 +865,9 @@ Page {
             onLoadStatusChanged: {
                 debugText = ">>>> CasesListPage: onLoadStatusChanged --- " + loadStatus;
                 console.log(debugText);
-                queryFeaturesByStatusAndExtent()
+                queryFeaturesByStatusAndExtent();
             }
+
 
             onQueryFeaturesStatusChanged: {
 
@@ -617,19 +878,26 @@ Page {
 
                     //Update the display counts
                     if (queryFeaturesResult.iterator != null) {
+                        var index = 0;
                         while (queryFeaturesResult.iterator.hasNext) {
                             caseFeature = queryFeaturesResult.iterator.next();
+                            caseFeature.load()
+                            var attributesF = caseFeature.attributes
+
 
                             console.log(" caseFeature.attributes. ", caseFeature.attributes.attributeNames)
                             var objectIdF = caseFeature.attributes.attributeValue("OBJECTID");
                             var typeF = caseFeature.attributes.attributeValue("Type");
                             var tempDesc = caseFeature.attributes.attributeValue("Description");
-                            var descriptionF = tempDesc === null ? '' : (tempDesc.length > 35 ? (tempDesc.substr(0,35)+'...') : tempDesc);
+                            var descriptionF = tempDesc === null ? '' : (tempDesc.length > 30 ? (tempDesc.substr(0,30)+'...') : tempDesc);
                             var currentStatusF = caseFeature.attributes.attributeValue("CurrentStatus");
                             var tempUser = caseFeature.attributes.attributeValue("AssignedUser");
                             var assignedUserF = tempUser === null ? '': tempUser;
                             var assignedDateF = caseFeature.attributes.attributeValue("AssignedDate");
-
+                            var reportedDateF = caseFeature.attributes.attributeValue("ReportedDate");
+                            var reportedDateStrF = reportedDateF.toString();
+                            var tempWorkerNote =  caseFeature.attributes.attributeValue("WorkerNote")
+                            var workerNoteF = tempWorkerNote === null ? '' : (tempWorkerNote.length > 55 ? (tempWorkerNote.substr(0,55)+'...') : tempWorkerNote)
 
                             console.log(">>>> QUERY: caseFeature --- values: ");
                             console.log(">>>> objectId: ", objectIdF);
@@ -638,14 +906,25 @@ Page {
                             console.log(">>>> currentStatus: ", currentStatusF);
                             console.log(">>>> assignedUser: ", assignedUserF);
                             console.log(">>>> assignedDate: ", assignedDateF);
+                            console.log(">>>> reportedDate: ", reportedDateF);
+                            console.log(">>>> workerNote: ", workerNoteF);
+
 
                             casesListModel.append({objectId: objectIdF,
-                                                   description:descriptionF,
-                                                   type: typeF,
-                                                   currentStatus: currentStatusF,
-                                                   assignedUser: assignedUserF,
-                                                   assignedDate: assignedDateF
-                                                  })
+                                                       description:descriptionF,
+                                                       type: typeF,
+                                                       currentStatus: currentStatusF,
+                                                       assignedUser: assignedUserF,
+                                                       assignedDate: assignedDateF,
+                                                       reportedDate: reportedDateStrF.substr(4,21),
+                                                       workerNote: workerNoteF,
+                                                       feature: caseFeature,
+                                                       index: index
+                                                      })
+                            featureList.append(caseFeature)
+
+                            index++;
+
                          }
                     }
 
@@ -654,6 +933,28 @@ Page {
                     querying = true;
                 }
             }
+
+            onApplyEditsStatusChanged: {
+                debugText = ">>>> CasesList : onApplyEditsStatusChanged --- " + applyEditsStatus;
+               console.log(debugText);
+               if (applyEditsStatus === Enums.TaskStatusCompleted) {
+                   debugText = ">>>> CasesList :  successfully edited feature, refreshing table"
+                   console.log(debugText);
+                   //refresh table
+                   queryFeaturesByStatusAndExtent();
+               }
+            }
+
+            onUpdateFeatureStatusChanged: {
+                debugText = ">>>> CasesList : onUpdateFeatureStatusChanged --- " + updateFeatureStatus;
+                console.log(debugText);
+                if (updateFeatureStatus === Enums.TaskStatusCompleted) {
+                    debugText = ">>>> CasesList :  successfully updated feature";
+                    console.log(debugText);
+                    applyEdits();
+                }
+            }
+
         }
     }
 
@@ -671,6 +972,7 @@ Page {
     //Function to query the current extent
     function queryFeaturesByStatusAndExtent() {
         casesListModel.clear();
+        featureList.clear()
 
         // set the where clause
         if (currentStatusValue === '') currentStatusValue = 'Pending'
@@ -678,7 +980,7 @@ Page {
                              (currentStatusValue.includes('Assigned') ? 'Assigned' :
                              (currentStatusValue.includes('Cancelled') ? 'Cancelled' : 'Completed')));
 
-        var queryUserStr = currentStatusValue.includes('USER') ? " and (CurrentUser = '" + app.portalUser + "')" : '';
+        var queryUserStr = currentStatusValue.includes('USER') ? " and (AssignedUser = '" + app.portalUser + "')" : '';
         var queryString = " 1=1 and (CurrentStatus = '" + queryStatus + "') "
 
         params.whereClause = queryString + queryUserStr;
@@ -689,6 +991,77 @@ Page {
 
         // start the query
         casesListFeatureTable.queryFeaturesWithFieldOptions(params, Enums.QueryFeatureFieldsLoadAll);
+
+    }
+
+    //Function to query for update
+    function queryFeatureById(objectId) {
+
+        params.whereClause = '1=1 and OBJECTID = ' + objectId
+        console.log(">>>> CasesListPage: queryFeatureById(objectId) params.whereClause ----- ", params.whereClause)
+
+        // start the query
+        casesListFeatureTable.queryFeaturesWithFieldOptions(params, Enums.QueryFeatureFieldsLoadAll);
+    }
+
+
+    //Function to update record
+    function updateFeature(feature, actionType, currentStatusVal, workerNoteVal, index) {
+
+        console.log(">>>> CasesListPage: updateFeature()", feature, "  actionType:", actionType)
+        if (feature === undefined) {
+            feature = featureList[index]
+            console.log(">>>> CasesListPage: updateFeature()", feature, "  from list")
+        }
+
+        if (actionType === 'AssignToMe') {
+            feature.attributes.replaceAttribute("CurrentStatus", "Assigned");
+            feature.attributes.replaceAttribute("AssignedUser", app.portalUser);
+            feature.attributes.replaceAttribute("AssignedDate", new Date());
+        } else if (actionType === 'Revert') {
+            var workerNoteSubStr = 'Reverted from ';
+            if (currentStatusVal === 'Assigned') {
+                workerNoteSubStr = workerNoteSubStr + 'Assigned to Pending from Case List Page. ';
+                feature.attributes.replaceAttribute("CurrentStatus", "Pending");
+                feature.attributes.replaceAttribute("AssignedUser", null);
+                feature.attributes.replaceAttribute("AssignedDate", null);
+            } else if (currentStatusVal === 'Cancelled') {
+                workerNoteSubStr = workerNoteSubStr + 'Cancelled to Assigned from Case List Page. ';
+                feature.attributes.replaceAttribute("CurrentStatus", "Assigned");
+                feature.attributes.replaceAttribute("AssignedUser", app.portalUser);
+                feature.attributes.replaceAttribute("AssignedDate", new Date());
+                feature.attributes.replaceAttribute("CancelledUser", null);
+                feature.attributes.replaceAttribute("CancelledDate", null);
+            } else if (currentStatusVal === 'Completed') {
+                workerNoteSubStr = workerNoteSubStr + 'Completed to Assigned from Case List Page. ';
+                feature.attributes.replaceAttribute("CurrentStatus", "Assigned");
+                feature.attributes.replaceAttribute("AssignedUser", app.portalUser);
+                feature.attributes.replaceAttribute("AssignedDate", new Date());
+                feature.attributes.replaceAttribute("CompletedUser", null);
+                feature.attributes.replaceAttribute("CompletedDate", null);
+            }
+            var workerNote = workerNoteSubStr + workerNoteVal;
+            workerNote = workerNote.substr(0,250);
+            feature.attributes.replaceAttribute("WorkerNote", workerNote );
+        } else if (actionType === 'Complete') {
+            feature.attributes.replaceAttribute("CurrentStatus", "Completed");
+            feature.attributes.replaceAttribute("CompletedUser", app.portalUser);
+            feature.attributes.replaceAttribute("CompletedDate", new Date());
+        } else if (actionType === 'Cancel') {
+            feature.attributes.replaceAttribute("CurrentStatus", "Cancelled");
+            feature.attributes.replaceAttribute("CancelledUser", app.portalUser);
+            feature.attributes.replaceAttribute("CancelledDate", new Date());
+        }
+
+
+        //Update these values regardless of type of edit
+        feature.attributes.replaceAttribute("LastUpdateUser", app.portalUser);
+        feature.attributes.replaceAttribute("LastUpdate", new Date());
+
+        // update the feature in the feature table asynchronously
+        console.log(">>>> CasesListPage: updateFeature() - performing update");
+        querying = true;
+        casesListFeatureTable.updateFeature(feature);
 
     }
 
