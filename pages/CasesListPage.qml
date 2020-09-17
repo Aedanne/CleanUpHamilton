@@ -486,7 +486,7 @@ Page {
 
                                 Label {
                                     Layout.fillWidth: true
-                                    text: "   Last Update: " + (lastUpdate !== undefined ? lastUpdate : '')
+                                    text: "   Last Update: " + (lastUpdate === undefined ? '' : (lastUpdate === null ? '' : (lastUpdate === 'Invalid Date' ? '' : lastUpdate)))
                                     color: app.appPrimaryTextColor
                                     font.pixelSize: app.baseFontSize*.3
                                     horizontalAlignment: Text.AlignLeft
@@ -914,6 +914,7 @@ Page {
                             var lastUpdateF = caseFeature.attributes.attributeValue("LastUpdate");
                             var tempWorkerNote =  caseFeature.attributes.attributeValue("WorkerNote")
                             var workerNoteF = tempWorkerNote === null ? '' : (tempWorkerNote.length > 55 ? (tempWorkerNote.substr(0,55)+'...') : tempWorkerNote)
+                            var lastUpdateStrF = (lastUpdateF !== null ? lastUpdateF.toString() : '')
 
                             console.log("\n\n>>>> QUERY: caseFeature --- values: ");
                             console.log(">>>> objectId: ", objectIdF);
@@ -924,7 +925,7 @@ Page {
                             console.log(">>>> assignedDate: ", assignedDateF);
                             console.log(">>>> reportedDate: ", reportedDateF);
                             console.log(">>>> workerNote: ", workerNoteF);
-                            console.log(">>>> lastUpdate: ", lastUpdateF);
+                            console.log(">>>> lastUpdate: ", lastUpdateStrF);
 
 
                             casesListModel.append({objectId: objectIdF,
@@ -937,7 +938,7 @@ Page {
                                                        workerNote: workerNoteF,
                                                        feature: featureF,
                                                        index: index,
-                                                       lastUpdate: (lastUpdateF == null ? '' : lastUpdateF)
+                                                       lastUpdate: lastUpdateStrF
                                                       })
                             featureList.push(caseFeature)
 
