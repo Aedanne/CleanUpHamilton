@@ -356,7 +356,7 @@ Page {
                                             Layout.fillWidth: true
                                             text: " Case #"+objectId + ": " + (type===typeRubbish?'Rubbish':type)
                                             visible: true;
-                                            color: app.appSecondaryTextColor
+                                            color: app.appPrimaryTextColor
                                             font.pixelSize: app.baseFontSize*.3
                                             horizontalAlignment: Text.AlignLeft
                                             verticalAlignment: Text.AlignVCenter
@@ -372,7 +372,7 @@ Page {
                                             font.pixelSize: app.baseFontSize*.3
                                             horizontalAlignment: Text.AlignLeft
                                             verticalAlignment: Text.AlignVCenter
-                                            topPadding: 2 * app.scaleFactor
+                                            topPadding: 1 * app.scaleFactor
                                             maximumLineCount: 1
                                             visible: true
                                         }
@@ -384,7 +384,7 @@ Page {
                                             font.pixelSize: app.baseFontSize*.3
                                             horizontalAlignment: Text.AlignLeft
                                             verticalAlignment: Text.AlignVCenter
-                                            topPadding: 2 * app.scaleFactor
+                                            topPadding: 1 * app.scaleFactor
                                             maximumLineCount: 1
                                             visible: true
                                         }
@@ -440,7 +440,7 @@ Page {
 
                         Rectangle {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 20 * app.scaleFactor
+                            Layout.preferredHeight: 35 * app.scaleFactor
                             border.color: app.appBackgroundColorCaseList
                             color: app.appBackgroundColorCaseList
 
@@ -473,13 +473,27 @@ Page {
                                 Label {
                                     Layout.fillWidth: true
                                     text: "   Worker Note: " + workerNote
-                                    color: 'red'
+                                    color: app.appPrimaryTextColor
                                     font.pixelSize: app.baseFontSize*.3
                                     horizontalAlignment: Text.AlignLeft
                                     verticalAlignment: Text.AlignVCenter
                                     topPadding: 2 * app.scaleFactor
                                     maximumLineCount: 1
                                     visible: true
+                                    font.italic: true
+//                                    font.bold: true
+                                }
+
+                                Label {
+                                    Layout.fillWidth: true
+                                    text: "   Last Update: " + (lastUpdate !== undefined ? lastUpdate : '')
+                                    color: app.appPrimaryTextColor
+                                    font.pixelSize: app.baseFontSize*.3
+                                    horizontalAlignment: Text.AlignLeft
+                                    verticalAlignment: Text.AlignVCenter
+                                    maximumLineCount: 1
+                                    visible: true
+                                    font.italic: true
 //                                    font.bold: true
                                 }
 
@@ -897,10 +911,11 @@ Page {
                             var assignedDateF = caseFeature.attributes.attributeValue("AssignedDate");
                             var reportedDateF = caseFeature.attributes.attributeValue("ReportedDate");
                             var reportedDateStrF = reportedDateF.toString();
+                            var lastUpdateF = caseFeature.attributes.attributeValue("LastUpdate");
                             var tempWorkerNote =  caseFeature.attributes.attributeValue("WorkerNote")
                             var workerNoteF = tempWorkerNote === null ? '' : (tempWorkerNote.length > 55 ? (tempWorkerNote.substr(0,55)+'...') : tempWorkerNote)
 
-                            console.log(">>>> QUERY: caseFeature --- values: ");
+                            console.log("\n\n>>>> QUERY: caseFeature --- values: ");
                             console.log(">>>> objectId: ", objectIdF);
                             console.log(">>>> type: ", typeF);
                             console.log(">>>> description: ", descriptionF);
@@ -909,6 +924,7 @@ Page {
                             console.log(">>>> assignedDate: ", assignedDateF);
                             console.log(">>>> reportedDate: ", reportedDateF);
                             console.log(">>>> workerNote: ", workerNoteF);
+                            console.log(">>>> lastUpdate: ", lastUpdateF);
 
 
                             casesListModel.append({objectId: objectIdF,
@@ -920,7 +936,8 @@ Page {
                                                        reportedDate: reportedDateStrF.substr(4,21),
                                                        workerNote: workerNoteF,
                                                        feature: featureF,
-                                                       index: index
+                                                       index: index,
+                                                       lastUpdate: (lastUpdateF == null ? '' : lastUpdateF)
                                                       })
                             featureList.push(caseFeature)
 
