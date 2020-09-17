@@ -258,6 +258,7 @@ Page {
                 debugText = ">>>> onLoadStatusChanged --- " + loadStatus;
                 console.log(debugText);
                 app.reportedCasesFeatureService = casesFeatureTable
+//                queryFeaturesResult = null;
             }
 
             onQueryFeaturesStatusChanged: {
@@ -280,6 +281,8 @@ Page {
                         }
 
                      }
+
+                     map.retryLoad();
 
                 } else if (queryFeaturesStatus === Enums.TaskStatusInProgress) {
                     console.log(">>>> QUERY: reportFeature --- TASK IN PROGRESS: ");
@@ -330,6 +333,7 @@ Page {
         // start the query
 
         casesFeatureTable.queryFeatures(params);
+
         map.load();
         app.reportedCasesMapExtent = mapView.visibleArea
 
