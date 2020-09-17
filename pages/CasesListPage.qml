@@ -36,6 +36,7 @@ Page {
     property var descText;
 
     property ArcGISFeature caseFeature;
+    property var featureList;
     property string debugText;
     property bool querying;
     property string currentStatusValue;
@@ -836,9 +837,7 @@ Page {
         id: casesListModel
     }
 
-    ListModel{
-        id: featureList
-    }
+
 
     BusyIndicator {
         id: busy
@@ -879,9 +878,9 @@ Page {
                     //Update the display counts
                     if (queryFeaturesResult.iterator != null) {
                         var index = 0;
+
                         while (queryFeaturesResult.iterator.hasNext) {
                             caseFeature = queryFeaturesResult.iterator.next();
-                            caseFeature.load()
                             var attributesF = caseFeature.attributes
 
 
@@ -921,7 +920,7 @@ Page {
                                                        feature: caseFeature,
                                                        index: index
                                                       })
-                            featureList.append(caseFeature)
+//                            featureList.append(caseFeature)
 
                             index++;
 
@@ -972,7 +971,7 @@ Page {
     //Function to query the current extent
     function queryFeaturesByStatusAndExtent() {
         casesListModel.clear();
-        featureList.clear()
+
 
         // set the where clause
         if (currentStatusValue === '') currentStatusValue = 'Pending'
