@@ -36,7 +36,8 @@ Page {
     property var descText;
 
     property ArcGISFeature caseFeature;
-    property var featureList;
+    property var featureList: []
+
     property string debugText;
     property bool querying;
     property string currentStatusValue;
@@ -879,10 +880,11 @@ Page {
                     if (queryFeaturesResult.iterator != null) {
                         var index = 0;
 
+
                         while (queryFeaturesResult.iterator.hasNext) {
                             caseFeature = queryFeaturesResult.iterator.next();
                             var attributesF = caseFeature.attributes
-
+                            const featureF = caseFeature;
 
                             console.log(" caseFeature.attributes. ", caseFeature.attributes.attributeNames)
                             var objectIdF = caseFeature.attributes.attributeValue("OBJECTID");
@@ -917,10 +919,10 @@ Page {
                                                        assignedDate: assignedDateF,
                                                        reportedDate: reportedDateStrF.substr(4,21),
                                                        workerNote: workerNoteF,
-                                                       feature: caseFeature,
+                                                       feature: featureF,
                                                        index: index
                                                       })
-//                            featureList.append(caseFeature)
+                            featureList.push(caseFeature)
 
                             index++;
 
@@ -1008,17 +1010,15 @@ Page {
     function updateFeature(feature, actionType, currentStatusVal, workerNoteVal, index) {
 
         console.log(">>>> CasesListPage: updateFeature()", feature, "  actionType:", actionType)
-        if (feature === undefined) {
-            feature = featureList[index]
-            console.log(">>>> CasesListPage: updateFeature()", feature, "  from list")
-        }
 
+        var workerNoteSubStr = '';
         if (actionType === 'AssignToMe') {
+            workerNoteSubStr = 'Pending to Assigned from Case List Page. ';
             feature.attributes.replaceAttribute("CurrentStatus", "Assigned");
             feature.attributes.replaceAttribute("AssignedUser", app.portalUser);
             feature.attributes.replaceAttribute("AssignedDate", new Date());
         } else if (actionType === 'Revert') {
-            var workerNoteSubStr = 'Reverted from ';
+            workerNoteSubStr = 'Reverted from ';
             if (currentStatusVal === 'Assigned') {
                 workerNoteSubStr = workerNoteSubStr + 'Assigned to Pending from Case List Page. ';
                 feature.attributes.replaceAttribute("CurrentStatus", "Pending");
@@ -1039,19 +1039,21 @@ Page {
                 feature.attributes.replaceAttribute("CompletedUser", null);
                 feature.attributes.replaceAttribute("CompletedDate", null);
             }
-            var workerNote = workerNoteSubStr + workerNoteVal;
-            workerNote = workerNote.substr(0,250);
-            feature.attributes.replaceAttribute("WorkerNote", workerNote );
         } else if (actionType === 'Complete') {
+            workerNoteSubStr = 'Marked Completed from Case List Page. ';
             feature.attributes.replaceAttribute("CurrentStatus", "Completed");
             feature.attributes.replaceAttribute("CompletedUser", app.portalUser);
             feature.attributes.replaceAttribute("CompletedDate", new Date());
         } else if (actionType === 'Cancel') {
+            workerNoteSubStr = 'Marked Cancelled from Case List Page. ';
             feature.attributes.replaceAttribute("CurrentStatus", "Cancelled");
             feature.attributes.replaceAttribute("CancelledUser", app.portalUser);
             feature.attributes.replaceAttribute("CancelledDate", new Date());
         }
 
+        var workerNote = workerNoteSubStr + workerNoteVal;
+        workerNote = workerNote.substr(0,250);
+        feature.attributes.replaceAttribute("WorkerNote", workerNote );
 
         //Update these values regardless of type of edit
         feature.attributes.replaceAttribute("LastUpdateUser", app.portalUser);
