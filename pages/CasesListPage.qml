@@ -943,95 +943,6 @@ Page {
 
 
     // Attachment Viewer Overlay ================================================
-    /*
-    Rectangle {
-        id: attachmentViewer
-        anchors.centerIn: parent
-        height: app.height * 0.75
-        width: app.width
-        visible: false
-        radius: 10
-        color: "lightgrey"
-        border.color: "darkgrey"
-        opacity: 0.90
-        clip: true
-
-        // accept mouse events so they do not propogate down to the map
-        MouseArea {
-            anchors.fill: parent
-            onClicked: mouse.accepted = true
-            onWheel: wheel.accepted = true
-        }
-
-        Rectangle {
-            id: attHeader
-            anchors {
-                left: parent.left
-                right: parent.right
-                top: parent.top
-            }
-        }
-
-        ListView {
-            id: attachmentsList
-            anchors {
-                left: parent.left
-                right: parent.right
-                top: attHeader.bottom
-                bottom: parent.bottom
-                margins: 10 * scaleFactor
-            }
-            clip: true
-            spacing: 2
-            model: attListModel //Attachments from feature
-
-            delegate: Item {
-                height: 250* scaleFactor
-                width: parent.width
-                clip: true
-
-
-                Text {
-                    id: label
-                    text: name
-                    wrapMode: Text.WrapAnywhere
-                    maximumLineCount: 1
-                    elide: Text.ElideRight
-                    font.pixelSize: 16 * scaleFactor
-                }
-
-                Image {
-                    id: attachment
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        right: parent.right
-                    }
-                    width: 200 * scaleFactor
-                    height: width
-                    fillMode: Image.PreserveAspectFit
-                    source: attachmentUrl
-                    onSourceChanged: {
-                        console.log(">>>> Attachment Viewer Section: Src: ",source)
-                    }
-                }
-
-                MouseArea {
-                    id: itemMouseArea
-                    anchors.fill: parent
-                    onClicked: {
-                        attachmentsList.currentIndex = index;
-                    }
-                }
-            }
-
-            highlightFollowsCurrentItem: true
-            highlight: Rectangle {
-                height: attachmentsList.currentItem.height
-                color: "lightsteelblue"
-            }
-        }
-    }
-    */
 
     Rectangle {
         id: attachmentViewer
@@ -1039,99 +950,118 @@ Page {
         width: app.width;
         height: app.height;
         anchors.centerIn: parent
+        color: "transparent"
 
-    Item {
+        ColumnLayout {
+            spacing: 0
 
-//        id: attachmentViewer
-//        visible: false
-        width: app.width;
-        height: app.height*0.5;
-        anchors.centerIn: parent
+            Rectangle {
+                id: topArea
+                visible: true
+                width: app.width;
+                height: app.height*0.25;
+                opacity: 0.65
 
-        SwipeView {
-            id: swipeView
-            visible: true
-            anchors.fill: parent
+                MouseArea {
+                    anchors.fill: topArea
+                    onClicked: {
+                        console.log("outside......")
+                        attachmentViewer.visible = false
+                    }
+                }
 
-            Repeater {
-                model: attListModel
+            }
 
-                Item {
-                    id: delegateAttachments
+            Item {
+                width: app.width;
+                height: app.height*0.5;
+                anchors.centerIn: parent
+
+                SwipeView {
+                    id: swipeView
+                    visible: true
+                    anchors.fill: parent
+
+                    Repeater {
+                        model: attListModel
+
+                        Item {
+                            id: delegateAttachments
 
 
-                    Rectangle {
-                        color: app.cameraViewBackgroundColor
-                        visible: true
-                        anchors.top: parent.top
-                        height: parent.height
+                            Rectangle {
+                                color: app.cameraViewBackgroundColor
+                                visible: true
+                                anchors.top: parent.top
+                                height: parent.height
 
-                        Image {
-                            id: attachment
-                            horizontalAlignment: Qt.AlignHCenter
-                            height: parent.height
-                            fillMode: Image.PreserveAspectFit
-                            source: attachmentUrl
-                            onSourceChanged: {
-                                console.log(">>>> Attachment Viewer Section: Src: ",source)
+                                Image {
+                                    id: attachment
+                                    horizontalAlignment: Qt.AlignHCenter
+                                    height: parent.height
+                                    fillMode: Image.PreserveAspectFit
+                                    source: attachmentUrl
+                                    onSourceChanged: {
+                                        console.log(">>>> Attachment Viewer Section: Src: ",source)
+                                    }
+                                }
                             }
-                        }
-                    }
 
-                    Button {
-                        width: 25*app.scaleFactor
-                        enabled: index > 0
-                        onClicked: delegateAttachments.SwipeView.view.decrementCurrentIndex()
-                        anchors.left: parent.left
-                        anchors.verticalCenter: parent.verticalCenter
-                        contentItem: Image {
-                            source: '../images/back.png';
-                            visible: true
-                            enabled: index > 0
-                            fillMode: Image.PreserveAspectFit
-                            width: 25*app.scaleFactor
-                            height: 50*app.scaleFactor
+                            Button {
+                                width: 25*app.scaleFactor
+                                enabled: index > 0
+                                onClicked: delegateAttachments.SwipeView.view.decrementCurrentIndex()
+                                anchors.left: parent.left
+                                anchors.verticalCenter: parent.verticalCenter
+                                contentItem: Image {
+                                    source: '../images/back.png';
+                                    visible: true
+                                    enabled: index > 0
+                                    fillMode: Image.PreserveAspectFit
+                                    width: 25*app.scaleFactor
+                                    height: 50*app.scaleFactor
 
-                        }
-                    }
+                                }
+                            }
 
-                    Button {
-                        width: 25*app.scaleFactor
-                        enabled: index < delegateAttachments.SwipeView.view.count - 1
-                        onClicked: delegateAttachments.SwipeView.view.incrementCurrentIndex()
-                        anchors.right: parent.right
-                        anchors.verticalCenter: parent.verticalCenter
-                        contentItem: Image {
-                            width: 25*app.scaleFactor
-                            source: '../images/next.png';
-                            visible: true
-                            enabled: index < delegateAttachments.SwipeView.view.count - 1
-                            fillMode: Image.PreserveAspectFit
-                            height: 50*app.scaleFactor
+                            Button {
+                                width: 25*app.scaleFactor
+                                enabled: index < delegateAttachments.SwipeView.view.count - 1
+                                onClicked: delegateAttachments.SwipeView.view.incrementCurrentIndex()
+                                anchors.right: parent.right
+                                anchors.verticalCenter: parent.verticalCenter
+                                contentItem: Image {
+                                    width: 25*app.scaleFactor
+                                    source: '../images/next.png';
+                                    visible: true
+                                    enabled: index < delegateAttachments.SwipeView.view.count - 1
+                                    fillMode: Image.PreserveAspectFit
+                                    height: 50*app.scaleFactor
 
+                                }
+                            }
                         }
                     }
                 }
             }
 
-//            MouseArea {
-//                anchors.fill: parent
-//                onClicked: {
-//                    onClicked: mouse.accepted = true
-//                    onWheel: wheel.accepted = true
-//                }
-//            }
-        }
-    }
 
-        MouseArea {
-//            anchors.fill: parent
-            onClicked: {
-                console.log("outside......")
-                attachmentViewer.visible = false
+            Rectangle {
+                id: bottomArea
+                visible: true
+                width: app.width;
+                height: app.height*0.25;
+                opacity: 0.65
+
+                MouseArea {
+                    anchors.fill: bottomArea
+                    onClicked: {
+                        console.log("outside......")
+                        attachmentViewer.visible = false
+                    }
+                }
             }
         }
-
     }
 
 
