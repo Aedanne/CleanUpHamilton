@@ -32,10 +32,11 @@ Page {
     signal nextPage();
     signal previousPage();
 
-    property string titleText:"";
+    property string titleText:"This is a test";
     property var descText;
 
     property ArcGISFeature caseFeature;
+    property ArcGISFeature featureForAttachments;
     property var featureList: []
 
     property string debugText;
@@ -69,6 +70,7 @@ Page {
     property string imgAttachment: "../images/paperclip.png"
 
     property bool isUpdate: false
+    property AttachmentListModel attListModel
 
     anchors.fill: parent;
 
@@ -350,8 +352,6 @@ Page {
 
                                     ColumnLayout {
 
-//                                        anchors.centerIn: parent
-
                                         Label {
                                             Layout.fillWidth: true
                                             text: " Case #"+objectId + ": " + (type===typeRubbish?'Rubbish':type)
@@ -388,46 +388,8 @@ Page {
                                             maximumLineCount: 1
                                             visible: true
                                         }
-
                                     }
                                 }
-
-//                                // Attachment view icon
-//                                Rectangle {
-//                                    Layout.fillWidth: true
-//                                    Layout.preferredHeight: 72 * app.scaleFactor
-//                                    color: app.appBackgroundColorCaseList
-
-//                                    Image{
-//                                        id: viewAttachment
-//                                        anchors.centerIn: parent
-//                                        width: imgSizeTop
-//                                        height: imgSizeTop
-//                                        source: imgAttachment
-//                                        visible: true;
-//                                        enabled: true;
-//                                        fillMode: Image.PreserveAspectFit
-//                                        antialiasing: true;
-//                                    }
-
-//                                    DropShadow {
-//                                            anchors.fill: viewAttachment
-//                                            horizontalOffset: 2
-//                                            verticalOffset: 2
-//                                            radius: 4.0
-//                                            samples: 17
-//                                            color: "#aa000000"
-//                                            source: viewAttachment
-//                                    }
-
-//                                    MouseArea {
-//                                        anchors.fill: parent
-//                                        onClicked: {
-//                                            console.log(">>> MOUSE AREA: View Attachments")
-//                                        }
-//                                    }
-
-//                                }
                             }
                         }
 
@@ -604,7 +566,9 @@ Page {
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: {
-                                            console.log(">>> MOUSE AREA: View Attachments")
+                                            console.log(">>> MOUSE AREA: View Attachments, featureId:", objectId, feature)
+                                            attachmentViewer.visible = true;
+                                            attListModel = feature.attachments
                                         }
                                     }
 
@@ -978,6 +942,100 @@ Page {
     }
 
 
+    // Attachment Viewer Overlay ================================================
+    Rectangle {
+        id: attachmentViewer
+        anchors.centerIn: parent
+        height: app.height * 0.75
+        width: app.width
+        visible: false
+        radius: 10
+        color: "lightgrey"
+        border.color: "darkgrey"
+        opacity: 0.90
+        clip: true
+
+        // accept mouse events so they do not propogate down to the map
+        MouseArea {
+            anchors.fill: parent
+            onClicked: mouse.accepted = true
+            onWheel: wheel.accepted = true
+        }
+
+        Rectangle {
+            id: attHeader
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: parent.top
+            }
+        }
+
+        ListView {
+            id: attachmentsList
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: attHeader.bottom
+                bottom: parent.bottom
+                margins: 10 * scaleFactor
+            }
+            clip: true
+            spacing: 2
+            model: attListModel //Attachments from feature
+
+            delegate: Item {
+                height: 250* scaleFactor
+                width: parent.width
+                clip: true
+
+
+                Text {
+                    id: label
+                    text: name
+                    wrapMode: Text.WrapAnywhere
+                    maximumLineCount: 1
+                    elide: Text.ElideRight
+                    font.pixelSize: 16 * scaleFactor
+                }
+
+                Image {
+                    id: attachment
+                    anchors {
+                        verticalCenter: parent.verticalCenter
+                        right: parent.right
+                    }
+                    width: 200 * scaleFactor
+                    height: width
+                    fillMode: Image.PreserveAspectFit
+                    source: attachmentUrl
+                    onSourceChanged: {
+                        console.log(">>>> Attachment Viewer Section: Src: ",source)
+                    }
+                }
+
+                MouseArea {
+                    id: itemMouseArea
+                    anchors.fill: parent
+                    onClicked: {
+                        attachmentsList.currentIndex = index;
+                    }
+                }
+            }
+
+            highlightFollowsCurrentItem: true
+            highlight: Rectangle {
+                height: attachmentsList.currentItem.height
+                color: "lightsteelblue"
+            }
+        }
+    }
+
+
+
+
+
+
 
     //Footer custom QML =================================================================
     footer: FooterSection {
@@ -986,6 +1044,11 @@ Page {
         overrideRightIconSrc: "../images/home.png";
 //        overrideRightIconSz: 30
     }
+
+
+
+    //Functions =========================================================================
+
 
 
     //Function to query the current extent

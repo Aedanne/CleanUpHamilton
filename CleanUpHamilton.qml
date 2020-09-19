@@ -55,6 +55,7 @@ App{
     readonly property color disabledIconColor: "#B0B0B0"
     readonly property color disabledIconShadowColor: "red"
 
+
     // App-level size properties=========================================================
     property real scaleFactor: AppFramework.displayScaleFactor
     readonly property real baseFontSize: (app.width < 450*app.scaleFactor) ? (35 * scaleFactor) : (40 * scaleFactor)
