@@ -943,6 +943,7 @@ Page {
 
 
     // Attachment Viewer Overlay ================================================
+    /*
     Rectangle {
         id: attachmentViewer
         anchors.centerIn: parent
@@ -1030,8 +1031,108 @@ Page {
             }
         }
     }
+    */
+
+    Rectangle {
+        id: attachmentViewer
+        visible: false
+        width: app.width;
+        height: app.height;
+        anchors.centerIn: parent
+
+    Item {
+
+//        id: attachmentViewer
+//        visible: false
+        width: app.width;
+        height: app.height*0.5;
+        anchors.centerIn: parent
+
+        SwipeView {
+            id: swipeView
+            visible: true
+            anchors.fill: parent
+
+            Repeater {
+                model: attListModel
+
+                Item {
+                    id: delegateAttachments
 
 
+                    Rectangle {
+                        color: app.cameraViewBackgroundColor
+                        visible: true
+                        anchors.top: parent.top
+                        height: parent.height
+
+                        Image {
+                            id: attachment
+                            horizontalAlignment: Qt.AlignHCenter
+                            height: parent.height
+                            fillMode: Image.PreserveAspectFit
+                            source: attachmentUrl
+                            onSourceChanged: {
+                                console.log(">>>> Attachment Viewer Section: Src: ",source)
+                            }
+                        }
+                    }
+
+                    Button {
+                        width: 25*app.scaleFactor
+                        enabled: index > 0
+                        onClicked: delegateAttachments.SwipeView.view.decrementCurrentIndex()
+                        anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        contentItem: Image {
+                            source: '../images/back.png';
+                            visible: true
+                            enabled: index > 0
+                            fillMode: Image.PreserveAspectFit
+                            width: 25*app.scaleFactor
+                            height: 50*app.scaleFactor
+
+                        }
+                    }
+
+                    Button {
+                        width: 25*app.scaleFactor
+                        enabled: index < delegateAttachments.SwipeView.view.count - 1
+                        onClicked: delegateAttachments.SwipeView.view.incrementCurrentIndex()
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
+                        contentItem: Image {
+                            width: 25*app.scaleFactor
+                            source: '../images/next.png';
+                            visible: true
+                            enabled: index < delegateAttachments.SwipeView.view.count - 1
+                            fillMode: Image.PreserveAspectFit
+                            height: 50*app.scaleFactor
+
+                        }
+                    }
+                }
+            }
+
+//            MouseArea {
+//                anchors.fill: parent
+//                onClicked: {
+//                    onClicked: mouse.accepted = true
+//                    onWheel: wheel.accepted = true
+//                }
+//            }
+        }
+    }
+
+        MouseArea {
+//            anchors.fill: parent
+            onClicked: {
+                console.log("outside......")
+                attachmentViewer.visible = false
+            }
+        }
+
+    }
 
 
 
