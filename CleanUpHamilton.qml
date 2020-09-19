@@ -34,20 +34,22 @@ App{
     property string version: app.info.version
 
     // App-level color properties========================================================
-    readonly property color primaryColor: "#30475e"//'#1f4068'//"#555555"//Qt.darker("#CF5300",0.9) //"#255D83"
+    readonly property color defaultPrimaryColor: "#30475e"
+    readonly property string defaultPrimaryColorText: "#30475e"
+    readonly property color primaryColor: overridePrimaryColor !== '' ? overridePrimaryColor : defaultPrimaryColor
     readonly property color accentColor: Qt.lighter(primaryColor,1.2)
-    readonly property color appBackgroundColor: lightTheme? "#FFFFFF":"#303030"
+    readonly property color appBackgroundColor: "#FFFFFF"
     readonly property color appBackgroundColorCaseList: '#F0F0F0'
     readonly property color appBorderColorCaseList: '#DDDDDD'
     readonly property color appBackgroundColorLightGray: '#F6F6F6'
     readonly property color appBackgroundColorDarkGray: '#B8B8B8'
     readonly property color appDialogColor: lightTheme? "#FFFFFF":"424242"
     readonly property color menuBackgroundColor: "#DA674A"
-    readonly property color appPrimaryTextColor: lightTheme? primaryColor:"#FFFFFF"
+    readonly property color appPrimaryTextColor: primaryColor
     readonly property color menuPrimaryTextColor: Qt.lighter("#FFFFFF",1.5)
-    readonly property color appSecondaryTextColor: lightTheme? '#787878':"#FFFFFF"
+    readonly property color appSecondaryTextColor: '#787878'
     readonly property color homePageTitleTextColor:"#FCFCFC"
-    readonly property color appPrimaryTextColorInverted: lightTheme? "#FFFFFF":'#555555'
+    readonly property color appPrimaryTextColorInverted: "#FFFFFF"
     readonly property color backgroundAccent: '#AEAEAE'
     //readonly property color listViewDividerColor:"#19000000"
     readonly property color cameraViewBackgroundColor: "#1C1C1C"
@@ -55,6 +57,8 @@ App{
     readonly property color disabledIconColor: "#B0B0B0"
     readonly property color disabledIconShadowColor: "red"
 
+    property string overridePrimaryColor: ''
+    property string localOverrideColor: ''
 
     // App-level size properties=========================================================
     property real scaleFactor: AppFramework.displayScaleFactor
@@ -105,6 +109,7 @@ App{
     readonly property string cleanUpHamiltonClientId: "y5uFdm2AiF58sqBj"
     property bool authenticated: false;
     property string portalUser;
+    property int saveSettings: 0
 
 
 
@@ -304,7 +309,10 @@ App{
             }
 
             onNextPage: {
-
+                settingsdb.insertSettings();
+                formStackView.loadHomePage();
+                app.localOverrideColor = ''
+                settingsdb.querySettings()
             }
         }
     }
@@ -507,34 +515,59 @@ App{
 
     //Creating database for application==================================================
 
+
+
+    //Write to the database
     SqlDatabase {
-        id: db
+        id: settingsdb
 
         property FileInfo fileInfo: AppFramework.fileInfo("~/ArcGIS/Data/Sql/cleanuphamilton.sqlite")
         databaseName: fileInfo.filePath
 
         Component.onCompleted: {
             fileInfo.folder.makeFolder();
-            db.open();
-            db.exec( "DROP TABLE IF EXISTS SAVEDREPORTS" );
-            db.exec( "CREATE TABLE IF NOT EXISTS SAVEDREPORTS ( reporttype TEXT, description TEXT, reportdate DATE, latitude REAL, longitude REAL ); " );
-            db.insertSavedReports( "graffiti", "this is a test desc", Date("2020-07-28"), -37.9716929, 144.7729583 );
-            db.exec( "SELECT COUNT(*) as saved_reports FROM SAVEDREPORTS" );
-            db.exec( "SELECT * FROM SAVEDREPORTS" );
+            settingsdb.open();
+            settingsdb.querySettings()
         }
 
         function exec( sql, ...params ) {
-            let q = db.query( sql, ...params );
-            console.log( " >>> db.query.SQL: ", sql );
+            let q = settingsdb.query( sql, ...params );
+            console.log( " >>> settingsdb.query.SQL: ", sql );
 
             for ( let ok = q.first() ; ok ; ok = q.next() )
-                console.log( " >>> db.query.values: ", JSON.stringify( q.values ) );
+                console.log( " >>> settingsdb.query.values: ", JSON.stringify( q.values ) );
             q.finish();
         }
 
-        function insertSavedReports( reporttype, description, reportdate, latitude, longitude ) {
-            db.exec( "INSERT INTO SAVEDREPORTS VALUES (:reporttype, :description, :reportdate, :latitude, :longitude) ",
-                 { reporttype, description, reportdate, latitude, longitude } );
+        function insertSettings() {
+            var themeColor = app.localOverrideColor
+
+            console.log(">>>> THEMECOLOR = ", themeColor)
+
+            settingsdb.beginTransaction()
+            settingsdb.exec( "DROP TABLE IF EXISTS SETTINGS" );
+            settingsdb.exec( "CREATE TABLE IF NOT EXISTS SETTINGS ( themecolor TEXT ); " );
+
+            console.log(">>>> INSERTING ----- ")
+            var insert =  settingsdb.query();
+            insert.prepare("INSERT INTO SETTINGS (themecolor) VALUES (:themecolor) ");
+            insert.executePrepared( { "themecolor": themeColor } );
+            insert.finish()
+            settingsdb.commitTransaction()
+            querySettings()
+
+        }
+
+        function querySettings() {
+            var query = settingsdb.query( "SELECT * FROM SETTINGS" );
+            if (query.first()) {
+                var settings = JSON.parse(JSON.stringify(query.values))
+                console.log(">>>> themecolor:", settings.themecolor )
+                //set the override color
+                app.overridePrimaryColor = settings.themecolor
+
+                query.finish();
+            }
         }
     }
 

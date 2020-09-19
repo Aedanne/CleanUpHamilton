@@ -2,86 +2,191 @@ import QtQuick 2.7
 import QtQuick.Layouts 1.13
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
+import QtGraphicalEffects 1.13
+
+import QtPositioning 5.13
+
+
 import ArcGIS.AppFramework 1.0
+import ArcGIS.AppFramework.Multimedia 1.0
+
+import Esri.ArcGISRuntime 100.5
+import ArcGIS.AppFramework.Platform 1.0
+
+
+import "../ui_controls"
 
 
 /*
 Settings page for Clean-Up Hamilton app
 */
 
-
 Page {
 
-    id:settingsPage;
+    id:formPage;
 
     signal nextPage();
     signal previousPage();
 
     property string titleText:"";
     property var descText;
-//    width: parent.width * 0.70;
-//    anchors.fill: parent;
 
-    header: ToolBar{
 
-        contentHeight: app.btnHdrFtrHeightSize;
-        Material.primary: app.primaryColor;
+    //Header custom QML =================================================================
+    header: HeaderSection {
+        id: formPageHeader
+        logMessage: "TODO: SETTINGS PAGE INFO PAGE";
 
-        RowLayout {
-            anchors.fill: parent;
-            spacing: 0;
+    }
 
-            Label{
-                Layout.preferredWidth: 250*app.scaleFactor;
-                horizontalAlignment: Qt.AlignLeft;
-                verticalAlignment: Qt.AlignVCenter;
-                font.pixelSize: app.headerFontSize;
-                font.bold: true;
-                wrapMode: Text.Wrap;
-                leftPadding: 10*app.scaleFactor;
-                text: titleText > ""? titleText:"";
-                color: app.menuPrimaryTextColor;
+
+
+
+    //Main body of the page =============================================================
+
+    contentItem: Rectangle {
+        Layout.preferredWidth: parent.width
+        Layout.preferredHeight: 50 * app.scaleFactor
+        color: app.appBackgroundColor
+
+        ColumnLayout {
+            Layout.preferredWidth: parent.width*0.75;
+            spacing: 0
+
+            anchors {
+                fill: parent
+                margins: 20 * app.scaleFactor
             }
 
-            ToolButton {
 
-                indicator: Image{
-                    width: (parent.width*0.5)*(1.25*app.scaleFactor);
-                    height: (parent.height*0.5)*(1.25*app.scaleFactor);
-                    anchors {
-                        verticalCenter: parent.verticalCenter;
-                        right: parent.right;
-                        margins: 2*app.scaleFactor;
+
+            //Location placeholder
+            RowLayout{
+
+                spacing: 0;
+                visible: true;
+
+                Label {
+//                    Layout.fillWidth: true
+                    font.pixelSize: app.baseFontSize*.4
+                    font.bold: true
+                    text: "Application Primary Color: "
+                    color: app.defaultPrimaryColor
+                    topPadding: 35 * app.scaleFactor
+                    bottomPadding: 5 * app.scaleFactor
+                }
+
+            }
+            //Location placeholder
+            RowLayout{
+
+                spacing: 0;
+                visible: true;
+
+                Label {
+//                    Layout.fillWidth: true
+                    font.pixelSize: app.baseFontSize*.4
+//                    font.bold: true
+                    text: app.defaultPrimaryColorText
+                    color: app.defaultPrimaryColor
+                    topPadding: 5 * app.scaleFactor
+                    bottomPadding: 5 * app.scaleFactor
+                }
+            }
+
+            Rectangle {
+                Layout.preferredWidth: 150*app.scaleFactor
+                Layout.preferredHeight: 75*app.scaleFactor
+                color: app.defaultPrimaryColor
+            }
+
+            RowLayout{
+
+                spacing: 0;
+                visible: true;
+
+                Label {
+//                    Layout.fillWidth: true
+                    font.pixelSize: app.baseFontSize*.4
+                    font.bold: true
+                    text: "Override Primary Color: "
+                    color: app.primaryColor;
+                    topPadding: 50 * app.scaleFactor
+                    bottomPadding: 5 * app.scaleFactor
+                }
+
+            }
+            RowLayout{
+
+                spacing: 0;
+                visible: true;
+
+
+                TextField {
+//                    Layout.fillWidth: true
+                    font.pixelSize: app.baseFontSize*.4
+//                    font.bold: true
+                    text: app.overridePrimaryColor
+                    color: app.overridePrimaryColor !== '' ? app.overridePrimaryColor : app.primaryColor
+                    topPadding: 5 * app.scaleFactor
+                    bottomPadding: 5 * app.scaleFactor
+
+                    onTextChanged: {
+                        app.overridePrimaryColor = text
+                        app.localOverrideColor = text
                     }
-                    horizontalAlignment: Qt.AlignRight;
-                    verticalAlignment: Qt.AlignVCenter;
-                    source: "../images/clear.png";
-                    fillMode: Image.PreserveAspectFit;
-                    mipmap: true;
-                }
-                onClicked: {
-                    previousPage();
+
                 }
             }
-            Item {
-                Layout.preferredWidth: 1;
-                Layout.fillHeight: true;
+
+            Rectangle {
+                Layout.preferredWidth: 150*app.scaleFactor
+                Layout.preferredHeight: 75*app.scaleFactor
+                color: app.overridePrimaryColor !== '' ? app.overridePrimaryColor : "transparent"
             }
+
+
+            //padding
+            RowLayout{
+
+                spacing: 0;
+                visible: true;
+
+                Label {
+//                    Layout.fillWidth: true
+                    font.pixelSize: app.baseFontSize*.4
+                    font.bold: true
+                    text: ""
+                    color: app.defaultPrimaryColor
+                    topPadding: 75 * app.scaleFactor
+                    bottomPadding: 5 * app.scaleFactor
+                }
+                Label {
+//                    Layout.fillWidth: true
+                    font.pixelSize: app.baseFontSize*.4
+//                    font.bold: true
+                    text: ""
+                    color: "transparent"
+                    topPadding: 75 * app.scaleFactor
+                    bottomPadding: 5 * app.scaleFactor
+                }
+            }
+
+
+
         }
+
     }
 
-    Rectangle{
-        anchors.fill: parent;
-        color: app.appBackgroundColor;
-
-        Label{
-            Material.theme: app.lightTheme? Material.Light : Material.Dark;
-            anchors.centerIn: parent;
-            font.pixelSize: app.titleFontSize;
-            font.bold: true;
-            wrapMode: Text.Wrap;
-            padding: 16*app.scaleFactor;
-            text: descText > ""? descText:"";
-        }
+    //Footer custom QML =================================================================
+    footer: FooterSection {
+        id: formPageFooter
+        logMessage: "In Form Page - Footer..."
+        rightButtonText: "SAVE"
+        overrideRightIconSrc: "../images/save.png"
+//        overrideRightIconSz: 20
     }
+
+
+
 }

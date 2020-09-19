@@ -326,7 +326,6 @@ Page {
     //Footer custom QML =================================================================
     footer: FooterSection {
         id: formPageFooter
-//        visible: camera.cameraStatus != Camera.ActiveStatus
         logMessage: "In Form Page - Footer..."
         rightButtonText: "SAVE"
         overrideRightIconSrc: "../images/save.png"
