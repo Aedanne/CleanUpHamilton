@@ -79,6 +79,8 @@ App{
     property var reportedCasesMapView
     property var reportedCasesFeatureService
     property Geometry reportedCasesMapExtent
+    property ArcGISFeature reportedCaseFeature
+    property string lastStatusCaseList: ''
 
     //Database properties================================================================
     property var attributesArray
@@ -388,7 +390,7 @@ App{
     //Cases List component from Reported Cases Map page
     Component{
         id: casesListPageComponent
-        CasesListPage{
+        CasesListPage {
             titleText:qsTr("Reported Cases")
             descText: qsTr("TODO: \nReported Cases")
             onPreviousPage: {
@@ -398,6 +400,32 @@ App{
             onNextPage: {
                 formStackView.loadHomePage();
             }
+
+            onNextPageEdit: {
+                formStackView.loadReportedCaseFormPage()
+            }
+        }
+    }
+
+    //Reported Cases Edit Form component from Cases List Page
+    Component {
+        id: reportedCaseFormPageComponent
+
+       ReportedCaseFormPage {
+            titleText:qsTr("Reported Case Edit")
+            descText: qsTr("TODO: \nReported Case Edit")
+
+            onActiveFocusChanged: init()
+
+            onPreviousPage: {
+                formStackView.pop()
+            }
+
+            onNextPage: {
+                formStackView.loadCasesListPage();
+            }
+
+
         }
     }
 
@@ -465,6 +493,12 @@ App{
         function loadCasesListPage() {
             console.log(">>>> Inside StackView.loadCasesListPage()")
             push(casesListPageComponent);
+        }
+
+        //Load Reported Case Form Page
+        function loadReportedCaseFormPage() {
+            console.log(">>>> Inside StackView.loadReportedCaseFormPage()")
+            push(reportedCaseFormPageComponent);
         }
 
     }

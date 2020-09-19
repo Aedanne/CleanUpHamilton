@@ -30,6 +30,7 @@ Page {
     id:casesListPage;
 
     signal nextPage();
+    signal nextPageEdit();
     signal previousPage();
 
     property string titleText:"This is a test";
@@ -161,6 +162,9 @@ Page {
 
                     currentStatusValue = statusIndexList.get(currentIndex).text;
                     queryFeaturesByStatusAndExtent();
+
+                    //reset global variable when status is manually changed
+                    app.lastStatusCaseList = ''
 
                 }
 
@@ -372,7 +376,6 @@ Page {
                                             font.pixelSize: app.baseFontSize*.3
                                             horizontalAlignment: Text.AlignLeft
                                             verticalAlignment: Text.AlignVCenter
-                                            topPadding: 1 * app.scaleFactor
                                             maximumLineCount: 1
                                             visible: true
                                         }
@@ -384,7 +387,7 @@ Page {
                                             font.pixelSize: app.baseFontSize*.3
                                             horizontalAlignment: Text.AlignLeft
                                             verticalAlignment: Text.AlignVCenter
-                                            topPadding: 1 * app.scaleFactor
+                                            bottomPadding: 2 * app.scaleFactor
                                             maximumLineCount: 1
                                             visible: true
                                         }
@@ -402,35 +405,12 @@ Page {
 
                         Rectangle {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 35 * app.scaleFactor
+                            Layout.preferredHeight: 40 * app.scaleFactor
                             border.color: app.appBackgroundColorCaseList
                             color: app.appBackgroundColorCaseList
 
                             ColumnLayout {
 
-//                                Label {
-//                                    Layout.fillWidth: true
-//                                    text: "   [Case #"+objectId+"] Description: " + description
-//                                    color: app.appSecondaryTextColor
-//                                    font.pixelSize: app.baseFontSize*.3
-//                                    horizontalAlignment: Text.AlignLeft
-//                                    verticalAlignment: Text.AlignVCenter
-//                                    topPadding: 2 * app.scaleFactor
-//                                    maximumLineCount: 1
-//                                    visible: true
-//                                }
-
-//                                Label {
-//                                    Layout.fillWidth: true
-//                                    text: "   Reported Date: " + reportedDate
-//                                    color: app.appSecondaryTextColor
-//                                    font.pixelSize: app.baseFontSize*.3
-//                                    horizontalAlignment: Text.AlignLeft
-//                                    verticalAlignment: Text.AlignVCenter
-//                                    topPadding: 2 * app.scaleFactor
-//                                    maximumLineCount: 1
-//                                    visible: true
-//                                }
 
                                 Label {
                                     Layout.fillWidth: true
@@ -453,6 +433,7 @@ Page {
                                     font.pixelSize: app.baseFontSize*.3
                                     horizontalAlignment: Text.AlignLeft
                                     verticalAlignment: Text.AlignVCenter
+                                    bottomPadding: 2 * app.scaleFactor
                                     maximumLineCount: 1
                                     visible: true
                                     font.italic: true
@@ -608,6 +589,8 @@ Page {
                                         anchors.fill: parent
                                         onClicked: {
                                             console.log(">>> MOUSE AREA: Edit Feature")
+                                            app.reportedCaseFeature = feature
+                                            nextPageEdit();
                                         }
                                     }
 
@@ -1088,7 +1071,12 @@ Page {
 
 
         // set the where clause
-        if (currentStatusValue === '') currentStatusValue = 'Pending'
+        if (app.lastStatusCaseList === '') {
+            if (currentStatusValue === '') currentStatusValue = 'Pending'
+        } else {
+            currentStatusValue = app.lastStatusCaseList
+        }
+
         var queryStatus = (currentStatusValue.includes('Pending') ? 'Pending' :
                              (currentStatusValue.includes('Assigned') ? 'Assigned' :
                              (currentStatusValue.includes('Cancelled') ? 'Cancelled' : 'Completed')));
