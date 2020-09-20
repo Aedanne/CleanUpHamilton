@@ -67,7 +67,7 @@ Item {
             anchors.fill: parent
             onClicked: {
                 alertPopup.visible = false;
-                enableFormElements(false);
+                if (enableFormElements) enableFormElements(false);
             }
         }
 

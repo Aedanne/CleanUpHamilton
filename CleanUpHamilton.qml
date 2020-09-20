@@ -85,6 +85,7 @@ App{
     property Geometry reportedCasesMapExtent
     property ArcGISFeature reportedCaseFeature
     property string lastStatusCaseList: ''
+    property string lastStatusCaseListFull: ''
 
     //Database properties================================================================
     property var attributesArray
@@ -402,8 +403,6 @@ App{
             titleText:qsTr("Reported Cases")
             descText: qsTr("TODO: \nReported Cases")
 
-            onCurrentStatusValueChanged: init()
-
             onPreviousPage: {
                 formStackView.pop()
             }
@@ -433,7 +432,9 @@ App{
             }
 
             onNextPage: {
+
                 formStackView.loadReportedCaseFormPageFromFormEdit()
+
 
 //                formStackView.
                 //set reportedcasefeatureservice global to null after update is complete

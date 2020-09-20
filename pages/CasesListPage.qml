@@ -156,7 +156,11 @@ Page {
                 }
 
                 onCurrentIndexChanged: {
+                    console.log(">>>> CasesList: onCurrentIndexChanged =",app.lastStatusCaseList)
+                    if (app.lastStatusCaseList !== '') {
 
+                        currentIndex = getStatusIndex()
+                    }
                     statusIndex = currentIndex
                     debugText = ">>>> onCurrentIndexChanged: Status Combo Box selected: " + statusIndexList.get(currentIndex).text;
                     console.log(debugText);
@@ -592,7 +596,7 @@ Page {
                                         onClicked: {
                                             console.log(">>> MOUSE AREA: Edit Feature")
                                             app.reportedCaseFeature = feature
-                                            app.lastStatusCaseList = statusComboBox.displayText
+                                            app.lastStatusCaseListFull = statusComboBox.displayText
                                             nextPageEdit();
                                         }
                                     }
@@ -1065,31 +1069,29 @@ Page {
     //Functions =========================================================================
 
 
-    function init() {
+    function getStatusIndex() {
 
-        console.log(">>>> CasesListPage: init()")
+        console.log(">>>> CasesListPage: getStatusIndex")
         if (app.lastStatusCaseList !== '') {
 
             var statusVal = app.lastStatusCaseList;
+            app.lastStatusCaseList = '';
 
             if (statusVal === "Case Status: Assigned") {
-                statusComboBox.currentIndex = 1
+                return 1
             } else if (statusVal === "Case Status: Completed") {
-                statusComboBox.currentIndex = 2
+                return 2
             } else if (statusVal === "Case Status: Cancelled") {
-                statusComboBox.currentIndex = 3
+                return 3
             } else if (statusVal === "Case Status: Assigned [USER]") {
-                statusComboBox.currentIndex = 4
+                return 4
             } else if (statusVal === "Case Status: Completed [USER]") {
-                statusComboBox.currentIndex = 5
+                return 5
             } else if (statusVal === "Case Status: Cancelled [USER]") {
-                statusComboBox.currentIndex = 6
+                return 6
             } else {
-                statusComboBox.currentIndex = 0;
+                return 0;
             }
-
-            //Reset
-            app.lastStatusCaseList = '';
         }
     }
 

@@ -1078,6 +1078,8 @@ Page {
     function updateFeature(feature, actionType, currentStatusVal) {
 
         console.log("\n\n\n>>>> ReportedCaseFormPage: updateFeature()", feature, "  actionType:", actionType)
+        app.lastStatusCaseList = app.lastStatusCaseListFull
+        app.lastStatusCaseListFull = ''
 
         var workerNoteSubStr = localWorkerNote
         if (actionType === 'AssignToMe' || actionType === 'TakeOver') {
