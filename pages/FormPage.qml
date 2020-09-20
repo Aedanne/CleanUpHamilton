@@ -207,7 +207,7 @@ Page {
                 Layout.preferredHeight: 75 * scaleFactor
                 border.color: app.appPrimaryTextColor
                 border.width: 1 * scaleFactor
-                radius: 4
+                radius: 2
                 ScrollView {
                     anchors.fill: parent
                     contentItem: parent
@@ -217,7 +217,7 @@ Page {
 //                        width: parent.width*.8
                         Material.accent: app.backgroundAccent
                         background: null
-                        padding: 5 * scaleFactor
+                        padding: 3 * scaleFactor
                         selectByMouse: true
                         wrapMode: TextEdit.WrapAnywhere
                         placeholderText: "Enter additional information..."

@@ -11,40 +11,57 @@ Item {
     id: alertPopup
     visible: false
     width: 290*app.scaleFactor;
-    height: 100*app.scaleFactor;
+    height: 150*app.scaleFactor;
 
     anchors.centerIn: parent
 
     property string alertText : ""
-    property color backgroundColor: "#FFFFFF"
+    property color backgroundColor: app.appBackgroundColorCaseList
     property color textColor : "red"
 
     Rectangle {
         anchors.fill: parent
         z:10
-        color: app.appBackgroundColor
-        opacity: 0.9
+        color: app.appBackgroundColorCaseList
         border.color: "red"
-        border.width: 5
+        border.width: 3
 
-
-
-        radius: 3;
-
-
-        Text {
+        ColumnLayout {
+            spacing: 0
             anchors.centerIn: parent
-            id: alertPopupText
-            color: textColor
-            width: parent.width * 0.8
-            wrapMode: Text.Wrap
-            anchors.horizontalCenter: parent.horizontalCenter
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            font.pixelSize: app.baseFontSize*0.5
-            text: alertText
-            font.bold: true
-        }
+
+
+
+            Text {
+                anchors.centerIn: parent
+                id: alertPopupText
+                color: textColor
+                width: parent.width * 0.8
+                wrapMode: Text.Wrap
+                anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                font.pixelSize: app.baseFontSize*0.5
+                text: alertText
+                font.bold: true
+            }
+
+            Text {
+//                anchors.centerIn: parent
+                id: tap
+                color: textColor
+                width: parent.width * 0.8
+                wrapMode: Text.Wrap
+                anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                font.pixelSize: app.baseFontSize*0.3
+                topPadding: 50*app.scaleFactor
+                text: "Tap to close..."
+
+            }
+
+         }
 
         MouseArea {
             anchors.fill: parent

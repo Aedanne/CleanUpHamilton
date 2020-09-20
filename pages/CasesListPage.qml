@@ -1179,7 +1179,7 @@ Page {
             feature.attributes.replaceAttribute("CancelledDate", new Date());
         }
 
-        var workerNote = workerNoteSubStr + workerNoteVal;
+        var workerNote = workerNoteSubStr  + ' ' +  workerNoteVal;
         workerNote = workerNote.substr(0,250);
         feature.attributes.replaceAttribute("WorkerNote", workerNote );
 

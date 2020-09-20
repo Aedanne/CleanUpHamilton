@@ -20,6 +20,7 @@ Rectangle{
         property string rightButtonBackgroundColor;
         property int overrideLeftIconSz: 0;
         property int overrideRightIconSz: 0;
+        property string footerActionString;
 
         id: footerRectangle;
         height: app.btnHdrFtrHeightSize*1.1;
@@ -65,6 +66,7 @@ Rectangle{
                 nextControl: true;
                 backgroundColorOverride: rightButtonBackgroundColor
                 overrideRightSize: overrideRightIconSz > 0 ? overrideRightIconSz:0
+                actionString: footerActionString
             }
         }
     }

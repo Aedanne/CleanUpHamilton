@@ -15,6 +15,7 @@ Button {
     property string labelText;
     property string logMessage;
     property string imageSource;
+    property string actionString;
     property bool imageLeft;
     property bool imageRight;
     property bool previousControl;
@@ -105,6 +106,7 @@ Button {
        }
 
        if (btn.nextControl) {
+           console.log("\n>>>>> btn.nextControl : labelTxt", btn.labelText, "  actionstring", btn.actionString)
 
            if (btn.labelText === "SUBMIT") {
                if (app.reportTypeIndex !== -1 && app.attListModel.count > 0) {
@@ -115,8 +117,20 @@ Button {
                    return;
                }
            } else {
+               if (btn.actionString === 'CaseEditSave') {
+                   if (reportedCaseformPage.localWorkerNote === '') {
+                       caseFormMissingData.visible = true
+                   } else {
+                       console.log("\n>>>>> ReportedCaseFormPage-Save - actionString === 'CaseEditSave'")
+                       reportedCaseformPage.updateFeatureSave()
+                   }
 
-             nextPage();
+
+
+               } else {
+
+                   nextPage();
+               }
            }
 
 
