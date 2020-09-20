@@ -705,6 +705,37 @@ Page {
     }
 
 
+    FeatureLayer {
+
+        ServiceFeatureTable {
+            id: caseEditFeatureTable
+            url: app.featureServerURL
+
+            onLoadStatusChanged: {
+                console.log(">>>> ReportedCaseFormPage: onLoadStatusChanged --- " + loadStatus);
+            }
+
+            onApplyEditsStatusChanged: {
+               console.log(">>>> ReportedCaseFormPage: onApplyEditsStatusChanged --- " + loadStatus);
+               if (applyEditsStatus === Enums.TaskStatusCompleted) {
+                   debugText = ">>>> ReportedCaseFormPage :  successfully edited feature"
+                   nextPage()
+               }
+            }
+
+            onUpdateFeatureStatusChanged: {
+                console.log(">>>> ReportedCaseFormPage: onUpdateFeatureStatusChanged --- " + loadStatus);
+                if (updateFeatureStatus === Enums.TaskStatusCompleted) {
+                    console.log(">>>> ReportedCaseFormPage :  successfully updated feature");
+                    applyEdits();
+                }
+            }
+
+        }
+    }
+
+
+
     //Footer custom QML =================================================================
     footer: FooterSection {
         id: formPageFooter
@@ -810,7 +841,7 @@ Page {
         console.log(">>>> ReportedCaseFormPage: updateFeature() - performing update");
 
         querying = true;
-        app.reportedCasesFeatureService.updateFeature(feature);
+        caseEditFeatureTable.updateFeature(feature);
 
         //Hide actions
         cancelitem.visible = false
@@ -819,7 +850,7 @@ Page {
         assigntome.visible = false
         attachmentview.visible = false
 
-
+        app.fromCaseEdit = true;
 //        nextPage()
         //Load next page from stack
 

@@ -592,7 +592,6 @@ Page {
                                         onClicked: {
                                             console.log(">>> MOUSE AREA: Edit Feature")
                                             app.reportedCaseFeature = feature
-                                            app.reportedCasesFeatureService = casesListFeatureTable
                                             app.lastStatusCaseList = statusComboBox.displayText
                                             nextPageEdit();
                                         }
