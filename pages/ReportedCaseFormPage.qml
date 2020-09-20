@@ -552,7 +552,7 @@ Page {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
                         color: app.appBackgroundColorCaseList
-                        visible: (reportedCaseCurrentStatus === 'Assigned' && reportedCaseAssignedUser !== app.portalUser) ? true : false;
+                        visible: (reportedCaseCurrentStatus !== 'Pending' && reportedCaseAssignedUser !== app.portalUser) ? true : false;
 
                         Image{
                             id: takeover
@@ -560,8 +560,8 @@ Page {
                             width: imgSizeBottom
                             height: imgSizeBottom
                             source: imgTakeOver
-                            visible: (reportedCaseCurrentStatus === 'Assigned' && reportedCaseAssignedUser !== app.portalUser) ? true : false;
-                            enabled: (reportedCaseCurrentStatus === 'Assigned' && reportedCaseAssignedUser !== app.portalUser) ? true : false;
+                            visible: (reportedCaseCurrentStatus !== 'Pending' && reportedCaseAssignedUser !== app.portalUser) ? true : false;
+                            enabled: (reportedCaseCurrentStatus !== 'Pending' && reportedCaseAssignedUser !== app.portalUser) ? true : false;
                             fillMode: Image.PreserveAspectFit
                             antialiasing: true;
                         }
@@ -1082,8 +1082,12 @@ Page {
         app.lastStatusCaseListFull = ''
 
         var workerNoteSubStr = localWorkerNote
-        if (actionType === 'AssignToMe' || actionType === 'TakeOver') {
+        if (actionType === 'AssignToMe') {
             feature.attributes.replaceAttribute("CurrentStatus", "Assigned");
+            feature.attributes.replaceAttribute("AssignedUser", app.portalUser);
+            feature.attributes.replaceAttribute("AssignedDate", new Date());
+        } else if (actionType === 'TakeOver') {
+            //No changes to the status
             feature.attributes.replaceAttribute("AssignedUser", app.portalUser);
             feature.attributes.replaceAttribute("AssignedDate", new Date());
         } else if (actionType === 'Revert') {

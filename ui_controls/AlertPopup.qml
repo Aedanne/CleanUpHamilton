@@ -67,7 +67,12 @@ Item {
             anchors.fill: parent
             onClicked: {
                 alertPopup.visible = false;
-                if (enableFormElements) enableFormElements(false);
+                try {
+                  if (enableFormElements) enableFormElements(false);
+                } catch(err) {
+                  console.log(">>>> enableformelements: ",err.message);
+                }
+
             }
         }
 
