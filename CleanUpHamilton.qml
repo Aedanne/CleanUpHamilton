@@ -47,7 +47,7 @@ App{
     readonly property color menuBackgroundColor: "#DA674A"
     readonly property color appPrimaryTextColor: primaryColor
     readonly property color menuPrimaryTextColor: Qt.lighter("#FFFFFF",1.5)
-    readonly property color appSecondaryTextColor: '#787878'
+    readonly property color appSecondaryTextColor: '#676767'
     readonly property color homePageTitleTextColor:"#FCFCFC"
     readonly property color appPrimaryTextColorInverted: "#FFFFFF"
     readonly property color backgroundAccent: '#AEAEAE'
@@ -81,7 +81,7 @@ App{
     readonly property string featureServerURL: "https://services1.arcgis.com/gjbU5qa8FJmAPFZX/arcgis/rest/services/Cases/FeatureServer/0"
     property var agolPortal
     property var reportedCasesMapView
-    property var reportedCasesFeatureService
+    property ServiceFeatureTable reportedCasesFeatureService
     property Geometry reportedCasesMapExtent
     property ArcGISFeature reportedCaseFeature
     property string lastStatusCaseList: ''
@@ -401,6 +401,9 @@ App{
         CasesListPage {
             titleText:qsTr("Reported Cases")
             descText: qsTr("TODO: \nReported Cases")
+
+            onCurrentStatusValueChanged: init()
+
             onPreviousPage: {
                 formStackView.pop()
             }
@@ -426,11 +429,16 @@ App{
             onActiveFocusChanged: init()
 
             onPreviousPage: {
-                formStackView.pop()
+                formStackView.pop()         
             }
 
             onNextPage: {
+                formStackView.pop()
                 formStackView.loadCasesListPage();
+
+//                formStackView.
+                //set reportedcasefeatureservice global to null after update is complete
+                app.reportedCasesFeatureService = null
             }
 
 
@@ -514,8 +522,6 @@ App{
 
 
     //Creating database for application==================================================
-
-
 
     //Write to the database
     SqlDatabase {

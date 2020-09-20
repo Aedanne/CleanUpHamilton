@@ -156,6 +156,7 @@ Page {
                 }
 
                 onCurrentIndexChanged: {
+
                     statusIndex = currentIndex
                     debugText = ">>>> onCurrentIndexChanged: Status Combo Box selected: " + statusIndexList.get(currentIndex).text;
                     console.log(debugText);
@@ -164,7 +165,6 @@ Page {
                     queryFeaturesByStatusAndExtent();
 
                     //reset global variable when status is manually changed
-                    app.lastStatusCaseList = ''
 
                 }
 
@@ -191,8 +191,8 @@ Page {
         id: bottomRow
         font.pixelSize: app.baseFontSize*.2
         font.bold: true
-        text: " "
-        color: app.appPrimaryTextColor;
+        text: "_"
+        color: "transparent";
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignBottom
     }
@@ -204,13 +204,15 @@ Page {
             anchors.fill: parent
             anchors.topMargin: 50 * app.scaleFactor
 
-            //Separator
-//            Rectangle {
-//                Layout.fillWidth: true
-//                Layout.preferredHeight: 10 * app.scaleFactor
-//                border.color: "transparent"
-//                color: app.appBackgroundColorDarkGray
-//            }
+            Label {
+                id: bottomRow1
+                font.pixelSize: app.baseFontSize*.2
+                font.bold: true
+                text: "_ "
+                color: "transparent";
+                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignBottom
+            }
 
             ListView {
                 id: listView
@@ -453,7 +455,7 @@ Page {
 
                         Rectangle {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 55 * app.scaleFactor
+                            Layout.preferredHeight: 53 * app.scaleFactor
 
                             RowLayout {
                                 anchors.fill: parent
@@ -462,7 +464,7 @@ Page {
                                 //Padding
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 55 * app.scaleFactor
+                                    Layout.preferredHeight: 53 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus !== 'Assigned' ? true : false;
 
@@ -481,7 +483,7 @@ Page {
                                 //Assign to me
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 55 * app.scaleFactor
+                                    Layout.preferredHeight: 53 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus === 'Pending' ? true : false;
 
@@ -519,7 +521,7 @@ Page {
                                 // Attachment view icon
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 55 * app.scaleFactor
+                                    Layout.preferredHeight: 53 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
 
                                     Image{
@@ -559,7 +561,7 @@ Page {
                                 //Edit
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 55 * app.scaleFactor
+                                    Layout.preferredHeight: 53 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
                                     visible: true
 
@@ -590,6 +592,8 @@ Page {
                                         onClicked: {
                                             console.log(">>> MOUSE AREA: Edit Feature")
                                             app.reportedCaseFeature = feature
+                                            app.reportedCasesFeatureService = casesListFeatureTable
+                                            app.lastStatusCaseList = statusComboBox.displayText
                                             nextPageEdit();
                                         }
                                     }
@@ -599,7 +603,7 @@ Page {
                                 //Cancel item
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 55 * app.scaleFactor
+                                    Layout.preferredHeight: 53 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus === 'Assigned' ? true : false;
 
@@ -651,7 +655,7 @@ Page {
                                 //Revert status of item
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 55 * app.scaleFactor
+                                    Layout.preferredHeight: 53 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus !== 'Pending' ? true : false;
 
@@ -702,7 +706,7 @@ Page {
                                 //Complete case
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 55 * app.scaleFactor
+                                    Layout.preferredHeight: 53 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus === 'Assigned' ? true : false;
 
@@ -753,7 +757,7 @@ Page {
                                 //Padding
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: 55 * app.scaleFactor
+                                    Layout.preferredHeight: 53 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus !== 'Assigned' ? true : false;
 
@@ -766,9 +770,7 @@ Page {
                                         fillMode: Image.PreserveAspectFit
                                         antialiasing: true;
                                     }
-
                                 }
-
                             }
                         }
 
@@ -943,7 +945,7 @@ Page {
                 visible: true
                 width: app.width;
                 height: app.height*0.25;
-                opacity: 0.65
+                opacity: 0.80
 
                 MouseArea {
                     anchors.fill: topArea
@@ -1064,6 +1066,33 @@ Page {
     //Functions =========================================================================
 
 
+    function init() {
+
+        console.log(">>>> CasesListPage: init()")
+        if (app.lastStatusCaseList !== '') {
+
+            var statusVal = app.lastStatusCaseList;
+
+            if (statusVal === "Case Status: Assigned") {
+                statusComboBox.currentIndex = 1
+            } else if (statusVal === "Case Status: Completed") {
+                statusComboBox.currentIndex = 2
+            } else if (statusVal === "Case Status: Cancelled") {
+                statusComboBox.currentIndex = 3
+            } else if (statusVal === "Case Status: Assigned [USER]") {
+                statusComboBox.currentIndex = 4
+            } else if (statusVal === "Case Status: Completed [USER]") {
+                statusComboBox.currentIndex = 5
+            } else if (statusVal === "Case Status: Cancelled [USER]") {
+                statusComboBox.currentIndex = 6
+            } else {
+                statusComboBox.currentIndex = 0;
+            }
+
+            //Reset
+            app.lastStatusCaseList = '';
+        }
+    }
 
     //Function to query the current extent
     function queryFeaturesByStatusAndExtent() {

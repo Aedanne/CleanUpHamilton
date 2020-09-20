@@ -257,8 +257,6 @@ Page {
             onLoadStatusChanged: {
                 debugText = ">>>> onLoadStatusChanged --- " + loadStatus;
                 console.log(debugText);
-                app.reportedCasesFeatureService = casesFeatureTable
-//                queryFeaturesResult = null;
             }
 
             onQueryFeaturesStatusChanged: {
