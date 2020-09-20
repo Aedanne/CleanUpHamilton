@@ -433,12 +433,11 @@ App{
             }
 
             onNextPage: {
-                formStackView.pop()
-                formStackView.loadCasesListPage();
+                formStackView.loadReportedCaseFormPageFromFormEdit()
 
 //                formStackView.
                 //set reportedcasefeatureservice global to null after update is complete
-                app.reportedCasesFeatureService = null
+//                app.reportedCasesFeatureService = null
             }
 
 
@@ -515,6 +514,13 @@ App{
         function loadReportedCaseFormPage() {
             console.log(">>>> Inside StackView.loadReportedCaseFormPage()")
             push(reportedCaseFormPageComponent);
+        }
+
+        //Load Reported Case Form Page from Form Edit
+        function loadReportedCaseFormPageFromFormEdit() {
+            console.log(">>>> Inside StackView.loadReportedCaseFormPageFromFormEdit()")
+            pop();
+            replace(casesListPageComponent);
         }
 
     }

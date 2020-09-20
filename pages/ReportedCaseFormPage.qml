@@ -757,7 +757,6 @@ Page {
     function updateFeature(feature, actionType, currentStatusVal, workerNoteVal) {
 
         console.log(">>>> ReportedCaseFormPage: updateFeature()", feature, "  actionType:", actionType)
-//        app.lastStatusCaseList = reportedCaseCurrentStatus
 
         var workerNoteSubStr = '';
         if (actionType === 'AssignToMe') {
@@ -821,7 +820,7 @@ Page {
         attachmentview.visible = false
 
 
-        nextPage()
+//        nextPage()
         //Load next page from stack
 
 
