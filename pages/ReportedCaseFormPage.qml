@@ -68,6 +68,7 @@ Page {
     property string typeBroken: 'Broken items'
 
     property string imgAssignToMe: "../images/assigntome.png"
+    property string imgTakeOver: "../images/takeover.png"
     property string imgCancel: "../images/cancel.png"
     property string imgComplete: "../images/complete.png"
     property string imgEdit: "../images/edit_black.png"
@@ -272,7 +273,7 @@ Page {
 
                 Label {
                     font.pixelSize: app.baseFontSize*.35
-                    font.bold: false
+                    font.bold: true
                     text: reportedCaseCurrentStatus
                     color: app.appSecondaryTextColor;
                     wrapMode: Text.Wrap
@@ -524,6 +525,50 @@ Page {
                                     caseFormMissingData.visible = true
                                 } else {
                                     updateFeature(app.reportedCaseFeature, 'AssignToMe', reportedCaseCurrentStatus);
+                                }
+                            }
+                        }
+
+                    }
+
+
+                    //Takeover
+                    Rectangle {
+                        id: takeovercase
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 53 * app.scaleFactor
+                        color: app.appBackgroundColor
+                        visible: (reportedCaseCurrentStatus === 'Assigned' && reportedCaseAssignedUser !== app.portalUser) ? true : false;
+
+                        Image{
+                            id: takeover
+                            anchors.centerIn: parent
+                            width: imgSizeBottom
+                            height: imgSizeBottom
+                            source: imgTakeOver
+                            visible: (reportedCaseCurrentStatus === 'Assigned' && reportedCaseAssignedUser !== app.portalUser) ? true : false;
+                            enabled: (reportedCaseCurrentStatus === 'Assigned' && reportedCaseAssignedUser !== app.portalUser) ? true : false;
+                            fillMode: Image.PreserveAspectFit
+                            antialiasing: true;
+                        }
+
+                        DropShadow {
+                                anchors.fill: takeover
+                                horizontalOffset: 2
+                                verticalOffset: 2
+                                radius: 4.0
+                                samples: 17
+                                color: "#aa000000"
+                                source: takeover
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                if (localWorkerNote === '') {
+                                    caseFormMissingData.visible = true
+                                } else {
+                                    updateFeature(app.reportedCaseFeature, 'TakeOver', reportedCaseCurrentStatus);
                                 }
                             }
                         }
@@ -1018,7 +1063,7 @@ Page {
         console.log("\n\n\n>>>> ReportedCaseFormPage: updateFeature()", feature, "  actionType:", actionType)
 
         var workerNoteSubStr = localWorkerNote
-        if (actionType === 'AssignToMe') {
+        if (actionType === 'AssignToMe' || actionType === 'TakeOver') {
             feature.attributes.replaceAttribute("CurrentStatus", "Assigned");
             feature.attributes.replaceAttribute("AssignedUser", app.portalUser);
             feature.attributes.replaceAttribute("AssignedDate", new Date());
@@ -1072,6 +1117,7 @@ Page {
         revertitem.visible = false
         assigntome.visible = false
         attachmentview.visible = false
+        takeovercase.visible = false
 
 
     }
