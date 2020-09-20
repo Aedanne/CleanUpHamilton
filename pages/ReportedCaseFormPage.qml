@@ -94,373 +94,387 @@ Page {
     //Main body of the page =============================================================
 
     contentItem: Rectangle {
-        Layout.preferredWidth: parent.width
-        Layout.preferredHeight: 50 * app.scaleFactor
+        Layout.preferredWidth: app.width
+        Layout.preferredHeight: parent.height
         color: app.appBackgroundColor
 
-        ColumnLayout {
-            Layout.preferredWidth: parent.width*0.75;
+        ColumnLayout {/*
+            Layout.preferredWidth: parent.width*0.9;*/
             spacing: 0
 
             anchors {
                 fill: parent
-                margins: 20 * app.scaleFactor
+                leftMargin: 20 * app.scaleFactor
+                rightMargin: 20 * app.scaleFactor
+                topMargin: 15 * app.scaleFactor
             }
 
+            Rectangle {
+                Layout.preferredHeight: parent.height*0.85
+                Layout.preferredWidth: app.width
+                Layout.fillWidth: true
+                color: app.appBackgroundColor
+                id: mainCol
 
-            Label {
-                font.pixelSize: app.baseFontSize*.4
-                text: "[Case#"+reportedCaseObjectId+"] Report Type: "
-                color: app.appPrimaryTextColor;
-                Layout.preferredWidth: parent.width*0.75
-                wrapMode: Text.Wrap
-                font.bold: true
-            }
-
-
-
-                ComboBox {
-                    id: typeComboBox
+                ColumnLayout {
+                    width: mainCol.width;
                     Layout.fillWidth: true
-                    Layout.preferredWidth: parent.width * 0.75
-                    currentIndex: reportedCaseTypeIndex
-                    font.bold: true
-                    font.pixelSize: app.baseFontSize*.4
-                    displayText: currentIndex === -1 ? "Please Choose..." : currentText
+                    spacing: 0
 
-                    delegate: ItemDelegate {
-                        width: parent.width
+
+                    Label {
+                        font.pixelSize: app.baseFontSize*.4
+                        text: "[Case#"+reportedCaseObjectId+"] Report Type: "
+                        color: app.appPrimaryTextColor;
+                        wrapMode: Text.Wrap
+                        font.bold: true
+                    }
+
+
+
+                    ComboBox {
+                        id: typeComboBox
+                        Layout.preferredWidth: parent.width;
+                        Layout.fillWidth: true
+                        currentIndex: reportedCaseTypeIndex
+                        font.bold: true
+                        font.pixelSize: app.baseFontSize*.4
+                        displayText: currentIndex === -1 ? "Please Choose..." : currentText
+
+                        delegate: ItemDelegate {
+                            contentItem: Text {
+                                text: modelData
+                                color: app.appSecondaryTextColor
+                                font: typeComboBox.font
+                                elide: Text.ElideRight
+                                verticalAlignment: Text.AlignVCenter
+                            }
+                            highlighted: typeComboBox.highlightedIndex === index
+                        }
+
+                        model: ListModel {
+                            id: typeIndex
+                            ListElement { text: "Graffiti"; }
+                            ListElement { text: "Broken items";  }
+                            ListElement { text: "Illegal rubbish dumping";  }
+                            ListElement { text: "Other";  }
+                        }
+
+//                            width: 200
+                        onCurrentIndexChanged: {
+                            debugText = ">>>> Combo Box selected: " + typeIndex.get(currentIndex).text;
+                            console.log(debugText);
+                            reportedCaseTypeIndex = currentIndex;
+                        }
+
                         contentItem: Text {
-                            text: modelData
-                            color: app.appSecondaryTextColor
-                            font: typeComboBox.font
-                            elide: Text.ElideRight
-                            verticalAlignment: Text.AlignVCenter
+                                leftPadding: 5 * app.scaleFactor
+                                rightPadding: typeComboBox.indicator.width + typeComboBox.spacing
+
+                                text: typeComboBox.displayText
+                                font: typeComboBox.font
+                                color: app.appSecondaryTextColor
+                                verticalAlignment: Text.AlignVCenter
+                                elide: Text.ElideRight
+                            }
+                    }
+
+
+
+
+
+
+
+                    RowLayout{
+
+                        spacing: 5;
+                        visible: true;
+
+                        Label {
+                            font.pixelSize: app.baseFontSize*.35
+                            text: "Location: "
+                            color: app.appPrimaryTextColor;
+                            wrapMode: Text.Wrap
+                            topPadding: 5 * app.scaleFactor
                         }
-                        highlighted: typeComboBox.highlightedIndex === index
-                    }
 
-                    model: ListModel {
-                        id: typeIndex
-                        ListElement { text: "Graffiti"; }
-                        ListElement { text: "Broken items";  }
-                        ListElement { text: "Illegal rubbish dumping";  }
-                        ListElement { text: "Other";  }
-                    }
-
-                    width: 200
-                    onCurrentIndexChanged: {
-                        debugText = ">>>> Combo Box selected: " + typeIndex.get(currentIndex).text;
-                        console.log(debugText);
-                        reportedCaseTypeIndex = currentIndex;
-                    }
-
-                    contentItem: Text {
-                            leftPadding: 5 * app.scaleFactor
-                            rightPadding: typeComboBox.indicator.width + typeComboBox.spacing
-
-                            text: typeComboBox.displayText
-                            font: typeComboBox.font
-                            color: app.appSecondaryTextColor
-                            verticalAlignment: Text.AlignVCenter
-                            elide: Text.ElideRight
+                        Label {
+                            font.pixelSize: app.baseFontSize*.35
+                            font.bold: false
+                            text: reportedCaseLonLat
+                            color: app.appSecondaryTextColor;
+                            wrapMode: Text.Wrap
+                            topPadding: 5 * app.scaleFactor
                         }
-                }
+                    }
 
 
 
+                    RowLayout{
+
+                        spacing: 5;
+                        visible: true;
+
+                        Label {
+                            font.pixelSize: app.baseFontSize*.35
+                            text: "Report Date: "
+                            color: app.appPrimaryTextColor;
+                            wrapMode: Text.Wrap
+                            topPadding: 5 * app.scaleFactor
+                        }
+
+                        Label {
+                            font.pixelSize: app.baseFontSize*.35
+                            font.bold: false
+                            text: reportedCaseReportedDateString
+                            color: app.appSecondaryTextColor;
+                            wrapMode: Text.Wrap
+                            topPadding: 5 * app.scaleFactor
+                        }
+                    }
+
+                    RowLayout{
+
+                        spacing: 5;
+                        visible: true;
+
+                        Label {
+                            font.pixelSize: app.baseFontSize*.35
+                            text: "Report Description: "
+                            color: app.appPrimaryTextColor;
+                            wrapMode: Text.Wrap
+                            topPadding: 5 * app.scaleFactor
+                        }
 
 
-
-
-            RowLayout{
-
-                spacing: 5;
-                visible: true;
-
-                Label {
-                    font.pixelSize: app.baseFontSize*.35
-                    text: "Location: "
-                    color: app.appPrimaryTextColor;
-                    wrapMode: Text.Wrap
-                    topPadding: 5 * app.scaleFactor
-                }
-
-                Label {
-                    font.pixelSize: app.baseFontSize*.35
-                    font.bold: false
-                    text: reportedCaseLonLat
-                    color: app.appSecondaryTextColor;
-                    wrapMode: Text.Wrap
-                    topPadding: 5 * app.scaleFactor
-                }
-            }
-
-
-
-            RowLayout{
-
-                spacing: 5;
-                visible: true;
-
-                Label {
-                    font.pixelSize: app.baseFontSize*.35
-                    text: "Report Date: "
-                    color: app.appPrimaryTextColor;
-                    wrapMode: Text.Wrap
-                    topPadding: 5 * app.scaleFactor
-                }
-
-                Label {
-                    font.pixelSize: app.baseFontSize*.35
-                    font.bold: false
-                    text: reportedCaseReportedDateString
-                    color: app.appSecondaryTextColor;
-                    wrapMode: Text.Wrap
-                    topPadding: 5 * app.scaleFactor
-                }
-            }
-
-            RowLayout{
-
-                spacing: 5;
-                visible: true;
-
-                Label {
-                    font.pixelSize: app.baseFontSize*.35
-                    text: "Report Description: "
-                    color: app.appPrimaryTextColor;
-                    wrapMode: Text.Wrap
-                    topPadding: 5 * app.scaleFactor
-                }
-
-
-            }
-
-            TextArea {
-                Material.accent: "transparent"
-                Layout.preferredWidth: parent.width
-//                padding: 5 * scaleFactor
-                selectByMouse: true
-                wrapMode: TextEdit.WrapAnywhere
-                color: app.appSecondaryTextColor
-                text: reportedCaseDescription
-                enabled: false
-                background: null
-                font.pixelSize: app.baseFontSize*.35
-                bottomPadding: 10*app.scaleFactor
-            }
-
-
-            //Separator
-            Rectangle {
-                Layout.fillWidth: true
-                implicitHeight: 1
-                color: app.appBorderColorCaseList
-            }
-
-            RowLayout{
-                spacing: 5;
-                visible: true;
-
-                Label {
-                    font.pixelSize: app.baseFontSize*.35
-                    text: "Current Status: "
-                    color: app.appPrimaryTextColor;
-                    wrapMode: Text.Wrap
-                    topPadding: 10 * app.scaleFactor
-                }
-
-                Label {
-                    font.pixelSize: app.baseFontSize*.35
-                    font.bold: true
-                    text: reportedCaseCurrentStatus
-                    color: app.appSecondaryTextColor;
-                    wrapMode: Text.Wrap
-                    topPadding: 10 * app.scaleFactor
-                }
-            }
-
-            RowLayout{
-
-                spacing: 5;
-                visible: true;
-
-                Label {
-                    font.pixelSize: app.baseFontSize*.35
-                    text: "Assigned User: "
-                    color: app.appPrimaryTextColor;
-                    wrapMode: Text.Wrap
-                    topPadding: 5 * app.scaleFactor
-                }
-
-                Label {
-                    font.pixelSize: app.baseFontSize*.35
-                    font.bold: false
-                    text: reportedCaseAssignedUser
-                    color: app.appSecondaryTextColor;
-                    wrapMode: Text.Wrap
-                    topPadding: 5 * app.scaleFactor
-                }
-            }
-
-            RowLayout{
-
-                spacing: 5;
-                visible: true;
-
-                Label {
-                    font.pixelSize: app.baseFontSize*.35
-                    text: "Assigned Date: "
-                    color: app.appPrimaryTextColor;
-                    wrapMode: Text.Wrap
-                    topPadding: 5 * app.scaleFactor
-                }
-
-                Label {
-                    font.pixelSize: app.baseFontSize*.35
-                    font.bold: false
-                    text: reportedCaseAssignedDate
-                    color: app.appSecondaryTextColor;
-                    wrapMode: Text.Wrap
-                    topPadding: 5 * app.scaleFactor
-                }
-            }
-
-            RowLayout{
-
-                spacing: 5;
-                visible: true;
-
-                Label {
-                    font.pixelSize: app.baseFontSize*.35
-                    text: "Last Update By: "
-                    color: app.appPrimaryTextColor;
-                    wrapMode: Text.Wrap
-                    topPadding: 5 * app.scaleFactor
-                }
-
-                Label {
-                    font.pixelSize: app.baseFontSize*.35
-                    font.bold: false
-                    text: reportedCaseLastUpdateUser
-                    color: app.appSecondaryTextColor;
-                    wrapMode: Text.Wrap
-                    topPadding: 5 * app.scaleFactor
-                }
-            }
-
-            RowLayout{
-
-                spacing: 5;
-                visible: true;
-
-                Label {
-                    font.pixelSize: app.baseFontSize*.35
-                    text: "Last Update: "
-                    color: app.appPrimaryTextColor;
-                    wrapMode: Text.Wrap
-                    topPadding: 5 * app.scaleFactor
-                }
-
-                Label {
-                    font.pixelSize: app.baseFontSize*.35
-                    font.bold: false
-                    text: reportedCaseLastUpdate
-                    color: app.appSecondaryTextColor;
-                    wrapMode: Text.Wrap
-                    topPadding: 5 * app.scaleFactor
-                }
-            }
-
-            Label {
-                font.pixelSize: app.baseFontSize*.35
-                text: "Saved Worker Note: "
-                color: app.appPrimaryTextColor;
-                wrapMode: Text.Wrap
-                topPadding: 5 * app.scaleFactor
-            }
-
-
-            TextArea {
-                Material.accent: "transparent"
-                Layout.preferredWidth: parent.width
-//                padding: 5 * scaleFactor
-                selectByMouse: true
-                wrapMode: TextEdit.WrapAnywhere
-                color: app.appSecondaryTextColor
-                text: reportedCaseWorkerNote
-                enabled: false
-                background: null
-                font.pixelSize: app.baseFontSize*.35
-                bottomPadding: 10*app.scaleFactor
-            }
-
-
-            //Separator
-            Rectangle {
-                Layout.fillWidth: true
-                implicitHeight: 1
-                color: app.appBorderColorCaseList
-            }
-
-
-
-            Label {
-                font.pixelSize: app.baseFontSize*.35
-                text: "New Worker Note: "
-                color: app.appPrimaryTextColor;
-                Layout.preferredWidth: parent.width
-                wrapMode: Text.Wrap
-                topPadding: 10 * app.scaleFactor
-                bottomPadding: 5*app.scaleFactor
-            }
-
-            Rectangle {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 50 * scaleFactor
-                border.color: app.appSecondaryTextColor
-                border.width: 1 * scaleFactor
-                radius: 2
-                ScrollView {
-                    anchors.fill: parent
-                    contentItem: parent
+                    }
 
                     TextArea {
-                        id: newWorkerNote
-                        Material.accent: app.backgroundAccent
-                        background: null
-                        padding: 3 * scaleFactor
+                        Material.accent: "transparent"
+        //                padding: 5 * scaleFactor
                         selectByMouse: true
                         wrapMode: TextEdit.WrapAnywhere
-                        placeholderText: " Additional details required to save changes..."
                         color: app.appSecondaryTextColor
-                        text: localWorkerNote
+                        text: reportedCaseDescription
+                        enabled: false
+                        background: null
+                        font.pixelSize: app.baseFontSize*.3
+                        bottomPadding: 10*app.scaleFactor
+                        Layout.preferredWidth: parent.width
+                    }
 
-                        onTextChanged: {
-                           var currChars = newWorkerNote.text.length
-                           if (currChars >= maxLimit) {
-                              newWorkerNote.text = newWorkerNote.text.substring(0, maxLimit);
-                           }
-                           localWorkerNote = newWorkerNote.text;
+
+                    //Separator
+                    Rectangle {
+                        Layout.fillWidth: true
+                        implicitHeight: 1
+                        color: app.appBorderColorCaseList
+                    }
+
+                    RowLayout{
+                        spacing: 5;
+                        visible: true;
+
+                        Label {
+                            font.pixelSize: app.baseFontSize*.35
+                            text: "Current Status: "
+                            color: app.appPrimaryTextColor;
+                            wrapMode: Text.Wrap
+                            topPadding: 10 * app.scaleFactor
                         }
+
+                        Label {
+                            font.pixelSize: app.baseFontSize*.35
+                            font.bold: true
+                            text: reportedCaseCurrentStatus
+                            color: app.appSecondaryTextColor;
+                            wrapMode: Text.Wrap
+                            topPadding: 10 * app.scaleFactor
+                        }
+                    }
+
+                    RowLayout{
+
+                        spacing: 5;
+                        visible: true;
+
+                        Label {
+                            font.pixelSize: app.baseFontSize*.35
+                            text: "Assigned User: "
+                            color: app.appPrimaryTextColor;
+                            wrapMode: Text.Wrap
+                            topPadding: 5 * app.scaleFactor
+                        }
+
+                        Label {
+                            font.pixelSize: app.baseFontSize*.35
+                            font.bold: false
+                            text: reportedCaseAssignedUser
+                            color: app.appSecondaryTextColor;
+                            wrapMode: Text.Wrap
+                            topPadding: 5 * app.scaleFactor
+                        }
+                    }
+
+                    RowLayout{
+
+                        spacing: 5;
+                        visible: true;
+
+                        Label {
+                            font.pixelSize: app.baseFontSize*.35
+                            text: "Assigned Date: "
+                            color: app.appPrimaryTextColor;
+                            wrapMode: Text.Wrap
+                            topPadding: 5 * app.scaleFactor
+                        }
+
+                        Label {
+                            font.pixelSize: app.baseFontSize*.35
+                            font.bold: false
+                            text: reportedCaseAssignedDate
+                            color: app.appSecondaryTextColor;
+                            wrapMode: Text.Wrap
+                            topPadding: 5 * app.scaleFactor
+                        }
+                    }
+
+                    RowLayout{
+
+                        spacing: 5;
+                        visible: true;
+
+                        Label {
+                            font.pixelSize: app.baseFontSize*.35
+                            text: "Last Update By: "
+                            color: app.appPrimaryTextColor;
+                            wrapMode: Text.Wrap
+                            topPadding: 5 * app.scaleFactor
+                        }
+
+                        Label {
+                            font.pixelSize: app.baseFontSize*.35
+                            font.bold: false
+                            text: reportedCaseLastUpdateUser
+                            color: app.appSecondaryTextColor;
+                            wrapMode: Text.Wrap
+                            topPadding: 5 * app.scaleFactor
+                        }
+                    }
+
+                    RowLayout{
+
+                        spacing: 5;
+                        visible: true;
+
+                        Label {
+                            font.pixelSize: app.baseFontSize*.35
+                            text: "Last Update: "
+                            color: app.appPrimaryTextColor;
+                            wrapMode: Text.Wrap
+                            topPadding: 5 * app.scaleFactor
+                        }
+
+                        Label {
+                            font.pixelSize: app.baseFontSize*.35
+                            font.bold: false
+                            text: reportedCaseLastUpdate
+                            color: app.appSecondaryTextColor;
+                            wrapMode: Text.Wrap
+                            topPadding: 5 * app.scaleFactor
+                        }
+                    }
+
+                    Label {
+                        font.pixelSize: app.baseFontSize*.35
+                        text: "Saved Worker Note: "
+                        color: app.appPrimaryTextColor;
+                        wrapMode: Text.Wrap
+                        topPadding: 5 * app.scaleFactor
+                    }
+
+
+                    TextArea {
+                        Material.accent: "transparent"
+                        selectByMouse: true
+                        wrapMode: TextEdit.WrapAnywhere
+                        color: app.appSecondaryTextColor
+                        text: reportedCaseWorkerNote
+                        enabled: false
+                        background: null
+                        font.pixelSize: app.baseFontSize*.3
+                        bottomPadding: 10*app.scaleFactor
+                        Layout.preferredWidth: parent.width
+                    }
+
+
+                    //Separator
+                    Rectangle {
+                        Layout.fillWidth: true
+                        implicitHeight: 1
+                        color: app.appBorderColorCaseList
+                    }
+
+
+
+                    Label {
+                        font.pixelSize: app.baseFontSize*.35
+                        text: "New Worker Note: "
+                        color: app.appPrimaryTextColor;
+                        wrapMode: Text.Wrap
+                        topPadding: 10 * app.scaleFactor
+                        bottomPadding: 5*app.scaleFactor
+                    }
+
+                    Rectangle {
+                        Layout.preferredHeight: 50 * scaleFactor
+                        border.color: app.appSecondaryTextColor
+                        Layout.fillWidth: true
+                        border.width: 1 * scaleFactor
+                        radius: 2
+                        ScrollView {
+                            anchors.fill: parent
+                            contentItem: parent
+
+                            TextArea {
+                                id: newWorkerNote
+                                Layout.preferredWidth: parent.width
+                                Material.accent: app.backgroundAccent
+                                background: null
+                                padding: 3 * scaleFactor
+                                selectByMouse: true
+                                wrapMode: TextEdit.WrapAnywhere
+                                placeholderText: " Additional details required to save changes..."
+                                color: app.appSecondaryTextColor
+                                font.pixelSize: app.baseFontSize*.3
+                                text: localWorkerNote
+
+                                onTextChanged: {
+                                   var currChars = newWorkerNote.text.length
+                                   if (currChars >= maxLimit) {
+                                      newWorkerNote.text = newWorkerNote.text.substring(0, maxLimit);
+                                   }
+                                   localWorkerNote = newWorkerNote.text;
+                                }
+                            }
+                        }
+                    }
+
+
+                    Text {
+                        font.pixelSize: app.baseFontSize*.2
+                        font.bold: true
+                        text: ""
+                        color: app.appPrimaryTextColor;
+                        verticalAlignment: Text.AlignTop
+                        topPadding: 50 * app.scaleFactor
                     }
                 }
             }
 
 
-            Text {
-                Layout.fillWidth: true
-                font.pixelSize: app.baseFontSize*.2
-                font.bold: true
-                text: ""
-                color: app.appPrimaryTextColor;
-                verticalAlignment: Text.AlignTop
-                topPadding: 5 * app.scaleFactor
-            }
-
-
             Rectangle {
+                anchors.bottom: footer.top
                 Layout.fillWidth: true
                 Layout.preferredHeight: 53 * app.scaleFactor
                 color: app.appBackgroundColorCaseList
@@ -473,7 +487,7 @@ Page {
                     Rectangle {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
-                        color: app.appBackgroundColor
+                        color: app.appBackgroundColorCaseList
                         visible: reportedCaseCurrentStatus !== 'Assigned' ? true : false;
 
                         Image{
@@ -493,7 +507,7 @@ Page {
                         id: assigntome
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
-                        color: app.appBackgroundColor
+                        color: app.appBackgroundColorCaseList
                         visible: reportedCaseCurrentStatus === 'Pending' ? true : false;
 
                         Image{
@@ -537,7 +551,7 @@ Page {
                         id: takeovercase
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
-                        color: app.appBackgroundColor
+                        color: app.appBackgroundColorCaseList
                         visible: (reportedCaseCurrentStatus === 'Assigned' && reportedCaseAssignedUser !== app.portalUser) ? true : false;
 
                         Image{
@@ -580,7 +594,7 @@ Page {
                         id: attachmentview
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
-                        color: app.appBackgroundColor
+                        color: app.appBackgroundColorCaseList
 
                         Image{
                             id: viewAttachment
@@ -620,7 +634,7 @@ Page {
                         id: cancelitem
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
-                        color: app.appBackgroundColor
+                        color: app.appBackgroundColorCaseList
                         visible: reportedCaseCurrentStatus === 'Assigned' ? true : false;
 
                         Image{
@@ -678,7 +692,7 @@ Page {
                         id: revertitem
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
-                        color: app.appBackgroundColor
+                        color: app.appBackgroundColorCaseList
                         visible: reportedCaseCurrentStatus !== 'Pending' ? true : false;
 
                         Image{
@@ -734,7 +748,7 @@ Page {
                         id: completeitem
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
-                        color: app.appBackgroundColor
+                        color: app.appBackgroundColorCaseList
                         visible: reportedCaseCurrentStatus === 'Assigned' ? true : false;
 
                         Image{
@@ -788,7 +802,7 @@ Page {
                     Rectangle {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
-                        color: app.appBackgroundColor
+                        color: app.appBackgroundColorCaseList
                         visible: reportedCaseCurrentStatus !== 'Assigned' ? true : false;
 
                         Image{
@@ -817,6 +831,9 @@ Page {
             }
 
         }
+
+
+
 
     }
 
