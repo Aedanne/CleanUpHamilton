@@ -55,6 +55,12 @@ ToolBar{
 
             onClicked: {
                 console.log(logMessage);
+                try {
+                    console.log(">>>>>", help.visible = true);
+                    help.visible = true
+                } catch (err) {
+                     console.log(">>>>>", err.essage);
+                }
             }
         }
     }
