@@ -468,7 +468,6 @@ Page {
 
 
             Rectangle {
-//                anchors.bottom: footer.top
                 Layout.fillWidth: true
                 Layout.preferredHeight: 53 * app.scaleFactor
                 color: app.appBackgroundColorCaseList
