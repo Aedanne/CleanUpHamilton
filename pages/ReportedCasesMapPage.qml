@@ -308,6 +308,9 @@ Page {
         id: params
     }
 
+    ReportedCasesMapHelp {
+        id: help
+    }
 
 
     //Footer custom QML =================================================================
