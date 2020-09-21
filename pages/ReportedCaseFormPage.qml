@@ -876,6 +876,7 @@ Page {
                 height: app.height*0.5
                 anchors.centerIn: parent
 
+
                 SwipeView {
                     id: swipeView
                     visible: true
@@ -889,20 +890,24 @@ Page {
 
 
                             Rectangle {
+
                                 color: app.cameraViewBackgroundColor
                                 visible: true
                                 anchors.top: parent.top
                                 height: parent.height
+                                anchors.fill: parent
 
                                 Image {
                                     id: attachment
                                     horizontalAlignment: Qt.AlignHCenter
                                     height: parent.height
+                                    width: parent.width
                                     fillMode: Image.PreserveAspectFit
                                     source: attachmentUrl
                                     onSourceChanged: {
                                         console.log(">>>> Attachment Viewer Section: Src: ",source)
                                     }
+                                    autoTransform: true
                                 }
                             }
 
