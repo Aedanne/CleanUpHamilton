@@ -21,7 +21,7 @@ import "../images"
 
 
 /*
-Set Location Help Page
+Form Help Page
 */
 
 
@@ -38,8 +38,7 @@ Item {
     property color backgroundColor: app.appBackgroundColor
     property color textColor : app.appSecondaryTextColor
 
-    property string imgMyLoc: "../images/my_loc.png"
-    property string imgPin: "../images/pin.png"
+    property string imgCamera: "../images/camera.png"
 
 
 
@@ -64,7 +63,7 @@ Item {
 
                 Label {
                     font.pixelSize: app.baseFontSize*.4
-                    text: "Set Report Location  "
+                    text: "Add Report Details  "
                     color: app.appPrimaryTextColor;
                     wrapMode: Text.Wrap
                     bottomPadding: 5 * app.scaleFactor
@@ -77,33 +76,19 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "This map is used to set the location of the incident being reported."
+                    text: "This page is used to provide the required and optional information about the report."
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
                     Layout.preferredWidth: topSection.width
                 }
-                TextArea {
-                    Material.accent: app.appBackgroundColor
-                    selectByMouse: true
-                    wrapMode: TextEdit.WordWrap
-                    color: app.appSecondaryTextColor
-                    text: "If the GPS location is enabled for this application, the current location of the device will load in the map."
-                    enabled: false
-                    background: null
+
+
+                Label {
                     font.pixelSize: app.baseFontSize*.3
-                    Layout.preferredWidth: topSection.width
-                }
-                TextArea {
-                    Material.accent: app.appBackgroundColor
-                    selectByMouse: true
-                    wrapMode: TextEdit.WordWrap
-                    color: app.appSecondaryTextColor
-                    text: "If the application is not given permission to access the device location, manually pan and zoom in/out into the map to locate the correct location for this report."
-                    enabled: false
-                    background: null
-                    font.pixelSize: app.baseFontSize*.3
-                    Layout.preferredWidth: topSection.width
+                    text: "Required fields: (denoted with *)"
+                    color: 'red'
+                    wrapMode: Text.Wrap
                 }
 
                 TextArea {
@@ -111,12 +96,45 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "The pin icon represents the location that will be included in the report. This is represented as coordinates displayed in the My Location section."
+                    text: "Report Type\nSupporting Photos\nReport Location"
+                    enabled: false
+                    background: null
+                    font.pixelSize: app.baseFontSize*.3
+                    Layout.preferredWidth: topSection.width
+                    leftPadding: 15*app.scaleFactor
+                }
+                Label {
+                    font.pixelSize: app.baseFontSize*.3
+                    text: "Optional fields: "
+                    color: app.appSecondaryTextColor
+                    wrapMode: Text.Wrap
+                }
+
+                TextArea {
+                    Material.accent: app.appBackgroundColor
+                    selectByMouse: true
+                    wrapMode: TextEdit.WordWrap
+                    color: app.appSecondaryTextColor
+                    text: "Description"
+                    enabled: false
+                    background: null
+                    font.pixelSize: app.baseFontSize*.3
+                    Layout.preferredWidth: topSection.width
+                    leftPadding: 15*app.scaleFactor
+                }
+                TextArea {
+                    Material.accent: app.appBackgroundColor
+                    selectByMouse: true
+                    wrapMode: TextEdit.WordWrap
+                    color: app.appSecondaryTextColor
+                    text: "Report Location is derived from the location selected in the previous map.\n\nDescription is highly recommended, especially when report type is 'Other'.\n\nAt least 1 supporting photo is required."
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
                     Layout.preferredWidth: topSection.width
                 }
+
+
 
 
                 //Separator
@@ -138,17 +156,17 @@ Item {
                         id: myloc
                         Layout.preferredWidth: 25*app.scaleFactor
                         Layout.preferredHeight: 25*app.scaleFactor
-                        source: imgMyLoc
+                        source: imgCamera
                         antialiasing: true
                         autoTransform: true
                     }
 
 
                     Label{
-                        text: 'Triggers the device GPS location, if enabled'
+                        text: 'Triggers the device camera to capture \nimages of the incident'
                         font.pixelSize: app.baseFontSize*0.3;
                         font.bold: false
-                        maximumLineCount: 1;
+                        maximumLineCount: 2;
                         color: app.appSecondaryTextColor;
                     }
                 }
@@ -159,23 +177,7 @@ Item {
                     color: "transparent"
                 }
 
-                RowLayout{
-                    Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
-                        source: imgPin
-                        antialiasing: true
-                        autoTransform: true
-                    }
 
-                    Label{
-                        text: 'Represents the report location'
-                        font.pixelSize: app.baseFontSize*0.3;
-                        font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
-                    }
-                }
 
             }
         }
@@ -191,4 +193,5 @@ Item {
     }
 
 }
+
 

@@ -462,7 +462,7 @@ Page {
             RowLayout{
 
                 spacing: 0;
-                visible: isDebug;
+                visible: false//isDebug;
 
                 Label {
                     Layout.fillWidth: true
@@ -659,6 +659,10 @@ Page {
     QueryParameters {
         id: params
         maxFeatures: 1
+    }
+
+    FormHelp {
+        id: help
     }
 
 
