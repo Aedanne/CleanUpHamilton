@@ -25,13 +25,18 @@ Cases List Help Page
 */
 
 
-Rectangle {
+Item {
+
     id: help
     visible: false
-    Layout.preferredWidth: parent.width
-    Layout.preferredHeight: parent.height
-    color: app.appBackgroundColor
+    width: parent.width*0.90;
+    height: parent.height;
 
+    Layout.alignment: Qt.AlignRight | Qt.AlignTop
+    anchors.centerIn: parent
+
+    property color backgroundColor: app.appBackgroundColor
+    property color textColor : app.appSecondaryTextColor
 
     property string imgRubbish: "../images/type_rubbish.png"
     property string imgOther: "../images/type_other.png"
@@ -50,43 +55,37 @@ Rectangle {
     property string imgAttachment: "../images/paperclip.png"
 
 
-    ColumnLayout {
-        spacing: 0
-
-        anchors {
-//            fill: parent
-            leftMargin: 40 * app.scaleFactor
-            rightMargin: 40 * app.scaleFactor
-            topMargin: 15 * app.scaleFactor
-        }
+    Rectangle {
+        anchors.fill: parent
+        color: app.appBackgroundColor
+        border.color: app.primaryColor
+        border.width: 5
+        radius: 3
 
         Rectangle {
-            Layout.preferredHeight: parent.height*0.85
-            Layout.preferredWidth: app.width*0.9
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignLeft
+            anchors.centerIn: parent
             color: app.appBackgroundColor
-            id: mainCol
-//            left: 20*app.scaleFactor
+            width: parent.width*0.80;
+            height: parent.height*0.90;
+            id: topSection
+
 
             ColumnLayout {
-                width: mainCol.width;
-                Layout.fillWidth: true
                 spacing: 0
+                Layout.alignment: Qt.AlignRight | Qt.AlignTop
 
                 Label {
                     font.pixelSize: app.baseFontSize*.4
                     text: "Reported Cases  "
                     color: app.appPrimaryTextColor;
                     wrapMode: Text.Wrap
-                    topPadding: 10 * app.scaleFactor
-                    bottomPadding: 10 * app.scaleFactor
+                    bottomPadding: 5 * app.scaleFactor
                     font.bold: true
                 }
 
 
                 TextArea {
-                    Material.accent: "transparent"
+                    Material.accent: app.appBackgroundColor
                     selectByMouse: true
                     wrapMode: TextEdit.WrapAnywhere
                     color: app.appSecondaryTextColor
@@ -94,428 +93,367 @@ Rectangle {
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
-                    bottomPadding: 5*app.scaleFactor
-                    Layout.preferredWidth: parent.width
-                    Layout.fillWidth: true
-
-                }
-
-                TextArea {
-                    Material.accent: "transparent"
-                    selectByMouse: true
-                    wrapMode: TextEdit.WrapAnywhere
-                    color: app.appSecondaryTextColor
-                    text: "The cases can be filtered using the status dropdown."
-                    enabled: false
-                    background: null
-                    font.pixelSize: app.baseFontSize*.3
-                    bottomPadding: 5*app.scaleFactor
-                    Layout.preferredWidth: parent.width
-                    Layout.fillWidth: true
+                    Layout.preferredWidth: topSection.width
                 }
 
 
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 1
+                    color: app.appBorderColorCaseList
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 5*app.scaleFactor
+                    color: "transparent"
+                }
+
+                //Report types
                 RowLayout{
-                    anchors.fill: parent;
-                    visible: true;
-                    enabled: true;
-
                     Image{
                         Layout.preferredWidth: 25*app.scaleFactor
                         Layout.preferredHeight: 25*app.scaleFactor
                         source: imgGraffiti
-                        visible: true
                         antialiasing: true
                         autoTransform: true
                     }
+
                     Label{
-                        Layout.fillWidth: true;
-                        Layout.fillHeight: true;
-//                        verticalAlignment: Text.AlignVCenter;
                         text: 'Represents a report type: Graffiti'
                         font.pixelSize: app.baseFontSize*0.3;
                         font.bold: false
                         maximumLineCount: 1;
                         color: app.appSecondaryTextColor;
-                        visible: true;
-
                     }
                 }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 2*app.scaleFactor
+                    color: "transparent"
+                }
 
-//                RowLayout{
+                RowLayout{
+                    Image{
+                        Layout.preferredWidth: 25*app.scaleFactor
+                        Layout.preferredHeight: 25*app.scaleFactor
+                        source: imgBroken
+                        antialiasing: true
+                        autoTransform: true
+                    }
 
-//                    anchors.fill: parent;
-//                    spacing: 7*app.scaleFactor;
-//                    visible: true;
-//                    enabled: true;
+                    Label{
+                        text: 'Represents a report type: Broken items'
+                        font.pixelSize: app.baseFontSize*0.3;
+                        font.bold: false
+                        maximumLineCount: 1;
+                        color: app.appSecondaryTextColor;
+                    }
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 2*app.scaleFactor
+                    color: "transparent"
+                }
 
+                RowLayout{
+                    Image{
+                        Layout.preferredWidth: 25*app.scaleFactor
+                        Layout.preferredHeight: 25*app.scaleFactor
+                        source: imgRubbish
+                        antialiasing: true
+                        autoTransform: true
+                    }
 
-//                    Image{
-//                        Layout.preferredWidth: 25*app.scaleFactor
-//                        Layout.preferredHeight: 25*app.scaleFactor
-//                        source: imgBroken
-//                        visible: true
-//                        antialiasing: true
-//                        autoTransform: true
-//                    }
-//                    Label{
-//                        Layout.fillWidth: true;
-//                        Layout.fillHeight: true;
-//                        verticalAlignment: Text.AlignVCenter;
-//                        text: 'Represents a report type: Broken'
-//                        font.pixelSize: app.baseFontSize*0.3;
-//                        font.bold: false
-//                        maximumLineCount: 1;
-//                        color: app.appSecondaryTextColor;
-//                        visible: true;
+                    Label{
+                        text: 'Represents a report type: Illegal rubbish dumping'
+                        font.pixelSize: app.baseFontSize*0.3;
+                        font.bold: false
+                        maximumLineCount: 1;
+                        color: app.appSecondaryTextColor;
+                    }
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 2*app.scaleFactor
+                    color: "transparent"
+                }
 
-//                    }
-//                }
+                RowLayout{
+                    Image{
+                        Layout.preferredWidth: 25*app.scaleFactor
+                        Layout.preferredHeight: 25*app.scaleFactor
+                        source: imgOther
+                        antialiasing: true
+                        autoTransform: true
+                    }
 
-//                RowLayout{
+                    Label{
+                        text: 'Represents a report type: Other'
+                        font.pixelSize: app.baseFontSize*0.3;
+                        font.bold: false
+                        maximumLineCount: 1;
+                        color: app.appSecondaryTextColor;
+                    }
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 5*app.scaleFactor
+                    color: "transparent"
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 1
+                    color: app.appBorderColorCaseList
+                }
 
-//                    anchors.fill: parent;
-//                    spacing: 7*app.scaleFactor;
-//                    visible: true;
-//                    enabled: true;
-
-
-//                    Image{
-//                        Layout.preferredWidth: 25*app.scaleFactor
-//                        Layout.preferredHeight: 25*app.scaleFactor
-//                        source: imgRubbish
-//                        visible: true
-//                        antialiasing: true
-//                        autoTransform: true
-//                    }
-//                    Label{
-//                        Layout.fillWidth: true;
-//                        Layout.fillHeight: true;
-//                        verticalAlignment: Text.AlignVCenter;
-//                        text: 'Represents a report type: Illegal rubbish dumping'
-//                        font.pixelSize: app.baseFontSize*0.3;
-//                        font.bold: false
-//                        maximumLineCount: 1;
-//                        color: app.appSecondaryTextColor;
-//                        visible: true;
-
-//                    }
-//                }
-
-//                RowLayout{
-
-//                    anchors.fill: parent;
-//                    spacing: 7*app.scaleFactor;
-//                    visible: true;
-//                    enabled: true;
-
-
-//                    Image{
-//                        Layout.preferredWidth: 25*app.scaleFactor
-//                        Layout.preferredHeight: 25*app.scaleFactor
-//                        source: imgOther
-//                        visible: true
-//                        antialiasing: true
-//                        autoTransform: true
-//                    }
-//                    Label{
-//                        Layout.fillWidth: true;
-//                        Layout.fillHeight: true;
-//                        verticalAlignment: Text.AlignVCenter;
-//                        text: 'Represents a report type: Other'
-//                        font.pixelSize: app.baseFontSize*0.3;
-//                        font.bold: false
-//                        maximumLineCount: 1;
-//                        color: app.appSecondaryTextColor;
-//                        visible: true;
-
-//                    }
-//                }
-
-
-//                RowLayout{
-
-//                    anchors.fill: parent;
-//                    spacing: 7*app.scaleFactor;
-//                    visible: true;
-//                    enabled: true;
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 5*app.scaleFactor
+                    color: "transparent"
+                }
 
 
-//                    Image{
-//                        Layout.preferredWidth: 25*app.scaleFactor
-//                        Layout.preferredHeight: 25*app.scaleFactor
-//                        source: imgAssignedGray
-//                        visible: true
-//                        antialiasing: true
-//                        autoTransform: true
-//                    }
-//                    Label{
-//                        Layout.fillWidth: true;
-//                        Layout.fillHeight: true;
-//                        verticalAlignment: Text.AlignVCenter;
-//                        text: 'Report case is unassigned.'
-//                        font.pixelSize: app.baseFontSize*0.3;
-//                        font.bold: false
-//                        maximumLineCount: 1;
-//                        color: app.appSecondaryTextColor;
-//                        visible: true;
+                //Assignment status
+                RowLayout{
+                    Image{
+                        Layout.preferredWidth: 25*app.scaleFactor
+                        Layout.preferredHeight: 25*app.scaleFactor
+                        source: imgAssignedGreen
+                        antialiasing: true
+                        autoTransform: true
+                    }
 
-//                    }
-//                }
+                    Label{
+                        text: 'Reported case is assigned to logged in user'
+                        font.pixelSize: app.baseFontSize*0.3;
+                        font.bold: false
+                        maximumLineCount: 1;
+                        color: app.appSecondaryTextColor;
+                    }
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 2*app.scaleFactor
+                    color: "transparent"
+                }
 
-//                RowLayout{
+                RowLayout{
+                    Image{
+                        Layout.preferredWidth: 25*app.scaleFactor
+                        Layout.preferredHeight: 25*app.scaleFactor
+                        source: imgAssignedGray
+                        antialiasing: true
+                        autoTransform: true
+                    }
 
-//                    anchors.fill: parent;
-//                    spacing: 7*app.scaleFactor;
-//                    visible: true;
-//                    enabled: true;
+                    Label{
+                        text: 'Reported case is unassigned'
+                        font.pixelSize: app.baseFontSize*0.3;
+                        font.bold: false
+                        maximumLineCount: 1;
+                        color: app.appSecondaryTextColor;
+                    }
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 2*app.scaleFactor
+                    color: "transparent"
+                }
 
+                RowLayout{
+                    Image{
+                        Layout.preferredWidth: 25*app.scaleFactor
+                        Layout.preferredHeight: 25*app.scaleFactor
+                        source: imgAssignedYellow
+                        antialiasing: true
+                        autoTransform: true
+                    }
 
-//                    Image{
-//                        Layout.preferredWidth: 25*app.scaleFactor
-//                        Layout.preferredHeight: 25*app.scaleFactor
-//                        source: imgAssignedGreen
-//                        visible: true
-//                        antialiasing: true
-//                        autoTransform: true
-//                    }
-//                    Label{
-//                        Layout.fillWidth: true;
-//                        Layout.fillHeight: true;
-//                        verticalAlignment: Text.AlignVCenter;
-//                        text: 'Report case is assigned to the current logged in user.'
-//                        font.pixelSize: app.baseFontSize*0.3;
-//                        font.bold: false
-//                        maximumLineCount: 1;
-//                        color: app.appSecondaryTextColor;
-//                        visible: true;
+                    Label{
+                        text: 'Reported case is assigned to a different user'
+                        font.pixelSize: app.baseFontSize*0.3;
+                        font.bold: false
+                        maximumLineCount: 1;
+                        color: app.appSecondaryTextColor;
+                    }
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 5*app.scaleFactor
+                    color: "transparent"
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 1
+                    color: app.appBorderColorCaseList
+                }
 
-//                    }
-//                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 5*app.scaleFactor
+                    color: "transparent"
+                }
 
-//                RowLayout{
+                //Actions
+                RowLayout{
+                    Image{
+                        Layout.preferredWidth: 25*app.scaleFactor
+                        Layout.preferredHeight: 25*app.scaleFactor
+                        source: imgAssignToMe
+                        antialiasing: true
+                        autoTransform: true
+                    }
 
-//                    anchors.fill: parent;
-//                    spacing: 7*app.scaleFactor;
-//                    visible: true;
-//                    enabled: true;
+                    Label{
+                        text: 'ACTION: Assign case to logged in user'
+                        font.pixelSize: app.baseFontSize*0.3;
+                        font.bold: false
+                        maximumLineCount: 1;
+                        color: app.appSecondaryTextColor;
+                    }
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 2*app.scaleFactor
+                    color: "transparent"
+                }
 
+                RowLayout{
+                    Image{
+                        Layout.preferredWidth: 25*app.scaleFactor
+                        Layout.preferredHeight: 25*app.scaleFactor
+                        source: imgAttachment
+                        antialiasing: true
+                        autoTransform: true
+                    }
 
-//                    Image{
-//                        Layout.preferredWidth: 25*app.scaleFactor
-//                        Layout.preferredHeight: 25*app.scaleFactor
-//                        source: imgAssignedYellow
-//                        visible: true
-//                        antialiasing: true
-//                        autoTransform: true
-//                    }
-//                    Label{
-//                        Layout.fillWidth: true;
-//                        Layout.fillHeight: true;
-//                        verticalAlignment: Text.AlignVCenter;
-//                        text: 'Report case is assigned to a different user.'
-//                        font.pixelSize: app.baseFontSize*0.3;
-//                        font.bold: false
-//                        maximumLineCount: 1;
-//                        color: app.appSecondaryTextColor;
-//                        visible: true;
+                    Label{
+                        text: 'ACTION: View case image attachments'
+                        font.pixelSize: app.baseFontSize*0.3;
+                        font.bold: false
+                        maximumLineCount: 1;
+                        color: app.appSecondaryTextColor;
+                    }
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 2*app.scaleFactor
+                    color: "transparent"
+                }
 
-//                    }
-//                }
+                RowLayout{
+                    Image{
+                        Layout.preferredWidth: 25*app.scaleFactor
+                        Layout.preferredHeight: 25*app.scaleFactor
+                        source: imgEdit
+                        antialiasing: true
+                        autoTransform: true
+                    }
 
+                    Label{
+                        text: 'ACTION: Edit reported case details'
+                        font.pixelSize: app.baseFontSize*0.3;
+                        font.bold: false
+                        maximumLineCount: 1;
+                        color: app.appSecondaryTextColor;
+                    }
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 2*app.scaleFactor
+                    color: "transparent"
+                }
 
+                RowLayout{
+                    Image{
+                        Layout.preferredWidth: 25*app.scaleFactor
+                        Layout.preferredHeight: 25*app.scaleFactor
+                        source: imgCancel
+                        antialiasing: true
+                        autoTransform: true
+                    }
 
-//                RowLayout{
+                    Label{
+                        text: 'ACTION: Cancel reported case'
+                        font.pixelSize: app.baseFontSize*0.3;
+                        font.bold: false
+                        maximumLineCount: 1;
+                        color: app.appSecondaryTextColor;
+                    }
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 2*app.scaleFactor
+                    color: "transparent"
+                }
 
-//                    anchors.fill: parent;
-//                    spacing: 7*app.scaleFactor;
-//                    visible: true;
-//                    enabled: true;
+                RowLayout{
+                    Image{
+                        Layout.preferredWidth: 25*app.scaleFactor
+                        Layout.preferredHeight: 25*app.scaleFactor
+                        source: imgRevert
+                        antialiasing: true
+                        autoTransform: true
+                    }
 
+                    Label{
+                        text: 'ACTION: Rollback case to previous status'
+                        font.pixelSize: app.baseFontSize*0.3;
+                        font.bold: false
+                        maximumLineCount: 1;
+                        color: app.appSecondaryTextColor;
+                    }
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 2*app.scaleFactor
+                    color: "transparent"
+                }
 
-//                    Image{
-//                        Layout.preferredWidth: 25*app.scaleFactor
-//                        Layout.preferredHeight: 25*app.scaleFactor
-//                        source: imgAssignToMe
-//                        visible: true
-//                        antialiasing: true
-//                        autoTransform: true
-//                    }
-//                    Label{
-//                        Layout.fillWidth: true;
-//                        Layout.fillHeight: true;
-//                        verticalAlignment: Text.AlignVCenter;
-//                        text: 'Report case is pending status and can be assigned.'
-//                        font.pixelSize: app.baseFontSize*0.3;
-//                        font.bold: false
-//                        maximumLineCount: 1;
-//                        color: app.appSecondaryTextColor;
-//                        visible: true;
+                RowLayout{
+                    Image{
+                        Layout.preferredWidth: 25*app.scaleFactor
+                        Layout.preferredHeight: 25*app.scaleFactor
+                        source: imgComplete
+                        antialiasing: true
+                        autoTransform: true
+                    }
 
-//                    }
-//                }
-
-//                RowLayout{
-
-//                    anchors.fill: parent;
-//                    spacing: 7*app.scaleFactor;
-//                    visible: true;
-//                    enabled: true;
-
-
-//                    Image{
-//                        Layout.preferredWidth: 25*app.scaleFactor
-//                        Layout.preferredHeight: 25*app.scaleFactor
-//                        source: imgAttachment
-//                        visible: true
-//                        antialiasing: true
-//                        autoTransform: true
-//                    }
-//                    Label{
-//                        Layout.fillWidth: true;
-//                        Layout.fillHeight: true;
-//                        verticalAlignment: Text.AlignVCenter;
-//                        text: 'View case image attachments.'
-//                        font.pixelSize: app.baseFontSize*0.3;
-//                        font.bold: false
-//                        maximumLineCount: 1;
-//                        color: app.appSecondaryTextColor;
-//                        visible: true;
-
-//                    }
-//                }
-
-//                RowLayout{
-
-//                    anchors.fill: parent;
-//                    spacing: 7*app.scaleFactor;
-//                    visible: true;
-//                    enabled: true;
-
-
-//                    Image{
-//                        Layout.preferredWidth: 25*app.scaleFactor
-//                        Layout.preferredHeight: 25*app.scaleFactor
-//                        source: imgEdit
-//                        visible: true
-//                        antialiasing: true
-//                        autoTransform: true
-//                    }
-//                    Label{
-//                        Layout.fillWidth: true;
-//                        Layout.fillHeight: true;
-//                        verticalAlignment: Text.AlignVCenter;
-//                        text: 'Access the Reported Case Edit page.'
-//                        font.pixelSize: app.baseFontSize*0.3;
-//                        font.bold: false
-//                        maximumLineCount: 1;
-//                        color: app.appSecondaryTextColor;
-//                        visible: true;
-
-//                    }
-//                }
-
-//                RowLayout{
-
-//                    anchors.fill: parent;
-//                    spacing: 7*app.scaleFactor;
-//                    visible: true;
-//                    enabled: true;
-
-
-//                    Image{
-//                        Layout.preferredWidth: 25*app.scaleFactor
-//                        Layout.preferredHeight: 25*app.scaleFactor
-//                        source: imgCancel
-//                        visible: true
-//                        antialiasing: true
-//                        autoTransform: true
-//                    }
-//                    Label{
-//                        Layout.fillWidth: true;
-//                        Layout.fillHeight: true;
-//                        verticalAlignment: Text.AlignVCenter;
-//                        text: 'Cancel this case. Disabled if assigned to a different user.'
-//                        font.pixelSize: app.baseFontSize*0.3;
-//                        font.bold: false
-//                        maximumLineCount: 1;
-//                        color: app.appSecondaryTextColor;
-//                        visible: true;
-
-//                    }
-//                }
-
-//                RowLayout{
-
-//                    anchors.fill: parent;
-//                    spacing: 7*app.scaleFactor;
-//                    visible: true;
-//                    enabled: true;
-
-
-//                    Image{
-//                        Layout.preferredWidth: 25*app.scaleFactor
-//                        Layout.preferredHeight: 25*app.scaleFactor
-//                        source: imgRevert
-//                        visible: true
-//                        antialiasing: true
-//                        autoTransform: true
-//                    }
-//                    Label{
-//                        Layout.fillWidth: true;
-//                        Layout.fillHeight: true;
-//                        verticalAlignment: Text.AlignVCenter;
-//                        text: 'Rollback to previous status. Disabled if assigned to a different user.'
-//                        font.pixelSize: app.baseFontSize*0.3;
-//                        font.bold: false
-//                        maximumLineCount: 1;
-//                        color: app.appSecondaryTextColor;
-//                        visible: true;
-
-//                    }
-//                }
-
-//                RowLayout{
-
-//                    anchors.fill: parent;
-//                    spacing: 7*app.scaleFactor;
-//                    visible: true;
-//                    enabled: true;
-
-
-//                    Image{
-//                        Layout.preferredWidth: 25*app.scaleFactor
-//                        Layout.preferredHeight: 25*app.scaleFactor
-//                        source: imgComplete
-//                        visible: true
-//                        antialiasing: true
-//                        autoTransform: true
-//                    }
-//                    Label{
-//                        Layout.fillWidth: true;
-//                        Layout.fillHeight: true;
-//                        verticalAlignment: Text.AlignVCenter;
-//                        text: 'Complete case. Disabled if assigned to a different user.'
-//                        font.pixelSize: app.baseFontSize*0.3;
-//                        font.bold: false
-//                        maximumLineCount: 1;
-//                        color: app.appSecondaryTextColor;
-//                        visible: true;
-
-//                    }
-//                }
+                    Label{
+                        text: 'ACTION: Mark reported case as complete'
+                        font.pixelSize: app.baseFontSize*0.3;
+                        font.bold: false
+                        maximumLineCount: 1;
+                        color: app.appSecondaryTextColor;
+                    }
+                }
             }
         }
-
-
-
-
     }
+
 
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            console.log("outside......")
+            console.log(">>>> HELP PAGE: Clicking within mouse area......")
             help.visible = false
         }
     }

@@ -56,8 +56,13 @@ ToolBar{
             onClicked: {
                 console.log(logMessage);
                 try {
-                    console.log(">>>>>", help.visible = true);
-                    help.visible = true
+                    console.log(">>>>>", help.visible);
+                    if (help.visible) {
+                       help.visible = false
+                    } else {
+                        help.visible = true
+                    }
+
                 } catch (err) {
                      console.log(">>>>>", err.essage);
                 }
