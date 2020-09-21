@@ -400,6 +400,9 @@ Page {
                                                 //hide header and footer
                                                 formPageFooter.visible = false
                                                 formPageHeader.visible = false
+                                            } else {
+                                                //Start camera
+                                                cameraDialog.open()
                                             }
                                         }
                                     }

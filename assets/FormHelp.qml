@@ -127,7 +127,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "Report Location is derived from the location selected in the previous map.\n\nDescription is highly recommended, especially when report type is 'Other'.\n\nAt least 1 supporting photo is required."
+                    text: "Report Location is derived from the location selected in the previous map.\n\nDescription is highly recommended, especially when report type is 'Other'.\n\nAt least 1 supporting photo is required. Clicking on an empty photo box will trigger the camera if there is at least one photo already added."
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
