@@ -25,19 +25,19 @@ Settings page for Clean-Up Hamilton app
 
 Page {
 
-    id:formPage;
+    id:formPage
 
-    signal nextPage();
-    signal previousPage();
+    signal nextPage()
+    signal previousPage()
 
-    property string titleText:"";
-    property var descText;
+    property string titleText:""
+    property var descText
 
 
     //Header custom QML =================================================================
     header: HeaderSection {
         id: formPageHeader
-        logMessage: ">>>>  Header: SETTINGS PAGE INFO PAGE";
+        logMessage: ">>>>  Header: SETTINGS PAGE INFO PAGE"
 
     }
 
@@ -52,7 +52,7 @@ Page {
         color: app.appBackgroundColor
 
         ColumnLayout {
-            Layout.preferredWidth: parent.width*0.75;
+            Layout.preferredWidth: parent.width*0.75
             spacing: 0
 
             anchors {
@@ -65,8 +65,8 @@ Page {
             //Location placeholder
             RowLayout{
 
-                spacing: 0;
-                visible: true;
+                spacing: 0
+                visible: true
 
                 Label {
                     font.pixelSize: app.baseFontSize*.4
@@ -81,8 +81,8 @@ Page {
             //Location placeholder
             RowLayout{
 
-                spacing: 0;
-                visible: true;
+                spacing: 0
+                visible: true
 
                 Label {
                     font.pixelSize: app.baseFontSize*.4
@@ -101,14 +101,14 @@ Page {
 
             RowLayout{
 
-                spacing: 0;
-                visible: true;
+                spacing: 0
+                visible: true
 
                 Label {
                     font.pixelSize: app.baseFontSize*.4
                     font.bold: true
                     text: "Override Primary Color: "
-                    color: app.primaryColor;
+                    color: app.primaryColor
                     topPadding: 50 * app.scaleFactor
                     bottomPadding: 5 * app.scaleFactor
                 }
@@ -116,8 +116,8 @@ Page {
             }
             RowLayout{
 
-                spacing: 0;
-                visible: true;
+                spacing: 0
+                visible: true
 
 
                 TextField {
@@ -145,8 +145,8 @@ Page {
             //padding
             RowLayout{
 
-                spacing: 0;
-                visible: true;
+                spacing: 0
+                visible: true
 
                 Label {
                     font.pixelSize: app.baseFontSize*.4

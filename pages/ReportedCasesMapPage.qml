@@ -28,26 +28,26 @@ Staff Workflow Reported Cases Map Page
 
 Page {
 
-    id:reportedCasesMapPage;
+    id:reportedCasesMapPage
 
-    signal nextPage();
-    signal previousPage();
+    signal nextPage()
+    signal previousPage()
 
-    property string titleText:"";
-    property var descText;
+    property string titleText:""
+    property var descText
 
-    property int assignedCount;
-    property int pendingCount;
-    property ArcGISFeature reportFeature;
-    property string debugText;
-    property bool querying;
+    property int assignedCount
+    property int pendingCount
+    property ArcGISFeature reportFeature
+    property string debugText
+    property bool querying
 
-    anchors.fill: parent;
+    anchors.fill: parent
 
 
     //Header custom QML =================================================================
     header: HeaderSection {
-        logMessage: ">>>> Header: REPORTED CASES MAP PAGE";
+        logMessage: ">>>> Header: REPORTED CASES MAP PAGE"
     }
 
 
@@ -61,17 +61,17 @@ Page {
             anchors.fill: parent
 
             MapView {
-                id:mapView;
+                id:mapView
 
                 Layout.preferredWidth: parent.width
                 Layout.fillHeight: parent.height*0.7
                 Layout.maximumWidth: 600 * app.scaleFactor
                 Layout.alignment: Qt.AlignHCenter
 
-                property real initialMapRotation: 0;
+                property real initialMapRotation: 0
 
-                rotationByPinchingEnabled: true;
-                zoomByPinchingEnabled: true;
+                rotationByPinchingEnabled: true
+                zoomByPinchingEnabled: true
 
                 locationDisplay {
                     positionSource: PositionSource {}
@@ -80,8 +80,8 @@ Page {
 
                 // Set starting map to Clean-Up Hamilton webmap
                 Map{
-                    id: map;
-                    initUrl: app.webMapRootUrl + app.staffWebMapId;
+                    id: map
+                    initUrl: app.webMapRootUrl + app.staffWebMapId
 
                     initialViewpoint: viewPoint
                     maxScale: 2
@@ -89,7 +89,7 @@ Page {
 
                     // start the location display when map is loaded
                     onLoadStatusChanged: {
-                        panToLocation();
+                        panToLocation()
                     }
 
 
@@ -97,40 +97,40 @@ Page {
 
                 //Map control buttons
                 Column{
-                    id:mapButtons;
-                    spacing: 5 * app.scaleFactor;
+                    id:mapButtons
+                    spacing: 5 * app.scaleFactor
                     anchors {
-                        verticalCenter: parent.verticalCenter;
-                        right: parent.right;
-                        margins: 5 * scaleFactor;
+                        verticalCenter: parent.verticalCenter
+                        right: parent.right
+                        margins: 5 * scaleFactor
                     }
 
                     Button{
-                        id:myLocButton;
+                        id:myLocButton
                         Image{
-                            id: mylocImage;
-                            source:"../images/my_loc.png";
-                            height: 30 * scaleFactor;
-                            width: height;
-                            anchors.centerIn: parent;
+                            id: mylocImage
+                            source:"../images/my_loc.png"
+                            height: 30 * scaleFactor
+                            width: height
+                            anchors.centerIn: parent
                         }
 
                         ColorOverlay{
-                            anchors.fill: mylocImage;
-                            source: mylocImage;
-                            color: app.mapBorderColor;
+                            anchors.fill: mylocImage
+                            source: mylocImage
+                            color: app.mapBorderColor
                         }
 
-                        onHoveredChanged: hovered ? myLocButton.opacity = 1 : myLocButton.opacity = .5;
-                        height: 40 * scaleFactor;
-                        width : height;
-                        opacity: .5;
+                        onHoveredChanged: hovered ? myLocButton.opacity = 1 : myLocButton.opacity = .5
+                        height: 40 * scaleFactor
+                        width : height
+                        opacity: .5
 
                         onClicked: {
                             if (!mapView.locationDisplay.started) {
-                                panToLocation();
+                                panToLocation()
                             } else {
-                                mapView.locationDisplay.stop();
+                                mapView.locationDisplay.stop()
                             }
                         }
                     }
@@ -138,14 +138,14 @@ Page {
 
                 onMouseClicked:{
                     if(mapView.map.loadStatus === Enums.LoadStatusLoaded){
-                        panToLocation();                       
+                        panToLocation()
                     }
                 }
 
                 onDrawStatusChanged: {
                     app.reportedCasesMapView = mapView
                     if (map.loadStatus === Enums.LoadStatusLoaded) {
-                        queryFeaturesInExtent();
+                        queryFeaturesInExtent()
                     }
 
                 }
@@ -169,7 +169,7 @@ Page {
                     Label {
                         font.pixelSize: app.baseFontSize*.5
                         text: "Pending: "
-                        color: app.appPrimaryTextColor;
+                        color: app.appPrimaryTextColor
                         topPadding: 5 * app.scaleFactor
                         bottomPadding: 5 * app.scaleFactor
                         horizontalAlignment: Text.AlignLeft
@@ -178,7 +178,7 @@ Page {
                     }
                     Label {
                         font.pixelSize: app.baseFontSize*.5
-                        text: pendingCount;
+                        text: pendingCount
                         color: app.appSecondaryTextColor
                         topPadding: 5 * app.scaleFactor
                         bottomPadding: 5 * app.scaleFactor
@@ -191,7 +191,7 @@ Page {
                     Label {
                         font.pixelSize: app.baseFontSize*.5
                         text: "    "
-                        color: app.appPrimaryTextColor;
+                        color: app.appPrimaryTextColor
                         topPadding: 5 * app.scaleFactor
                         bottomPadding: 5 * app.scaleFactor
                         horizontalAlignment: Text.AlignLeft
@@ -202,7 +202,7 @@ Page {
                     Label {
                         font.pixelSize: app.baseFontSize*.5
                         text: "Assigned: "
-                        color: app.appPrimaryTextColor;
+                        color: app.appPrimaryTextColor
                         topPadding: 5 * app.scaleFactor
                         bottomPadding: 5 * app.scaleFactor
                         horizontalAlignment: Text.AlignLeft
@@ -211,7 +211,7 @@ Page {
                     }
                     Label {
                         font.pixelSize: app.baseFontSize*.5
-                        text: assignedCount;
+                        text: assignedCount
                         color: app.appSecondaryTextColor
                         topPadding: 5 * app.scaleFactor
                         bottomPadding: 5 * app.scaleFactor
@@ -248,8 +248,8 @@ Page {
 
 
             onLoadStatusChanged: {
-                debugText = ">>>> onLoadStatusChanged --- " + loadStatus;
-                console.log(debugText);
+                debugText = ">>>> onLoadStatusChanged --- " + loadStatus
+                console.log(debugText)
             }
 
             onQueryFeaturesStatusChanged: {
@@ -261,10 +261,10 @@ Page {
 
                     //Update the display counts
                     while (queryFeaturesResult.iterator.hasNext) {
-                        reportFeature = queryFeaturesResult.iterator.next();
+                        reportFeature = queryFeaturesResult.iterator.next()
 
-                        var status = reportFeature.attributes.attributeValue("CurrentStatus");
-                        console.log(">>>> QUERY: reportFeature --- status: " + status);
+                        var status = reportFeature.attributes.attributeValue("CurrentStatus")
+                        console.log(">>>> QUERY: reportFeature --- status: " + status)
                         if (status === 'Pending') {
                             pendingCount = pendingCount + 1
                         } else if (status === 'Assigned') {
@@ -273,11 +273,11 @@ Page {
 
                      }
 
-                     map.retryLoad();
+                     map.retryLoad()
 
                 } else if (queryFeaturesStatus === Enums.TaskStatusInProgress) {
-                    console.log(">>>> QUERY: reportFeature --- TASK IN PROGRESS: ");
-                    querying = true;
+                    console.log(">>>> QUERY: reportFeature --- TASK IN PROGRESS: ")
+                    querying = true
                 }
             }
         }
@@ -313,22 +313,22 @@ Page {
 
     //Pan to current location
     function panToLocation() {
-        mapView.locationDisplay.start();
-        mapView.locationDisplay.autoPanMode = Enums.LocationDisplayAutoPanModeRecenter;
+        mapView.locationDisplay.start()
+        mapView.locationDisplay.autoPanMode = Enums.LocationDisplayAutoPanModeRecenter
     }
 
     //Function to query the current extent
     function queryFeaturesInExtent() {
 
         // set the where clause
-        params.whereClause = "1=1 and (CurrentStatus = 'Assigned' or CurrentStatus = 'Pending') ";
+        params.whereClause = "1=1 and (CurrentStatus = 'Assigned' or CurrentStatus = 'Pending') "
         //Find the current map extent
         params.geometry = mapView.visibleArea
         // start the query
 
-        casesFeatureTable.queryFeatures(params);
+        casesFeatureTable.queryFeatures(params)
 
-        map.load();
+        map.load()
         app.reportedCasesMapExtent = mapView.visibleArea
 
 

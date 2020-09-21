@@ -10,7 +10,7 @@ ImageIconTemplate QML Type to simplify adding icons using images
 Rectangle {
     id: root
     property string imgSource: ""
-    signal imageIconClicked();
+    signal imageIconClicked()
 
     anchors.centerIn: parent
     width: 60*app.scaleFactor
@@ -39,7 +39,7 @@ Rectangle {
         anchors.fill: parent
         enabled: root.enabled
         onClicked: {
-            imageIconClicked();
+            imageIconClicked()
         }
     }
 

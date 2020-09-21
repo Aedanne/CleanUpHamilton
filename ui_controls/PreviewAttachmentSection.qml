@@ -24,8 +24,8 @@ Rectangle {
     property var source
 
     //Native behavior methods
-    signal discarded();
-    signal refresh();
+    signal discarded()
+    signal refresh()
 
     Layout.preferredWidth: parent.width
     Layout.preferredHeight: parent.height
@@ -39,10 +39,10 @@ Rectangle {
         //Calculate center for image frame
         imageFrame.x = rootPreview.x + (mainPreviewSection.width - imageFrame.width) / 2
         imageFrame.y = rootPreview.y + (mainPreviewSection.height - imageFrame.height) / 2
-        imageFrame.rotation = 0;
-        imageFrame.scale = 1;
+        imageFrame.rotation = 0
+        imageFrame.scale = 1
 
-        exifInfo.load(source.toString().replace(Qt.platform.os == "windows"? "file:///": "file://",""));
+        exifInfo.load(source.toString().replace(Qt.platform.os == "windows"? "file:///": "file://",""))
         imageObject.load(source.toString().replace(Qt.platform.os == "windows"? "file:///": "file://",""))
     }
 
@@ -79,10 +79,10 @@ Rectangle {
                 iconOverlayColor: "#FFFFFF"
                 onIconClicked: {
                     console.log(">>>> X button clicked - rootPreview.source: " + rootPreview.source )
-                    rootPreview.visible = false;
-                    formPageFooter.visible = true;
-                    formPageHeader.visible = true;
-                    refresh();
+                    rootPreview.visible = false
+                    formPageFooter.visible = true
+                    formPageHeader.visible = true
+                    refresh()
                 }
             }
         }
@@ -103,8 +103,8 @@ Rectangle {
                     //recenter
                     imageFrame.x = rootPreview.x + (mainPreviewSection.width - imageFrame.width) / 2
                     imageFrame.y = rootPreview.y + (mainPreviewSection.height - imageFrame.height) / 2
-                    imageFrame.rotation = 0;
-                    imageFrame.scale = 1;
+                    imageFrame.rotation = 0
+                    imageFrame.scale = 1
                 }
             }
 
@@ -140,7 +140,7 @@ Rectangle {
                     pinch.dragAxis: Pinch.XAndYAxis
 
                     onPinchFinished: {
-                        if(scale<1.0) imageFrame.scale=1.0;
+                        if(scale<1.0) imageFrame.scale=1.0
                         imageFrame.rotation = Math.round(imageFrame.rotation/90)*90
                     }
 
@@ -152,13 +152,13 @@ Rectangle {
                         scrollGestureEnabled: false
 
                         onWheel: {
-                            imageFrame.rotation += wheel.angleDelta.x / 120;
+                            imageFrame.rotation += wheel.angleDelta.x / 120
                             if (Math.abs(imageFrame.rotation) < 0.6)
-                                imageFrame.rotation = 0;
-                            var scaleBefore = imageFrame.scale;
-                            imageFrame.scale += imageFrame.scale * wheel.angleDelta.y / 120 / 10;
+                                imageFrame.rotation = 0
+                            var scaleBefore = imageFrame.scale
+                            imageFrame.scale += imageFrame.scale * wheel.angleDelta.y / 120 / 10
 
-                            if(imageFrame.scale<1.0) imageFrame.scale=1.0;
+                            if(imageFrame.scale<1.0) imageFrame.scale=1.0
                             imageFrame.rotation = Math.round(imageFrame.rotation/90)*90
                         }
 
@@ -166,12 +166,12 @@ Rectangle {
                         onDoubleClicked: {
                             imageFrame.x = rootPreview.x + (mainPreviewSection.width - imageFrame.width) / 2
                             imageFrame.y = rootPreview.y + (mainPreviewSection.height - imageFrame.height) / 2
-                            imageFrame.rotation = 0;
-                            imageFrame.scale = 1;
+                            imageFrame.rotation = 0
+                            imageFrame.scale = 1
                         }
 
                         onReleased: {
-                            if(scale<1.0) imageFrame.scale=1.0;
+                            if(scale<1.0) imageFrame.scale=1.0
                             imageFrame.rotation = Math.round(imageFrame.rotation/90)*90
                         }
                     }
@@ -199,10 +199,10 @@ Rectangle {
                 iconOverlayColor: "#FFFFFF"
                 onIconClicked: {
                     console.log(">>>> Delete icon - rootPreview.source: " + rootPreview.source)
-                    discarded();
-                    rootPreview.visible = false; //Go back to previous page after deleting
-                    formPageFooter.visible = true;
-                    formPageHeader.visible = true;
+                    discarded()
+                    rootPreview.visible = false //Go back to previous page after deleting
+                    formPageFooter.visible = true
+                    formPageHeader.visible = true
                 }
             }
 
@@ -230,11 +230,11 @@ Rectangle {
 
     //Delete image signal
     onDiscarded: {
-        app.tempPath = app.attListModel.get(thumbGridView.currentIndex).path;
-        console.log(">>>> thumbGridView.currentIndex: ", thumbGridView.currentIndex, app.tempPath);
+        app.tempPath = app.attListModel.get(thumbGridView.currentIndex).path
+        console.log(">>>> thumbGridView.currentIndex: ", thumbGridView.currentIndex, app.tempPath)
 
-        app.tempImageFilePath = AppFramework.resolvedPath(app.tempPath);
-        fileFolder.removeFile (app.tempImageFilePath);
+        app.tempImageFilePath = AppFramework.resolvedPath(app.tempPath)
+        fileFolder.removeFile (app.tempImageFilePath)
     }
 
 }

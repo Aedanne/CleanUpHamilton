@@ -14,7 +14,7 @@ Item {
     height: parent.height
     anchors.centerIn: parent
     anchors.fill: parent
-    property string loadingText;
+    property string loadingText
 
     Rectangle {
 
@@ -32,15 +32,15 @@ Item {
         }
 
         Label {
-            Material.theme: app.lightTheme? Material.Light : Material.Dark;
-            font.pixelSize: app.baseFontSize*0.5;
-            color: app.primaryColor;
+            Material.theme: app.lightTheme? Material.Light : Material.Dark
+            font.pixelSize: app.baseFontSize*0.5
+            color: app.primaryColor
             font.bold: true
-            wrapMode: Text.Wrap;
+            wrapMode: Text.Wrap
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: busy.top
-            bottomPadding: 25*app.scaleFactor;
-            text: loadingText;
+            bottomPadding: 25*app.scaleFactor
+            text: loadingText
         }
 
     }

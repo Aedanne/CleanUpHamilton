@@ -11,52 +11,52 @@ HeaderSection QML Type to simplify adding footer to the pages
 
 ToolBar{
 
-    property string logMessage;
+    property string logMessage
     property string backgroundColor: app.primaryColor
-    property string overrideText;
+    property string overrideText
 
-    contentHeight: app.btnHdrFtrHeightSize;
-    Material.primary: backgroundColor;
+    contentHeight: app.btnHdrFtrHeightSize
+    Material.primary: backgroundColor
 
     RowLayout {
-        anchors.fill: parent;
-        spacing: 0;
+        anchors.fill: parent
+        spacing: 0
 
         Item {
-            Layout.preferredWidth: 2;
-            Layout.fillHeight: true;
+            Layout.preferredWidth: 2
+            Layout.fillHeight: true
         }
 
         Label {
-            Layout.preferredWidth: 250*app.scaleFactor;
-            horizontalAlignment: Qt.AlignLeft;
-            verticalAlignment: Qt.AlignVCenter;
-            font.pixelSize: app.headerFontSize;
-            font.bold: true;
-            leftPadding: 10*app.scaleFactor;
-            text: overrideText > "" ? overrideText : (titleText > ""? titleText:"");
-            color: app.menuPrimaryTextColor;
+            Layout.preferredWidth: 250*app.scaleFactor
+            horizontalAlignment: Qt.AlignLeft
+            verticalAlignment: Qt.AlignVCenter
+            font.pixelSize: app.headerFontSize
+            font.bold: true
+            leftPadding: 10*app.scaleFactor
+            text: overrideText > "" ? overrideText : (titleText > ""? titleText:"")
+            color: app.menuPrimaryTextColor
         }
 
         ToolButton {
             indicator: Image{
-                width: (parent.width*0.5)*(1.25*app.scaleFactor);
-                height: (parent.height*0.5)*(1.25*app.scaleFactor);
+                width: (parent.width*0.5)*(1.25*app.scaleFactor)
+                height: (parent.height*0.5)*(1.25*app.scaleFactor)
                 anchors {
-                    verticalCenter: parent.verticalCenter;
-                    right: parent.right;
-                    margins: 2*app.scaleFactor;
+                    verticalCenter: parent.verticalCenter
+                    right: parent.right
+                    margins: 2*app.scaleFactor
                 }
 
-                source: "../images/help.png";
-                fillMode: Image.PreserveAspectFit;
-                mipmap: true;
+                source: "../images/help.png"
+                fillMode: Image.PreserveAspectFit
+                mipmap: true
             }
 
             onClicked: {
-                console.log(logMessage);
+                console.log(logMessage)
                 try {
-                    console.log(">>>>>", help.visible);
+                    console.log(">>>>>", help.visible)
                     if (help.visible) {
                        help.visible = false
                     } else {
@@ -64,7 +64,7 @@ ToolBar{
                     }
 
                 } catch (err) {
-                     console.log(">>>>>", err.essage);
+                     console.log(">>>>>", err.essage)
                 }
             }
         }

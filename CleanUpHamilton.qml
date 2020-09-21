@@ -113,8 +113,8 @@ App{
 
     //Misc properties====================================================================
     readonly property string cleanUpHamiltonClientId: "y5uFdm2AiF58sqBj"
-    property bool authenticated: false;
-    property string portalUser;
+    property bool authenticated: false
+    property string portalUser
     property int saveSettings: 0
 
 
@@ -132,14 +132,14 @@ App{
             descText1: qsTr("Clean-Up")
             descText2: qsTr("Hamilton")
             onOpenMenu: {
-                console.log(">>>> In home page component > open menu");
-                sideMenuDrawer.open();
+                console.log(">>>> In home page component > open menu")
+                sideMenuDrawer.open()
             }
             //Navigating to the form page from home page
             onNextPage: {
 
                 //Changing the order - file a report will open with the location
-                formStackView.loadSetLocationPage();
+                formStackView.loadSetLocationPage()
 
             }
         }
@@ -161,32 +161,32 @@ App{
             //currentIndex: currIndex
             menuModel: app.authenticated ? sideMenuDrawerModel1 : sideMenuDrawerModel0
             onMenuSelected: {
-                sideMenuDrawer.close();
+                sideMenuDrawer.close()
                 switch(action){
                 case "fileareport":
-                    console.log(">>>> In menu drawer > fileareport");
-                        formStackView.loadSetLocationPage();
-                    break;
+                    console.log(">>>> In menu drawer > fileareport")
+                        formStackView.loadSetLocationPage()
+                    break
                 case "reportedcases":
-                    console.log(">>>> In menu drawer > reportedcasesmap");
-                        formStackView.loadReportedCasesMapPage();
-                    break;
+                    console.log(">>>> In menu drawer > reportedcasesmap")
+                        formStackView.loadReportedCasesMapPage()
+                    break
                 case "settings":
-                    console.log(">>>> In menu drawer > settings");
-                        formStackView.loadSettingsPage();
-                    break;
+                    console.log(">>>> In menu drawer > settings")
+                        formStackView.loadSettingsPage()
+                    break
                 case "about":
-                    console.log(">>>> In menu drawer > about");
-                        formStackView.loadAboutPage();
-                    break;
+                    console.log(">>>> In menu drawer > about")
+                        formStackView.loadAboutPage()
+                    break
                 case "login":
-                    console.log(">>>> In menu drawer > login");
-                    console.log(">>>> AUTHENTICATED: " + app.authenticated);
+                    console.log(">>>> In menu drawer > login")
+                    console.log(">>>> AUTHENTICATED: " + app.authenticated)
 
-                        formStackView.loadLoginPage();
-                    break;
+                        formStackView.loadLoginPage()
+                    break
                 default:
-                    break;
+                    break
                 }
             }
         }
@@ -197,33 +197,33 @@ App{
         id: sideMenuDrawerModel0  //Login option
 
         ListElement {
-            action:"fileareport";
-            type: "delegate";
-            name: qsTr("File a Report");
+            action:"fileareport"
+            type: "delegate"
+            name: qsTr("File a Report")
             iconSource: "../images/add_note.png"
         }
         ListElement {
-            action:"divider";
-            type: "";
-            name: "divider";
+            action:"divider"
+            type: ""
+            name: "divider"
             iconSource: ""
         }
         ListElement {
-            action:"about";
-            type: "delegate";
-            name: qsTr("About");
+            action:"about"
+            type: "delegate"
+            name: qsTr("About")
             iconSource: "../images/info.png"
         }
         ListElement {
-            action:"settings";
-            type: "delegate";
-            name: qsTr("Settings");
+            action:"settings"
+            type: "delegate"
+            name: qsTr("Settings")
             iconSource: "../images/gear.png"
         }
         ListElement {
-            action:"login";
-            type: "delegate";
-            name: qsTr("Staff Login");
+            action:"login"
+            type: "delegate"
+            name: qsTr("Staff Login")
             iconSource: "../images/login.png"
         }
 
@@ -233,33 +233,33 @@ App{
         id: sideMenuDrawerModel1  //Bypass login
 
         ListElement {
-            action:"fileareport";
-            type: "delegate";
-            name: qsTr("File a Report");
+            action:"fileareport"
+            type: "delegate"
+            name: qsTr("File a Report")
             iconSource: "../images/add_note.png"
         }
         ListElement {
-            action:"reportedcases";
-            type: "delegate";
-            name: qsTr("Reported Cases");
+            action:"reportedcases"
+            type: "delegate"
+            name: qsTr("Reported Cases")
             iconSource: "../images/edit.png"
         }
         ListElement {
-            action:"divider";
-            type: "";
-            name: "divider";
+            action:"divider"
+            type: ""
+            name: "divider"
             iconSource: ""
         }
         ListElement {
-            action:"about";
-            type: "delegate";
-            name: qsTr("About");
+            action:"about"
+            type: "delegate"
+            name: qsTr("About")
             iconSource: "../images/info.png"
         }
         ListElement {
-            action:"settings";
-            type: "delegate";
-            name: qsTr("Settings");
+            action:"settings"
+            type: "delegate"
+            name: qsTr("Settings")
             iconSource: "../images/gear.png"
         }
     }
@@ -294,8 +294,8 @@ App{
             }
 
             onNextPage: {
-                settingsdb.insertSettings();
-                formStackView.loadHomePage();
+                settingsdb.insertSettings()
+                formStackView.loadHomePage()
                 app.localOverrideColor = ''
                 settingsdb.querySettings()
             }
@@ -314,7 +314,7 @@ App{
             }
 
             onNextPage: {
-                formStackView.loadSubmitPage();
+                formStackView.loadSubmitPage()
             }
         }
     }
@@ -330,7 +330,7 @@ App{
             }
 
             onNextPage: {
-                formStackView.loadFormPage();                
+                formStackView.loadFormPage()
             }
         }
     }
@@ -342,7 +342,7 @@ App{
             titleText:qsTr("Report Submitted!")
 
             onNextPage: {
-                formStackView.loadHomePage();
+                formStackView.loadHomePage()
             }
         }
     }
@@ -375,7 +375,7 @@ App{
             }
 
             onNextPage: {
-                formStackView.loadCasesListPage();
+                formStackView.loadCasesListPage()
             }
         }
     }
@@ -392,7 +392,7 @@ App{
             }
 
             onNextPage: {
-                formStackView.loadHomePage();
+                formStackView.loadHomePage()
             }
 
             onNextPageEdit: {
@@ -434,68 +434,68 @@ App{
             while (formStackView.count > 0)
                 formStackView.pop()
 
-            push(formStackView.initialItem);
+            push(formStackView.initialItem)
         }
 
         //Load form page
         function loadFormPage() {
             console.log(">>>> Inside StackView.loadFormPage()")
-            push(formPageComponent);
+            push(formPageComponent)
         }
 
         //Load About Page
         function loadAboutPage() {
             console.log(">>>> Inside StackView.loadAboutPage()")
-            push(aboutPageComponent);
+            push(aboutPageComponent)
         }
 
         //Load Settings Page
         function loadSettingsPage() {
             console.log(">>>> Inside StackView.loadSettingsPage()")
-            push(settingsPageComponent);
+            push(settingsPageComponent)
         }
 
         //Load SetLocation Page
         function loadSetLocationPage() {
             console.log(">>>> Inside StackView.loadSetLocationPage()")
-            push(setLocationPageComponent);
+            push(setLocationPageComponent)
         }
 
         //Load Submit Page
         function loadSubmitPage() {
             console.log(">>>> Inside StackView.loadSubmitPage()")
-            push(setSubmitPageComponent);
+            push(setSubmitPageComponent)
         }
 
         //Load Login Page
         function loadLoginPage() {
             console.log(">>>> Inside StackView.loadLoginPage()")
-            push(loginPageComponent);
+            push(loginPageComponent)
         }
 
         //Load Reported Cases Page
         function loadReportedCasesMapPage() {
             console.log(">>>> Inside StackView.loadReportedCasesMapPage()")
-            push(reportedCasesMapPageComponent);
+            push(reportedCasesMapPageComponent)
         }
 
         //Load Cases List Page
         function loadCasesListPage() {
             console.log(">>>> Inside StackView.loadCasesListPage()")
-            push(casesListPageComponent);
+            push(casesListPageComponent)
         }
 
         //Load Reported Case Form Page
         function loadReportedCaseFormPage() {
             console.log(">>>> Inside StackView.loadReportedCaseFormPage()")
-            push(reportedCaseFormPageComponent);
+            push(reportedCaseFormPageComponent)
         }
 
         //Load Reported Case Form Page from Form Edit
         function loadReportedCaseFormPageFromFormEdit() {
             console.log(">>>> Inside StackView.loadReportedCaseFormPageFromFormEdit()")
-            pop();
-            replace(casesListPageComponent);
+            pop()
+            replace(casesListPageComponent)
         }
 
     }
@@ -512,18 +512,18 @@ App{
         databaseName: fileInfo.filePath
 
         Component.onCompleted: {
-            fileInfo.folder.makeFolder();
-            settingsdb.open();
+            fileInfo.folder.makeFolder()
+            settingsdb.open()
             settingsdb.querySettings()
         }
 
         function exec( sql, ...params ) {
-            let q = settingsdb.query( sql, ...params );
-            console.log( " >>> settingsdb.query.SQL: ", sql );
+            let q = settingsdb.query( sql, ...params )
+            console.log( " >>> settingsdb.query.SQL: ", sql )
 
-            for ( let ok = q.first() ; ok ; ok = q.next() )
-                console.log( " >>> settingsdb.query.values: ", JSON.stringify( q.values ) );
-            q.finish();
+            for ( let ok = q.first();  ok;  ok = q.next() )
+                console.log( " >>> settingsdb.query.values: ", JSON.stringify( q.values ) )
+            q.finish()
         }
 
         function insertSettings() {
@@ -532,13 +532,13 @@ App{
             console.log(">>>> THEMECOLOR = ", themeColor)
 
             settingsdb.beginTransaction()
-            settingsdb.exec( "DROP TABLE IF EXISTS SETTINGS" );
-            settingsdb.exec( "CREATE TABLE IF NOT EXISTS SETTINGS ( themecolor TEXT ); " );
+            settingsdb.exec( "DROP TABLE IF EXISTS SETTINGS" )
+            settingsdb.exec( "CREATE TABLE IF NOT EXISTS SETTINGS ( themecolor TEXT ) " )
 
             console.log(">>>> INSERTING ----- ")
-            var insert =  settingsdb.query();
-            insert.prepare("INSERT INTO SETTINGS (themecolor) VALUES (:themecolor) ");
-            insert.executePrepared( { "themecolor": themeColor } );
+            var insert =  settingsdb.query()
+            insert.prepare("INSERT INTO SETTINGS (themecolor) VALUES (:themecolor) ")
+            insert.executePrepared( { "themecolor": themeColor } )
             insert.finish()
             settingsdb.commitTransaction()
             querySettings()
@@ -546,14 +546,14 @@ App{
         }
 
         function querySettings() {
-            var query = settingsdb.query( "SELECT * FROM SETTINGS" );
+            var query = settingsdb.query( "SELECT * FROM SETTINGS" )
             if (query.first()) {
                 var settings = JSON.parse(JSON.stringify(query.values))
                 console.log(">>>> themecolor:", settings.themecolor )
                 //set the override color
                 app.overridePrimaryColor = settings.themecolor
 
-                query.finish();
+                query.finish()
             }
         }
     }
@@ -561,12 +561,12 @@ App{
 
     //Clear data after submission
     function clearData() {
-        console.log(">>>> CLEARING DATA <<<< ");
-        app.attListModel.clear();
-        app.currentLocationPoint = null;
-        app.reportType = "";
-        app.reportDescription = "";
-        app.reportTypeIndex = -1;
+        console.log(">>>> CLEARING DATA <<<< ")
+        app.attListModel.clear()
+        app.currentLocationPoint = null
+        app.reportType = ""
+        app.reportDescription = ""
+        app.reportTypeIndex = -1
         app.currentLonLat = ""
     }
 

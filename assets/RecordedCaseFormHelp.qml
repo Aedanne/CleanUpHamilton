@@ -29,8 +29,8 @@ Item {
 
     id: help
     visible: false
-    width: parent.width*0.90;
-    height: parent.height*0.90;
+    width: parent.width*0.90
+    height: parent.height*0.90
 
     Layout.alignment: Qt.AlignRight | Qt.AlignTop
     anchors.centerIn: parent
@@ -57,8 +57,8 @@ Item {
         Rectangle {
             anchors.centerIn: parent
             color: app.appBackgroundColor
-            width: parent.width*0.80;
-            height: parent.height*0.90;
+            width: parent.width*0.80
+            height: parent.height*0.90
             id: topSection
 
 
@@ -69,7 +69,7 @@ Item {
                 Label {
                     font.pixelSize: app.baseFontSize*.4
                     text: "Reported Case Edit  "
-                    color: app.appPrimaryTextColor;
+                    color: app.appPrimaryTextColor
                     wrapMode: Text.Wrap
                     bottomPadding: 5 * app.scaleFactor
                     font.bold: true
@@ -116,10 +116,10 @@ Item {
 
                     Label{
                         text: 'ACTION: Assign case to logged in user'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -139,10 +139,10 @@ Item {
 
                     Label{
                         text: 'ACTION: Takeover assigned case and self-assign'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -163,10 +163,10 @@ Item {
 
                     Label{
                         text: 'ACTION: View case image attachments'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -187,10 +187,10 @@ Item {
 
                     Label{
                         text: 'ACTION: Edit reported case details'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -211,10 +211,10 @@ Item {
 
                     Label{
                         text: 'ACTION: Cancel reported case'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -235,10 +235,10 @@ Item {
 
                     Label{
                         text: 'ACTION: Rollback case to previous status'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -259,10 +259,10 @@ Item {
 
                     Label{
                         text: 'ACTION: Mark reported case as complete'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
             }

@@ -15,7 +15,7 @@ Item {
     height: parent.height
     anchors.fill: parent
 
-    property var challenge; //AuthenticationChallenge roperty for ArcGIS Token, HTTP Basic, HTTP Digest, and IWA.
+    property var challenge //AuthenticationChallenge roperty for ArcGIS Token, HTTP Basic, HTTP Digest, and IWA.
 
     Rectangle {
         width: 150*app.scaleFactor
@@ -26,27 +26,27 @@ Item {
 
         Label {
             id: displayLabel
-            Material.theme: app.lightTheme? Material.Light : Material.Dark;
+            Material.theme: app.lightTheme? Material.Light : Material.Dark
             anchors.horizontalCenter: parent.horizontalCenter
-            font.pixelSize: app.baseFontSize*0.4;
-            color: app.primaryColor;
+            font.pixelSize: app.baseFontSize*0.4
+            color: app.primaryColor
             font.bold: true
-            wrapMode: Text.Wrap;
-            topPadding: 150*app.scaleFactor;
-            text: "Authentication Required";
+            wrapMode: Text.Wrap
+            topPadding: 150*app.scaleFactor
+            text: "Authentication Required"
         }
 
         Label {
             id: hostLabel
-            Material.theme: app.lightTheme? Material.Light : Material.Dark;
+            Material.theme: app.lightTheme? Material.Light : Material.Dark
             anchors.horizontalCenter: parent.horizontalCenter
-            font.pixelSize: app.baseFontSize*0.5;
+            font.pixelSize: app.baseFontSize*0.5
             anchors.top: displayLabel.bottom
-            anchors.topMargin: 5*app.scaleFactor;
-            color: app.primaryColor;
+            anchors.topMargin: 5*app.scaleFactor
+            color: app.primaryColor
             font.bold: true
-            wrapMode: Text.Wrap;
-            text: "waikato.maps.arcgis.com";
+            wrapMode: Text.Wrap
+            text: "waikato.maps.arcgis.com"
         }
 
         TextField {
@@ -54,7 +54,7 @@ Item {
             width: 230 * app.scaleFactor
             placeholderText: qsTr("Username")
             anchors.top: hostLabel.bottom
-            anchors.topMargin: 25*app.scaleFactor;
+            anchors.topMargin: 25*app.scaleFactor
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
@@ -64,7 +64,7 @@ Item {
             placeholderText: qsTr("Password")
             echoMode: TextInput.Password
             anchors.top: usernameTextField.bottom
-            anchors.topMargin: 5*app.scaleFactor;
+            anchors.topMargin: 5*app.scaleFactor
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
@@ -72,14 +72,14 @@ Item {
             id: btnRow
             spacing: 20 * app.scaleFactor
             anchors.top: passwordTextField.bottom
-            anchors.topMargin: 15*app.scaleFactor;
+            anchors.topMargin: 15*app.scaleFactor
             anchors.horizontalCenter: parent.horizontalCenter
 
             Button {
                 id: cancelButton
                 text: qsTr("CANCEL")
                 font.bold: true
-                font.pixelSize: app.baseFontSize*0.4;
+                font.pixelSize: app.baseFontSize*0.4
 
                 contentItem: Text {
                     text: cancelButton.text
@@ -97,15 +97,15 @@ Item {
 
                     radius: 2
                     gradient: Gradient {
-                        GradientStop { position: 0 ; color: cancelButton.pressed ? Qt.lighter(app.primaryColor, 1.3) : Qt.lighter(app.primaryColor, 0.7) }
-                        GradientStop { position: 1 ; color: cancelButton.pressed ? Qt.lighter(app.primaryColor, 0.7) : Qt.lighter(app.primaryColor, 1.3) }
+                        GradientStop { position: 0  color: cancelButton.pressed ? Qt.lighter(app.primaryColor, 1.3) : Qt.lighter(app.primaryColor, 0.7) }
+                        GradientStop { position: 1  color: cancelButton.pressed ? Qt.lighter(app.primaryColor, 0.7) : Qt.lighter(app.primaryColor, 1.3) }
                     }
                }
 
                 onClicked: {
                     // cancel the authentication challenge and let the resource fail to load
-                    if (challenge) challenge.cancel();
-                    root.visible = false;
+                    if (challenge) challenge.cancel()
+                    root.visible = false
                 }
             }
 
@@ -113,7 +113,7 @@ Item {
                 id: signInButton
                 text: qsTr("SIGN IN")
                 font.bold: true
-                font.pixelSize: app.baseFontSize*0.4;
+                font.pixelSize: app.baseFontSize*0.4
 
                 contentItem: Text {
                     text: signInButton.text
@@ -131,8 +131,8 @@ Item {
 
                     radius: 2
                     gradient: Gradient {
-                        GradientStop { position: 0 ; color: signInButton.pressed ? Qt.lighter(app.primaryColor, 1.3) : Qt.lighter(app.primaryColor, 0.7) }
-                        GradientStop { position: 1 ; color: signInButton.pressed ? Qt.lighter(app.primaryColor, 0.7) : Qt.lighter(app.primaryColor, 1.3) }
+                        GradientStop { position: 0  color: signInButton.pressed ? Qt.lighter(app.primaryColor, 1.3) : Qt.lighter(app.primaryColor, 0.7) }
+                        GradientStop { position: 1  color: signInButton.pressed ? Qt.lighter(app.primaryColor, 0.7) : Qt.lighter(app.primaryColor, 1.3) }
                     }
                }
 
@@ -140,8 +140,8 @@ Item {
                 onClicked: {
                     // continue with the username and password
                     if (challenge)
-                       console.log(">>>> TODO: Auth Login....");
-                    root.visible = false;
+                       console.log(">>>> TODO: Auth Login....")
+                    root.visible = false
                 }
             }
         }
@@ -151,14 +151,14 @@ Item {
             radius: 5
             width: parent.width
             anchors.top: btnRow.bottom
-            anchors.topMargin: 15*app.scaleFactor;
-            height: 20 * app.scaleFactor;
+            anchors.topMargin: 15*app.scaleFactor
+            height: 20 * app.scaleFactor
             visible: challenge ? challenge.failureCount > 1 : false
 
             Text {
                 anchors.centerIn: parent
                 text: qsTr("Invalid username or password.")
-                font.pixelSize: app.baseFontSize*0.4;
+                font.pixelSize: app.baseFontSize*0.4
                 color: "red"
             }
         }

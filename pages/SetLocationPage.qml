@@ -27,18 +27,18 @@ Main mapping page for Clean-Up Hamilton app
 
 Page {
 
-    id:formPage;
+    id:formPage
 
-    signal nextPage();
-    signal previousPage();
+    signal nextPage()
+    signal previousPage()
 
-    property string titleText:"";
-    property var descText;
+    property string titleText:""
+    property var descText
 
 
     //Header custom QML =================================================================
     header: HeaderSection {
-        logMessage: ">>>> Header:  SET LOCATION INFO PAGE";
+        logMessage: ">>>> Header:  SET LOCATION INFO PAGE"
     }
 
 
@@ -52,17 +52,17 @@ Page {
             anchors.fill: parent
 
             MapView {
-                id:mapView;
+                id:mapView
 
                 Layout.preferredWidth: parent.width
                 Layout.fillHeight: parent.height*0.7
                 Layout.maximumWidth: 600 * app.scaleFactor
                 Layout.alignment: Qt.AlignHCenter
 
-                property real initialMapRotation: 0;
+                property real initialMapRotation: 0
 
-                rotationByPinchingEnabled: true;
-                zoomByPinchingEnabled: true;
+                rotationByPinchingEnabled: true
+                zoomByPinchingEnabled: true
 
                 locationDisplay {
                     positionSource: PositionSource {}
@@ -72,75 +72,75 @@ Page {
 
                 // Set starting map to Clean-Up Hamilton webmap
                 Map{
-                    id:map;
-                    initUrl: app.webMapRootUrl + app.webMapId;
+                    id:map
+                    initUrl: app.webMapRootUrl + app.webMapId
 
                     maxScale: 2
                     minScale: 1
 
                     // start the location display when map is loaded
                     onLoadStatusChanged: {
-                        panToLocation();
+                        panToLocation()
                     }
                 }
 
                 //Default point - Hamilton coords, WGS84 projection
                 Point {
-                    id: pointInit;
-                    y: -37.7833;
-                    x: 175.2833;
+                    id: pointInit
+                    y: -37.7833
+                    x: 175.2833
                     spatialReference: SpatialReference { wkid: 4326 }
                 }
 
                 Image {
-                    id: centerPin;
-                    source: "../images/pin.png";
-                    width: 40 * app.scaleFactor;
-                    height: 40 * app.scaleFactor;
+                    id: centerPin
+                    source: "../images/pin.png"
+                    width: 40 * app.scaleFactor
+                    height: 40 * app.scaleFactor
                     anchors {
-                        horizontalCenter: parent.horizontalCenter;
-                        bottom: parent.verticalCenter;
+                        horizontalCenter: parent.horizontalCenter
+                        bottom: parent.verticalCenter
                     }
-                    visible: true;
+                    visible: true
                 }
 
 
                 //Map control buttons
                 Column{
-                    id:mapButtons;
-                    spacing: 5 * app.scaleFactor;
+                    id:mapButtons
+                    spacing: 5 * app.scaleFactor
                     anchors {
-                        verticalCenter: parent.verticalCenter;
-                        right: parent.right;
-                        margins: 5 * scaleFactor;
+                        verticalCenter: parent.verticalCenter
+                        right: parent.right
+                        margins: 5 * scaleFactor
                     }
 
                     Button{
-                        id:myLocButton;
+                        id:myLocButton
                         Image{
-                            id: mylocImage;
-                            source:"../images/my_loc.png";
-                            height: 30 * scaleFactor;
-                            width: height;
-                            anchors.centerIn: parent;
+                            id: mylocImage
+                            source:"../images/my_loc.png"
+                            height: 30 * scaleFactor
+                            width: height
+                            anchors.centerIn: parent
                         }
 
                         ColorOverlay{
-                            anchors.fill: mylocImage;
-                            source: mylocImage;
-                            color: app.mapBorderColor;
+                            anchors.fill: mylocImage
+                            source: mylocImage
+                            color: app.mapBorderColor
                         }
 
-                        onHoveredChanged: hovered ? myLocButton.opacity = 1 : myLocButton.opacity = .5;
-                        height: 40 * scaleFactor;
-                        width : height;
-                        opacity: .5;
+                        onHoveredChanged: hovered ? myLocButton.opacity = 1 : myLocButton.opacity = .5
+                        height: 40 * scaleFactor
+                        width : height
+                        opacity: .5
 
                         onClicked: {
                             if (!mapView.locationDisplay.started) {
-                                panToLocation();
+                                panToLocation()
                             } else {
-                                mapView.locationDisplay.stop();
+                                mapView.locationDisplay.stop()
                             }
                         }
                     }
@@ -148,12 +148,12 @@ Page {
 
                 onMouseClicked:{
                     if(mapView.map.loadStatus === Enums.LoadStatusLoaded){
-                        panToLocation();
+                        panToLocation()
                     }
                 }
 
                 onCurrentViewpointCenterChanged: {
-                    getLonLatValue();
+                    getLonLatValue()
                 }
 
             }
@@ -173,7 +173,7 @@ Page {
                     Label {
                         font.pixelSize: app.baseFontSize*.5
                         text: "My Location: "
-                        color: app.appPrimaryTextColor;
+                        color: app.appPrimaryTextColor
                         topPadding: 5 * app.scaleFactor
                         bottomPadding: 5 * app.scaleFactor
                         verticalAlignment: Text.AlignBottom
@@ -181,7 +181,7 @@ Page {
                     }
                     Label {
                         font.pixelSize: app.baseFontSize*.5
-                        text: app.currentLonLat;
+                        text: app.currentLonLat
                         color: app.appSecondaryTextColor
                         topPadding: 5 * app.scaleFactor
                         bottomPadding: 5 * app.scaleFactor
@@ -207,16 +207,16 @@ Page {
 
     //Pan to current location
     function panToLocation() {
-        mapView.locationDisplay.start();
-        mapView.locationDisplay.autoPanMode = Enums.LocationDisplayAutoPanModeRecenter;
+        mapView.locationDisplay.start()
+        mapView.locationDisplay.autoPanMode = Enums.LocationDisplayAutoPanModeRecenter
 
         //Log current mapview center point
-        console.log(">>>> mapView.currentViewpointCenter>>>>", mapView.currentViewpointCenter.center);
-        var currLonLat = getLonLatValue();
-        console.log(">>>> Long and Lat: ", currLonLat);
+        console.log(">>>> mapView.currentViewpointCenter>>>>", mapView.currentViewpointCenter.center)
+        var currLonLat = getLonLatValue()
+        console.log(">>>> Long and Lat: ", currLonLat)
 
-        app.currentLocationPoint = mapView.currentViewpointCenter.center;
-        app.currentLonLat = currLonLat;
+        app.currentLocationPoint = mapView.currentViewpointCenter.center
+        app.currentLonLat = currLonLat
     }
 
     function getLonLatValue(){
@@ -225,14 +225,14 @@ Page {
                               mapView.map.loadStatus === Enums.LoadStatusLoaded
                               ) ?
                                     CoordinateFormatter.toLatitudeLongitude(mapView.currentViewpointCenter.center, Enums.LatitudeLongitudeFormatDecimalDegrees, 3)
-                                    : "";
+                                    : ""
 
-        app.currentLocationPoint = mapView.currentViewpointCenter.center;
-        app.currentLonLat = centerLocation;
+        app.currentLocationPoint = mapView.currentViewpointCenter.center
+        app.currentLonLat = centerLocation
 
-        console.log(">>>> Long and Lat: ", app.currentLonLat);
+        console.log(">>>> Long and Lat: ", app.currentLonLat)
 
-        return centerLocation;
+        return centerLocation
     }
 
 

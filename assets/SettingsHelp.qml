@@ -29,8 +29,8 @@ Item {
 
     id: help
     visible: false
-    width: parent.width*0.90;
-    height: parent.height*0.90;
+    width: parent.width*0.90
+    height: parent.height*0.90
 
     Layout.alignment: Qt.AlignRight | Qt.AlignTop
     anchors.centerIn: parent
@@ -49,8 +49,8 @@ Item {
         Rectangle {
             anchors.centerIn: parent
             color: app.appBackgroundColor
-            width: parent.width*0.80;
-            height: parent.height*0.90;
+            width: parent.width*0.80
+            height: parent.height*0.90
             id: topSection
 
 
@@ -61,7 +61,7 @@ Item {
                 Label {
                     font.pixelSize: app.baseFontSize*.4
                     text: "Settings  "
-                    color: app.appPrimaryTextColor;
+                    color: app.appPrimaryTextColor
                     wrapMode: Text.Wrap
                     bottomPadding: 5 * app.scaleFactor
                     font.bold: true

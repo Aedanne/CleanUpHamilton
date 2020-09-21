@@ -10,8 +10,8 @@ Item {
 
     id: alertPopup
     visible: false
-    width: 290*app.scaleFactor;
-    height: 150*app.scaleFactor;
+    width: 290*app.scaleFactor
+    height: 150*app.scaleFactor
 
     anchors.centerIn: parent
 
@@ -65,11 +65,11 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                alertPopup.visible = false;
+                alertPopup.visible = false
                 try {
-                  if (enableFormElements) enableFormElements(false);
+                  if (enableFormElements) enableFormElements(false)
                 } catch(err) {
-                  console.log(">>>> enableformelements: ",err.message);
+                  console.log(">>>> enableformelements: ",err.message)
                 }
 
             }

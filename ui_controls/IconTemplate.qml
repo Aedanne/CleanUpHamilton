@@ -18,7 +18,7 @@ Rectangle {
     property color iconOverlayColor: "white"
     property bool enabled: true
     signal iconClicked()
-    property bool maxAttach;
+    property bool maxAttach
     property int imgRadius: 0
 
     width: containerSize + sidePadding
@@ -53,7 +53,7 @@ Rectangle {
         anchors.fill: parent
         enabled: root.enabled
         onClicked: {
-            iconClicked();
+            iconClicked()
         }
     }
 

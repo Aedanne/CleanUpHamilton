@@ -25,22 +25,22 @@ Reported Case Form page for Clean-Up Hamilton app
 
 Page {
 
-    id:reportedCaseformPage;
+    id:reportedCaseformPage
 
-    signal nextPage();
-    signal previousPage();
+    signal nextPage()
+    signal previousPage()
 
-    property var descText;
+    property var descText
     property int maxLimit: 250
-    property int currChars;
+    property int currChars
     property string titleText: ""
 
-    property int attIndex;
-    property string qryString;
-    property int objectID;
+    property int attIndex
+    property string qryString
+    property int objectID
 
-    property bool isDebug: true;
-    property string debugText: "Debug on";
+    property bool isDebug: true
+    property string debugText: "Debug on"
 
     //Attributes
     property int reportedCaseTypeIndex
@@ -77,7 +77,7 @@ Page {
     property string imgAttachment: "../images/paperclip.png"
 
     property int imgSizeBottom: 28 * app.scaleFactor
-    property bool querying: false;
+    property bool querying: false
     property string localWorkerNote: ''
 
 
@@ -85,7 +85,7 @@ Page {
     //Header custom QML =================================================================
     header: HeaderSection {
         id: formPageHeader
-        logMessage: ">>>> Header: REPORTED CASE FORM PAGE";
+        logMessage: ">>>> Header: REPORTED CASE FORM PAGE"
 
     }
 
@@ -117,7 +117,7 @@ Page {
                 id: mainCol
 
                 ColumnLayout {
-                    width: mainCol.width;
+                    width: mainCol.width
                     Layout.fillWidth: true
                     spacing: 0
 
@@ -125,7 +125,7 @@ Page {
                     Label {
                         font.pixelSize: app.baseFontSize*.4
                         text: "[Case#"+reportedCaseObjectId+"] Report Type: "
-                        color: app.appPrimaryTextColor;
+                        color: app.appPrimaryTextColor
                         wrapMode: Text.Wrap
                         font.bold: true
                     }
@@ -134,7 +134,7 @@ Page {
 
                     ComboBox {
                         id: typeComboBox
-                        Layout.preferredWidth: parent.width;
+                        Layout.preferredWidth: parent.width
                         Layout.fillWidth: true
                         currentIndex: reportedCaseTypeIndex
                         font.bold: true
@@ -155,16 +155,16 @@ Page {
 
                         model: ListModel {
                             id: typeIndex
-                            ListElement { text: "Graffiti"; }
-                            ListElement { text: "Broken items";  }
-                            ListElement { text: "Illegal rubbish dumping";  }
-                            ListElement { text: "Other";  }
+                            ListElement { text: "Graffiti" }
+                            ListElement { text: "Broken items"  }
+                            ListElement { text: "Illegal rubbish dumping"  }
+                            ListElement { text: "Other"  }
                         }
 
                         onCurrentIndexChanged: {
-                            debugText = ">>>> Combo Box selected: " + typeIndex.get(currentIndex).text;
-                            console.log(debugText);
-                            reportedCaseTypeIndex = currentIndex;
+                            debugText = ">>>> Combo Box selected: " + typeIndex.get(currentIndex).text
+                            console.log(debugText)
+                            reportedCaseTypeIndex = currentIndex
                         }
 
                         contentItem: Text {
@@ -182,13 +182,13 @@ Page {
 
                     RowLayout{
 
-                        spacing: 5;
-                        visible: true;
+                        spacing: 5
+                        visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
                             text: "Location: "
-                            color: app.appPrimaryTextColor;
+                            color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
                         }
@@ -197,7 +197,7 @@ Page {
                             font.pixelSize: app.baseFontSize*.35
                             font.bold: false
                             text: reportedCaseLonLat
-                            color: app.appSecondaryTextColor;
+                            color: app.appSecondaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
                         }
@@ -207,13 +207,13 @@ Page {
 
                     RowLayout{
 
-                        spacing: 5;
-                        visible: true;
+                        spacing: 5
+                        visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
                             text: "Report Date: "
-                            color: app.appPrimaryTextColor;
+                            color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
                         }
@@ -222,7 +222,7 @@ Page {
                             font.pixelSize: app.baseFontSize*.35
                             font.bold: false
                             text: reportedCaseReportedDateString
-                            color: app.appSecondaryTextColor;
+                            color: app.appSecondaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
                         }
@@ -230,13 +230,13 @@ Page {
 
                     RowLayout{
 
-                        spacing: 5;
-                        visible: true;
+                        spacing: 5
+                        visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
                             text: "Report Description: "
-                            color: app.appPrimaryTextColor;
+                            color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
                         }
@@ -266,13 +266,13 @@ Page {
                     }
 
                     RowLayout{
-                        spacing: 5;
-                        visible: true;
+                        spacing: 5
+                        visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
                             text: "Current Status: "
-                            color: app.appPrimaryTextColor;
+                            color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 10 * app.scaleFactor
                         }
@@ -281,7 +281,7 @@ Page {
                             font.pixelSize: app.baseFontSize*.35
                             font.bold: true
                             text: reportedCaseCurrentStatus
-                            color: app.appSecondaryTextColor;
+                            color: app.appSecondaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 10 * app.scaleFactor
                         }
@@ -289,13 +289,13 @@ Page {
 
                     RowLayout{
 
-                        spacing: 5;
-                        visible: true;
+                        spacing: 5
+                        visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
                             text: "Assigned User: "
-                            color: app.appPrimaryTextColor;
+                            color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
                         }
@@ -304,7 +304,7 @@ Page {
                             font.pixelSize: app.baseFontSize*.35
                             font.bold: false
                             text: reportedCaseAssignedUser
-                            color: app.appSecondaryTextColor;
+                            color: app.appSecondaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
                         }
@@ -312,13 +312,13 @@ Page {
 
                     RowLayout{
 
-                        spacing: 5;
-                        visible: true;
+                        spacing: 5
+                        visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
                             text: "Assigned Date: "
-                            color: app.appPrimaryTextColor;
+                            color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
                         }
@@ -327,7 +327,7 @@ Page {
                             font.pixelSize: app.baseFontSize*.35
                             font.bold: false
                             text: reportedCaseAssignedDate
-                            color: app.appSecondaryTextColor;
+                            color: app.appSecondaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
                         }
@@ -335,13 +335,13 @@ Page {
 
                     RowLayout{
 
-                        spacing: 5;
-                        visible: true;
+                        spacing: 5
+                        visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
                             text: "Last Update By: "
-                            color: app.appPrimaryTextColor;
+                            color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
                         }
@@ -350,7 +350,7 @@ Page {
                             font.pixelSize: app.baseFontSize*.35
                             font.bold: false
                             text: reportedCaseLastUpdateUser
-                            color: app.appSecondaryTextColor;
+                            color: app.appSecondaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
                         }
@@ -358,13 +358,13 @@ Page {
 
                     RowLayout{
 
-                        spacing: 5;
-                        visible: true;
+                        spacing: 5
+                        visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
                             text: "Last Update: "
-                            color: app.appPrimaryTextColor;
+                            color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
                         }
@@ -373,7 +373,7 @@ Page {
                             font.pixelSize: app.baseFontSize*.35
                             font.bold: false
                             text: reportedCaseLastUpdate
-                            color: app.appSecondaryTextColor;
+                            color: app.appSecondaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
                         }
@@ -382,7 +382,7 @@ Page {
                     Label {
                         font.pixelSize: app.baseFontSize*.35
                         text: "Saved Worker Note: "
-                        color: app.appPrimaryTextColor;
+                        color: app.appPrimaryTextColor
                         wrapMode: Text.Wrap
                         topPadding: 5 * app.scaleFactor
                     }
@@ -414,7 +414,7 @@ Page {
                     Label {
                         font.pixelSize: app.baseFontSize*.35
                         text: "New Worker Note: "
-                        color: app.appPrimaryTextColor;
+                        color: app.appPrimaryTextColor
                         wrapMode: Text.Wrap
                         topPadding: 10 * app.scaleFactor
                         bottomPadding: 5*app.scaleFactor
@@ -446,9 +446,9 @@ Page {
                                 onTextChanged: {
                                    var currChars = newWorkerNote.text.length
                                    if (currChars >= maxLimit) {
-                                      newWorkerNote.text = newWorkerNote.text.substring(0, maxLimit);
+                                      newWorkerNote.text = newWorkerNote.text.substring(0, maxLimit)
                                    }
-                                   localWorkerNote = newWorkerNote.text;
+                                   localWorkerNote = newWorkerNote.text
                                 }
                             }
                         }
@@ -459,7 +459,7 @@ Page {
                         font.pixelSize: app.baseFontSize*.2
                         font.bold: true
                         text: ""
-                        color: app.appPrimaryTextColor;
+                        color: app.appPrimaryTextColor
                         verticalAlignment: Text.AlignTop
                         topPadding: 50 * app.scaleFactor
                     }
@@ -482,16 +482,16 @@ Page {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
                         color: app.appBackgroundColorCaseList
-                        visible: reportedCaseCurrentStatus !== 'Assigned' ? true : false;
+                        visible: reportedCaseCurrentStatus !== 'Assigned' ? true : false
 
                         Image{
                             anchors.centerIn: parent
                             width: imgSizeBottom
                             height: imgSizeBottom
-                            visible: reportedCaseCurrentStatus !== 'Assigned' ? true : false;
-                            enabled: reportedCaseCurrentStatus !== 'Assigned' ? true : false;
+                            visible: reportedCaseCurrentStatus !== 'Assigned' ? true : false
+                            enabled: reportedCaseCurrentStatus !== 'Assigned' ? true : false
                             fillMode: Image.PreserveAspectFit
-                            antialiasing: true;
+                            antialiasing: true
                         }
 
                     }
@@ -502,7 +502,7 @@ Page {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
                         color: app.appBackgroundColorCaseList
-                        visible: reportedCaseCurrentStatus === 'Pending' ? true : false;
+                        visible: reportedCaseCurrentStatus === 'Pending' ? true : false
 
                         Image{
                             id: assign
@@ -510,10 +510,10 @@ Page {
                             width: imgSizeBottom
                             height: imgSizeBottom
                             source: imgAssignToMe
-                            visible: reportedCaseCurrentStatus === 'Pending' ? true : false;
-                            enabled: reportedCaseCurrentStatus === 'Pending' ? true : false;
+                            visible: reportedCaseCurrentStatus === 'Pending' ? true : false
+                            enabled: reportedCaseCurrentStatus === 'Pending' ? true : false
                             fillMode: Image.PreserveAspectFit
-                            antialiasing: true;
+                            antialiasing: true
                         }
 
                         DropShadow {
@@ -532,7 +532,7 @@ Page {
                                 if (localWorkerNote === '') {
                                     caseFormMissingData.visible = true
                                 } else {
-                                    updateFeature(app.reportedCaseFeature, 'AssignToMe', reportedCaseCurrentStatus);
+                                    updateFeature(app.reportedCaseFeature, 'AssignToMe', reportedCaseCurrentStatus)
                                 }
                             }
                         }
@@ -546,7 +546,7 @@ Page {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
                         color: app.appBackgroundColorCaseList
-                        visible: (reportedCaseCurrentStatus !== 'Pending' && reportedCaseAssignedUser !== app.portalUser) ? true : false;
+                        visible: (reportedCaseCurrentStatus !== 'Pending' && reportedCaseAssignedUser !== app.portalUser) ? true : false
 
                         Image{
                             id: takeover
@@ -554,10 +554,10 @@ Page {
                             width: imgSizeBottom
                             height: imgSizeBottom
                             source: imgTakeOver
-                            visible: (reportedCaseCurrentStatus !== 'Pending' && reportedCaseAssignedUser !== app.portalUser) ? true : false;
-                            enabled: (reportedCaseCurrentStatus !== 'Pending' && reportedCaseAssignedUser !== app.portalUser) ? true : false;
+                            visible: (reportedCaseCurrentStatus !== 'Pending' && reportedCaseAssignedUser !== app.portalUser) ? true : false
+                            enabled: (reportedCaseCurrentStatus !== 'Pending' && reportedCaseAssignedUser !== app.portalUser) ? true : false
                             fillMode: Image.PreserveAspectFit
-                            antialiasing: true;
+                            antialiasing: true
                         }
 
                         DropShadow {
@@ -576,7 +576,7 @@ Page {
                                 if (localWorkerNote === '') {
                                     caseFormMissingData.visible = true
                                 } else {
-                                    updateFeature(app.reportedCaseFeature, 'TakeOver', reportedCaseCurrentStatus);
+                                    updateFeature(app.reportedCaseFeature, 'TakeOver', reportedCaseCurrentStatus)
                                 }
                             }
                         }
@@ -596,10 +596,10 @@ Page {
                             width: imgSizeBottom
                             height: imgSizeBottom
                             source: imgAttachment
-                            visible: true;
-                            enabled: true;
+                            visible: true
+                            enabled: true
                             fillMode: Image.PreserveAspectFit
-                            antialiasing: true;
+                            antialiasing: true
                         }
 
                         DropShadow {
@@ -616,7 +616,7 @@ Page {
                             anchors.fill: parent
                             onClicked: {
                                 console.log(">>> MOUSE AREA: View Attachments, featureId:", reportedCaseObjectId, reportedCaseFeature)
-                                attachmentViewer.visible = true;
+                                attachmentViewer.visible = true
                                 reportedCaseAttListModel = app.reportedCaseFeature.attachments
                             }
                         }
@@ -629,7 +629,7 @@ Page {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
                         color: app.appBackgroundColorCaseList
-                        visible: reportedCaseCurrentStatus === 'Assigned' ? true : false;
+                        visible: reportedCaseCurrentStatus === 'Assigned' ? true : false
 
                         Image{
                             id: cancel
@@ -637,10 +637,10 @@ Page {
                             width: imgSizeBottom
                             height: imgSizeBottom
                             source: imgCancel
-                            visible: reportedCaseCurrentStatus === 'Assigned' ? true : false;
-                            enabled: (reportedCaseCurrentStatus === 'Assigned' && reportedCaseAssignedUser === app.portalUser) ? true : false;
+                            visible: reportedCaseCurrentStatus === 'Assigned' ? true : false
+                            enabled: (reportedCaseCurrentStatus === 'Assigned' && reportedCaseAssignedUser === app.portalUser) ? true : false
                             fillMode: Image.PreserveAspectFit
-                            antialiasing: true;
+                            antialiasing: true
                         }
 
 
@@ -653,14 +653,14 @@ Page {
                                 samples: 17
                                 color: "#aa000000"
                                 source: cancel
-                                visible: reportedCaseAssignedUser === app.portalUser ? true : false;
+                                visible: reportedCaseAssignedUser === app.portalUser ? true : false
                         }
 
                         ColorOverlay {
                                 anchors.fill: cancel
                                 source: cancel
                                 color: app.disabledIconColor
-                                visible: reportedCaseAssignedUser === app.portalUser ? false : true;
+                                visible: reportedCaseAssignedUser === app.portalUser ? false : true
                         }
 
                         MouseArea {
@@ -687,7 +687,7 @@ Page {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
                         color: app.appBackgroundColorCaseList
-                        visible: reportedCaseCurrentStatus !== 'Pending' ? true : false;
+                        visible: reportedCaseCurrentStatus !== 'Pending' ? true : false
 
                         Image{
                             id: revert
@@ -695,10 +695,10 @@ Page {
                             width: imgSizeBottom
                             height: imgSizeBottom
                             source: imgRevert
-                            visible: reportedCaseCurrentStatus !== 'Pending' ? true : false;
-                            enabled: (reportedCaseCurrentStatus !== 'Pending' && reportedCaseAssignedUser === app.portalUser) ? true : false;
+                            visible: reportedCaseCurrentStatus !== 'Pending' ? true : false
+                            enabled: (reportedCaseCurrentStatus !== 'Pending' && reportedCaseAssignedUser === app.portalUser) ? true : false
                             fillMode: Image.PreserveAspectFit
-                            antialiasing: true;
+                            antialiasing: true
                         }
 
                         DropShadow {
@@ -709,14 +709,14 @@ Page {
                                 samples: 17
                                 color: "#aa000000"
                                 source: revert
-                                visible: reportedCaseAssignedUser === app.portalUser ? true : false;
+                                visible: reportedCaseAssignedUser === app.portalUser ? true : false
                         }
 
                         ColorOverlay {
                                 anchors.fill: revert
                                 source: revert
                                 color: app.disabledIconColor
-                                visible: reportedCaseAssignedUser === app.portalUser ? false : true;
+                                visible: reportedCaseAssignedUser === app.portalUser ? false : true
                         }
 
                         MouseArea {
@@ -743,7 +743,7 @@ Page {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
                         color: app.appBackgroundColorCaseList
-                        visible: reportedCaseCurrentStatus === 'Assigned' ? true : false;
+                        visible: reportedCaseCurrentStatus === 'Assigned' ? true : false
 
                         Image{
                             id: complete
@@ -751,10 +751,10 @@ Page {
                             width: imgSizeBottom
                             height: imgSizeBottom
                             source: imgComplete
-                            visible: reportedCaseCurrentStatus === 'Assigned' ? true : false;
-                            enabled: (reportedCaseCurrentStatus === 'Assigned' && reportedCaseAssignedUser === app.portalUser) ? true : false;
+                            visible: reportedCaseCurrentStatus === 'Assigned' ? true : false
+                            enabled: (reportedCaseCurrentStatus === 'Assigned' && reportedCaseAssignedUser === app.portalUser) ? true : false
                             fillMode: Image.PreserveAspectFit
-                            antialiasing: true;
+                            antialiasing: true
                         }
 
                         DropShadow {
@@ -765,14 +765,14 @@ Page {
                                 samples: 17
                                 color: "#aa000000"
                                 source: complete
-                                visible: reportedCaseAssignedUser === app.portalUser ? true : false;
+                                visible: reportedCaseAssignedUser === app.portalUser ? true : false
                         }
 
                         ColorOverlay {
                                 anchors.fill: complete
                                 source: complete
                                 color: app.disabledIconColor
-                                visible: reportedCaseAssignedUser === app.portalUser ? false : true;
+                                visible: reportedCaseAssignedUser === app.portalUser ? false : true
                         }
 
                         MouseArea {
@@ -797,16 +797,16 @@ Page {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 53 * app.scaleFactor
                         color: app.appBackgroundColorCaseList
-                        visible: reportedCaseCurrentStatus !== 'Assigned' ? true : false;
+                        visible: reportedCaseCurrentStatus !== 'Assigned' ? true : false
 
                         Image{
                             anchors.centerIn: parent
                             width: imgSizeBottom
                             height: imgSizeBottom
-                            visible: reportedCaseCurrentStatus !== 'Assigned' ? true : false;
-                            enabled: reportedCaseCurrentStatus !== 'Assigned' ? true : false;
+                            visible: reportedCaseCurrentStatus !== 'Assigned' ? true : false
+                            enabled: reportedCaseCurrentStatus !== 'Assigned' ? true : false
                             fillMode: Image.PreserveAspectFit
-                            antialiasing: true;
+                            antialiasing: true
                         }
                     }
                 }
@@ -819,7 +819,7 @@ Page {
                 font.pixelSize: app.baseFontSize*.2
                 font.bold: true
                 text: ""
-                color: app.appPrimaryTextColor;
+                color: app.appPrimaryTextColor
                 verticalAlignment: Text.AlignTop
                 topPadding: 20 * app.scaleFactor
             }
@@ -847,8 +847,8 @@ Page {
     Rectangle {
         id: attachmentViewer
         visible: false
-        width: app.width;
-        height: app.height;
+        width: app.width
+        height: app.height
         anchors.centerIn: parent
         color: "transparent"
 
@@ -858,8 +858,8 @@ Page {
             Rectangle {
                 id: topArea
                 visible: true
-                width: app.width;
-                height: app.height*0.25;
+                width: app.width
+                height: app.height*0.25
                 opacity: 0.65
 
                 MouseArea {
@@ -873,8 +873,8 @@ Page {
             }
 
             Item {
-                width: app.width;
-                height: app.height*0.5;
+                width: app.width
+                height: app.height*0.5
                 anchors.centerIn: parent
 
                 SwipeView {
@@ -914,7 +914,7 @@ Page {
                                 anchors.left: parent.left
                                 anchors.verticalCenter: parent.verticalCenter
                                 contentItem: Image {
-                                    source: '../images/back.png';
+                                    source: '../images/back.png'
                                     visible: true
                                     enabled: index > 0
                                     fillMode: Image.PreserveAspectFit
@@ -932,7 +932,7 @@ Page {
                                 anchors.verticalCenter: parent.verticalCenter
                                 contentItem: Image {
                                     width: 25*app.scaleFactor
-                                    source: '../images/next.png';
+                                    source: '../images/next.png'
                                     visible: true
                                     enabled: index < delegateAttachments.SwipeView.view.count - 1
                                     fillMode: Image.PreserveAspectFit
@@ -949,8 +949,8 @@ Page {
             Rectangle {
                 id: bottomArea
                 visible: true
-                width: app.width;
-                height: app.height*0.25;
+                width: app.width
+                height: app.height*0.25
                 opacity: 0.65
 
                 MouseArea {
@@ -983,11 +983,11 @@ Page {
             url: app.featureServerURL
 
             onLoadStatusChanged: {
-                console.log(">>>> ReportedCaseFormPage: onLoadStatusChanged --- " + loadStatus);
+                console.log(">>>> ReportedCaseFormPage: onLoadStatusChanged --- " + loadStatus)
             }
 
             onApplyEditsStatusChanged: {
-               console.log(">>>> ReportedCaseFormPage: onApplyEditsStatusChanged --- " + loadStatus);
+               console.log(">>>> ReportedCaseFormPage: onApplyEditsStatusChanged --- " + loadStatus)
                if (applyEditsStatus === Enums.TaskStatusCompleted) {
                    debugText = ">>>> ReportedCaseFormPage :  successfully edited feature"
                    nextPage()
@@ -995,10 +995,10 @@ Page {
             }
 
             onUpdateFeatureStatusChanged: {
-                console.log(">>>> ReportedCaseFormPage: onUpdateFeatureStatusChanged --- " + loadStatus);
+                console.log(">>>> ReportedCaseFormPage: onUpdateFeatureStatusChanged --- " + loadStatus)
                 if (updateFeatureStatus === Enums.TaskStatusCompleted) {
-                    console.log(">>>> ReportedCaseFormPage :  successfully updated feature");
-                    applyEdits();
+                    console.log(">>>> ReportedCaseFormPage :  successfully updated feature")
+                    applyEdits()
                 }
             }
 
@@ -1007,7 +1007,7 @@ Page {
 
     AlertPopup {
         id: caseFormMissingData
-        alertText: ("New worker note is \nrequired to continue.") ;
+        alertText: ("New worker note is \nrequired to continue.")
     }
 
     RecordedCaseFormHelp {
@@ -1038,7 +1038,7 @@ Page {
         console.log(">>>> reportFeature: ", reportFeature)
         console.log(">>>> reportFeature.attributes. ", reportFeature.attributes.attributeNames)
 
-        var typeF = reportFeature.attributes.attributeValue("Type");
+        var typeF = reportFeature.attributes.attributeValue("Type")
         if (typeF === typeGraffiti) {
             typeComboBox.currentIndex = 0
         } else if (typeF === typeBroken) {
@@ -1049,17 +1049,17 @@ Page {
             typeComboBox.currentIndex = 3
         }
 
-        reportedCaseLonLat = reportFeature.attributes.attributeValue("Location");
-        reportedCaseDescription = reportFeature.attributes.attributeValue("Description");
-        reportedCaseObjectId = reportFeature.attributes.attributeValue("OBJECTID");
-        reportedCaseCurrentStatus = reportFeature.attributes.attributeValue("CurrentStatus");
-        reportedCaseAssignedUser = reportFeature.attributes.attributeValue("AssignedUser");
-        var assignedDate = reportFeature.attributes.attributeValue("AssignedDate");
+        reportedCaseLonLat = reportFeature.attributes.attributeValue("Location")
+        reportedCaseDescription = reportFeature.attributes.attributeValue("Description")
+        reportedCaseObjectId = reportFeature.attributes.attributeValue("OBJECTID")
+        reportedCaseCurrentStatus = reportFeature.attributes.attributeValue("CurrentStatus")
+        reportedCaseAssignedUser = reportFeature.attributes.attributeValue("AssignedUser")
+        var assignedDate = reportFeature.attributes.attributeValue("AssignedDate")
         reportedCaseAssignedDate = (assignedDate !== null ? assignedDate.toString() : '')
-        reportedCaseReportedDateString = reportFeature.attributes.attributeValue("ReportedDate").toString();
+        reportedCaseReportedDateString = reportFeature.attributes.attributeValue("ReportedDate").toString()
         reportedCaseWorkerNote = reportFeature.attributes.attributeValue("WorkerNote")
-        reportedCaseLastUpdateUser =  reportFeature.attributes.attributeValue("LastUpdateUser");
-        var lastUpdateDate = reportFeature.attributes.attributeValue("LastUpdate");
+        reportedCaseLastUpdateUser =  reportFeature.attributes.attributeValue("LastUpdateUser")
+        var lastUpdateDate = reportFeature.attributes.attributeValue("LastUpdate")
         reportedCaseLastUpdate = (lastUpdateDate !== null ? lastUpdateDate.toString() : '')
 
 
@@ -1082,56 +1082,56 @@ Page {
 
         var workerNoteSubStr = localWorkerNote
         if (actionType === 'AssignToMe') {
-            feature.attributes.replaceAttribute("CurrentStatus", "Assigned");
-            feature.attributes.replaceAttribute("AssignedUser", app.portalUser);
-            feature.attributes.replaceAttribute("AssignedDate", new Date());
+            feature.attributes.replaceAttribute("CurrentStatus", "Assigned")
+            feature.attributes.replaceAttribute("AssignedUser", app.portalUser)
+            feature.attributes.replaceAttribute("AssignedDate", new Date())
         } else if (actionType === 'TakeOver') {
             //No changes to the status
-            feature.attributes.replaceAttribute("AssignedUser", app.portalUser);
-            feature.attributes.replaceAttribute("AssignedDate", new Date());
+            feature.attributes.replaceAttribute("AssignedUser", app.portalUser)
+            feature.attributes.replaceAttribute("AssignedDate", new Date())
         } else if (actionType === 'Revert') {
             if (currentStatusVal === 'Assigned') {
-                feature.attributes.replaceAttribute("CurrentStatus", "Pending");
-                feature.attributes.replaceAttribute("AssignedUser", null);
-                feature.attributes.replaceAttribute("AssignedDate", null);
+                feature.attributes.replaceAttribute("CurrentStatus", "Pending")
+                feature.attributes.replaceAttribute("AssignedUser", null)
+                feature.attributes.replaceAttribute("AssignedDate", null)
             } else if (currentStatusVal === 'Cancelled') {
-                feature.attributes.replaceAttribute("CurrentStatus", "Assigned");
-                feature.attributes.replaceAttribute("AssignedUser", app.portalUser);
-                feature.attributes.replaceAttribute("AssignedDate", new Date());
-                feature.attributes.replaceAttribute("CancelledUser", null);
-                feature.attributes.replaceAttribute("CancelledDate", null);
+                feature.attributes.replaceAttribute("CurrentStatus", "Assigned")
+                feature.attributes.replaceAttribute("AssignedUser", app.portalUser)
+                feature.attributes.replaceAttribute("AssignedDate", new Date())
+                feature.attributes.replaceAttribute("CancelledUser", null)
+                feature.attributes.replaceAttribute("CancelledDate", null)
             } else if (currentStatusVal === 'Completed') {
-                feature.attributes.replaceAttribute("CurrentStatus", "Assigned");
-                feature.attributes.replaceAttribute("AssignedUser", app.portalUser);
-                feature.attributes.replaceAttribute("AssignedDate", new Date());
-                feature.attributes.replaceAttribute("CompletedUser", null);
-                feature.attributes.replaceAttribute("CompletedDate", null);
+                feature.attributes.replaceAttribute("CurrentStatus", "Assigned")
+                feature.attributes.replaceAttribute("AssignedUser", app.portalUser)
+                feature.attributes.replaceAttribute("AssignedDate", new Date())
+                feature.attributes.replaceAttribute("CompletedUser", null)
+                feature.attributes.replaceAttribute("CompletedDate", null)
             }
         } else if (actionType === 'Complete') {
-            feature.attributes.replaceAttribute("CurrentStatus", "Completed");
-            feature.attributes.replaceAttribute("CompletedUser", app.portalUser);
-            feature.attributes.replaceAttribute("CompletedDate", new Date());
+            feature.attributes.replaceAttribute("CurrentStatus", "Completed")
+            feature.attributes.replaceAttribute("CompletedUser", app.portalUser)
+            feature.attributes.replaceAttribute("CompletedDate", new Date())
         } else if (actionType === 'Cancel') {
-            feature.attributes.replaceAttribute("CurrentStatus", "Cancelled");
-            feature.attributes.replaceAttribute("CancelledUser", app.portalUser);
-            feature.attributes.replaceAttribute("CancelledDate", new Date());
+            feature.attributes.replaceAttribute("CurrentStatus", "Cancelled")
+            feature.attributes.replaceAttribute("CancelledUser", app.portalUser)
+            feature.attributes.replaceAttribute("CancelledDate", new Date())
         }
 
-        var workerNote = workerNoteSubStr + ' ' + reportedCaseWorkerNote;
-        workerNote = workerNote.substr(0,250);
-        feature.attributes.replaceAttribute("WorkerNote", workerNote );
+        var workerNote = workerNoteSubStr + ' ' + reportedCaseWorkerNote
+        workerNote = workerNote.substr(0,250)
+        feature.attributes.replaceAttribute("WorkerNote", workerNote )
 
-        feature.attributes.replaceAttribute("Type", typeComboBox.displayText );
+        feature.attributes.replaceAttribute("Type", typeComboBox.displayText )
 
         //Update these values regardless of type of edit
-        feature.attributes.replaceAttribute("LastUpdateUser", app.portalUser);
-        feature.attributes.replaceAttribute("LastUpdate", new Date());
+        feature.attributes.replaceAttribute("LastUpdateUser", app.portalUser)
+        feature.attributes.replaceAttribute("LastUpdate", new Date())
 
         // update the feature in the feature table asynchronously
-        console.log(">>>> ReportedCaseFormPage: updateFeature() - performing update");
+        console.log(">>>> ReportedCaseFormPage: updateFeature() - performing update")
 
-        querying = true;
-        caseEditFeatureTable.updateFeature(feature);
+        querying = true
+        caseEditFeatureTable.updateFeature(feature)
 
         //Hide actions
         cancelitem.visible = false

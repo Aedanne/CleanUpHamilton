@@ -18,67 +18,67 @@ Login page for Clean-Up Hamilton app
 
 Page {
 
-    id:loginPage;
+    id:loginPage
 
-    signal nextPage();
-    signal previousPage();
+    signal nextPage()
+    signal previousPage()
 
-    property string titleText:"";
-    property var descText;
+    property string titleText:""
+    property var descText
 
 
     header: ToolBar{
-        contentHeight: app.btnHdrFtrHeightSize;
-        Material.primary: app.primaryColor;
+        contentHeight: app.btnHdrFtrHeightSize
+        Material.primary: app.primaryColor
 
         RowLayout {
-            anchors.fill: parent;
-            spacing: 0;
+            anchors.fill: parent
+            spacing: 0
 
             Label{
-                Layout.preferredWidth: 250*app.scaleFactor;
-                horizontalAlignment: Qt.AlignLeft;
-                verticalAlignment: Qt.AlignVCenter;
-                font.pixelSize: app.headerFontSize;
-                font.bold: true;
-                wrapMode: Text.Wrap;
-                leftPadding: 10*app.scaleFactor;
-                text: titleText > ""? titleText:"";
-                color: app.menuPrimaryTextColor;
+                Layout.preferredWidth: 250*app.scaleFactor
+                horizontalAlignment: Qt.AlignLeft
+                verticalAlignment: Qt.AlignVCenter
+                font.pixelSize: app.headerFontSize
+                font.bold: true
+                wrapMode: Text.Wrap
+                leftPadding: 10*app.scaleFactor
+                text: titleText > ""? titleText:""
+                color: app.menuPrimaryTextColor
             }
 
             ToolButton {
 
                 indicator: Image{
-                    width: (parent.width*0.5)*(1.25*app.scaleFactor);
-                    height: (parent.height*0.5)*(1.25*app.scaleFactor);
+                    width: (parent.width*0.5)*(1.25*app.scaleFactor)
+                    height: (parent.height*0.5)*(1.25*app.scaleFactor)
                     anchors {
-                        verticalCenter: parent.verticalCenter;
-                        right: parent.right;
-                        margins: 2*app.scaleFactor;
+                        verticalCenter: parent.verticalCenter
+                        right: parent.right
+                        margins: 2*app.scaleFactor
                     }
-                    horizontalAlignment: Qt.AlignRight;
-                    verticalAlignment: Qt.AlignVCenter;
-                    source: "../images/clear.png";
-                    fillMode: Image.PreserveAspectFit;
-                    mipmap: true;
+                    horizontalAlignment: Qt.AlignRight
+                    verticalAlignment: Qt.AlignVCenter
+                    source: "../images/clear.png"
+                    fillMode: Image.PreserveAspectFit
+                    mipmap: true
                 }
                 onClicked: {
                     if (portal.loadStatus === Enums.LoadStatusLoading) {
                         console.log(">>>> Cancelling login from x button")
-                        portal.cancelLoad();
+                        portal.cancelLoad()
 
                     } else {
-                        portal = null;
+                        portal = null
                     }
 
-                    previousPage();
+                    previousPage()
                 }
             }
 
             Item {
-                Layout.preferredWidth: 1;
-                Layout.fillHeight: true;
+                Layout.preferredWidth: 1
+                Layout.fillHeight: true
             }
         }
     }
@@ -108,14 +108,14 @@ Page {
         }
 
         Label {
-            Material.theme: app.lightTheme? Material.Light : Material.Dark;
+            Material.theme: app.lightTheme? Material.Light : Material.Dark
             anchors.bottom: busy.top
-            font.pixelSize: app.baseFontSize*0.5;
+            font.pixelSize: app.baseFontSize*0.5
             anchors.horizontalCenter: parent.horizontalCenter
-            color: app.primaryColor;
+            color: app.primaryColor
             font.bold: true
-            wrapMode: Text.Wrap;
-            bottomPadding: 25*app.scaleFactor;
+            wrapMode: Text.Wrap
+            bottomPadding: 25*app.scaleFactor
             text: "Connecting to ArcGIS Portal..."
          }
 
@@ -124,24 +124,24 @@ Page {
             credential: credPort
 
             Component.onCompleted: {
-                load();
-                console.log(">>>> fetchLicenseInfo(): ", fetchLicenseInfo());
+                load()
+                console.log(">>>> fetchLicenseInfo(): ", fetchLicenseInfo())
                 if (!app.authenticated) {
-                    console.log(">>>> PortalUser: ", app.portalUser);
-                    console.log(">>>> Portal: Cancel and retry load -- force to login every time ");
+                    console.log(">>>> PortalUser: ", app.portalUser)
+                    console.log(">>>> Portal: Cancel and retry load -- force to login every time ")
 
-                    cancelLoad();
-                    retryLoad();
+                    cancelLoad()
+                    retryLoad()
                 }
 
             }
 
             onLoadStatusChanged: {
                 if (loadStatus === Enums.LoadStatusFailedToLoad) {
-                    retryLoad();
+                    retryLoad()
                 } else if (loadStatus === Enums.LoadStatusLoaded) {
-                    app.authenticated = true;
-                    app.portalUser = portalUser.username;
+                    app.authenticated = true
+                    app.portalUser = portalUser.username
                     app.agolPortal = portal
 
                     console.log(">>>> PORTAL >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
@@ -151,19 +151,19 @@ Page {
                     console.log(">>>> PORTALUSER.USERNAME: " + app.portalUser)
 
 
-                    previousPage();
+                    previousPage()
                 }
             }
 
             onLoadErrorChanged: {
                 if (error != null && error.message != null)
-                    console.log(">>>> onLoadErrorChanged @ Portal Load: ", error.message);
-                retryLoad();
+                    console.log(">>>> onLoadErrorChanged @ Portal Load: ", error.message)
+                retryLoad()
             }
 
             onErrorChanged: {
                 if (loadStatus === Enums.LoadStatusFailedToLoad) {
-                    console.log(">>>> Error @ Portal Load: ", error.message);
+                    console.log(">>>> Error @ Portal Load: ", error.message)
                 }
             }
 
