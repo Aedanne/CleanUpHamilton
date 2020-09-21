@@ -132,7 +132,7 @@ Page {
                         }
 
                         onHoveredChanged: hovered ? myLocButton.opacity = 1 : myLocButton.opacity = .5
-                        height: 40 * scaleFactor
+                        height: 45 * scaleFactor
                         width : height
                         opacity: .5
 
