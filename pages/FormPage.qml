@@ -66,7 +66,7 @@ Page {
     //Header custom QML =================================================================
     header: HeaderSection {
         id: formPageHeader
-        logMessage: "TODO: FORM PAGE INFO PAGE";
+        logMessage: ">>>> Header: FORM PAGE";
 
     }
 

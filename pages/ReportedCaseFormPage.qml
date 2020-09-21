@@ -84,7 +84,7 @@ Page {
     //Header custom QML =================================================================
     header: HeaderSection {
         id: formPageHeader
-        logMessage: "Header: REPORTED CASE FORM PAGE";
+        logMessage: ">>>> Header: REPORTED CASE FORM PAGE";
 
     }
 

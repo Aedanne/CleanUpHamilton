@@ -45,7 +45,7 @@ Page {
 
     //Header custom QML =================================================================
     header: HeaderSection {
-        logMessage: "TODO: REPORTED CASES MAP PAGE";
+        logMessage: ">>>> Header: REPORTED CASES MAP PAGE";
     }
 
 

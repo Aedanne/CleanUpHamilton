@@ -37,7 +37,7 @@ Page {
 
     //Header custom QML =================================================================
     header: HeaderSection {
-        logMessage: "TODO: SET LOCATION INFO PAGE";
+        logMessage: ">>>> Header:  SET LOCATION INFO PAGE";
     }
 
 

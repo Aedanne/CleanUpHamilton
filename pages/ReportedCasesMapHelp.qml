@@ -81,7 +81,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "This map is used to set the work area for cases that will be included in the worklist in the next page. If GPS location is enabled on the device for this application, the map will display the current location. Otherwise, pan and zoom in/out of the map to set the work area."
+                    text: "This map acts as a filter and is used to set the work area for cases that will be included in the worklist in the next page. If GPS location is enabled on the device for this application, the map will display the current location. Otherwise, pan and zoom in/out of the map to set the work area."
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3

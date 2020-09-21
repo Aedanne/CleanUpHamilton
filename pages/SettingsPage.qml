@@ -35,7 +35,7 @@ Page {
     //Header custom QML =================================================================
     header: HeaderSection {
         id: formPageHeader
-        logMessage: "TODO: SETTINGS PAGE INFO PAGE";
+        logMessage: ">>>>  Header: SETTINGS PAGE INFO PAGE";
 
     }
 
