@@ -377,6 +377,10 @@ App{
             onNextPage: {
                 formStackView.loadCasesListPage()
             }
+
+            onReload: {
+                formStackView.reloadReportedCasesMapPage()
+            }
         }
     }
 
@@ -478,6 +482,14 @@ App{
             console.log(">>>> Inside StackView.loadReportedCasesMapPage()")
             push(reportedCasesMapPageComponent)
         }
+
+        //Reload Reported Cases Page
+        function reloadReportedCasesMapPage() {
+            console.log(">>>> Inside StackView.reloadReportedCasesMapPage()")
+            replace(reportedCasesMapPageComponent)
+        }
+
+
 
         //Load Cases List Page
         function loadCasesListPage() {

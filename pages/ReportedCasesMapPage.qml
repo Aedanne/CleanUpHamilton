@@ -32,6 +32,7 @@ Page {
 
     signal nextPage()
     signal previousPage()
+    signal reload()
 
     property string titleText:""
     property var descText
@@ -92,7 +93,6 @@ Page {
                         panToLocation()
                     }
 
-
                 }
 
                 //Map control buttons
@@ -122,7 +122,7 @@ Page {
                         }
 
                         onHoveredChanged: hovered ? myLocButton.opacity = 1 : myLocButton.opacity = .5
-                        height: 40 * scaleFactor
+                        height: 45 * app.scaleFactor
                         width : height
                         opacity: .5
 
@@ -134,6 +134,40 @@ Page {
                             }
                         }
                     }
+
+                    Button{
+                        id:refreshButton
+                        Image{
+                            id: refreshImage
+                            source:"../images/revert.png"
+                            height: 25 * scaleFactor
+                            width: height
+                            anchors.centerIn: parent
+                        }
+
+                        ColorOverlay{
+                            anchors.fill: refreshImage
+                            source: refreshImage
+                            color: app.mapBorderColor
+                        }
+
+                        onHoveredChanged: hovered ? refreshButton.opacity = 1 : refreshButton.opacity = .5
+                        height: 45 * app.scaleFactor
+                        width : height
+                        opacity: .5
+
+                        onClicked: {
+                            //Reload the map
+                            reload()
+
+                            if (!mapView.locationDisplay.started) {
+                                panToLocation()
+                            } else {
+                                mapView.locationDisplay.stop()
+                            }
+                        }
+                    }
+
                 }
 
                 onMouseClicked:{
@@ -306,10 +340,16 @@ Page {
     }
 
 
+
+
+
     //Footer custom QML =================================================================
     footer: FooterSection {
         logMessage: "In Reported Cases Page - Footer..."
     }
+
+
+
 
     //Pan to current location
     function panToLocation() {

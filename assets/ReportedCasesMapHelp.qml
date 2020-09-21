@@ -44,7 +44,7 @@ Item {
     property string imgBroken: "../images/type_broken.png"
 
     property string imgMyLoc: "../images/my_loc.png"
-
+    property string imgRefresh: "../images/revert.png"
 
 
     Rectangle {
@@ -81,7 +81,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "This map acts as a filter and is used to set the work area for cases that will be included in the worklist in the next page. If GPS location is enabled on the device for this application, the map will display the current location. Otherwise, pan and zoom in/out of the map to set the work area."
+                    text: "This map acts as a filter and is used to set the work area for cases that will be included in the worklist in the next page. If GPS location is enabled, the map will zoom and pan to the current location. Otherwise, pan and zoom in/out of the map to set the work area."
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -93,7 +93,19 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "Only cases that are currently in Pending and Assigned status will display in this map. The counts for each status are displayed below. When the map area is changed, this will submit a query request and the cases displayed in the map will be updated accordingly."
+                    text: "Only cases that are currently in Pending and Assigned status will display. The counts for each status are displayed below the map. Changing the map area will re-query the cases."
+                    enabled: false
+                    background: null
+                    font.pixelSize: app.baseFontSize*.3
+                    Layout.preferredWidth: topSection.width
+                }
+
+                TextArea {
+                    Material.accent: app.appBackgroundColor
+                    selectByMouse: true
+                    wrapMode: TextEdit.WordWrap
+                    color: app.appSecondaryTextColor
+                    text: "This map has server-side caching, which can be overriden by using the hard-refresh icon."
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -129,8 +141,8 @@ Item {
                 //Report types
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgGraffiti
                         antialiasing: true
                         autoTransform: true
@@ -153,8 +165,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgBroken
                         antialiasing: true
                         autoTransform: true
@@ -177,8 +189,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgRubbish
                         antialiasing: true
                         autoTransform: true
@@ -201,8 +213,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgOther
                         antialiasing: true
                         autoTransform: true
@@ -237,12 +249,12 @@ Item {
                 }
 
 
-                //Report types
+                //Action
                 RowLayout{
                     Image{
                         id: myloc
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgMyLoc
                         antialiasing: true
                         autoTransform: true
@@ -250,7 +262,32 @@ Item {
 
 
                     Label{
-                        text: 'Triggers the device GPS location, if enabled'
+                        text: 'ACTION: Triggers the device GPS location, if enabled'
+                        font.pixelSize: app.baseFontSize*0.3
+                        font.bold: false
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
+                    }
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 2*app.scaleFactor
+                    color: "transparent"
+                }
+                RowLayout{
+                    Image{
+                        id: refresh
+                        Layout.preferredWidth: 17*app.scaleFactor
+                        Layout.preferredHeight: 17*app.scaleFactor
+                        source: imgRefresh
+                        antialiasing: true
+                        autoTransform: true
+                    }
+
+
+                    Label{
+                        text: 'ACTION: Triggers hard-refresh of the map'
                         font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
                         maximumLineCount: 1
