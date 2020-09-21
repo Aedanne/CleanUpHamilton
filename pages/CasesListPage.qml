@@ -78,7 +78,7 @@ Page {
 
     //Header custom QML =================================================================
     header: HeaderSection {
-        logMessage: "TODO: CASES List PAGE";
+        logMessage: "Header: Cases List PAGE";
     }
 
 

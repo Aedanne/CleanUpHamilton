@@ -84,7 +84,7 @@ Page {
     //Header custom QML =================================================================
     header: HeaderSection {
         id: formPageHeader
-        logMessage: "TODO: REPORTED CASE FORM PAGE INFO PAGE";
+        logMessage: "Header: REPORTED CASE FORM PAGE";
 
     }
 
@@ -1014,6 +1014,10 @@ Page {
     AlertPopup {
         id: caseFormMissingData
         alertText: ("New worker note is \nrequired to continue.") ;
+    }
+
+    RecordedCaseFormHelp {
+        id: help
     }
 
 

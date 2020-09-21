@@ -48,6 +48,7 @@ Item {
     property string imgAssignedYellow: "../images/assigned_yellow.png"
 
     property string imgAssignToMe: "../images/assigntome.png"
+    property string imgTakeOver: "../images/takeover.png"
     property string imgCancel: "../images/cancel.png"
     property string imgComplete: "../images/complete.png"
     property string imgEdit: "../images/edit_black.png"
@@ -76,7 +77,7 @@ Item {
 
                 Label {
                     font.pixelSize: app.baseFontSize*.4
-                    text: "Reported Cases  "
+                    text: "Reported Case Edit  "
                     color: app.appPrimaryTextColor;
                     wrapMode: Text.Wrap
                     bottomPadding: 5 * app.scaleFactor
@@ -89,7 +90,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "This page shows a filterable list of reported cases based on the area selected in the Reported Cases Map.\nActions are disabled/grayed out based on the status and if the case is assigned to a different user."
+                    text: "This page shows the details for the selected case, which includes information submitted in the original report.\n\nThis also shows the assignment and work status information of the case.\n\nReport Type can be changed here, if type was entered incorrectly.\n\nActions available are based on the current status of the case. Some actions are disabled if the logged in user is not the assigned user of the case.\n\nTakeover action is only available in this view.\n\nNew Work Note is required when performing any edit or actions from this page."
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -110,202 +111,7 @@ Item {
                     color: "transparent"
                 }
 
-                //Report types
-                RowLayout{
-                    Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
-                        source: imgGraffiti
-                        antialiasing: true
-                        autoTransform: true
-                    }
 
-                    Label{
-                        text: 'Represents a report type: Graffiti'
-                        font.pixelSize: app.baseFontSize*0.3;
-                        font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
-                    }
-                }
-                //Separator
-                Rectangle {
-                    Layout.fillWidth: true
-                    implicitHeight: 2*app.scaleFactor
-                    color: "transparent"
-                }
-
-                RowLayout{
-                    Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
-                        source: imgBroken
-                        antialiasing: true
-                        autoTransform: true
-                    }
-
-                    Label{
-                        text: 'Represents a report type: Broken items'
-                        font.pixelSize: app.baseFontSize*0.3;
-                        font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
-                    }
-                }
-                //Separator
-                Rectangle {
-                    Layout.fillWidth: true
-                    implicitHeight: 2*app.scaleFactor
-                    color: "transparent"
-                }
-
-                RowLayout{
-                    Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
-                        source: imgRubbish
-                        antialiasing: true
-                        autoTransform: true
-                    }
-
-                    Label{
-                        text: 'Represents a report type: Illegal rubbish dumping'
-                        font.pixelSize: app.baseFontSize*0.3;
-                        font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
-                    }
-                }
-                //Separator
-                Rectangle {
-                    Layout.fillWidth: true
-                    implicitHeight: 2*app.scaleFactor
-                    color: "transparent"
-                }
-
-                RowLayout{
-                    Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
-                        source: imgOther
-                        antialiasing: true
-                        autoTransform: true
-                    }
-
-                    Label{
-                        text: 'Represents a report type: Other'
-                        font.pixelSize: app.baseFontSize*0.3;
-                        font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
-                    }
-                }
-                //Separator
-                Rectangle {
-                    Layout.fillWidth: true
-                    implicitHeight: 5*app.scaleFactor
-                    color: "transparent"
-                }
-                //Separator
-                Rectangle {
-                    Layout.fillWidth: true
-                    implicitHeight: 1
-                    color: app.appBorderColorCaseList
-                }
-
-                //Separator
-                Rectangle {
-                    Layout.fillWidth: true
-                    implicitHeight: 5*app.scaleFactor
-                    color: "transparent"
-                }
-
-
-                //Assignment status
-                RowLayout{
-                    Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
-                        source: imgAssignedGreen
-                        antialiasing: true
-                        autoTransform: true
-                    }
-
-                    Label{
-                        text: 'Reported case is assigned to logged in user'
-                        font.pixelSize: app.baseFontSize*0.3;
-                        font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
-                    }
-                }
-                //Separator
-                Rectangle {
-                    Layout.fillWidth: true
-                    implicitHeight: 2*app.scaleFactor
-                    color: "transparent"
-                }
-
-                RowLayout{
-                    Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
-                        source: imgAssignedGray
-                        antialiasing: true
-                        autoTransform: true
-                    }
-
-                    Label{
-                        text: 'Reported case is unassigned'
-                        font.pixelSize: app.baseFontSize*0.3;
-                        font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
-                    }
-                }
-                //Separator
-                Rectangle {
-                    Layout.fillWidth: true
-                    implicitHeight: 2*app.scaleFactor
-                    color: "transparent"
-                }
-
-                RowLayout{
-                    Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
-                        source: imgAssignedYellow
-                        antialiasing: true
-                        autoTransform: true
-                    }
-
-                    Label{
-                        text: 'Reported case is assigned to a different user'
-                        font.pixelSize: app.baseFontSize*0.3;
-                        font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
-                    }
-                }
-                //Separator
-                Rectangle {
-                    Layout.fillWidth: true
-                    implicitHeight: 5*app.scaleFactor
-                    color: "transparent"
-                }
-                //Separator
-                Rectangle {
-                    Layout.fillWidth: true
-                    implicitHeight: 1
-                    color: app.appBorderColorCaseList
-                }
-
-                //Separator
-                Rectangle {
-                    Layout.fillWidth: true
-                    implicitHeight: 5*app.scaleFactor
-                    color: "transparent"
-                }
 
                 //Actions
                 RowLayout{
@@ -319,6 +125,29 @@ Item {
 
                     Label{
                         text: 'ACTION: Assign case to logged in user'
+                        font.pixelSize: app.baseFontSize*0.3;
+                        font.bold: false
+                        maximumLineCount: 1;
+                        color: app.appSecondaryTextColor;
+                    }
+                }
+                //Separator
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 2*app.scaleFactor
+                    color: "transparent"
+                }
+                RowLayout{
+                    Image{
+                        Layout.preferredWidth: 25*app.scaleFactor
+                        Layout.preferredHeight: 25*app.scaleFactor
+                        source: imgTakeOver
+                        antialiasing: true
+                        autoTransform: true
+                    }
+
+                    Label{
+                        text: 'ACTION: Takeover assigned case and self-assign'
                         font.pixelSize: app.baseFontSize*0.3;
                         font.bold: false
                         maximumLineCount: 1;
@@ -459,3 +288,4 @@ Item {
     }
 
 }
+
