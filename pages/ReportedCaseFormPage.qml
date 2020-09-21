@@ -140,6 +140,7 @@ Page {
                         displayText: currentIndex === -1 ? "Please Choose..." : currentText
 
                         delegate: ItemDelegate {
+                            width: parent.width
                             contentItem: Text {
                                 text: modelData
                                 color: app.appSecondaryTextColor
