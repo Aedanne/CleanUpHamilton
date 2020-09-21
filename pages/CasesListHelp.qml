@@ -30,7 +30,7 @@ Item {
     id: help
     visible: false
     width: parent.width*0.90;
-    height: parent.height;
+    height: parent.height*0.90;
 
     Layout.alignment: Qt.AlignRight | Qt.AlignTop
     anchors.centerIn: parent
@@ -113,8 +113,8 @@ Item {
                 //Report types
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgGraffiti
                         antialiasing: true
                         autoTransform: true
@@ -137,8 +137,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgBroken
                         antialiasing: true
                         autoTransform: true
@@ -161,8 +161,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgRubbish
                         antialiasing: true
                         autoTransform: true
@@ -185,8 +185,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgOther
                         antialiasing: true
                         autoTransform: true
@@ -224,8 +224,8 @@ Item {
                 //Assignment status
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgAssignedGreen
                         antialiasing: true
                         autoTransform: true
@@ -248,8 +248,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgAssignedGray
                         antialiasing: true
                         autoTransform: true
@@ -272,8 +272,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgAssignedYellow
                         antialiasing: true
                         autoTransform: true
@@ -310,8 +310,8 @@ Item {
                 //Actions
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgAssignToMe
                         antialiasing: true
                         autoTransform: true
@@ -334,8 +334,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgAttachment
                         antialiasing: true
                         autoTransform: true
@@ -358,8 +358,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgEdit
                         antialiasing: true
                         autoTransform: true
@@ -382,8 +382,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgCancel
                         antialiasing: true
                         autoTransform: true
@@ -406,8 +406,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgRevert
                         antialiasing: true
                         autoTransform: true
@@ -430,8 +430,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgComplete
                         antialiasing: true
                         autoTransform: true

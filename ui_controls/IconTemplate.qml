@@ -3,6 +3,10 @@ import QtQuick.Layouts 1.1
 import ArcGIS.AppFramework 1.0
 import QtGraphicalEffects 1.0
 
+/*
+IconTemplate QML Type to simplify creating icons for application
+*/
+
 Rectangle {
     id: root
 

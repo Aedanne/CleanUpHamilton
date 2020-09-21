@@ -26,7 +26,6 @@ Page {
     property string titleText:"";
     property var descText;
 
-//    anchors.fill: HomePage;
 
     header: ToolBar{
         contentHeight: app.btnHdrFtrHeightSize;
@@ -96,7 +95,6 @@ Page {
         id: root
         width: parent.width
         height: parent.height
-//        anchors.fill: parent
 
 
         BusyIndicator {
@@ -131,12 +129,7 @@ Page {
                 if (!app.authenticated) {
                     console.log(">>>> PortalUser: ", app.portalUser);
                     console.log(">>>> Portal: Cancel and retry load -- force to login every time ");
-//                    if (loadStatus === Enums.LoadStatusLoading) {
-//                        cancelLoad();
 
-//                    } else if (loadStatus === Enums.LoadStatusLoaded) {
-//                        destroyed();
-//                    }
                     cancelLoad();
                     retryLoad();
                 }

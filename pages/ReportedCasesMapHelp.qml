@@ -30,7 +30,7 @@ Item {
     id: help
     visible: false
     width: parent.width*0.90;
-    height: parent.height;
+    height: parent.height*0.90;
 
     Layout.alignment: Qt.AlignRight | Qt.AlignTop
     anchors.centerIn: parent

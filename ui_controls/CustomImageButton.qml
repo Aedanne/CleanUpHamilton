@@ -5,7 +5,7 @@ import QtQuick.Controls.Material 2.2
 import QtQuick.Controls.Styles 1.4
 
 /*
-CustomImageButtom QML Type to simplify adding images to the pages
+CustomImageButtom QML Type to simplify adding images to the pages for Clean-Up Hamilton
 To have consistent button styling
 */
 
@@ -33,15 +33,11 @@ Button {
     width: btnWidth > "" ? btnWidth : parent.width*.5;
     height: btnHeight > "" ? btnHeight : app.btnHdrFtrHeightSize*1.1;
 
-//    anchors.horizontalCenter: parent.horizontalCenter;
-//            anchors.verticalCenter: parent.verticalCenter;
-
 
     contentItem: Item{
 
         RowLayout{
-//            anchors.horizontalCenter: parent.horizontalCenter;
-//            anchors.verticalCenter: parent.verticalCenter;
+
             anchors.centerIn: parent;
 
             Image{
@@ -51,10 +47,6 @@ Button {
                 visible: btn.imageLeft === true;
                 enabled: btn.imageLeft === true;
                 fillMode: Image.PreserveAspectCrop
-
-//                verticalAlignment: parent.verticalCenter;
-//                anchors.verticalCenter: parent.verticalCenter;
-//                verticalAlignment: btn.verticalCenter;
             }
 
 
@@ -63,8 +55,6 @@ Button {
                 font.pixelSize: app.headerFontSize ;
                 font.bold: true;
                 color: app.menuPrimaryTextColor;
-//                horizontalAlignment: Text.AlignHCenter;
-//                verticalAlignment: Text.AlignVCenter;
             }
             Image{
                 Layout.preferredWidth: (btn.imageRight === true? (overrideRightSize>0?overrideRightSize:unitVal)*app.scaleFactor: 0);
@@ -73,20 +63,14 @@ Button {
                 visible: btn.imageRight === true;
                 enabled: btn.imageRight === true;
                 fillMode: Image.PreserveAspectCrop
-
-//                verticalAlignment: parent.verticalCenter;
-//                anchors.verticalCenter: parent.verticalCenter;
             }
         }
     }
 
     background: Rectangle {
-//        anchors.centerIn: parent
         implicitWidth: app.width*.49;
         implicitHeight: app.btnHdrFtrHeightSize*0.9;
         opacity: enabled ? 1 : 0.3;
-//        border.color: app.appBackgroundColor;
-//        border.width: 3;
         color: backgroundColor;
         radius: 2;
 
@@ -132,9 +116,6 @@ Button {
                    nextPage();
                }
            }
-
-
-
        }
     }
 }

@@ -104,21 +104,16 @@ Page {
                 visible: true;
 
                 Label {
-//                    Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
                     font.bold: true
                     text: "Report Type "
-                    color: app.appPrimaryTextColor;
-//                    topPadding: 35 * app.scaleFactor
+                    color: app.appPrimaryTextColor
                     bottomPadding: 5 * app.scaleFactor
                 }
                 Label {
-//                    Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
-//                    font.bold: true
                     text: "*"
                     color: "red"
-//                    topPadding: 35 * app.scaleFactor
                     bottomPadding: 5 * app.scaleFactor
                 }
             }
@@ -178,7 +173,6 @@ Page {
 
                 spacing: 0;
                 visible: true;
-//                anchors.fill: parent;
 
                 Label {
                     Layout.fillWidth: true
@@ -214,7 +208,6 @@ Page {
 
                     TextArea {
                         id: descriptionField
-//                        width: parent.width*.8
                         Material.accent: app.backgroundAccent
                         background: null
                         padding: 3 * scaleFactor
@@ -236,8 +229,7 @@ Page {
                            app.reportDescription = descriptionField.text;
                         }
 
-//                        onActiveFocusChanged: {
-//                        }
+
                     }
                 }
             }
@@ -248,7 +240,6 @@ Page {
                 visible: true;
 
                 Label {
-//                    Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
                     font.bold: true
                     text: "Supporting Photos "
@@ -258,9 +249,7 @@ Page {
                 }
 
                 Label {
-//                    Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
-//                    font.bold: true
                     text: "*"
                     color: "red"
                     topPadding: 35 * app.scaleFactor
@@ -282,8 +271,6 @@ Page {
             Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 75 * scaleFactor
-//                border.color: app.appPrimaryTextColor
-//                border.width: 1 * scaleFactor
 
                 RowLayout {
 
@@ -375,7 +362,6 @@ Page {
                             id: thumbGridView
                             width: parent.width
                             height: parent.height
-//                            focus: true
                             visible: true
                             model: displayPreviewListModel
                             cellWidth: parent.width/3
@@ -426,7 +412,6 @@ Page {
                 visible: true;
 
                 Label {
-//                    Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
                     font.bold: true
                     text: "Report Location "
@@ -435,9 +420,7 @@ Page {
                     bottomPadding: 5 * app.scaleFactor
                 }
                 Label {
-//                    Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
-//                    font.bold: true
                     text: "*"
                     color: "red"
                     topPadding: 35 * app.scaleFactor
@@ -451,9 +434,7 @@ Page {
                 text: app.currentLonLat
                 color: app.appSecondaryTextColor
                 font.bold: true
-//                    topPadding: 35 * app.scaleFactor
                 bottomPadding: 5 * app.scaleFactor
-//                    horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignBottom
             }
 
@@ -484,25 +465,6 @@ Page {
             }
 
         }
-
-
-        //Arcgis appframework for checking permissions
-        //Not needed for Android - overrides
-//        PermissionDialog {
-//            id: permissionDialog
-//            openSettingsWhenDenied: true
-//            onAccepted: {
-//                if (activeTool == photoAction) {
-//                    if (Permission.checkPermission(Permission.PermissionTypeCamera) === Permission.PermissionResultGranted) {
-//                        cameraDialog.open()
-//                    }
-//                }
-//            }
-
-//            onRejected: {
-//                console.log("Camera permission rejected...");
-//            }
-//        }
 
 
         //Arcgis CameraDialog QML Type ========================================
@@ -583,11 +545,6 @@ Page {
                 if (addFeatureStatus === Enums.TaskStatusCompleted) {
                     debugText = ">>>> successfully added feature";
                     console.log(debugText);
-                    //apply edits to the feature layer
-
-//                    if (applyEditsStatus != Enums.TaskStatusCompleted) {
-//                        applyEdits();
-//                    }
                 }
             }
 
@@ -616,7 +573,6 @@ Page {
                 if (updateFeatureStatus === Enums.TaskStatusCompleted) {
                     debugText = ">>>> successfully updated feature";
                     console.log(debugText);
-//                    applyEdits();
                 }
             }
 
@@ -671,11 +627,9 @@ Page {
     //Footer custom QML =================================================================
     footer: FooterSection {
         id: formPageFooter
-//        visible: camera.cameraStatus != Camera.ActiveStatus
         logMessage: "In Form Page - Footer..."
         rightButtonText: "SUBMIT"
         overrideRightIconSrc: "../images/send.png"
-//        overrideRightIconSz: 20
     }
 
 
@@ -776,9 +730,6 @@ Page {
                 }
             }
 
-//            console.log(">>> submitReportData(): casesFeatureTable.canAdd() -- " + casesFeatureTable.canAdd())
-//            console.log(">>> submitReportData(): casesFeatureTable.canUpdate() -- " + casesFeatureTable.editable)
-
             debugText = ">>>> reportFeature = " + reportFeature;
             console.log(debugText);
 
@@ -805,12 +756,14 @@ Page {
         console.log(">>>> reportDescription: " + app.reportDescription);
         console.log(">>>> reportDate: " + app.reportDate);
         console.log(">>>> status: Pending " );
+        console.log(">>>> currentLocation: " + app.currentLonLat );
 
         var reportAttributes = {
                 "Type" : app.reportType,
                 "Description" : app.reportDescription,
                 "ReportedDate" : app.reportDate,
                 "QryString" : qryString,
+                "Location" : app.currentLonLat,
                 "CurrentStatus": "Pending"
         };
 
@@ -875,10 +828,6 @@ Page {
         descriptionField.enabled = false;
         cameraIconTemplate.enabled = false;
     }
-
-
-
-
 
 
 }

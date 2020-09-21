@@ -25,6 +25,11 @@ import "ui_controls"
 import "pages"
 import "images"
 
+
+/*
+Clean-Up Hamilton Application MAIN QML
+*/
+
 App{
     id: app
     width: 460
@@ -113,8 +118,6 @@ App{
     property int saveSettings: 0
 
 
-
-
     ListModel {
         id: attachmentListModel
     }
@@ -134,15 +137,10 @@ App{
             }
             //Navigating to the form page from home page
             onNextPage: {
-//                switch(action) {
-//                    case "fileareport":
 
-                        //Changing the order - file a report will open with the location
-                        formStackView.loadSetLocationPage();
+                //Changing the order - file a report will open with the location
+                formStackView.loadSetLocationPage();
 
-//                        formStackView.loadFormPage();
-                    //more cases to add later
-//                }
             }
         }
     }
@@ -187,13 +185,6 @@ App{
 
                         formStackView.loadLoginPage();
                     break;
-//                case "logout":
-//                    console.log(">>>> In menu drawer > logout");
-//                    console.log(">>>> AUTHENTICATED: " + app.authenticated);
-
-////                        Portal.deleteLater()
-//                        //TODO
-//                    break;
                 default:
                     break;
                 }
@@ -239,7 +230,7 @@ App{
     }
 
     ListModel{
-        id: sideMenuDrawerModel1  //Logout option
+        id: sideMenuDrawerModel1  //Bypass login
 
         ListElement {
             action:"fileareport";
@@ -271,13 +262,6 @@ App{
             name: qsTr("Settings");
             iconSource: "../images/gear.png"
         }
-//        ListElement {
-//            action:"logout";
-//            type: "delegate";
-//            name: qsTr("Logout");
-//            iconSource: "../images/login.png"
-//        }
-
     }
 
 
@@ -434,14 +418,7 @@ App{
             onNextPage: {
 
                 formStackView.loadReportedCaseFormPageFromFormEdit()
-
-
-//                formStackView.
-                //set reportedcasefeatureservice global to null after update is complete
-//                app.reportedCasesFeatureService = null
             }
-
-
         }
     }
 
@@ -458,9 +435,6 @@ App{
                 formStackView.pop()
 
             push(formStackView.initialItem);
-
-
-
         }
 
         //Load form page
@@ -593,6 +567,7 @@ App{
         app.reportType = "";
         app.reportDescription = "";
         app.reportTypeIndex = -1;
+        app.currentLonLat = ""
     }
 
 

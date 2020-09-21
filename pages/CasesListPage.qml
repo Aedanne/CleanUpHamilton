@@ -102,19 +102,7 @@ Page {
         anchors.bottomMargin: 20*app.scaleFactor
         Layout.fillWidth: true
         anchors.horizontalCenter: parent.horizontalCenter
-//        anchors.fill: parent
 
-
-//        Label {
-//                font.pixelSize: app.baseFontSize*.5
-//                font.bold: true
-//                text: "Case Status:  "
-//                color: app.appPrimaryTextColor;
-//                horizontalAlignment: Text.AlignLeft
-//                verticalAlignment: Text.AlignBottom
-
-
-//            }
 
         ComboBox {
                 id: statusComboBox
@@ -168,7 +156,6 @@ Page {
                     currentStatusValue = statusIndexList.get(currentIndex).text;
                     queryFeaturesByStatusAndExtent();
 
-                    //reset global variable when status is manually changed
 
                 }
 
@@ -223,7 +210,6 @@ Page {
 
                 width: Math.min(parent.width, 600 * scaleFactor)
                 height: parent.height
-//                anchors.horizontalCenter: parent.horizontalCenter
                 clip: true
 
                 currentIndex: -1
@@ -254,7 +240,6 @@ Page {
                         Rectangle {
                             Layout.fillWidth: true
                             implicitHeight: 1
-//                            border.color: app.appBackgroundColorDarkGray
                             color: app.appBorderColorCaseList
                         }
 
@@ -262,9 +247,6 @@ Page {
                         Rectangle {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 60 * app.scaleFactor
-//                            border.width: 1
-
-
 
                             clip: true
 
@@ -318,8 +300,6 @@ Page {
                                     Layout.preferredHeight: 60 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
                                     Layout.preferredWidth: parent.width*0.18
-//                                    anchors.centerIn: parent
-//                                    Layout.alignment: parent.Center
 
                                     Image{
                                         anchors.centerIn: parent
@@ -417,7 +397,6 @@ Page {
 
                             ColumnLayout {
 
-
                                 Label {
                                     Layout.fillWidth: true
                                     text: "   Worker Note: " + workerNote
@@ -429,7 +408,6 @@ Page {
                                     maximumLineCount: 1
                                     visible: true
                                     font.italic: true
-//                                    font.bold: true
                                 }
 
                                 Label {
@@ -443,7 +421,6 @@ Page {
                                     maximumLineCount: 1
                                     visible: true
                                     font.italic: true
-//                                    font.bold: true
                                 }
 
                             }
@@ -781,7 +758,6 @@ Page {
                         Rectangle {
                             Layout.fillWidth: true
                             implicitHeight: 1
-//                            border.color: app.appBackgroundColorDarkGray
                             color: app.appBorderColorCaseList
                         }
 
@@ -789,7 +765,6 @@ Page {
                         Rectangle {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 20 * app.scaleFactor
-//                            border.color: "transparent"
                             color: "transparent"
                         }
 
@@ -906,22 +881,18 @@ Page {
             }
 
             onApplyEditsStatusChanged: {
-                debugText = ">>>> CasesList : onApplyEditsStatusChanged --- " + applyEditsStatus;
-               console.log(debugText);
+               console.log(">>>> CasesList : onApplyEditsStatusChanged --- " + applyEditsStatus);
                if (applyEditsStatus === Enums.TaskStatusCompleted) {
-                   debugText = ">>>> CasesList :  successfully edited feature, refreshing table"
-                   console.log(debugText);
+                   console.log(">>>> CasesList :  successfully edited feature, refreshing table");
                    //refresh table
                    queryFeaturesByStatusAndExtent();
                }
             }
 
             onUpdateFeatureStatusChanged: {
-                debugText = ">>>> CasesList : onUpdateFeatureStatusChanged --- " + updateFeatureStatus;
-                console.log(debugText);
+                console.log(">>>> CasesList : onUpdateFeatureStatusChanged --- " + updateFeatureStatus);
                 if (updateFeatureStatus === Enums.TaskStatusCompleted) {
-                    debugText = ">>>> CasesList :  successfully updated feature";
-                    console.log(debugText);
+                    console.log(">>>> CasesList :  successfully updated feature");
                     applyEdits();
                 }
             }
@@ -953,7 +924,6 @@ Page {
                 MouseArea {
                     anchors.fill: topArea
                     onClicked: {
-                        console.log("outside......")
                         attachmentViewer.visible = false
                     }
                 }
@@ -1044,7 +1014,6 @@ Page {
                 MouseArea {
                     anchors.fill: bottomArea
                     onClicked: {
-                        console.log("outside......")
                         attachmentViewer.visible = false
                     }
                 }
@@ -1065,7 +1034,6 @@ Page {
         logMessage: "In Cases List Page - Footer..."
         rightButtonText: "HOME"
         overrideRightIconSrc: "../images/home.png";
-//        overrideRightIconSz: 30
     }
 
 

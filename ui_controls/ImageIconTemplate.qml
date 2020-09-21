@@ -3,9 +3,13 @@ import QtQuick.Layouts 1.1
 import ArcGIS.AppFramework 1.0
 import QtGraphicalEffects 1.0
 
+/*
+ImageIconTemplate QML Type to simplify adding icons using images
+*/
+
 Rectangle {
     id: root
-    property string imgSource: ""  //Path from displayPreviewListModel
+    property string imgSource: ""
     signal imageIconClicked();
 
     anchors.centerIn: parent
@@ -18,7 +22,7 @@ Rectangle {
 
     Image {
         id: imageIcon
-        source: imgSource  //Path from displayPreviewListModel
+        source: imgSource
         width: parent.width
         height: parent.height
         fillMode: Image.PreserveAspectCrop

@@ -47,7 +47,6 @@ Item {
             }
 
             Text {
-//                anchors.centerIn: parent
                 id: tap
                 color: textColor
                 width: parent.width * 0.8
@@ -75,8 +74,5 @@ Item {
 
             }
         }
-
-
     }
-
 }

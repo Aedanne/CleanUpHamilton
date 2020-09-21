@@ -18,7 +18,6 @@ Page{
     property ListModel menuModel;
 
     signal menuSelected(var action);
-//    signal openSettings()
 
 
     ColumnLayout {
@@ -32,8 +31,8 @@ Page{
             spacing: 1;
             clip: true;
 
-//            model: app.authenticated ? sideMenuDrawerModel1 : sideMenuDrawerModel0
-            model: sideMenuDrawerModel1
+            model: app.authenticated ? sideMenuDrawerModel1 : sideMenuDrawerModel0
+//            model: sideMenuDrawerModel1
             delegate:Rectangle{
                 height: 56*app.scaleFactor;
                 width: parent.width;
@@ -72,16 +71,7 @@ Page{
                     }
                 }
 
-                //Divider areas
-//                Item{
-//                    anchors.fill: parent
-//                    visible: name === "divider"
-//                    Rectangle{
-//                        width: parent.width
-//                        height: 10*app.scaleFactor
-//                        color: app.menuPrimaryTextColor
-//                    }
-//                }
+
                 Item{
                     anchors.fill: parent;
                     visible: name === "divider";

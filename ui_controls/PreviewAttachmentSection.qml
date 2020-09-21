@@ -13,7 +13,9 @@ import Esri.ArcGISRuntime 100.2
 import "../ui_controls"
 import "../"
 
-
+/*
+PreviewAttachmentSection QML Type - for form page, previewing image captured
+*/
 
 Rectangle {
 
@@ -91,7 +93,6 @@ Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
             width: parent.width
-//            Layout.alignment: parent.verticalCenter
             color: app.cameraViewBackgroundColor
             clip: true
 
@@ -235,20 +236,6 @@ Rectangle {
         app.tempImageFilePath = AppFramework.resolvedPath(app.tempPath);
         fileFolder.removeFile (app.tempImageFilePath);
     }
-
-    //Not working.... to do with time
-//    Keys.onPressed:  {
-//        console.log(">>>> Preview page, key pressed");
-//        if (event.key == Qt.Key_Back) {
-//            console.log(">>>> Back button pressed - rootPreview.source: " + rootPreview.source )
-//            rootPreview.visible = false;
-//            formPageFooter.visible = true;
-//            formPageHeader.visible = true;
-//            refresh();
-//        }
-//    }
-
-
 
 }
 

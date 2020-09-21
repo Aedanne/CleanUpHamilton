@@ -67,7 +67,6 @@ Page {
                 visible: true;
 
                 Label {
-//                    Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
                     font.bold: true
                     text: "Application Primary Color: "
@@ -84,9 +83,7 @@ Page {
                 visible: true;
 
                 Label {
-//                    Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
-//                    font.bold: true
                     text: app.defaultPrimaryColorText
                     color: app.defaultPrimaryColor
                     topPadding: 5 * app.scaleFactor
@@ -106,7 +103,6 @@ Page {
                 visible: true;
 
                 Label {
-//                    Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
                     font.bold: true
                     text: "Override Primary Color: "
@@ -123,9 +119,7 @@ Page {
 
 
                 TextField {
-//                    Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
-//                    font.bold: true
                     text: app.overridePrimaryColor
                     color: app.overridePrimaryColor !== '' ? app.overridePrimaryColor : app.primaryColor
                     topPadding: 5 * app.scaleFactor
@@ -153,7 +147,6 @@ Page {
                 visible: true;
 
                 Label {
-//                    Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
                     font.bold: true
                     text: ""
@@ -162,20 +155,14 @@ Page {
                     bottomPadding: 5 * app.scaleFactor
                 }
                 Label {
-//                    Layout.fillWidth: true
                     font.pixelSize: app.baseFontSize*.4
-//                    font.bold: true
                     text: ""
                     color: "transparent"
                     topPadding: 75 * app.scaleFactor
                     bottomPadding: 5 * app.scaleFactor
                 }
             }
-
-
-
         }
-
     }
 
     SettingsHelp {
@@ -188,7 +175,6 @@ Page {
         logMessage: "In Form Page - Footer..."
         rightButtonText: "SAVE"
         overrideRightIconSrc: "../images/save.png"
-//        overrideRightIconSz: 20
     }
 
 

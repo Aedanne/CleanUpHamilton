@@ -15,7 +15,6 @@ Page {
     signal openMenu();
     signal nextPage();
     signal previousPage();
-//    anchors.fill: parent;
 
     property var descText1;
     property var descText2;
@@ -142,8 +141,6 @@ Page {
 
                     implicitWidth: 220 * app.scaleFactor
                     implicitHeight: 50 * app.scaleFactor
-//                    border.width: 2
-//                    border.color: Qt.lighter(app.primaryColor, 0.5)
 
                     radius: 2
                     gradient: Gradient {
@@ -193,8 +190,5 @@ Page {
             }
         }
     }
-
-
-
 
 }

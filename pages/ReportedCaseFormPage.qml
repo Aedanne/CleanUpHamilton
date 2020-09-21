@@ -24,7 +24,6 @@ Reported Case Form page for Clean-Up Hamilton app
 Page {
 
     id:reportedCaseformPage;
-//    anchors.fill: parent;
 
     signal nextPage();
     signal previousPage();
@@ -98,8 +97,7 @@ Page {
         Layout.preferredHeight: parent.height
         color: app.appBackgroundColor
 
-        ColumnLayout {/*
-            Layout.preferredWidth: parent.width*0.9;*/
+        ColumnLayout {
             spacing: 0
 
             anchors {
@@ -160,7 +158,6 @@ Page {
                             ListElement { text: "Other";  }
                         }
 
-//                            width: 200
                         onCurrentIndexChanged: {
                             debugText = ">>>> Combo Box selected: " + typeIndex.get(currentIndex).text;
                             console.log(debugText);
@@ -178,11 +175,6 @@ Page {
                                 elide: Text.ElideRight
                             }
                     }
-
-
-
-
-
 
 
                     RowLayout{
@@ -251,7 +243,6 @@ Page {
 
                     TextArea {
                         Material.accent: "transparent"
-        //                padding: 5 * scaleFactor
                         selectByMouse: true
                         wrapMode: TextEdit.WrapAnywhere
                         color: app.appSecondaryTextColor
@@ -1055,6 +1046,7 @@ Page {
             typeComboBox.currentIndex = 3
         }
 
+        reportedCaseLonLat = reportFeature.attributes.attributeValue("Location");
         reportedCaseDescription = reportFeature.attributes.attributeValue("Description");
         reportedCaseObjectId = reportFeature.attributes.attributeValue("OBJECTID");
         reportedCaseCurrentStatus = reportFeature.attributes.attributeValue("CurrentStatus");

@@ -225,15 +225,6 @@ Page {
         }
     }
 
-    // initial viewPoint
-//    ViewpointCenter {
-//        id: viewPoint
-//        center: Point {
-//            y: -37.7833;
-//            x: 175.2833;
-//            spatialReference: SpatialReference { wkid: 3857 }
-//        }
-//    }
 
     ViewpointExtent {
         id: viewPoint

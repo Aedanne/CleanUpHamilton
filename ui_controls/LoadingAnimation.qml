@@ -3,7 +3,10 @@ import QtQuick.Layouts 1.13
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 
-//Loading animation when waiting on response
+/*
+LoadingAnimation QML Type - used for loading animation with descriptive text
+*/
+
 Item {
 
     id: loadingAnimation
@@ -14,17 +17,13 @@ Item {
     property string loadingText;
 
     Rectangle {
-//        width: parent.width
-//        height: parent.height
 
         anchors.fill: parent
         color: app.appBackgroundColor
-//        opacity: 0.90
 
         BusyIndicator {
             id: busy
             anchors.horizontalCenter: parent.horizontalCenter
-//            anchors.top: parent.top
             anchors.centerIn: parent
             anchors.topMargin: 200*app.scaleFactor
             antialiasing: true
@@ -34,7 +33,6 @@ Item {
 
         Label {
             Material.theme: app.lightTheme? Material.Light : Material.Dark;
-//            anchors.centerIn: parent;
             font.pixelSize: app.baseFontSize*0.5;
             color: app.primaryColor;
             font.bold: true

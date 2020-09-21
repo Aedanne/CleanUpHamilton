@@ -30,22 +30,13 @@ Item {
     id: help
     visible: false
     width: parent.width*0.90;
-    height: parent.height;
+    height: parent.height*0.90;
 
     Layout.alignment: Qt.AlignRight | Qt.AlignTop
     anchors.centerIn: parent
 
     property color backgroundColor: app.appBackgroundColor
     property color textColor : app.appSecondaryTextColor
-
-    property string imgRubbish: "../images/type_rubbish.png"
-    property string imgOther: "../images/type_other.png"
-    property string imgGraffiti: "../images/type_graffiti.png"
-    property string imgBroken: "../images/type_broken.png"
-
-    property string imgAssignedGreen: "../images/assigned_green.png"
-    property string imgAssignedGray: "../images/assigned_gray.png"
-    property string imgAssignedYellow: "../images/assigned_yellow.png"
 
     property string imgAssignToMe: "../images/assigntome.png"
     property string imgTakeOver: "../images/takeover.png"
@@ -90,7 +81,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "This page shows the details for the selected case, which includes information submitted in the original report.\n\nThis also shows the assignment and work status information of the case.\n\nReport Type can be changed here, if type was entered incorrectly.\n\nActions available are based on the current status of the case. Some actions are disabled if the logged in user is not the assigned user of the case.\n\nTakeover action is only available in this view.\n\nNew Work Note is required when performing any edit or actions from this page."
+                    text: "This page shows the details for the selected case, which includes information submitted in the original report. This also shows the assignment and work status information of the case.\n\nReport Type can be changed here, if type was entered incorrectly.\n\nActions available are based on the current status of the case. Some actions are disabled if the logged in user is not the assigned user of the case.\n\nTakeover action is only available in this view.\n\nNew Work Note is required when performing any edit or actions from this page."
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -116,8 +107,8 @@ Item {
                 //Actions
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgAssignToMe
                         antialiasing: true
                         autoTransform: true
@@ -139,8 +130,8 @@ Item {
                 }
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgTakeOver
                         antialiasing: true
                         autoTransform: true
@@ -163,8 +154,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgAttachment
                         antialiasing: true
                         autoTransform: true
@@ -187,8 +178,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgEdit
                         antialiasing: true
                         autoTransform: true
@@ -211,8 +202,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgCancel
                         antialiasing: true
                         autoTransform: true
@@ -235,8 +226,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgRevert
                         antialiasing: true
                         autoTransform: true
@@ -259,8 +250,8 @@ Item {
 
                 RowLayout{
                     Image{
-                        Layout.preferredWidth: 25*app.scaleFactor
-                        Layout.preferredHeight: 25*app.scaleFactor
+                        Layout.preferredWidth: 20*app.scaleFactor
+                        Layout.preferredHeight: 20*app.scaleFactor
                         source: imgComplete
                         antialiasing: true
                         autoTransform: true

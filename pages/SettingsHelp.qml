@@ -30,7 +30,7 @@ Item {
     id: help
     visible: false
     width: parent.width*0.90;
-    height: parent.height;
+    height: parent.height*0.90;
 
     Layout.alignment: Qt.AlignRight | Qt.AlignTop
     anchors.centerIn: parent
@@ -118,12 +118,7 @@ Item {
 
 
 
-//                //Separator
-//                Rectangle {
-//                    Layout.fillWidth: true
-//                    implicitHeight: 1
-//                    color: app.appBorderColorCaseList
-//                }
+
                 //Separator
                 Rectangle {
                     Layout.fillWidth: true

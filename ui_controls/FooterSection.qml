@@ -30,9 +30,6 @@ Rectangle{
 
         anchors.horizontalCenter: parent.horizontalCenter
 
-        //Set background color for button
-        //color:app.appBackgroundColor
-
         //Button row for new report
         RowLayout{
 

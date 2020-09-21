@@ -26,7 +26,6 @@ Main mapping page for Clean-Up Hamilton app
 Page {
 
     id:formPage;
-//    anchors.fill: parent;
 
     signal nextPage();
     signal previousPage();
@@ -50,9 +49,6 @@ Page {
 
             anchors.fill: parent
 
-
-
-
             MapView {
                 id:mapView;
 
@@ -70,16 +66,6 @@ Page {
                     positionSource: PositionSource {}
                     compass: Compass {}
                 }
-
-//                //Default extent
-//                Envelope {
-
-//                    id: defaultExtent
-//                    xMax: -37.782125
-//                    yMax: 175.275192
-//                    xMin: -37.793498
-//                    yMin: 175.291729
-//                }
 
 
                 // Set starting map to Clean-Up Hamilton webmap
@@ -116,10 +102,6 @@ Page {
                     visible: true;
                 }
 
-                //Add default point to layer
-    //            Component.onCompleted: {
-    //                casesOverlay.graphics.append(pointGraphic);
-    //            }
 
                 //Map control buttons
                 Column{
@@ -187,27 +169,21 @@ Page {
 
 
                     Label {
-    //                    Layout.fillWidth: true
                         font.pixelSize: app.baseFontSize*.5
                         text: "My Location: "
                         color: app.appPrimaryTextColor;
                         topPadding: 5 * app.scaleFactor
                         bottomPadding: 5 * app.scaleFactor
-//                        horizontalAlignment: Text.AlignHCentern
                         verticalAlignment: Text.AlignBottom
-//                        anchors.centerIn: parent
                         font.bold: true
                     }
                     Label {
-//                        Layout.fillWidth: true
                         font.pixelSize: app.baseFontSize*.5
                         text: app.currentLonLat;
                         color: app.appSecondaryTextColor
                         topPadding: 5 * app.scaleFactor
                         bottomPadding: 5 * app.scaleFactor
-//                        horizontalAlignment: Text.AlignHCentern
                         verticalAlignment: Text.AlignBottom
-//                        anchors.centerIn: parent
                         font.bold: true
                     }
                 }

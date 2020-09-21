@@ -14,7 +14,6 @@ Page {
     id:submitPage;
 
     signal nextPage(); //go straight to home
-//    signal previousPage(); //No previous either - go straight to home
 
     property string titleText:"";
     property string descText1: "Thank you "
@@ -135,8 +134,6 @@ Page {
 
                     implicitWidth: 180 * app.scaleFactor
                     implicitHeight: 50 * app.scaleFactor
-//                    border.width: 1
-//                    border.color: app.mapBorderColor
 
                     radius: 2
                     gradient: Gradient {
@@ -184,70 +181,6 @@ Page {
                     nextPage();
                 }
             }
-
-
-
-//            Rectangle{
-//                id: reportRectangle;
-//                height: 50*app.scaleFactor;
-
-//                Layout.alignment: Qt.AlignHCenter;
-//                width: app.width*0.40;
-//                radius: 3;
-
-//                color:app.primaryColor;
-
-//                border.color: app.backgroundAccent
-//                border.width: 1
-
-//                RowLayout{
-
-//                    spacing: 5*app.scaleFactor;
-//                    visible: true;
-//                    anchors.centerIn: parent;
-
-//                    //padding
-//                    Item{
-//                        width: 5;
-//                    }
-
-//                    Image{
-//                        Layout.preferredWidth: 45*app.scaleFactor;
-//                        Layout.preferredHeight: 45*app.scaleFactor;
-//                        source: "../images/home.png";
-
-//                    }
-//                    Label{
-//                        horizontalAlignment: Text.AlignHCenter;
-//                        text: homeButtonText;
-//                        font.pixelSize: app.baseFontSize*0.65;
-//                        font.bold: true;
-//                        maximumLineCount: 1;
-//                        color: app.menuPrimaryTextColor;
-//                    }
-//                    //padding
-//                    Item{
-//                        width: 5;
-//                    }
-//                }
-
-//                MouseArea {
-//                    id: homePageButtonMouseArea;
-//                    visible: true;
-//                    enabled: true;
-//                    anchors.centerIn: parent;
-//                    hoverEnabled: true;
-//                    anchors.fill: parent;
-//                    onClicked: {
-//                        console.log(">>>> Back to Home");
-//                        nextPage();
-//                    }
-//                }
-//            }
-
-
-
-
         }
     }
 }
