@@ -18,6 +18,7 @@ import Esri.ArcGISRuntime 100.7
 
 import "../ui_controls"
 import "../images"
+import "../assets"
 
 
 /*
@@ -27,22 +28,22 @@ Staff Workflow Cases List Page
 
 Page {
 
-    id:casesListPage;
+    id:casesListPage
 
-    signal nextPage();
-    signal nextPageEdit();
-    signal previousPage();
+    signal nextPage()
+    signal nextPageEdit()
+    signal previousPage()
 
-    property string titleText:"This is a test";
-    property var descText;
+    property string titleText:"This is a test"
+    property var descText
 
-    property ArcGISFeature caseFeature;
-    property ArcGISFeature featureForAttachments;
+    property ArcGISFeature caseFeature
+    property ArcGISFeature featureForAttachments
     property var featureList: []
 
-    property string debugText;
-    property bool querying;
-    property string currentStatusValue;
+    property string debugText
+    property bool querying
+    property string currentStatusValue
     property int statusIndex: 0
     property int imgSizeTop: 50 * app.scaleFactor
     property int imgSizeBottom: 28 * app.scaleFactor
@@ -73,12 +74,12 @@ Page {
     property bool isUpdate: false
     property AttachmentListModel attListModel
 
-    anchors.fill: parent;
+    anchors.fill: parent
 
 
     //Header custom QML =================================================================
     header: HeaderSection {
-        logMessage: ">>>> Header: Cases List PAGE";
+        logMessage: ">>>> Header: Cases List PAGE"
     }
 
 
@@ -89,15 +90,15 @@ Page {
         font.pixelSize: app.baseFontSize*.1
         font.bold: true
         text: " "
-        color: app.appPrimaryTextColor;
+        color: app.appPrimaryTextColor
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignBottom
     }
 
     RowLayout{
 
-        spacing: 0;
-        visible: true;
+        spacing: 0
+        visible: true
         anchors.top: topRow.bottom
         anchors.bottomMargin: 20*app.scaleFactor
         Layout.fillWidth: true
@@ -133,13 +134,13 @@ Page {
 
                 model: ListModel {
                     id: statusIndexList
-                    ListElement { text: "Case Status: Pending"; }
-                    ListElement { text: "Case Status: Assigned";  }
-                    ListElement { text: "Case Status: Completed";  }
-                    ListElement { text: "Case Status: Cancelled";  }
-                    ListElement { text: "Case Status: Assigned [USER]";  }
-                    ListElement { text: "Case Status: Completed [USER]";  }
-                    ListElement { text: "Case Status: Cancelled [USER]";  }
+                    ListElement { text: "Case Status: Pending" }
+                    ListElement { text: "Case Status: Assigned"  }
+                    ListElement { text: "Case Status: Completed"  }
+                    ListElement { text: "Case Status: Cancelled"  }
+                    ListElement { text: "Case Status: Assigned [USER]"  }
+                    ListElement { text: "Case Status: Completed [USER]"  }
+                    ListElement { text: "Case Status: Cancelled [USER]"  }
 
                 }
 
@@ -150,11 +151,11 @@ Page {
                         currentIndex = getStatusIndex()
                     }
                     statusIndex = currentIndex
-                    debugText = ">>>> onCurrentIndexChanged: Status Combo Box selected: " + statusIndexList.get(currentIndex).text;
-                    console.log(debugText);
+                    debugText = ">>>> onCurrentIndexChanged: Status Combo Box selected: " + statusIndexList.get(currentIndex).text
+                    console.log(debugText)
 
-                    currentStatusValue = statusIndexList.get(currentIndex).text;
-                    queryFeaturesByStatusAndExtent();
+                    currentStatusValue = statusIndexList.get(currentIndex).text
+                    queryFeaturesByStatusAndExtent()
 
 
                 }
@@ -183,7 +184,7 @@ Page {
         font.pixelSize: app.baseFontSize*.2
         font.bold: true
         text: "_"
-        color: "transparent";
+        color: "transparent"
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignBottom
     }
@@ -200,7 +201,7 @@ Page {
                 font.pixelSize: app.baseFontSize*.2
                 font.bold: true
                 text: "_ "
-                color: "transparent";
+                color: "transparent"
                 horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignBottom
             }
@@ -265,8 +266,8 @@ Page {
                                         anchors.centerIn: parent
                                         width: imgSizeTop
                                         height: imgSizeTop
-                                        visible: true;
-                                        enabled: true;
+                                        visible: true
+                                        enabled: true
                                         fillMode: Image.PreserveAspectFit
                                         antialiasing: true
                                     }
@@ -286,8 +287,8 @@ Page {
                                         width: imgSizeTop
                                         height: imgSizeTop
                                         source: (type===typeRubbish?imgRubbish:(type===typeGraffiti?imgGraffiti:(type===typeBroken?imgBroken:imgOther)))
-                                        visible: true;
-                                        enabled: true;
+                                        visible: true
+                                        enabled: true
                                         fillMode: Image.PreserveAspectFit
                                         antialiasing: true
                                     }
@@ -306,8 +307,8 @@ Page {
                                         width: imgSizeTop
                                         height: imgSizeTop
                                         source: (assignedUser===''?imgAssignedGray:(assignedUser===app.portalUser?imgAssignedGreen:imgAssignedYellow))
-                                        visible: true;
-                                        enabled: true;
+                                        visible: true
+                                        enabled: true
                                         fillMode: Image.PreserveAspectFit
                                         antialiasing: true
                                     }
@@ -326,8 +327,8 @@ Page {
                                         anchors.centerIn: parent
                                         width: imgSizeTop
                                         height: imgSizeTop
-                                        visible: true;
-                                        enabled: true;
+                                        visible: true
+                                        enabled: true
                                         fillMode: Image.PreserveAspectFit
                                         antialiasing: true
                                     }
@@ -345,7 +346,7 @@ Page {
                                         Label {
                                             Layout.fillWidth: true
                                             text: " Case #"+objectId + ": " + (type===typeRubbish?'Rubbish':type)
-                                            visible: true;
+                                            visible: true
                                             color: app.appPrimaryTextColor
                                             font.pixelSize: app.baseFontSize*.3
                                             horizontalAlignment: Text.AlignLeft
@@ -447,16 +448,16 @@ Page {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 53 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
-                                    visible: currentStatus !== 'Assigned' ? true : false;
+                                    visible: currentStatus !== 'Assigned' ? true : false
 
                                     Image{
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
                                         height: imgSizeBottom
-                                        visible: currentStatus !== 'Assigned' ? true : false;
-                                        enabled: currentStatus !== 'Assigned' ? true : false;
+                                        visible: currentStatus !== 'Assigned' ? true : false
+                                        enabled: currentStatus !== 'Assigned' ? true : false
                                         fillMode: Image.PreserveAspectFit
-                                        antialiasing: true;
+                                        antialiasing: true
                                     }
 
                                 }
@@ -466,7 +467,7 @@ Page {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 53 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
-                                    visible: currentStatus === 'Pending' ? true : false;
+                                    visible: currentStatus === 'Pending' ? true : false
 
                                     Image{
                                         id: assign
@@ -474,10 +475,10 @@ Page {
                                         width: imgSizeBottom
                                         height: imgSizeBottom
                                         source: imgAssignToMe
-                                        visible: currentStatus === 'Pending' ? true : false;
-                                        enabled: currentStatus === 'Pending' ? true : false;
+                                        visible: currentStatus === 'Pending' ? true : false
+                                        enabled: currentStatus === 'Pending' ? true : false
                                         fillMode: Image.PreserveAspectFit
-                                        antialiasing: true;
+                                        antialiasing: true
                                     }
 
                                     DropShadow {
@@ -493,7 +494,7 @@ Page {
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: {
-                                            updateFeature(feature, 'AssignToMe', currentStatus, workerNote, index);
+                                            updateFeature(feature, 'AssignToMe', currentStatus, workerNote, index)
                                         }
                                     }
 
@@ -511,10 +512,10 @@ Page {
                                         width: imgSizeBottom
                                         height: imgSizeBottom
                                         source: imgAttachment
-                                        visible: true;
-                                        enabled: true;
+                                        visible: true
+                                        enabled: true
                                         fillMode: Image.PreserveAspectFit
-                                        antialiasing: true;
+                                        antialiasing: true
                                     }
 
                                     DropShadow {
@@ -531,7 +532,7 @@ Page {
                                         anchors.fill: parent
                                         onClicked: {
                                             console.log(">>> MOUSE AREA: View Attachments, featureId:", objectId, feature)
-                                            attachmentViewer.visible = true;
+                                            attachmentViewer.visible = true
                                             attListModel = feature.attachments
                                         }
                                     }
@@ -552,10 +553,10 @@ Page {
                                         width: imgSizeBottom
                                         height: imgSizeBottom
                                         source: imgEdit
-                                        visible: true;
-                                        enabled: true;
+                                        visible: true
+                                        enabled: true
                                         fillMode: Image.PreserveAspectFit
-                                        antialiasing: true;
+                                        antialiasing: true
                                     }
 
                                     DropShadow {
@@ -574,7 +575,7 @@ Page {
                                             console.log(">>> MOUSE AREA: Edit Feature")
                                             app.reportedCaseFeature = feature
                                             app.lastStatusCaseListFull = statusComboBox.displayText
-                                            nextPageEdit();
+                                            nextPageEdit()
                                         }
                                     }
 
@@ -585,7 +586,7 @@ Page {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 53 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
-                                    visible: currentStatus === 'Assigned' ? true : false;
+                                    visible: currentStatus === 'Assigned' ? true : false
 
                                     Image{
                                         id: cancel
@@ -593,10 +594,10 @@ Page {
                                         width: imgSizeBottom
                                         height: imgSizeBottom
                                         source: imgCancel
-                                        visible: currentStatus === 'Assigned' ? true : false;
-                                        enabled: (currentStatus === 'Assigned' && assignedUser === app.portalUser) ? true : false;
+                                        visible: currentStatus === 'Assigned' ? true : false
+                                        enabled: (currentStatus === 'Assigned' && assignedUser === app.portalUser) ? true : false
                                         fillMode: Image.PreserveAspectFit
-                                        antialiasing: true;
+                                        antialiasing: true
                                     }
 
 
@@ -609,14 +610,14 @@ Page {
                                             samples: 17
                                             color: "#aa000000"
                                             source: cancel
-                                            visible: assignedUser === app.portalUser ? true : false;
+                                            visible: assignedUser === app.portalUser ? true : false
                                     }
 
                                     ColorOverlay {
                                             anchors.fill: cancel
                                             source: cancel
                                             color: app.disabledIconColor
-                                            visible: assignedUser === app.portalUser ? false : true;
+                                            visible: assignedUser === app.portalUser ? false : true
                                     }
 
                                     MouseArea {
@@ -637,7 +638,7 @@ Page {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 53 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
-                                    visible: currentStatus !== 'Pending' ? true : false;
+                                    visible: currentStatus !== 'Pending' ? true : false
 
                                     Image{
                                         id: revert
@@ -645,10 +646,10 @@ Page {
                                         width: imgSizeBottom
                                         height: imgSizeBottom
                                         source: imgRevert
-                                        visible: currentStatus !== 'Pending' ? true : false;
-                                        enabled: (currentStatus !== 'Pending' && assignedUser === app.portalUser) ? true : false;
+                                        visible: currentStatus !== 'Pending' ? true : false
+                                        enabled: (currentStatus !== 'Pending' && assignedUser === app.portalUser) ? true : false
                                         fillMode: Image.PreserveAspectFit
-                                        antialiasing: true;
+                                        antialiasing: true
                                     }
 
                                     DropShadow {
@@ -659,14 +660,14 @@ Page {
                                             samples: 17
                                             color: "#aa000000"
                                             source: revert
-                                            visible: assignedUser === app.portalUser ? true : false;
+                                            visible: assignedUser === app.portalUser ? true : false
                                     }
 
                                     ColorOverlay {
                                             anchors.fill: revert
                                             source: revert
                                             color: app.disabledIconColor
-                                            visible: assignedUser === app.portalUser ? false : true;
+                                            visible: assignedUser === app.portalUser ? false : true
                                     }
 
                                     MouseArea {
@@ -688,7 +689,7 @@ Page {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 53 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
-                                    visible: currentStatus === 'Assigned' ? true : false;
+                                    visible: currentStatus === 'Assigned' ? true : false
 
                                     Image{
                                         id: complete
@@ -696,10 +697,10 @@ Page {
                                         width: imgSizeBottom
                                         height: imgSizeBottom
                                         source: imgComplete
-                                        visible: currentStatus === 'Assigned' ? true : false;
-                                        enabled: (currentStatus === 'Assigned' && assignedUser === app.portalUser) ? true : false;
+                                        visible: currentStatus === 'Assigned' ? true : false
+                                        enabled: (currentStatus === 'Assigned' && assignedUser === app.portalUser) ? true : false
                                         fillMode: Image.PreserveAspectFit
-                                        antialiasing: true;
+                                        antialiasing: true
                                     }
 
                                     DropShadow {
@@ -710,14 +711,14 @@ Page {
                                             samples: 17
                                             color: "#aa000000"
                                             source: complete
-                                            visible: assignedUser === app.portalUser ? true : false;
+                                            visible: assignedUser === app.portalUser ? true : false
                                     }
 
                                     ColorOverlay {
                                             anchors.fill: complete
                                             source: complete
                                             color: app.disabledIconColor
-                                            visible: assignedUser === app.portalUser ? false : true;
+                                            visible: assignedUser === app.portalUser ? false : true
                                     }
 
                                     MouseArea {
@@ -739,16 +740,16 @@ Page {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 53 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
-                                    visible: currentStatus !== 'Assigned' ? true : false;
+                                    visible: currentStatus !== 'Assigned' ? true : false
 
                                     Image{
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
                                         height: imgSizeBottom
-                                        visible: currentStatus !== 'Assigned' ? true : false;
-                                        enabled: currentStatus !== 'Assigned' ? true : false;
+                                        visible: currentStatus !== 'Assigned' ? true : false
+                                        enabled: currentStatus !== 'Assigned' ? true : false
                                         fillMode: Image.PreserveAspectFit
-                                        antialiasing: true;
+                                        antialiasing: true
                                     }
                                 }
                             }
@@ -804,9 +805,9 @@ Page {
             url: app.featureServerURL
 
             onLoadStatusChanged: {
-                debugText = ">>>> CasesListPage: onLoadStatusChanged --- " + loadStatus;
-                console.log(debugText);
-                queryFeaturesByStatusAndExtent();
+                debugText = ">>>> CasesListPage: onLoadStatusChanged --- " + loadStatus
+                console.log(debugText)
+                queryFeaturesByStatusAndExtent()
             }
 
 
@@ -819,40 +820,40 @@ Page {
 
                     //Update the display counts
                     if (queryFeaturesResult.iterator != null) {
-                        var index = 0;
+                        var index = 0
 
 
                         while (queryFeaturesResult.iterator.hasNext) {
-                            caseFeature = queryFeaturesResult.iterator.next();
+                            caseFeature = queryFeaturesResult.iterator.next()
                             var attributesF = caseFeature.attributes
-                            const featureF = caseFeature;
+                            const featureF = caseFeature
 
                             console.log(" caseFeature.attributes. ", caseFeature.attributes.attributeNames)
-                            var objectIdF = caseFeature.attributes.attributeValue("OBJECTID");
-                            var typeF = caseFeature.attributes.attributeValue("Type");
-                            var tempDesc = caseFeature.attributes.attributeValue("Description");
-                            var descriptionF = tempDesc === null ? '' : (tempDesc.length > 30 ? (tempDesc.substr(0,30)+'...') : tempDesc);
-                            var currentStatusF = caseFeature.attributes.attributeValue("CurrentStatus");
-                            var tempUser = caseFeature.attributes.attributeValue("AssignedUser");
-                            var assignedUserF = tempUser === null ? '': tempUser;
-                            var assignedDateF = caseFeature.attributes.attributeValue("AssignedDate");
-                            var reportedDateF = caseFeature.attributes.attributeValue("ReportedDate");
-                            var reportedDateStrF = reportedDateF.toString();
-                            var lastUpdateF = caseFeature.attributes.attributeValue("LastUpdate");
+                            var objectIdF = caseFeature.attributes.attributeValue("OBJECTID")
+                            var typeF = caseFeature.attributes.attributeValue("Type")
+                            var tempDesc = caseFeature.attributes.attributeValue("Description")
+                            var descriptionF = tempDesc === null ? '' : (tempDesc.length > 30 ? (tempDesc.substr(0,30)+'...') : tempDesc)
+                            var currentStatusF = caseFeature.attributes.attributeValue("CurrentStatus")
+                            var tempUser = caseFeature.attributes.attributeValue("AssignedUser")
+                            var assignedUserF = tempUser === null ? '': tempUser
+                            var assignedDateF = caseFeature.attributes.attributeValue("AssignedDate")
+                            var reportedDateF = caseFeature.attributes.attributeValue("ReportedDate")
+                            var reportedDateStrF = reportedDateF.toString()
+                            var lastUpdateF = caseFeature.attributes.attributeValue("LastUpdate")
                             var tempWorkerNote =  caseFeature.attributes.attributeValue("WorkerNote")
                             var workerNoteF = tempWorkerNote === null ? '' : (tempWorkerNote.length > 55 ? (tempWorkerNote.substr(0,55)+'...') : tempWorkerNote)
                             var lastUpdateStrF = (lastUpdateF !== null ? lastUpdateF.toString() : '')
 
-                            console.log("\n\n>>>> QUERY: caseFeature --- values: ");
-                            console.log(">>>> objectId: ", objectIdF);
-                            console.log(">>>> type: ", typeF);
-                            console.log(">>>> description: ", descriptionF);
-                            console.log(">>>> currentStatus: ", currentStatusF);
-                            console.log(">>>> assignedUser: ", assignedUserF);
-                            console.log(">>>> assignedDate: ", assignedDateF);
-                            console.log(">>>> reportedDate: ", reportedDateF);
-                            console.log(">>>> workerNote: ", workerNoteF);
-                            console.log(">>>> lastUpdate: ", lastUpdateStrF);
+                            console.log("\n\n>>>> QUERY: caseFeature --- values: ")
+                            console.log(">>>> objectId: ", objectIdF)
+                            console.log(">>>> type: ", typeF)
+                            console.log(">>>> description: ", descriptionF)
+                            console.log(">>>> currentStatus: ", currentStatusF)
+                            console.log(">>>> assignedUser: ", assignedUserF)
+                            console.log(">>>> assignedDate: ", assignedDateF)
+                            console.log(">>>> reportedDate: ", reportedDateF)
+                            console.log(">>>> workerNote: ", workerNoteF)
+                            console.log(">>>> lastUpdate: ", lastUpdateStrF)
 
 
                             casesListModel.append({objectId: objectIdF,
@@ -869,31 +870,31 @@ Page {
                                                       })
                             featureList.push(caseFeature)
 
-                            index++;
+                            index++
 
                          }
                     }
 
                 } else if (queryFeaturesStatus === Enums.TaskStatusInProgress) {
-                    console.log(">>>> QUERY: caseFeature --- TASK IN PROGRESS: ");
-                    querying = true;
+                    console.log(">>>> QUERY: caseFeature --- TASK IN PROGRESS: ")
+                    querying = true
                 }
             }
 
             onApplyEditsStatusChanged: {
-               console.log(">>>> CasesList : onApplyEditsStatusChanged --- " + applyEditsStatus);
+               console.log(">>>> CasesList : onApplyEditsStatusChanged --- " + applyEditsStatus)
                if (applyEditsStatus === Enums.TaskStatusCompleted) {
-                   console.log(">>>> CasesList :  successfully edited feature, refreshing table");
+                   console.log(">>>> CasesList :  successfully edited feature, refreshing table")
                    //refresh table
-                   queryFeaturesByStatusAndExtent();
+                   queryFeaturesByStatusAndExtent()
                }
             }
 
             onUpdateFeatureStatusChanged: {
-                console.log(">>>> CasesList : onUpdateFeatureStatusChanged --- " + updateFeatureStatus);
+                console.log(">>>> CasesList : onUpdateFeatureStatusChanged --- " + updateFeatureStatus)
                 if (updateFeatureStatus === Enums.TaskStatusCompleted) {
-                    console.log(">>>> CasesList :  successfully updated feature");
-                    applyEdits();
+                    console.log(">>>> CasesList :  successfully updated feature")
+                    applyEdits()
                 }
             }
 
@@ -906,8 +907,8 @@ Page {
     Rectangle {
         id: attachmentViewer
         visible: false
-        width: app.width;
-        height: app.height;
+        width: app.width
+        height: app.height
         anchors.centerIn: parent
         color: "transparent"
 
@@ -917,8 +918,8 @@ Page {
             Rectangle {
                 id: topArea
                 visible: true
-                width: app.width;
-                height: app.height*0.25;
+                width: app.width
+                height: app.height*0.25
                 opacity: 0.80
 
                 MouseArea {
@@ -931,8 +932,8 @@ Page {
             }
 
             Item {
-                width: app.width;
-                height: app.height*0.5;
+                width: app.width
+                height: app.height*0.5
                 anchors.centerIn: parent
 
                 SwipeView {
@@ -972,7 +973,7 @@ Page {
                                 anchors.left: parent.left
                                 anchors.verticalCenter: parent.verticalCenter
                                 contentItem: Image {
-                                    source: '../images/back.png';
+                                    source: '../images/back.png'
                                     visible: true
                                     enabled: index > 0
                                     fillMode: Image.PreserveAspectFit
@@ -990,7 +991,7 @@ Page {
                                 anchors.verticalCenter: parent.verticalCenter
                                 contentItem: Image {
                                     width: 25*app.scaleFactor
-                                    source: '../images/next.png';
+                                    source: '../images/next.png'
                                     visible: true
                                     enabled: index < delegateAttachments.SwipeView.view.count - 1
                                     fillMode: Image.PreserveAspectFit
@@ -1007,8 +1008,8 @@ Page {
             Rectangle {
                 id: bottomArea
                 visible: true
-                width: app.width;
-                height: app.height*0.25;
+                width: app.width
+                height: app.height*0.25
                 opacity: 0.65
 
                 MouseArea {
@@ -1033,7 +1034,7 @@ Page {
     footer: FooterSection {
         logMessage: "In Cases List Page - Footer..."
         rightButtonText: "HOME"
-        overrideRightIconSrc: "../images/home.png";
+        overrideRightIconSrc: "../images/home.png"
     }
 
 
@@ -1046,8 +1047,8 @@ Page {
         console.log(">>>> CasesListPage: getStatusIndex")
         if (app.lastStatusCaseList !== '') {
 
-            var statusVal = app.lastStatusCaseList;
-            app.lastStatusCaseList = '';
+            var statusVal = app.lastStatusCaseList
+            app.lastStatusCaseList = ''
 
             if (statusVal === "Case Status: Assigned") {
                 return 1
@@ -1062,14 +1063,14 @@ Page {
             } else if (statusVal === "Case Status: Cancelled [USER]") {
                 return 6
             } else {
-                return 0;
+                return 0
             }
         }
     }
 
     //Function to query the current extent
     function queryFeaturesByStatusAndExtent() {
-        casesListModel.clear();
+        casesListModel.clear()
 
 
         // set the where clause
@@ -1081,19 +1082,19 @@ Page {
 
         var queryStatus = (currentStatusValue.includes('Pending') ? 'Pending' :
                              (currentStatusValue.includes('Assigned') ? 'Assigned' :
-                             (currentStatusValue.includes('Cancelled') ? 'Cancelled' : 'Completed')));
+                             (currentStatusValue.includes('Cancelled') ? 'Cancelled' : 'Completed')))
 
-        var queryUserStr = currentStatusValue.includes('USER') ? " and (AssignedUser = '" + app.portalUser + "')" : '';
+        var queryUserStr = currentStatusValue.includes('USER') ? " and (AssignedUser = '" + app.portalUser + "')" : ''
         var queryString = " 1=1 and (CurrentStatus = '" + queryStatus + "') "
 
-        params.whereClause = queryString + queryUserStr;
+        params.whereClause = queryString + queryUserStr
         console.log(">>>> CasesListPage: Inside queryFeaturesByStatusAndExtent() params.whereClause ----- ", params.whereClause)
 
         //Find the current map extent
         params.geometry = app.reportedCasesMapExtent//app.reportedCasesMapView.visibleArea
 
         // start the query
-        casesListFeatureTable.queryFeaturesWithFieldOptions(params, Enums.QueryFeatureFieldsLoadAll);
+        casesListFeatureTable.queryFeaturesWithFieldOptions(params, Enums.QueryFeatureFieldsLoadAll)
 
     }
 
@@ -1104,7 +1105,7 @@ Page {
         console.log(">>>> CasesListPage: queryFeatureById(objectId) params.whereClause ----- ", params.whereClause)
 
         // start the query
-        casesListFeatureTable.queryFeaturesWithFieldOptions(params, Enums.QueryFeatureFieldsLoadAll);
+        casesListFeatureTable.queryFeaturesWithFieldOptions(params, Enums.QueryFeatureFieldsLoadAll)
     }
 
 
@@ -1113,58 +1114,58 @@ Page {
 
         console.log(">>>> CasesListPage: updateFeature()", feature, "  actionType:", actionType)
 
-        var workerNoteSubStr = '';
+        var workerNoteSubStr = ''
         if (actionType === 'AssignToMe') {
-            workerNoteSubStr = 'Pending to Assigned from Case List Page. ';
-            feature.attributes.replaceAttribute("CurrentStatus", "Assigned");
-            feature.attributes.replaceAttribute("AssignedUser", app.portalUser);
-            feature.attributes.replaceAttribute("AssignedDate", new Date());
+            workerNoteSubStr = 'Pending to Assigned from Case List Page. '
+            feature.attributes.replaceAttribute("CurrentStatus", "Assigned")
+            feature.attributes.replaceAttribute("AssignedUser", app.portalUser)
+            feature.attributes.replaceAttribute("AssignedDate", new Date())
         } else if (actionType === 'Revert') {
-            workerNoteSubStr = 'Reverted from ';
+            workerNoteSubStr = 'Reverted from '
             if (currentStatusVal === 'Assigned') {
-                workerNoteSubStr = workerNoteSubStr + 'Assigned to Pending from Case List Page. ';
-                feature.attributes.replaceAttribute("CurrentStatus", "Pending");
-                feature.attributes.replaceAttribute("AssignedUser", null);
-                feature.attributes.replaceAttribute("AssignedDate", null);
+                workerNoteSubStr = workerNoteSubStr + 'Assigned to Pending from Case List Page. '
+                feature.attributes.replaceAttribute("CurrentStatus", "Pending")
+                feature.attributes.replaceAttribute("AssignedUser", null)
+                feature.attributes.replaceAttribute("AssignedDate", null)
             } else if (currentStatusVal === 'Cancelled') {
-                workerNoteSubStr = workerNoteSubStr + 'Cancelled to Assigned from Case List Page. ';
-                feature.attributes.replaceAttribute("CurrentStatus", "Assigned");
-                feature.attributes.replaceAttribute("AssignedUser", app.portalUser);
-                feature.attributes.replaceAttribute("AssignedDate", new Date());
-                feature.attributes.replaceAttribute("CancelledUser", null);
-                feature.attributes.replaceAttribute("CancelledDate", null);
+                workerNoteSubStr = workerNoteSubStr + 'Cancelled to Assigned from Case List Page. '
+                feature.attributes.replaceAttribute("CurrentStatus", "Assigned")
+                feature.attributes.replaceAttribute("AssignedUser", app.portalUser)
+                feature.attributes.replaceAttribute("AssignedDate", new Date())
+                feature.attributes.replaceAttribute("CancelledUser", null)
+                feature.attributes.replaceAttribute("CancelledDate", null)
             } else if (currentStatusVal === 'Completed') {
-                workerNoteSubStr = workerNoteSubStr + 'Completed to Assigned from Case List Page. ';
-                feature.attributes.replaceAttribute("CurrentStatus", "Assigned");
-                feature.attributes.replaceAttribute("AssignedUser", app.portalUser);
-                feature.attributes.replaceAttribute("AssignedDate", new Date());
-                feature.attributes.replaceAttribute("CompletedUser", null);
-                feature.attributes.replaceAttribute("CompletedDate", null);
+                workerNoteSubStr = workerNoteSubStr + 'Completed to Assigned from Case List Page. '
+                feature.attributes.replaceAttribute("CurrentStatus", "Assigned")
+                feature.attributes.replaceAttribute("AssignedUser", app.portalUser)
+                feature.attributes.replaceAttribute("AssignedDate", new Date())
+                feature.attributes.replaceAttribute("CompletedUser", null)
+                feature.attributes.replaceAttribute("CompletedDate", null)
             }
         } else if (actionType === 'Complete') {
-            workerNoteSubStr = 'Marked Completed from Case List Page. ';
-            feature.attributes.replaceAttribute("CurrentStatus", "Completed");
-            feature.attributes.replaceAttribute("CompletedUser", app.portalUser);
-            feature.attributes.replaceAttribute("CompletedDate", new Date());
+            workerNoteSubStr = 'Marked Completed from Case List Page. '
+            feature.attributes.replaceAttribute("CurrentStatus", "Completed")
+            feature.attributes.replaceAttribute("CompletedUser", app.portalUser)
+            feature.attributes.replaceAttribute("CompletedDate", new Date())
         } else if (actionType === 'Cancel') {
-            workerNoteSubStr = 'Marked Cancelled from Case List Page. ';
-            feature.attributes.replaceAttribute("CurrentStatus", "Cancelled");
-            feature.attributes.replaceAttribute("CancelledUser", app.portalUser);
-            feature.attributes.replaceAttribute("CancelledDate", new Date());
+            workerNoteSubStr = 'Marked Cancelled from Case List Page. '
+            feature.attributes.replaceAttribute("CurrentStatus", "Cancelled")
+            feature.attributes.replaceAttribute("CancelledUser", app.portalUser)
+            feature.attributes.replaceAttribute("CancelledDate", new Date())
         }
 
-        var workerNote = workerNoteSubStr  + ' ' +  workerNoteVal;
-        workerNote = workerNote.substr(0,250);
-        feature.attributes.replaceAttribute("WorkerNote", workerNote );
+        var workerNote = workerNoteSubStr  + ' ' +  workerNoteVal
+        workerNote = workerNote.substr(0,250)
+        feature.attributes.replaceAttribute("WorkerNote", workerNote )
 
         //Update these values regardless of type of edit
-        feature.attributes.replaceAttribute("LastUpdateUser", app.portalUser);
-        feature.attributes.replaceAttribute("LastUpdate", new Date());
+        feature.attributes.replaceAttribute("LastUpdateUser", app.portalUser)
+        feature.attributes.replaceAttribute("LastUpdate", new Date())
 
         // update the feature in the feature table asynchronously
-        console.log(">>>> CasesListPage: updateFeature() - performing update");
-        querying = true;
-        casesListFeatureTable.updateFeature(feature);
+        console.log(">>>> CasesListPage: updateFeature() - performing update")
+        querying = true
+        casesListFeatureTable.updateFeature(feature)
 
     }
 

@@ -17,6 +17,8 @@ import Esri.ArcGISRuntime 100.7
 
 
 import "../ui_controls"
+import "../images"
+import "../assets"
 
 
 /*

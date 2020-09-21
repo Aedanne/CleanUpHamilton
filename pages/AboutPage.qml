@@ -11,59 +11,59 @@ About page for Clean-Up Hamilton app
 
 Page {
 
-    id:aboutPage;
+    id:aboutPage
 
-    signal nextPage();
-    signal previousPage();
+    signal nextPage()
+    signal previousPage()
 
-    property string titleText:"";
-    property var descText;
-    property var descText1;
+    property string titleText:""
+    property var descText
+    property var descText1
 
     header: ToolBar{
 
-        contentHeight: app.btnHdrFtrHeightSize;
-        Material.primary: app.primaryColor;
+        contentHeight: app.btnHdrFtrHeightSize
+        Material.primary: app.primaryColor
 
         RowLayout {
-            anchors.fill: parent;
-            spacing: 0;
+            anchors.fill: parent
+            spacing: 0
 
             Label{
-                Layout.preferredWidth: 250*app.scaleFactor;
-                horizontalAlignment: Qt.AlignLeft;
-                verticalAlignment: Qt.AlignVCenter;
-                font.pixelSize: app.headerFontSize;
-                font.bold: true;
-                wrapMode: Text.Wrap;
-                leftPadding: 10*app.scaleFactor;
-                text: titleText > ""? titleText:"";
-                color: app.menuPrimaryTextColor;
+                Layout.preferredWidth: 250*app.scaleFactor
+                horizontalAlignment: Qt.AlignLeft
+                verticalAlignment: Qt.AlignVCenter
+                font.pixelSize: app.headerFontSize
+                font.bold: true
+                wrapMode: Text.Wrap
+                leftPadding: 10*app.scaleFactor
+                text: titleText > ""? titleText:""
+                color: app.menuPrimaryTextColor
             }
 
             ToolButton {
 
                 indicator: Image{
-                    width: (parent.width*0.5)*(1.25*app.scaleFactor);
-                    height: (parent.height*0.5)*(1.25*app.scaleFactor);
+                    width: (parent.width*0.5)*(1.25*app.scaleFactor)
+                    height: (parent.height*0.5)*(1.25*app.scaleFactor)
                     anchors {
-                        verticalCenter: parent.verticalCenter;
-                        right: parent.right;
-                        margins: 2*app.scaleFactor;
+                        verticalCenter: parent.verticalCenter
+                        right: parent.right
+                        margins: 2*app.scaleFactor
                     }
-                    horizontalAlignment: Qt.AlignRight;
-                    verticalAlignment: Qt.AlignVCenter;
-                    source: "../images/clear.png";
-                    fillMode: Image.PreserveAspectFit;
-                    mipmap: true;
+                    horizontalAlignment: Qt.AlignRight
+                    verticalAlignment: Qt.AlignVCenter
+                    source: "../images/clear.png"
+                    fillMode: Image.PreserveAspectFit
+                    mipmap: true
                 }
                 onClicked: {
-                    previousPage();
+                    previousPage()
                 }
             }
             Item {
-                Layout.preferredWidth: 1;
-                Layout.fillHeight: true;
+                Layout.preferredWidth: 1
+                Layout.fillHeight: true
             }
         }
     }
@@ -76,8 +76,8 @@ Page {
         Rectangle {
             anchors.centerIn: parent
             color: app.appBackgroundColor
-            width: parent.width*0.80;
-            height: parent.height*0.90;
+            width: parent.width*0.80
+            height: parent.height*0.90
             id: topSection
 
 
@@ -88,7 +88,7 @@ Page {
                 Label {
                     font.pixelSize: app.baseFontSize*.4
                     text: "Clean-Up Hamilton  "
-                    color: app.appPrimaryTextColor;
+                    color: app.appPrimaryTextColor
                     wrapMode: Text.Wrap
                     bottomPadding: 5 * app.scaleFactor
                     font.bold: true
@@ -96,7 +96,7 @@ Page {
                 Label {
                     font.pixelSize: app.baseFontSize*.3
                     text: "Author: Charisse Hanson"
-                    color: app.appPrimaryTextColor;
+                    color: app.appPrimaryTextColor
                     wrapMode: Text.Wrap
                     bottomPadding: 5 * app.scaleFactor
                     font.bold: true
@@ -104,7 +104,7 @@ Page {
                 Label {
                     font.pixelSize: app.baseFontSize*.3
                     text: descText1
-                    color: app.appPrimaryTextColor;
+                    color: app.appPrimaryTextColor
                     wrapMode: Text.Wrap
                     bottomPadding: 15 * app.scaleFactor
                     font.bold: true

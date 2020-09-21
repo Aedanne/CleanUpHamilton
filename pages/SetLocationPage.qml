@@ -17,6 +17,8 @@ import Esri.ArcGISRuntime 100.2
 
 
 import "../ui_controls"
+import "../images"
+import "../assets"
 
 /*
 Main mapping page for Clean-Up Hamilton app

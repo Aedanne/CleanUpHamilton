@@ -15,6 +15,8 @@ import ArcGIS.AppFramework.Platform 1.0
 
 
 import "../ui_controls"
+import "../images"
+import "../assets"
 
 
 /*

@@ -29,8 +29,8 @@ Item {
 
     id: help
     visible: false
-    width: parent.width*0.90;
-    height: parent.height*0.90;
+    width: parent.width*0.90
+    height: parent.height*0.90
 
     Layout.alignment: Qt.AlignRight | Qt.AlignTop
     anchors.centerIn: parent
@@ -65,8 +65,8 @@ Item {
         Rectangle {
             anchors.centerIn: parent
             color: app.appBackgroundColor
-            width: parent.width*0.80;
-            height: parent.height*0.90;
+            width: parent.width*0.80
+            height: parent.height*0.90
             id: topSection
 
 
@@ -77,7 +77,7 @@ Item {
                 Label {
                     font.pixelSize: app.baseFontSize*.4
                     text: "Reported Cases  "
-                    color: app.appPrimaryTextColor;
+                    color: app.appPrimaryTextColor
                     wrapMode: Text.Wrap
                     bottomPadding: 5 * app.scaleFactor
                     font.bold: true
@@ -122,10 +122,10 @@ Item {
 
                     Label{
                         text: 'Represents a report type: Graffiti'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -146,10 +146,10 @@ Item {
 
                     Label{
                         text: 'Represents a report type: Broken items'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -170,10 +170,10 @@ Item {
 
                     Label{
                         text: 'Represents a report type: Illegal rubbish dumping'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -194,10 +194,10 @@ Item {
 
                     Label{
                         text: 'Represents a report type: Other'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -233,10 +233,10 @@ Item {
 
                     Label{
                         text: 'Reported case is assigned to logged in user'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -257,10 +257,10 @@ Item {
 
                     Label{
                         text: 'Reported case is unassigned'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -281,10 +281,10 @@ Item {
 
                     Label{
                         text: 'Reported case is assigned to a different user'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -319,10 +319,10 @@ Item {
 
                     Label{
                         text: 'ACTION: Assign case to logged in user'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -343,10 +343,10 @@ Item {
 
                     Label{
                         text: 'ACTION: View case image attachments'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -367,10 +367,10 @@ Item {
 
                     Label{
                         text: 'ACTION: Edit reported case details'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -391,10 +391,10 @@ Item {
 
                     Label{
                         text: 'ACTION: Cancel reported case'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -415,10 +415,10 @@ Item {
 
                     Label{
                         text: 'ACTION: Rollback case to previous status'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
                 //Separator
@@ -439,10 +439,10 @@ Item {
 
                     Label{
                         text: 'ACTION: Mark reported case as complete'
-                        font.pixelSize: app.baseFontSize*0.3;
+                        font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
-                        maximumLineCount: 1;
-                        color: app.appSecondaryTextColor;
+                        maximumLineCount: 1
+                        color: app.appSecondaryTextColor
                     }
                 }
             }
