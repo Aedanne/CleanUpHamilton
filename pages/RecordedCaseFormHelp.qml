@@ -21,7 +21,7 @@ import "../images"
 
 
 /*
-Cases List Help Page
+Reported Case Form Help Page
 */
 
 

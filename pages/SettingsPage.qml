@@ -178,6 +178,10 @@ Page {
 
     }
 
+    SettingsHelp {
+        id: help
+    }
+
     //Footer custom QML =================================================================
     footer: FooterSection {
         id: formPageFooter
