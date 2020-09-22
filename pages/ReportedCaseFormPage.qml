@@ -257,6 +257,65 @@ Page {
                         Layout.preferredWidth: parent.width
                     }
 
+                    //Separator
+                    Rectangle {
+                        Layout.fillWidth: true
+                        implicitHeight: 1
+                        color: app.appBorderColorCaseList
+                    }
+
+
+
+                    Label {
+                        font.pixelSize: app.baseFontSize*.35
+                        text: "New Worker Note: "
+                        color: 'red'
+                        wrapMode: Text.Wrap
+                        topPadding: 10 * app.scaleFactor
+                        bottomPadding: 5*app.scaleFactor
+                    }
+
+                    Rectangle {
+                        Layout.preferredHeight: 50 * scaleFactor
+                        border.color: app.appSecondaryTextColor
+                        Layout.fillWidth: true
+                        border.width: 1 * scaleFactor
+                        radius: 2
+                        ScrollView {
+                            anchors.fill: parent
+                            contentItem: parent
+
+                            TextArea {
+                                id: newWorkerNote
+                                Layout.preferredWidth: parent.width
+                                Material.accent: app.backgroundAccent
+                                background: null
+                                padding: 3 * scaleFactor
+                                selectByMouse: true
+                                wrapMode: TextEdit.WrapAnywhere
+                                placeholderText: " Additional details required to save changes..."
+                                color: app.appSecondaryTextColor
+                                font.pixelSize: app.baseFontSize*.3
+                                text: localWorkerNote
+
+                                onTextChanged: {
+                                   var currChars = newWorkerNote.text.length
+                                   if (currChars >= maxLimit) {
+                                      newWorkerNote.text = newWorkerNote.text.substring(0, maxLimit)
+                                   }
+                                   localWorkerNote = newWorkerNote.text
+                                }
+                            }
+                        }
+                    }
+
+                    //Separator
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 20 * app.scaleFactor
+                        color: "transparent"
+                    }
+
 
                     //Separator
                     Rectangle {
@@ -402,57 +461,7 @@ Page {
                     }
 
 
-                    //Separator
-                    Rectangle {
-                        Layout.fillWidth: true
-                        implicitHeight: 1
-                        color: app.appBorderColorCaseList
-                    }
 
-
-
-                    Label {
-                        font.pixelSize: app.baseFontSize*.35
-                        text: "New Worker Note: "
-                        color: app.appPrimaryTextColor
-                        wrapMode: Text.Wrap
-                        topPadding: 10 * app.scaleFactor
-                        bottomPadding: 5*app.scaleFactor
-                    }
-
-                    Rectangle {
-                        Layout.preferredHeight: 50 * scaleFactor
-                        border.color: app.appSecondaryTextColor
-                        Layout.fillWidth: true
-                        border.width: 1 * scaleFactor
-                        radius: 2
-                        ScrollView {
-                            anchors.fill: parent
-                            contentItem: parent
-
-                            TextArea {
-                                id: newWorkerNote
-                                Layout.preferredWidth: parent.width
-                                Material.accent: app.backgroundAccent
-                                background: null
-                                padding: 3 * scaleFactor
-                                selectByMouse: true
-                                wrapMode: TextEdit.WrapAnywhere
-                                placeholderText: " Additional details required to save changes..."
-                                color: app.appSecondaryTextColor
-                                font.pixelSize: app.baseFontSize*.3
-                                text: localWorkerNote
-
-                                onTextChanged: {
-                                   var currChars = newWorkerNote.text.length
-                                   if (currChars >= maxLimit) {
-                                      newWorkerNote.text = newWorkerNote.text.substring(0, maxLimit)
-                                   }
-                                   localWorkerNote = newWorkerNote.text
-                                }
-                            }
-                        }
-                    }
 
 
                     Text {

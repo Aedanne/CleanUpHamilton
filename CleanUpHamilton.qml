@@ -10,6 +10,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import QtQuick.LocalStorage 2.0
+import QtQuick.Window 2.2
 
 import ArcGIS.AppFramework.Networking 1.0
 import ArcGIS.AppFramework.Multimedia 1.0
@@ -34,6 +35,7 @@ App{
     id: app
     width: 460
     height: 780
+
 
     property bool lightTheme: true
     property string version: app.info.version
@@ -116,6 +118,7 @@ App{
     property bool authenticated: false
     property string portalUser
     property int saveSettings: 0
+
 
 
     ListModel {
@@ -416,7 +419,7 @@ App{
             onActiveFocusChanged: init()
 
             onPreviousPage: {
-                formStackView.pop()         
+                formStackView.pop()
             }
 
             onNextPage: {
@@ -425,6 +428,8 @@ App{
             }
         }
     }
+
+
 
 
     //Creating stackview for form pages =================================================
@@ -439,6 +444,7 @@ App{
                 formStackView.pop()
 
             push(formStackView.initialItem)
+
         }
 
         //Load form page
@@ -581,6 +587,8 @@ App{
         app.reportTypeIndex = -1
         app.currentLonLat = ""
     }
+
+
 
 
 }
