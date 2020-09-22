@@ -271,6 +271,7 @@ Page {
                         text: "New Worker Note: "
                         color: 'red'
                         wrapMode: Text.Wrap
+                        font.bold: true
                         topPadding: 10 * app.scaleFactor
                         bottomPadding: 5*app.scaleFactor
                     }
