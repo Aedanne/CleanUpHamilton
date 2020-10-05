@@ -6,8 +6,9 @@ import QtQuick.Controls.Material 2.2
 import ArcGIS.AppFramework 1.0
 import Esri.ArcGISRuntime 100.5
 
-Item {
+//Used for validation messages in the application
 
+Item {
     id: alertPopup
     visible: false
     width: 290*app.scaleFactor
@@ -15,22 +16,20 @@ Item {
 
     anchors.centerIn: parent
 
-    property string alertText : ""
+    property string alertText : ''
     property color backgroundColor: app.appBackgroundColorCaseList
-    property color textColor : "red"
+    property color textColor : 'red'
 
     Rectangle {
         anchors.fill: parent
         z:10
         color: app.appBackgroundColorCaseList
-        border.color: "red"
+        border.color: 'red'
         border.width: 3
 
         ColumnLayout {
             spacing: 0
             anchors.centerIn: parent
-
-
 
             Text {
                 anchors.centerIn: parent
@@ -56,11 +55,9 @@ Item {
                 verticalAlignment: Text.AlignVCenter
                 font.pixelSize: app.baseFontSize*0.3
                 topPadding: 50*app.scaleFactor
-                text: "Tap to close..."
-
+                text: 'Tap to close...'
             }
-
-         }
+        }
 
         MouseArea {
             anchors.fill: parent
@@ -69,9 +66,8 @@ Item {
                 try {
                   if (enableFormElements) enableFormElements(false)
                 } catch(err) {
-                  console.log(">>>> enableformelements: ",err.message)
+                  console.log('>>>> enableformelements: ',err.message)
                 }
-
             }
         }
     }

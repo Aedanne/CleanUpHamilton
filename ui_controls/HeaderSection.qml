@@ -34,7 +34,7 @@ ToolBar{
             font.pixelSize: app.headerFontSize
             font.bold: true
             leftPadding: 10*app.scaleFactor
-            text: overrideText > "" ? overrideText : (titleText > ""? titleText:"")
+            text: overrideText > '' ? overrideText : (titleText > ''? titleText:'')
             color: app.menuPrimaryTextColor
         }
 
@@ -48,7 +48,7 @@ ToolBar{
                     margins: 2*app.scaleFactor
                 }
 
-                source: "../images/help.png"
+                source: '../images/help.png'
                 fillMode: Image.PreserveAspectFit
                 mipmap: true
             }
@@ -56,7 +56,7 @@ ToolBar{
             onClicked: {
                 console.log(logMessage)
                 try {
-                    console.log(">>>>>", help.visible)
+                    console.log('>>>>>', help.visible)
                     if (help.visible) {
                        help.visible = false
                     } else {
@@ -64,7 +64,7 @@ ToolBar{
                     }
 
                 } catch (err) {
-                     console.log(">>>>>", err.essage)
+                     console.log('>>>>>', err.essage)
                 }
             }
         }

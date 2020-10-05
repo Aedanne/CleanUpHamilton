@@ -30,8 +30,8 @@ Button {
     property int unitVal: 28
 
     id: btn
-    width: btnWidth > "" ? btnWidth : parent.width*.5
-    height: btnHeight > "" ? btnHeight : app.btnHdrFtrHeightSize*1.1
+    width: btnWidth > '' ? btnWidth : parent.width*.5
+    height: btnHeight > '' ? btnHeight : app.btnHdrFtrHeightSize*1.1
 
 
     contentItem: Item{
@@ -49,13 +49,13 @@ Button {
                 fillMode: Image.PreserveAspectCrop
             }
 
-
             Text {
                 text: btn.labelText
                 font.pixelSize: app.headerFontSize
                 font.bold: true
                 color: app.menuPrimaryTextColor
             }
+
             Image{
                 Layout.preferredWidth: (btn.imageRight === true? (overrideRightSize>0?overrideRightSize:unitVal)*app.scaleFactor: 0)
                 Layout.preferredHeight: (btn.imageRight === true? (overrideRightSize>0?overrideRightSize:unitVal)*app.scaleFactor: 0)
@@ -78,44 +78,37 @@ Button {
             GradientStop { position: 0;  color: btn.pressed ? Qt.lighter(app.primaryColor, 1.3) : Qt.lighter(app.primaryColor, 0.7) }
             GradientStop { position: 1;  color: btn.pressed ? Qt.lighter(app.primaryColor, 0.7) : Qt.lighter(app.primaryColor, 1.3) }
         }
-
     }
 
     onClicked: {
         console.log(btn.logMessage)
 
-       if (btn.previousControl) {
+        if (btn.previousControl) {
+            previousPage()
+        }
 
-           previousPage()
-       }
-
-       if (btn.nextControl) {
-           console.log("\n>>>>> btn.nextControl : labelTxt", btn.labelText, "  actionstring", btn.actionString)
-
-           if (btn.labelText === "SUBMIT") {
-               if (app.reportTypeIndex !== -1 && app.attListModel.count > 0) {
-                   formPage.submitReportData()
-               } else {
-                   formMissingData.visible = true
-                   disableFormElements(false, false)
-                   return
-               }
-           } else {
-               if (btn.actionString === 'CaseEditSave') {
-                   if (reportedCaseformPage.localWorkerNote === '') {
-                       caseFormMissingData.visible = true
-                   } else {
-                       console.log("\n>>>>> ReportedCaseFormPage-Save - actionString === 'CaseEditSave'")
+        if (btn.nextControl) {
+        console.log('\n>>>>> btn.nextControl : labelTxt', btn.labelText, '  actionstring', btn.actionString)
+            if (btn.labelText === 'SUBMIT') {
+                if (app.reportTypeIndex !== -1 && app.attListModel.count > 0) {
+                    formPage.submitReportData()
+                } else {
+                    formMissingData.visible = true
+                    disableFormElements(false, false)
+                    return
+                }
+            } else {
+                if (btn.actionString === 'CaseEditSave') {
+                    if (reportedCaseformPage.localWorkerNote === '') {
+                        caseFormMissingData.visible = true
+                    } else {
+                       console.log('\n>>>>> ReportedCaseFormPage-Save - actionString === \'CaseEditSave\'')
                        reportedCaseformPage.updateFeatureSave()
-                   }
-
-
-
-               } else {
-
-                   nextPage()
-               }
-           }
-       }
+                    }
+                } else {
+                    nextPage()
+                }
+            }
+        }
     }
 }

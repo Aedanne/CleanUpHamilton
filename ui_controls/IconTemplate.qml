@@ -13,9 +13,9 @@ Rectangle {
     property int imageSize: 42*app.scaleFactor
     property int containerSize: 40*app.scaleFactor
     property int sidePadding: 0
-    property url imageSource: ""
-    property color backgroundColor: "transparent"
-    property color iconOverlayColor: "white"
+    property url imageSource: ''
+    property color backgroundColor: 'transparent'
+    property color iconOverlayColor: 'white'
     property bool enabled: true
     signal iconClicked()
     property bool maxAttach
@@ -56,5 +56,4 @@ Rectangle {
             iconClicked()
         }
     }
-
 }

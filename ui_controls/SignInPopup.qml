@@ -33,7 +33,7 @@ Item {
             font.bold: true
             wrapMode: Text.Wrap
             topPadding: 150*app.scaleFactor
-            text: "Authentication Required"
+            text: 'Authentication Required'
         }
 
         Label {
@@ -46,13 +46,13 @@ Item {
             color: app.primaryColor
             font.bold: true
             wrapMode: Text.Wrap
-            text: "waikato.maps.arcgis.com"
+            text: 'waikato.maps.arcgis.com'
         }
 
         TextField {
             id: usernameTextField
             width: 230 * app.scaleFactor
-            placeholderText: qsTr("Username")
+            placeholderText: qsTr('Username')
             anchors.top: hostLabel.bottom
             anchors.topMargin: 25*app.scaleFactor
             anchors.horizontalCenter: parent.horizontalCenter
@@ -61,7 +61,7 @@ Item {
         TextField {
             id: passwordTextField
             width: 230 * app.scaleFactor
-            placeholderText: qsTr("Password")
+            placeholderText: qsTr('Password')
             echoMode: TextInput.Password
             anchors.top: usernameTextField.bottom
             anchors.topMargin: 5*app.scaleFactor
@@ -77,7 +77,7 @@ Item {
 
             Button {
                 id: cancelButton
-                text: qsTr("CANCEL")
+                text: qsTr('CANCEL')
                 font.bold: true
                 font.pixelSize: app.baseFontSize*0.4
 
@@ -92,8 +92,6 @@ Item {
                 background: Rectangle {
                     implicitWidth: 105 * app.scaleFactor
                     implicitHeight: 25 * app.scaleFactor
-//                    border.width: 1
-//                    border.color: app.mapBorderColor
 
                     radius: 2
                     gradient: Gradient {
@@ -111,7 +109,7 @@ Item {
 
             Button {
                 id: signInButton
-                text: qsTr("SIGN IN")
+                text: qsTr('SIGN IN')
                 font.bold: true
                 font.pixelSize: app.baseFontSize*0.4
 
@@ -127,7 +125,6 @@ Item {
                     implicitWidth: 105 * app.scaleFactor
                     implicitHeight: 25 * app.scaleFactor
                     border.width: 1
-//                    border.color: app.mapBorderColor
 
                     radius: 2
                     gradient: Gradient {
@@ -140,14 +137,14 @@ Item {
                 onClicked: {
                     // continue with the username and password
                     if (challenge)
-                       console.log(">>>> TODO: Auth Login....")
+                       console.log('>>>> TODO: Auth Login....')
                     root.visible = false
                 }
             }
         }
 
         Rectangle {
-            color: "#FFCCCC"
+            color: '#FFCCCC'
             radius: 5
             width: parent.width
             anchors.top: btnRow.bottom
@@ -157,12 +154,10 @@ Item {
 
             Text {
                 anchors.centerIn: parent
-                text: qsTr("Invalid username or password.")
+                text: qsTr('Invalid username or password.')
                 font.pixelSize: app.baseFontSize*0.4
-                color: "red"
+                color: 'red'
             }
         }
-
-
     }
 }

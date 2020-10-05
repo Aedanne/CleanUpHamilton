@@ -10,8 +10,8 @@ import ArcGIS.AppFramework 1.0
 
 import Esri.ArcGISRuntime 100.2
 
-import "../ui_controls"
-import "../"
+import '../ui_controls'
+import '../'
 
 /*
 PreviewAttachmentSection QML Type - for form page, previewing image captured
@@ -23,7 +23,6 @@ Rectangle {
 
     property var source
 
-    //Native behavior methods
     signal discarded()
     signal refresh()
 
@@ -42,8 +41,8 @@ Rectangle {
         imageFrame.rotation = 0
         imageFrame.scale = 1
 
-        exifInfo.load(source.toString().replace(Qt.platform.os == "windows"? "file:///": "file://",""))
-        imageObject.load(source.toString().replace(Qt.platform.os == "windows"? "file:///": "file://",""))
+        exifInfo.load(source.toString().replace(Qt.platform.os == 'windows'? 'file:///': 'file://',''))
+        imageObject.load(source.toString().replace(Qt.platform.os == 'windows'? 'file:///': 'file://',''))
     }
 
 
@@ -65,10 +64,8 @@ Rectangle {
                 }
             }
 
-
-
             IconTemplate {
-                imageSource: "../images/clear.png"
+                imageSource: '../images/clear.png'
                 height: 25*app.scaleFactor
                 width: 25*app.scaleFactor
                 imageSize: 25*app.scaleFactor
@@ -76,9 +73,9 @@ Rectangle {
                 anchors.leftMargin: 10
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
-                iconOverlayColor: "#FFFFFF"
+                iconOverlayColor: '#FFFFFF'
                 onIconClicked: {
-                    console.log(">>>> X button clicked - rootPreview.source: " + rootPreview.source )
+                    console.log('>>>> X button clicked - rootPreview.source: ' + rootPreview.source )
                     rootPreview.visible = false
                     formPageFooter.visible = true
                     formPageHeader.visible = true
@@ -86,7 +83,6 @@ Rectangle {
                 }
             }
         }
-
 
         Rectangle {
             id: mainPreviewSection
@@ -117,8 +113,8 @@ Rectangle {
                 smooth: true
                 antialiasing: true
 
-                color: "transparent"
-                border.color: "transparent"
+                color: 'transparent'
+                border.color: 'transparent'
                 border.width: 0
 
                 //Load the image being previewed
@@ -126,7 +122,7 @@ Rectangle {
                     id: image
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectFit
-                    source: (rootPreview.source > "") ? rootPreview.source : ""
+                    source: (rootPreview.source > '') ? rootPreview.source : ''
                     antialiasing: true
                     autoTransform: true
                 }
@@ -176,7 +172,6 @@ Rectangle {
                         }
                     }
                 }
-
             }
         }
 
@@ -187,26 +182,24 @@ Rectangle {
             Layout.preferredWidth: parent.width
             Layout.preferredHeight: 75 * app.scaleFactor
 
-
             IconTemplate {
                 backgroundColor: app.cameraViewBackgroundColor
                 height: 60*app.scaleFactor
                 width: 60*app.scaleFactor
-                imageSource: "../images/delete.png"
+                imageSource: '../images/delete.png'
                 anchors.rightMargin: 15
                 anchors.leftMargin: 15
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.top
-                iconOverlayColor: "#FFFFFF"
+                iconOverlayColor: '#FFFFFF'
                 onIconClicked: {
-                    console.log(">>>> Delete icon - rootPreview.source: " + rootPreview.source)
+                    console.log('>>>> Delete icon - rootPreview.source: ' + rootPreview.source)
                     discarded()
                     rootPreview.visible = false //Go back to previous page after deleting
                     formPageFooter.visible = true
                     formPageHeader.visible = true
                 }
             }
-
         }
 
         Item {
@@ -232,12 +225,11 @@ Rectangle {
     //Delete image signal
     onDiscarded: {
         app.tempPath = app.attListModel.get(thumbGridView.currentIndex).path
-        console.log(">>>> thumbGridView.currentIndex: ", thumbGridView.currentIndex, app.tempPath)
+        console.log('>>>> thumbGridView.currentIndex: ', thumbGridView.currentIndex, app.tempPath)
 
         app.tempImageFilePath = AppFramework.resolvedPath(app.tempPath)
         fileFolder.removeFile (app.tempImageFilePath)
     }
-
 }
 
 

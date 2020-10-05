@@ -42,6 +42,5 @@ Item {
             bottomPadding: 25*app.scaleFactor
             text: loadingText
         }
-
     }
 }
