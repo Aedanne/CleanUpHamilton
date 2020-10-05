@@ -27,10 +27,10 @@ Using ESRI ArcGIS frameworks and libraries
 Author: Charisse Hanson
 */
 
-App{
+App {
     id: app
     width: 460
-    height: 780
+    height: 820
 
     property string version: app.info.version
 
@@ -131,7 +131,7 @@ App{
             menuModel: app.authenticated ? sideMenuDrawerModel1 : sideMenuDrawerModel0
             onMenuSelected: {
                 sideMenuDrawer.close()
-                switch(action){
+                switch(action) {
                 case 'fileareport':
                     console.log('>>>> In menu drawer > fileareport')
                         formStackView.loadSetLocationPage()
@@ -162,7 +162,7 @@ App{
     }
 
     //Side menu options to send to drawer model=========================================
-    ListModel{
+    ListModel {
         id: sideMenuDrawerModel0  //Login option
 
         ListElement {
@@ -198,7 +198,7 @@ App{
     }
 
     /* //Bypass login - used for debugging
-    ListModel{
+    ListModel {
         id: sideMenuDrawerModel1
 
         ListElement {
@@ -237,7 +237,7 @@ App{
     //Page Components =====================================================
 
     //Home page component
-    Component{
+    Component {
         id: homePageComponent
 
         HomePage {
@@ -260,10 +260,10 @@ App{
     }
 
     //About component when menu option selected
-    Component{
+    Component {
         id: aboutPageComponent
 
-        AboutPage{
+        AboutPage {
             titleText:qsTr('About')
             descText: qsTr('ABOUT')
             descText1: qsTr('Version: ' +app.version)
@@ -278,10 +278,10 @@ App{
     }
 
     //Settings component when menu option selected
-    Component{
+    Component {
         id: settingsPageComponent
 
-        SettingsPage{
+        SettingsPage {
             titleText:qsTr('Settings')
             descText: qsTr('Settings')
 
@@ -347,7 +347,7 @@ App{
     }
 
     //Login component when menu option selected
-    Component{
+    Component {
         id: loginPageComponent
 
         LoginPage {
@@ -364,10 +364,10 @@ App{
     }
 
     //Reported Cases component when menu option selected
-    Component{
+    Component {
         id: reportedCasesMapPageComponent
 
-        ReportedCasesMapPage{
+        ReportedCasesMapPage {
             titleText:qsTr('Reported Cases Map')
             descText: qsTr('Reported Cases Map')
             onPreviousPage: {
@@ -385,7 +385,7 @@ App{
     }
 
     //Cases List component from Reported Cases Map page
-    Component{
+    Component {
         id: casesListPageComponent
 
         CasesListPage {
