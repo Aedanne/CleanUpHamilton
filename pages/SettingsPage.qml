@@ -14,9 +14,9 @@ import Esri.ArcGISRuntime 100.5
 import ArcGIS.AppFramework.Platform 1.0
 
 
-import "../ui_controls"
-import "../images"
-import "../assets"
+import '../ui_controls'
+import '../images'
+import '../assets'
 
 
 /*
@@ -30,19 +30,16 @@ Page {
     signal nextPage()
     signal previousPage()
 
-    property string titleText:""
+    property string titleText:''
     property var descText
 
 
     //Header custom QML =================================================================
     header: HeaderSection {
         id: formPageHeader
-        logMessage: ">>>>  Header: SETTINGS PAGE INFO PAGE"
+        logMessage: '>>>>  Header: SETTINGS PAGE INFO PAGE'
 
     }
-
-
-
 
     //Main body of the page =============================================================
 
@@ -60,27 +57,22 @@ Page {
                 margins: 20 * app.scaleFactor
             }
 
-
-
-            //Location placeholder
-            RowLayout{
-
+            RowLayout {
                 spacing: 0
                 visible: true
 
                 Label {
                     font.pixelSize: app.baseFontSize*.4
                     font.bold: true
-                    text: "Application Primary Color: "
+                    text: 'Application Primary Color: '
                     color: app.defaultPrimaryColor
                     topPadding: 35 * app.scaleFactor
                     bottomPadding: 5 * app.scaleFactor
                 }
 
             }
-            //Location placeholder
-            RowLayout{
 
+            RowLayout {
                 spacing: 0
                 visible: true
 
@@ -99,26 +91,24 @@ Page {
                 color: app.defaultPrimaryColor
             }
 
-            RowLayout{
-
+            RowLayout {
                 spacing: 0
                 visible: true
 
                 Label {
                     font.pixelSize: app.baseFontSize*.4
                     font.bold: true
-                    text: "Override Primary Color: "
+                    text: 'Override Primary Color: '
                     color: app.primaryColor
                     topPadding: 50 * app.scaleFactor
                     bottomPadding: 5 * app.scaleFactor
                 }
 
             }
-            RowLayout{
 
+            RowLayout {
                 spacing: 0
                 visible: true
-
 
                 TextField {
                     font.pixelSize: app.baseFontSize*.4
@@ -131,35 +121,34 @@ Page {
                         app.overridePrimaryColor = text
                         app.localOverrideColor = text
                     }
-
                 }
             }
 
             Rectangle {
                 Layout.preferredWidth: 150*app.scaleFactor
                 Layout.preferredHeight: 75*app.scaleFactor
-                color: app.overridePrimaryColor !== '' ? app.overridePrimaryColor : "transparent"
+                color: app.overridePrimaryColor !== '' ? app.overridePrimaryColor : 'transparent'
             }
 
 
             //padding
-            RowLayout{
-
+            RowLayout {
                 spacing: 0
                 visible: true
 
                 Label {
                     font.pixelSize: app.baseFontSize*.4
                     font.bold: true
-                    text: ""
+                    text: ''
                     color: app.defaultPrimaryColor
                     topPadding: 75 * app.scaleFactor
                     bottomPadding: 5 * app.scaleFactor
                 }
+
                 Label {
                     font.pixelSize: app.baseFontSize*.4
-                    text: ""
-                    color: "transparent"
+                    text: ''
+                    color: 'transparent'
                     topPadding: 75 * app.scaleFactor
                     bottomPadding: 5 * app.scaleFactor
                 }
@@ -174,11 +163,8 @@ Page {
     //Footer custom QML =================================================================
     footer: FooterSection {
         id: formPageFooter
-        logMessage: "In Form Page - Footer..."
-        rightButtonText: "SAVE"
-        overrideRightIconSrc: "../images/save.png"
+        logMessage: 'In Form Page - Footer...'
+        rightButtonText: 'SAVE'
+        overrideRightIconSrc: '../images/save.png'
     }
-
-
-
 }

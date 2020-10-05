@@ -162,8 +162,9 @@ App {
     }
 
     //Side menu options to send to drawer model=========================================
+    //Not authenticated
     ListModel {
-        id: sideMenuDrawerModel0  //Login option
+        id: sideMenuDrawerModel0
 
         ListElement {
             action:'fileareport'
@@ -197,7 +198,7 @@ App {
         }
     }
 
-    /* //Bypass login - used for debugging
+    //Logged-in, authenticated
     ListModel {
         id: sideMenuDrawerModel1
 
@@ -232,7 +233,6 @@ App {
             iconSource: '../images/gear.png'
         }
     }
-    */
 
     //Page Components =====================================================
 

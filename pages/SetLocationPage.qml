@@ -16,9 +16,9 @@ import ArcGIS.AppFramework.Platform 1.0
 import Esri.ArcGISRuntime 100.2
 
 
-import "../ui_controls"
-import "../images"
-import "../assets"
+import '../ui_controls'
+import '../images'
+import '../assets'
 
 /*
 Main mapping page for Clean-Up Hamilton app
@@ -32,20 +32,20 @@ Page {
     signal nextPage()
     signal previousPage()
 
-    property string titleText:""
+    property string titleText:''
     property var descText
 
 
     //Header custom QML =================================================================
     header: HeaderSection {
-        logMessage: ">>>> Header:  SET LOCATION INFO PAGE"
+        logMessage: '>>>> Header:  SET LOCATION INFO PAGE'
     }
 
 
     //Main body of the page =============================================================
     //Map and MapView QML Types
 
-    contentItem: Rectangle{
+    contentItem: Rectangle {
 
         ColumnLayout {
 
@@ -94,7 +94,7 @@ Page {
 
                 Image {
                     id: centerPin
-                    source: "../images/pin.png"
+                    source: '../images/pin.png'
                     width: 40 * app.scaleFactor
                     height: 40 * app.scaleFactor
                     anchors {
@@ -104,9 +104,8 @@ Page {
                     visible: true
                 }
 
-
                 //Map control buttons
-                Column{
+                Column {
                     id:mapButtons
                     spacing: 5 * app.scaleFactor
                     anchors {
@@ -115,17 +114,17 @@ Page {
                         margins: 5 * scaleFactor
                     }
 
-                    Button{
+                    Button {
                         id:myLocButton
-                        Image{
+                        Image {
                             id: mylocImage
-                            source:"../images/my_loc.png"
+                            source:'../images/my_loc.png'
                             height: 30 * scaleFactor
                             width: height
                             anchors.centerIn: parent
                         }
 
-                        ColorOverlay{
+                        ColorOverlay {
                             anchors.fill: mylocImage
                             source: mylocImage
                             color: app.mapBorderColor
@@ -146,8 +145,8 @@ Page {
                     }
                 }
 
-                onMouseClicked:{
-                    if(mapView.map.loadStatus === Enums.LoadStatusLoaded){
+                onMouseClicked: {
+                    if (mapView.map.loadStatus === Enums.LoadStatusLoaded) {
                         panToLocation()
                     }
                 }
@@ -155,9 +154,7 @@ Page {
                 onCurrentViewpointCenterChanged: {
                     getLonLatValue()
                 }
-
             }
-
 
             Rectangle {
                 id: locationLonLatRect
@@ -172,13 +169,14 @@ Page {
 
                     Label {
                         font.pixelSize: app.baseFontSize*.5
-                        text: "My Location: "
+                        text: 'My Location: '
                         color: app.appPrimaryTextColor
                         topPadding: 5 * app.scaleFactor
                         bottomPadding: 5 * app.scaleFactor
                         verticalAlignment: Text.AlignBottom
                         font.bold: true
                     }
+
                     Label {
                         font.pixelSize: app.baseFontSize*.5
                         text: app.currentLonLat
@@ -190,7 +188,6 @@ Page {
                     }
                 }
             }
-
         }
     }
 
@@ -198,12 +195,12 @@ Page {
         id: help
     }
 
-
-
     //Footer custom QML =================================================================
     footer: FooterSection {
-        logMessage: "In Set Location Page - Footer..."
+        logMessage: 'In Set Location Page - Footer...'
     }
+
+    //Location page functions ===========================================================
 
     //Pan to current location
     function panToLocation() {
@@ -211,30 +208,25 @@ Page {
         mapView.locationDisplay.autoPanMode = Enums.LocationDisplayAutoPanModeRecenter
 
         //Log current mapview center point
-        console.log(">>>> mapView.currentViewpointCenter>>>>", mapView.currentViewpointCenter.center)
+        console.log('>>>> mapView.currentViewpointCenter>>>>', mapView.currentViewpointCenter.center)
         var currLonLat = getLonLatValue()
-        console.log(">>>> Long and Lat: ", currLonLat)
+        console.log('>>>> Long and Lat: ', currLonLat)
 
         app.currentLocationPoint = mapView.currentViewpointCenter.center
         app.currentLonLat = currLonLat
     }
 
-    function getLonLatValue(){
+    function getLonLatValue() {
         var centerLocation = (mapView.currentViewpointCenter &&
                               mapView.currentViewpointCenter.center &&
-                              mapView.map.loadStatus === Enums.LoadStatusLoaded
-                              ) ?
+                              mapView.map.loadStatus === Enums.LoadStatusLoaded) ?
                                     CoordinateFormatter.toLatitudeLongitude(mapView.currentViewpointCenter.center, Enums.LatitudeLongitudeFormatDecimalDegrees, 3)
-                                    : ""
+                                    : ''
 
         app.currentLocationPoint = mapView.currentViewpointCenter.center
         app.currentLonLat = centerLocation
-
-        console.log(">>>> Long and Lat: ", app.currentLonLat)
+        console.log('>>>> Long and Lat: ', app.currentLonLat)
 
         return centerLocation
     }
-
-
-
 }

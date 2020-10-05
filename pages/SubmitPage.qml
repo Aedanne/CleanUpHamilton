@@ -10,16 +10,15 @@ About page for Clean-Up Hamilton app
 */
 
 Page {
-
     id:submitPage
 
     signal nextPage() //go straight to home
 
-    property string titleText:""
-    property string descText1: "Thank you "
-    property string descText2: "for keeping"
-    property string descText3: "Hamilton clean!"
-    property string homeButtonText: "Home  "
+    property string titleText:''
+    property string descText1: 'Thank you '
+    property string descText2: 'for keeping'
+    property string descText3: 'Hamilton clean!'
+    property string homeButtonText: 'Home  '
     anchors.fill: HomePage
 
     header: ToolBar{
@@ -30,7 +29,7 @@ Page {
             anchors.fill: parent
             spacing: 0
 
-            Label{
+            Label {
                 Layout.preferredWidth: 250*app.scaleFactor
                 horizontalAlignment: Qt.AlignLeft
                 verticalAlignment: Qt.AlignVCenter
@@ -38,7 +37,7 @@ Page {
                 font.bold: true
                 wrapMode: Text.Wrap
                 leftPadding: 10*app.scaleFactor
-                text: titleText > ""? titleText:""
+                text: titleText > ''? titleText:''
                 color: app.menuPrimaryTextColor
             }
 
@@ -49,7 +48,7 @@ Page {
         }
     }
 
-    Rectangle{
+    Rectangle {
         anchors.fill: parent
         color: app.appBackgroundColor
 
@@ -58,12 +57,12 @@ Page {
             opacity: 0.55
             width: parent.width
             height: parent.height
-            source: "../images/Hamilton-Lake.jpg"
+            source: '../images/Hamilton-Lake.jpg'
             fillMode: Image.Stretch
             mipmap: true
         }
 
-        ColumnLayout{
+        ColumnLayout {
             anchors.fill: parent
             spacing: 10*app.scaleFactor
 
@@ -84,8 +83,8 @@ Page {
                     wrapMode: Text.Wrap
                     topPadding: 90*app.scaleFactor
                     text: descText1
-
                 }
+
                 Label {
                     Material.theme: Material.Light
                     anchors.centerIn: parent
@@ -98,6 +97,7 @@ Page {
                     topPadding: 180*app.scaleFactor
                     text: descText2
                 }
+
                 Label {
                     Material.theme: Material.Light
                     anchors.centerIn: parent
@@ -110,14 +110,13 @@ Page {
                     topPadding: 270*app.scaleFactor
                     text: descText3
                 }
-
             }
 
 
-            //"Back to home" button=======================================
+            //'Back to home' button=======================================
             Button {
                 id: homeButton
-                text: ""
+                text: ''
                 font.bold: true
                 font.pixelSize: app.baseFontSize*0.65
                 Layout.alignment: Qt.AlignHCenter
@@ -130,6 +129,7 @@ Page {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
+
                 background: Rectangle {
 
                     implicitWidth: 180 * app.scaleFactor
@@ -151,14 +151,13 @@ Page {
                             width: 5
                         }
 
-                        Image{
+                        Image {
                             Layout.preferredWidth: 45*app.scaleFactor
                             Layout.preferredHeight: 45*app.scaleFactor
-                            source: "../images/home.png"
-
+                            source: '../images/home.png'
                         }
 
-                        Label{
+                        Label {
                             horizontalAlignment: Text.AlignHCenter
                             text: homeButtonText
                             font.pixelSize: app.baseFontSize*0.65
@@ -168,16 +167,14 @@ Page {
                         }
 
                         //padding
-                        Item{
+                        Item {
                             width: 5
                         }
-
-
                     }
                 }
 
                 onClicked: {
-                    console.log(">>>> File a Report button clicked from HomePage")
+                    console.log('>>>> File a Report button clicked from HomePage')
                     nextPage()
                 }
             }

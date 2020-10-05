@@ -32,7 +32,6 @@ Page{
             clip: true
 
             model: app.authenticated ? sideMenuDrawerModel1 : sideMenuDrawerModel0
-//            model: sideMenuDrawerModel1
             delegate:Rectangle{
                 height: 56*app.scaleFactor
                 width: parent.width
@@ -41,40 +40,40 @@ Page{
                 color:app.primaryColor
 
 
-                RowLayout{
+                RowLayout {
 
                     anchors.fill: parent
                     spacing: 7*app.scaleFactor
-                    visible: (name === "divider"? false:true)
-                    enabled: (name === "divider"? false:true)
+                    visible: (name === 'divider'? false:true)
+                    enabled: (name === 'divider'? false:true)
 
 
-                    Image{
-                        Layout.preferredWidth: (name === "divider"? 1: 25*app.scaleFactor)
-                        Layout.preferredHeight: (name === "divider"? 1: 25*app.scaleFactor)
+                    Image {
+                        Layout.preferredWidth: (name === 'divider'? 1: 25*app.scaleFactor)
+                        Layout.preferredHeight: (name === 'divider'? 1: 25*app.scaleFactor)
                         source: iconSource
-                        visible: (name === "divider"? false:true)
+                        visible: (name === 'divider'? false:true)
                         antialiasing: true
                         autoTransform: true
                     }
-                    Label{
-                        Layout.fillWidth: (name === "divider"? false:true)
-                        Layout.fillHeight: (name === "divider"? false:true)
+
+                    Label {
+                        Layout.fillWidth: (name === 'divider'? false:true)
+                        Layout.fillHeight: (name === 'divider'? false:true)
                         verticalAlignment: Text.AlignVCenter
-                        text: (name === "divider"? "": name)
+                        text: (name === 'divider'? '': name)
                         font.pixelSize: app.baseFontSize*0.5
                         font.bold: true
                         maximumLineCount: 1
                         color: app.menuPrimaryTextColor
-                        visible: (name === "divider"? false:true)
+                        visible: (name === 'divider'? false:true)
 
                     }
                 }
 
-
-                Item{
+                Item {
                     anchors.fill: parent
-                    visible: name === "divider"
+                    visible: name === 'divider'
                     Rectangle{
                         width: parent.width
                         height: 2*app.scaleFactor
@@ -84,19 +83,18 @@ Page{
 
                 MouseArea {
                     id: sideMenuMouseArea
-                    visible: (name === "divider"? false:true)
-                    enabled: (name === "divider"? false:true)
+                    visible: (name === 'divider'? false:true)
+                    enabled: (name === 'divider'? false:true)
                     anchors.centerIn: parent
                     hoverEnabled: true
                     anchors.fill: parent
                     onClicked: {
-                        console.log(">>>> Menu Item clicked")
+                        console.log('>>>> Menu Item clicked')
                         menuSelected(action)
                     }
                 }
             }
         }
-
 
         Label {
             id: signedInAsLabel
@@ -107,8 +105,9 @@ Page{
             font.bold: true
             wrapMode: Text.Wrap
             topPadding: 55*app.scaleFactor
-            text: "Signed in as:"
-         }
+            text: 'Signed in as:'
+        }
+
         Label {
             visible: app.authenticated
             Material.theme: Material.Light
@@ -122,8 +121,6 @@ Page{
         Item {
             height: 10*app.scaleFactor
         }
-
-
     }
 }
 
