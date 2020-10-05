@@ -14,13 +14,13 @@ import Esri.ArcGISRuntime 100.5
 import ArcGIS.AppFramework.Platform 1.0
 
 
-import "../ui_controls"
-import "../images"
-import "../assets"
+import '../ui_controls'
+import '../images'
+import '../assets'
 
 
 /*
-Reported Case Form page for Clean-Up Hamilton app
+Staff - Reported Case Form page for Clean-Up Hamilton app
 */
 
 Page {
@@ -33,14 +33,14 @@ Page {
     property var descText
     property int maxLimit: 250
     property int currChars
-    property string titleText: ""
+    property string titleText: ''
 
     property int attIndex
     property string qryString
     property int objectID
 
     property bool isDebug: true
-    property string debugText: "Debug on"
+    property string debugText: 'Debug on'
 
     //Attributes
     property int reportedCaseTypeIndex
@@ -56,41 +56,36 @@ Page {
     property int reportedCaseObjectId
     property AttachmentListModel reportedCaseAttListModel
 
-    property string imgRubbish: "../images/type_rubbish.png"
+    property string imgRubbish: '../images/type_rubbish.png'
     property string typeRubbish: 'Illegal rubbish dumping'
 
-    property string imgOther: "../images/type_other.png"
+    property string imgOther: '../images/type_other.png'
     property string typeOther: 'Other'
 
-    property string imgGraffiti: "../images/type_graffiti.png"
+    property string imgGraffiti: '../images/type_graffiti.png'
     property string typeGraffiti: 'Graffiti'
 
-    property string imgBroken: "../images/type_broken.png"
+    property string imgBroken: '../images/type_broken.png'
     property string typeBroken: 'Broken items'
 
-    property string imgAssignToMe: "../images/assigntome.png"
-    property string imgTakeOver: "../images/takeover.png"
-    property string imgCancel: "../images/cancel.png"
-    property string imgComplete: "../images/complete.png"
-    property string imgEdit: "../images/edit_black.png"
-    property string imgRevert: "../images/revert.png"
-    property string imgAttachment: "../images/paperclip.png"
+    property string imgAssignToMe: '../images/assigntome.png'
+    property string imgTakeOver: '../images/takeover.png'
+    property string imgCancel: '../images/cancel.png'
+    property string imgComplete: '../images/complete.png'
+    property string imgEdit: '../images/edit_black.png'
+    property string imgRevert: '../images/revert.png'
+    property string imgAttachment: '../images/paperclip.png'
 
     property int imgSizeBottom: 28 * app.scaleFactor
     property bool querying: false
     property string localWorkerNote: ''
 
 
-
     //Header custom QML =================================================================
     header: HeaderSection {
         id: formPageHeader
-        logMessage: ">>>> Header: REPORTED CASE FORM PAGE"
-
+        logMessage: '>>>> Header: REPORTED CASE FORM PAGE'
     }
-
-
-
 
     //Main body of the page =============================================================
 
@@ -121,16 +116,13 @@ Page {
                     Layout.fillWidth: true
                     spacing: 0
 
-
                     Label {
                         font.pixelSize: app.baseFontSize*.4
-                        text: "[Case#"+reportedCaseObjectId+"] Report Type: "
+                        text: '[Case#'+reportedCaseObjectId+'] Report Type: '
                         color: app.appPrimaryTextColor
                         wrapMode: Text.Wrap
                         font.bold: true
                     }
-
-
 
                     ComboBox {
                         id: typeComboBox
@@ -139,7 +131,7 @@ Page {
                         currentIndex: reportedCaseTypeIndex
                         font.bold: true
                         font.pixelSize: app.baseFontSize*.4
-                        displayText: currentIndex === -1 ? "Please Choose..." : currentText
+                        displayText: currentIndex === -1 ? 'Please Choose...' : currentText
 
                         delegate: ItemDelegate {
                             width: parent.width
@@ -155,39 +147,38 @@ Page {
 
                         model: ListModel {
                             id: typeIndex
-                            ListElement { text: "Graffiti" }
-                            ListElement { text: "Broken items"  }
-                            ListElement { text: "Illegal rubbish dumping"  }
-                            ListElement { text: "Other"  }
+                            ListElement { text: 'Graffiti' }
+                            ListElement { text: 'Broken items'  }
+                            ListElement { text: 'Illegal rubbish dumping'  }
+                            ListElement { text: 'Other'  }
                         }
 
                         onCurrentIndexChanged: {
-                            debugText = ">>>> Combo Box selected: " + typeIndex.get(currentIndex).text
+                            debugText = '>>>> Combo Box selected: ' + typeIndex.get(currentIndex).text
                             console.log(debugText)
                             reportedCaseTypeIndex = currentIndex
                         }
 
                         contentItem: Text {
-                                leftPadding: 5 * app.scaleFactor
-                                rightPadding: typeComboBox.indicator.width + typeComboBox.spacing
+                            leftPadding: 5 * app.scaleFactor
+                            rightPadding: typeComboBox.indicator.width + typeComboBox.spacing
 
-                                text: typeComboBox.displayText
-                                font: typeComboBox.font
-                                color: app.appSecondaryTextColor
-                                verticalAlignment: Text.AlignVCenter
-                                elide: Text.ElideRight
-                            }
+                            text: typeComboBox.displayText
+                            font: typeComboBox.font
+                            color: app.appSecondaryTextColor
+                            verticalAlignment: Text.AlignVCenter
+                            elide: Text.ElideRight
+                        }
                     }
 
 
-                    RowLayout{
-
+                    RowLayout {
                         spacing: 5
                         visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
-                            text: "Location: "
+                            text: 'Location: '
                             color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
@@ -203,16 +194,13 @@ Page {
                         }
                     }
 
-
-
-                    RowLayout{
-
+                    RowLayout {
                         spacing: 5
                         visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
-                            text: "Report Date: "
+                            text: 'Report Date: '
                             color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
@@ -229,23 +217,20 @@ Page {
                     }
 
                     RowLayout{
-
                         spacing: 5
                         visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
-                            text: "Report Description: "
+                            text: 'Report Description: '
                             color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
                         }
-
-
                     }
 
                     TextArea {
-                        Material.accent: "transparent"
+                        Material.accent: 'transparent'
                         selectByMouse: true
                         wrapMode: TextEdit.WrapAnywhere
                         color: app.appSecondaryTextColor
@@ -264,11 +249,9 @@ Page {
                         color: app.appBorderColorCaseList
                     }
 
-
-
                     Label {
                         font.pixelSize: app.baseFontSize*.35
-                        text: "New Worker Note: "
+                        text: 'New Worker Note: '
                         color: 'red'
                         wrapMode: Text.Wrap
                         font.bold: true
@@ -294,7 +277,7 @@ Page {
                                 padding: 3 * scaleFactor
                                 selectByMouse: true
                                 wrapMode: TextEdit.WrapAnywhere
-                                placeholderText: " Additional details required to save changes..."
+                                placeholderText: ' Additional details required to save changes...'
                                 color: app.appSecondaryTextColor
                                 font.pixelSize: app.baseFontSize*.3
                                 text: localWorkerNote
@@ -314,9 +297,8 @@ Page {
                     Rectangle {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 20 * app.scaleFactor
-                        color: "transparent"
+                        color: 'transparent'
                     }
-
 
                     //Separator
                     Rectangle {
@@ -325,13 +307,13 @@ Page {
                         color: app.appBorderColorCaseList
                     }
 
-                    RowLayout{
+                    RowLayout {
                         spacing: 5
                         visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
-                            text: "Current Status: "
+                            text: 'Current Status: '
                             color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 10 * app.scaleFactor
@@ -347,14 +329,13 @@ Page {
                         }
                     }
 
-                    RowLayout{
-
+                    RowLayout {
                         spacing: 5
                         visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
-                            text: "Assigned User: "
+                            text: 'Assigned User: '
                             color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
@@ -370,14 +351,13 @@ Page {
                         }
                     }
 
-                    RowLayout{
-
+                    RowLayout {
                         spacing: 5
                         visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
-                            text: "Assigned Date: "
+                            text: 'Assigned Date: '
                             color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
@@ -393,14 +373,13 @@ Page {
                         }
                     }
 
-                    RowLayout{
-
+                    RowLayout {
                         spacing: 5
                         visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
-                            text: "Last Update By: "
+                            text: 'Last Update By: '
                             color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
@@ -416,14 +395,13 @@ Page {
                         }
                     }
 
-                    RowLayout{
-
+                    RowLayout {
                         spacing: 5
                         visible: true
 
                         Label {
                             font.pixelSize: app.baseFontSize*.35
-                            text: "Last Update: "
+                            text: 'Last Update: '
                             color: app.appPrimaryTextColor
                             wrapMode: Text.Wrap
                             topPadding: 5 * app.scaleFactor
@@ -441,15 +419,14 @@ Page {
 
                     Label {
                         font.pixelSize: app.baseFontSize*.35
-                        text: "Saved Worker Note: "
+                        text: 'Saved Worker Note: '
                         color: app.appPrimaryTextColor
                         wrapMode: Text.Wrap
                         topPadding: 5 * app.scaleFactor
                     }
 
-
                     TextArea {
-                        Material.accent: "transparent"
+                        Material.accent: 'transparent'
                         selectByMouse: true
                         wrapMode: TextEdit.WrapAnywhere
                         color: app.appSecondaryTextColor
@@ -461,21 +438,16 @@ Page {
                         Layout.preferredWidth: parent.width
                     }
 
-
-
-
-
                     Text {
                         font.pixelSize: app.baseFontSize*.2
                         font.bold: true
-                        text: ""
+                        text: ''
                         color: app.appPrimaryTextColor
                         verticalAlignment: Text.AlignTop
                         topPadding: 50 * app.scaleFactor
                     }
                 }
             }
-
 
             Rectangle {
                 Layout.fillWidth: true
@@ -493,7 +465,7 @@ Page {
                         color: app.appBackgroundColorCaseList
                         visible: reportedCaseCurrentStatus !== 'Assigned' ? true : false
 
-                        Image{
+                        Image {
                             anchors.centerIn: parent
                             width: imgSizeBottom
                             height: imgSizeBottom
@@ -502,7 +474,6 @@ Page {
                             fillMode: Image.PreserveAspectFit
                             antialiasing: true
                         }
-
                     }
 
                     //Assign to me
@@ -513,7 +484,7 @@ Page {
                         color: app.appBackgroundColorCaseList
                         visible: reportedCaseCurrentStatus === 'Pending' ? true : false
 
-                        Image{
+                        Image {
                             id: assign
                             anchors.centerIn: parent
                             width: imgSizeBottom
@@ -531,7 +502,7 @@ Page {
                                 verticalOffset: 2
                                 radius: 4.0
                                 samples: 17
-                                color: "#aa000000"
+                                color: '#aa000000'
                                 source: assign
                         }
 
@@ -545,9 +516,7 @@ Page {
                                 }
                             }
                         }
-
                     }
-
 
                     //Takeover
                     Rectangle {
@@ -557,7 +526,7 @@ Page {
                         color: app.appBackgroundColorCaseList
                         visible: (reportedCaseCurrentStatus !== 'Pending' && reportedCaseAssignedUser !== app.portalUser) ? true : false
 
-                        Image{
+                        Image {
                             id: takeover
                             anchors.centerIn: parent
                             width: imgSizeBottom
@@ -575,7 +544,7 @@ Page {
                                 verticalOffset: 2
                                 radius: 4.0
                                 samples: 17
-                                color: "#aa000000"
+                                color: '#aa000000'
                                 source: takeover
                         }
 
@@ -589,7 +558,6 @@ Page {
                                 }
                             }
                         }
-
                     }
 
                     // Attachment view icon
@@ -599,7 +567,7 @@ Page {
                         Layout.preferredHeight: 53 * app.scaleFactor
                         color: app.appBackgroundColorCaseList
 
-                        Image{
+                        Image {
                             id: viewAttachment
                             anchors.centerIn: parent
                             width: imgSizeBottom
@@ -617,22 +585,21 @@ Page {
                                 verticalOffset: 2
                                 radius: 4.0
                                 samples: 17
-                                color: "#aa000000"
+                                color: '#aa000000'
                                 source: viewAttachment
                         }
 
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
-                                console.log(">>> MOUSE AREA: View Attachments, featureId:", reportedCaseObjectId, reportedCaseFeature)
+                                console.log('>>> MOUSE AREA: View Attachments, featureId:', reportedCaseObjectId, reportedCaseFeature)
                                 attachmentViewer.visible = true
                                 reportedCaseAttListModel = app.reportedCaseFeature.attachments
                             }
                         }
-
                     }
 
-                    //Cancel item
+                    //Cancel item action
                     Rectangle {
                         id: cancelitem
                         Layout.fillWidth: true
@@ -640,7 +607,7 @@ Page {
                         color: app.appBackgroundColorCaseList
                         visible: reportedCaseCurrentStatus === 'Assigned' ? true : false
 
-                        Image{
+                        Image {
                             id: cancel
                             anchors.centerIn: parent
                             width: imgSizeBottom
@@ -652,15 +619,13 @@ Page {
                             antialiasing: true
                         }
 
-
-
                         DropShadow {
                                 anchors.fill: cancel
                                 horizontalOffset: 2
                                 verticalOffset: 2
                                 radius: 4.0
                                 samples: 17
-                                color: "#aa000000"
+                                color: '#aa000000'
                                 source: cancel
                                 visible: reportedCaseAssignedUser === app.portalUser ? true : false
                         }
@@ -682,12 +647,11 @@ Page {
                                     if (reportedCaseAssignedUser === app.portalUser) {
                                         updateFeature(app.reportedCaseFeature, 'Cancel', reportedCaseCurrentStatus)
                                     } else {
-                                       console.log(">>>> DISABLED: NOT ASSIGNED USER: updateFeature(feature, 'Cancel', currentStatus)")
+                                       console.log('>>>> DISABLED: NOT ASSIGNED USER: updateFeature(feature, \'Cancel\', currentStatus)')
                                     }
                                 }
                             }
                         }
-
                     }
 
                     //Revert status of item
@@ -698,7 +662,7 @@ Page {
                         color: app.appBackgroundColorCaseList
                         visible: reportedCaseCurrentStatus !== 'Pending' ? true : false
 
-                        Image{
+                        Image {
                             id: revert
                             anchors.centerIn: parent
                             width: imgSizeBottom
@@ -716,7 +680,7 @@ Page {
                                 verticalOffset: 2
                                 radius: 4.0
                                 samples: 17
-                                color: "#aa000000"
+                                color: '#aa000000'
                                 source: revert
                                 visible: reportedCaseAssignedUser === app.portalUser ? true : false
                         }
@@ -737,16 +701,14 @@ Page {
                                     if (reportedCaseAssignedUser === app.portalUser) {
                                         updateFeature(app.reportedCaseFeature, 'Revert', reportedCaseCurrentStatus)
                                     } else {
-                                       console.log(">>>> DISABLED: NOT ASSIGNED USER: updateFeature(feature, 'Revert', currentStatus)")
+                                       console.log('>>>> DISABLED: NOT ASSIGNED USER: updateFeature(feature, \'Revert\', currentStatus)')
                                     }
                                 }
-
                             }
                         }
-
                     }
 
-                    //Complete case
+                    //Complete case action
                     Rectangle {
                         id: completeitem
                         Layout.fillWidth: true
@@ -754,7 +716,7 @@ Page {
                         color: app.appBackgroundColorCaseList
                         visible: reportedCaseCurrentStatus === 'Assigned' ? true : false
 
-                        Image{
+                        Image {
                             id: complete
                             anchors.centerIn: parent
                             width: imgSizeBottom
@@ -772,7 +734,7 @@ Page {
                                 verticalOffset: 2
                                 radius: 4.0
                                 samples: 17
-                                color: "#aa000000"
+                                color: '#aa000000'
                                 source: complete
                                 visible: reportedCaseAssignedUser === app.portalUser ? true : false
                         }
@@ -793,12 +755,11 @@ Page {
                                     if (reportedCaseAssignedUser === app.portalUser) {
                                         updateFeature(app.reportedCaseFeature, 'Complete', reportedCaseCurrentStatus)
                                     } else {
-                                       console.log(">>>> DISABLED: NOT ASSIGNED USER: updateFeature(feature, 'Complete', currentStatus)")
+                                       console.log('>>>> DISABLED: NOT ASSIGNED USER: updateFeature(feature, \'Complete\', currentStatus)')
                                     }
                                 }
                             }
                         }
-
                     }
 
                     //Padding
@@ -808,7 +769,7 @@ Page {
                         color: app.appBackgroundColorCaseList
                         visible: reportedCaseCurrentStatus !== 'Assigned' ? true : false
 
-                        Image{
+                        Image {
                             anchors.centerIn: parent
                             width: imgSizeBottom
                             height: imgSizeBottom
@@ -821,45 +782,32 @@ Page {
                 }
             }
 
-
-
             Text {
                 Layout.fillWidth: true
                 font.pixelSize: app.baseFontSize*.2
                 font.bold: true
-                text: ""
+                text: ''
                 color: app.appPrimaryTextColor
                 verticalAlignment: Text.AlignTop
                 topPadding: 20 * app.scaleFactor
             }
-
         }
-
-
-
-
     }
 
-
-
-
-
-
+    //Query parameter QML for querying server-side map features
     QueryParameters {
         id: params
         maxFeatures: 1
     }
 
-
     // Attachment Viewer Overlay ================================================
-
     Rectangle {
         id: attachmentViewer
         visible: false
         width: app.width
         height: app.height
         anchors.centerIn: parent
-        color: "transparent"
+        color: 'transparent'
 
         ColumnLayout {
             spacing: 0
@@ -874,18 +822,16 @@ Page {
                 MouseArea {
                     anchors.fill: topArea
                     onClicked: {
-                        console.log("outside......")
+                        console.log('outside......')
                         attachmentViewer.visible = false
                     }
                 }
-
             }
 
             Item {
                 width: app.width
                 height: app.height*0.5
                 anchors.centerIn: parent
-
 
                 SwipeView {
                     id: swipeView
@@ -898,9 +844,7 @@ Page {
                         Item {
                             id: delegateAttachments
 
-
                             Rectangle {
-
                                 color: app.cameraViewBackgroundColor
                                 visible: true
                                 anchors.top: parent.top
@@ -915,7 +859,7 @@ Page {
                                     fillMode: Image.PreserveAspectFit
                                     source: attachmentUrl
                                     onSourceChanged: {
-                                        console.log(">>>> Attachment Viewer Section: Src: ",source)
+                                        console.log('>>>> Attachment Viewer Section: Src: ',source)
                                     }
                                     autoTransform: true
                                 }
@@ -959,7 +903,6 @@ Page {
                 }
             }
 
-
             Rectangle {
                 id: bottomArea
                 visible: true
@@ -970,7 +913,7 @@ Page {
                 MouseArea {
                     anchors.fill: bottomArea
                     onClicked: {
-                        console.log("outside......")
+                        console.log('outside......')
                         attachmentViewer.visible = false
                     }
                 }
@@ -978,7 +921,7 @@ Page {
         }
     }
 
-
+    //Busy animation / loading animation
     BusyIndicator {
         id: busy
         anchors.horizontalCenter: parent.horizontalCenter
@@ -989,7 +932,7 @@ Page {
         running: querying
     }
 
-
+    //Feature layer QML type for accessing server-side data from AGOL
     FeatureLayer {
 
         ServiceFeatureTable {
@@ -997,62 +940,59 @@ Page {
             url: app.featureServerURL
 
             onLoadStatusChanged: {
-                console.log(">>>> ReportedCaseFormPage: onLoadStatusChanged --- " + loadStatus)
+                console.log('>>>> ReportedCaseFormPage: onLoadStatusChanged --- ' + loadStatus)
             }
 
             onApplyEditsStatusChanged: {
-               console.log(">>>> ReportedCaseFormPage: onApplyEditsStatusChanged --- " + loadStatus)
+               console.log('>>>> ReportedCaseFormPage: onApplyEditsStatusChanged --- ' + loadStatus)
                if (applyEditsStatus === Enums.TaskStatusCompleted) {
-                   debugText = ">>>> ReportedCaseFormPage :  successfully edited feature"
+                   debugText = '>>>> ReportedCaseFormPage :  successfully edited feature'
                    nextPage()
                }
             }
 
             onUpdateFeatureStatusChanged: {
-                console.log(">>>> ReportedCaseFormPage: onUpdateFeatureStatusChanged --- " + loadStatus)
+                console.log('>>>> ReportedCaseFormPage: onUpdateFeatureStatusChanged --- ' + loadStatus)
                 if (updateFeatureStatus === Enums.TaskStatusCompleted) {
-                    console.log(">>>> ReportedCaseFormPage :  successfully updated feature")
+                    console.log('>>>> ReportedCaseFormPage :  successfully updated feature')
                     applyEdits()
                 }
             }
-
         }
     }
 
     AlertPopup {
         id: caseFormMissingData
-        alertText: ("New worker note is \nrequired to continue.")
+        alertText: ('New worker note is \nrequired to continue.')
     }
 
     RecordedCaseFormHelp {
         id: help
     }
 
-
-
     //Footer custom QML =================================================================
     footer: FooterSection {
         id: formPageFooter
-        logMessage: "In ReportedCaseForm Page - Footer..."
-        rightButtonText: "SAVE"
-        overrideRightIconSrc: "../images/save.png"
-        footerActionString: "CaseEditSave"
+        logMessage: 'In ReportedCaseForm Page - Footer...'
+        rightButtonText: 'SAVE'
+        overrideRightIconSrc: '../images/save.png'
+        footerActionString: 'CaseEditSave'
     }
 
 
+    //Functions for Reported Case Form (Staff) ============================================================
 
-    //===================================================================================
-
+    //Initialize objects
     function init() {
         //Load data from feature object
         //Attachments, attributes
         querying = false
         const reportFeature = app.reportedCaseFeature
 
-        console.log(">>>> reportFeature: ", reportFeature)
-        console.log(">>>> reportFeature.attributes. ", reportFeature.attributes.attributeNames)
+        console.log('>>>> reportFeature: ', reportFeature)
+        console.log('>>>> reportFeature.attributes. ', reportFeature.attributes.attributeNames)
 
-        var typeF = reportFeature.attributes.attributeValue("Type")
+        var typeF = reportFeature.attributes.attributeValue('Type')
         if (typeF === typeGraffiti) {
             typeComboBox.currentIndex = 0
         } else if (typeF === typeBroken) {
@@ -1063,86 +1003,83 @@ Page {
             typeComboBox.currentIndex = 3
         }
 
-        reportedCaseLonLat = reportFeature.attributes.attributeValue("Location")
-        reportedCaseDescription = reportFeature.attributes.attributeValue("Description")
-        reportedCaseObjectId = reportFeature.attributes.attributeValue("OBJECTID")
-        reportedCaseCurrentStatus = reportFeature.attributes.attributeValue("CurrentStatus")
-        reportedCaseAssignedUser = reportFeature.attributes.attributeValue("AssignedUser")
-        var assignedDate = reportFeature.attributes.attributeValue("AssignedDate")
+        reportedCaseLonLat = reportFeature.attributes.attributeValue('Location')
+        reportedCaseDescription = reportFeature.attributes.attributeValue('Description')
+        reportedCaseObjectId = reportFeature.attributes.attributeValue('OBJECTID')
+        reportedCaseCurrentStatus = reportFeature.attributes.attributeValue('CurrentStatus')
+        reportedCaseAssignedUser = reportFeature.attributes.attributeValue('AssignedUser')
+        var assignedDate = reportFeature.attributes.attributeValue('AssignedDate')
         reportedCaseAssignedDate = (assignedDate !== null ? assignedDate.toString() : '')
-        reportedCaseReportedDateString = reportFeature.attributes.attributeValue("ReportedDate").toString()
-        reportedCaseWorkerNote = reportFeature.attributes.attributeValue("WorkerNote")
-        reportedCaseLastUpdateUser =  reportFeature.attributes.attributeValue("LastUpdateUser")
-        var lastUpdateDate = reportFeature.attributes.attributeValue("LastUpdate")
+        reportedCaseReportedDateString = reportFeature.attributes.attributeValue('ReportedDate').toString()
+        reportedCaseWorkerNote = reportFeature.attributes.attributeValue('WorkerNote')
+        reportedCaseLastUpdateUser =  reportFeature.attributes.attributeValue('LastUpdateUser')
+        var lastUpdateDate = reportFeature.attributes.attributeValue('LastUpdate')
         reportedCaseLastUpdate = (lastUpdateDate !== null ? lastUpdateDate.toString() : '')
-
-
     }
 
     //Function to only save edits to record, no other action
-
     function updateFeatureSave() {
         const feature = app.reportedCaseFeature
-        console.log("\n\n\n>>>> ReportedCaseFormPage: updateFeatureSave()", feature, "  actionType: save")
+        console.log('\n\n\n>>>> ReportedCaseFormPage: updateFeatureSave()', feature, '  actionType: save')
         updateFeature(app.reportedCaseFeature, 'Save', reportedCaseCurrentStatus)
     }
 
     //Function to update record
     function updateFeature(feature, actionType, currentStatusVal) {
 
-        console.log("\n\n\n>>>> ReportedCaseFormPage: updateFeature()", feature, "  actionType:", actionType)
+        console.log('\n\n\n>>>> ReportedCaseFormPage: updateFeature()', feature, '  actionType:', actionType)
         app.lastStatusCaseList = app.lastStatusCaseListFull
         app.lastStatusCaseListFull = ''
 
         var workerNoteSubStr = localWorkerNote
         if (actionType === 'AssignToMe') {
-            feature.attributes.replaceAttribute("CurrentStatus", "Assigned")
-            feature.attributes.replaceAttribute("AssignedUser", app.portalUser)
-            feature.attributes.replaceAttribute("AssignedDate", new Date())
+            feature.attributes.replaceAttribute('CurrentStatus', 'Assigned')
+            feature.attributes.replaceAttribute('AssignedUser', app.portalUser)
+            feature.attributes.replaceAttribute('AssignedDate', new Date())
         } else if (actionType === 'TakeOver') {
             //No changes to the status
-            feature.attributes.replaceAttribute("AssignedUser", app.portalUser)
-            feature.attributes.replaceAttribute("AssignedDate", new Date())
+            feature.attributes.replaceAttribute('AssignedUser', app.portalUser)
+            feature.attributes.replaceAttribute('AssignedDate', new Date())
         } else if (actionType === 'Revert') {
             if (currentStatusVal === 'Assigned') {
-                feature.attributes.replaceAttribute("CurrentStatus", "Pending")
-                feature.attributes.replaceAttribute("AssignedUser", null)
-                feature.attributes.replaceAttribute("AssignedDate", null)
+                feature.attributes.replaceAttribute('CurrentStatus', 'Pending')
+                feature.attributes.replaceAttribute('AssignedUser', null)
+                feature.attributes.replaceAttribute('AssignedDate', null)
             } else if (currentStatusVal === 'Cancelled') {
-                feature.attributes.replaceAttribute("CurrentStatus", "Assigned")
-                feature.attributes.replaceAttribute("AssignedUser", app.portalUser)
-                feature.attributes.replaceAttribute("AssignedDate", new Date())
-                feature.attributes.replaceAttribute("CancelledUser", null)
-                feature.attributes.replaceAttribute("CancelledDate", null)
+                feature.attributes.replaceAttribute('CurrentStatus', 'Assigned')
+                feature.attributes.replaceAttribute('AssignedUser', app.portalUser)
+                feature.attributes.replaceAttribute('AssignedDate', new Date())
+                feature.attributes.replaceAttribute('CancelledUser', null)
+                feature.attributes.replaceAttribute('CancelledDate', null)
             } else if (currentStatusVal === 'Completed') {
-                feature.attributes.replaceAttribute("CurrentStatus", "Assigned")
-                feature.attributes.replaceAttribute("AssignedUser", app.portalUser)
-                feature.attributes.replaceAttribute("AssignedDate", new Date())
-                feature.attributes.replaceAttribute("CompletedUser", null)
-                feature.attributes.replaceAttribute("CompletedDate", null)
+                feature.attributes.replaceAttribute('CurrentStatus', 'Assigned')
+                feature.attributes.replaceAttribute('AssignedUser', app.portalUser)
+                feature.attributes.replaceAttribute('AssignedDate', new Date())
+                feature.attributes.replaceAttribute('CompletedUser', null)
+                feature.attributes.replaceAttribute('CompletedDate', null)
             }
         } else if (actionType === 'Complete') {
-            feature.attributes.replaceAttribute("CurrentStatus", "Completed")
-            feature.attributes.replaceAttribute("CompletedUser", app.portalUser)
-            feature.attributes.replaceAttribute("CompletedDate", new Date())
+            feature.attributes.replaceAttribute('CurrentStatus', 'Completed')
+            feature.attributes.replaceAttribute('CompletedUser', app.portalUser)
+            feature.attributes.replaceAttribute('CompletedDate', new Date())
         } else if (actionType === 'Cancel') {
-            feature.attributes.replaceAttribute("CurrentStatus", "Cancelled")
-            feature.attributes.replaceAttribute("CancelledUser", app.portalUser)
-            feature.attributes.replaceAttribute("CancelledDate", new Date())
+            feature.attributes.replaceAttribute('CurrentStatus', 'Cancelled')
+            feature.attributes.replaceAttribute('CancelledUser', app.portalUser)
+            feature.attributes.replaceAttribute('CancelledDate', new Date())
         }
 
-        var workerNote = workerNoteSubStr + ' ' + reportedCaseWorkerNote
+        var workerNote = workerNoteSubStr + ' ; ' + reportedCaseWorkerNote
         workerNote = workerNote.substr(0,250)
-        feature.attributes.replaceAttribute("WorkerNote", workerNote )
+        feature.attributes.replaceAttribute('WorkerNote', workerNote )
 
-        feature.attributes.replaceAttribute("Type", typeComboBox.displayText )
+        feature.attributes.replaceAttribute('Type', typeComboBox.displayText )
 
         //Update these values regardless of type of edit
-        feature.attributes.replaceAttribute("LastUpdateUser", app.portalUser)
-        feature.attributes.replaceAttribute("LastUpdate", new Date())
+        feature.attributes.replaceAttribute('LastUpdateUser', app.portalUser)
+        feature.attributes.replaceAttribute('LastUpdate', new Date())
 
         // update the feature in the feature table asynchronously
-        console.log(">>>> ReportedCaseFormPage: updateFeature() - performing update")
+        console.log('>>>> ReportedCaseFormPage: updateFeature() - performing update')
 
         querying = true
         caseEditFeatureTable.updateFeature(feature)
@@ -1155,12 +1092,6 @@ Page {
         attachmentview.visible = false
         takeovercase.visible = false
 
-
     }
-
-
-
-
-
 }
 

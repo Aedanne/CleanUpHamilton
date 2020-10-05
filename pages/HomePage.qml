@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.13
 import ArcGIS.AppFramework 1.0
 
-import "../ui_controls"
+import '../ui_controls'
 /*
 Home page for Clean-Up Hamilton app
 */
@@ -18,7 +18,7 @@ Page {
 
     property var descText1
     property var descText2
-    property var reportButtonText: "File a Report"
+    property var reportButtonText: 'File a Report'
 
 
     //Header ============================================================================
@@ -35,15 +35,17 @@ Page {
                 Layout.preferredWidth: 5
                 Layout.fillHeight: true
             }
+
             ToolButton {
                 indicator: Image {
                     width: parent.width*0.9
                     height: parent.height*1.2
                     anchors.centerIn: parent
-                    source: "../images/menu.png"
+                    source: '../images/menu.png'
                     fillMode: Image.PreserveAspectFit
                     mipmap: true
                 }
+
                 onClicked: {
                     openMenu()
                 }
@@ -66,7 +68,7 @@ Page {
     }
 
     //Main body of home page=============================================================
-    Rectangle{
+    Rectangle {
         anchors.fill: parent
         color: app.appBackgroundColor
 
@@ -75,13 +77,13 @@ Page {
             opacity: 0.85
             width: parent.width
             height: parent.height
-            source: "../images/Hamilton-Lake.jpg"
+            source: '../images/Hamilton-Lake.jpg'
             fillMode: Image.Stretch
             mipmap: true
         }
 
         //Layout for the home page - title, then file report button
-        ColumnLayout{
+        ColumnLayout {
             anchors.fill: parent
             spacing: 10*app.scaleFactor
 
@@ -104,6 +106,7 @@ Page {
                     text: descText1
 
                 }
+
                 Label {
                     Material.theme: Material.Light
                     anchors.centerIn: parent
@@ -116,15 +119,14 @@ Page {
                     topPadding: 180*app.scaleFactor
                     text: descText2
                 }
-
             }
 
 
-            //"File a report" button=======================================
+            //'File a report' button=======================================
 
             Button {
                 id: fileReportButton
-                text: ""
+                text: ''
                 font.bold: true
                 font.pixelSize: app.baseFontSize*0.65
                 Layout.alignment: Qt.AlignHCenter
@@ -137,8 +139,8 @@ Page {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
-                background: Rectangle {
 
+                background: Rectangle {
                     implicitWidth: 220 * app.scaleFactor
                     implicitHeight: 50 * app.scaleFactor
 
@@ -154,18 +156,18 @@ Page {
                         anchors.centerIn: parent
 
                         //padding
-                        Item{
+                        Item {
                             width: 5
                         }
 
-                        Image{
+                        Image {
                             Layout.preferredWidth: 28*app.scaleFactor
                             Layout.preferredHeight: 28*app.scaleFactor
-                            source: "../images/add_note.png"
+                            source: '../images/add_note.png'
 
                         }
 
-                        Label{
+                        Label {
                             horizontalAlignment: Text.AlignHCenter
                             text: reportButtonText
                             font.pixelSize: app.baseFontSize*0.65
@@ -175,20 +177,17 @@ Page {
                         }
 
                         //padding
-                        Item{
+                        Item {
                             width: 5
                         }
-
-
                     }
                 }
 
                 onClicked: {
-                    console.log(">>>> File a Report button clicked from HomePage")
+                    console.log('>>>> File a Report button clicked from HomePage')
                     nextPage()
                 }
             }
         }
     }
-
 }

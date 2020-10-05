@@ -16,9 +16,9 @@ import ArcGIS.AppFramework.Platform 1.0
 import Esri.ArcGISRuntime 100.7
 
 
-import "../ui_controls"
-import "../images"
-import "../assets"
+import '../ui_controls'
+import '../images'
+import '../assets'
 
 
 /*
@@ -27,14 +27,13 @@ Staff Workflow Cases List Page
 
 
 Page {
-
     id:casesListPage
 
     signal nextPage()
     signal nextPageEdit()
     signal previousPage()
 
-    property string titleText:"This is a test"
+    property string titleText:'This is a test'
     property var descText
 
     property ArcGISFeature caseFeature
@@ -48,28 +47,28 @@ Page {
     property int imgSizeTop: 50 * app.scaleFactor
     property int imgSizeBottom: 28 * app.scaleFactor
 
-    property string imgRubbish: "../images/type_rubbish.png"
+    property string imgRubbish: '../images/type_rubbish.png'
     property string typeRubbish: 'Illegal rubbish dumping'
 
-    property string imgOther: "../images/type_other.png"
+    property string imgOther: '../images/type_other.png'
     property string typeOther: 'Other'
 
-    property string imgGraffiti: "../images/type_graffiti.png"
+    property string imgGraffiti: '../images/type_graffiti.png'
     property string typeGraffiti: 'Graffiti'
 
-    property string imgBroken: "../images/type_broken.png"
+    property string imgBroken: '../images/type_broken.png'
     property string typeBroken: 'Broken items'
 
-    property string imgAssignedGreen: "../images/assigned_green.png"
-    property string imgAssignedGray: "../images/assigned_gray.png"
-    property string imgAssignedYellow: "../images/assigned_yellow.png"
+    property string imgAssignedGreen: '../images/assigned_green.png'
+    property string imgAssignedGray: '../images/assigned_gray.png'
+    property string imgAssignedYellow: '../images/assigned_yellow.png'
 
-    property string imgAssignToMe: "../images/assigntome.png"
-    property string imgCancel: "../images/cancel.png"
-    property string imgComplete: "../images/complete.png"
-    property string imgEdit: "../images/edit_black.png"
-    property string imgRevert: "../images/revert.png"
-    property string imgAttachment: "../images/paperclip.png"
+    property string imgAssignToMe: '../images/assigntome.png'
+    property string imgCancel: '../images/cancel.png'
+    property string imgComplete: '../images/complete.png'
+    property string imgEdit: '../images/edit_black.png'
+    property string imgRevert: '../images/revert.png'
+    property string imgAttachment: '../images/paperclip.png'
 
     property bool isUpdate: false
     property AttachmentListModel attListModel
@@ -79,24 +78,21 @@ Page {
 
     //Header custom QML =================================================================
     header: HeaderSection {
-        logMessage: ">>>> Header: Cases List PAGE"
+        logMessage: '>>>> Header: Cases List PAGE'
     }
 
-
     //Main body of the page =============================================================
-
     Label {
         id: topRow
         font.pixelSize: app.baseFontSize*.1
         font.bold: true
-        text: " "
+        text: ' '
         color: app.appPrimaryTextColor
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignBottom
     }
 
-    RowLayout{
-
+    RowLayout {
         spacing: 0
         visible: true
         anchors.top: topRow.bottom
@@ -104,95 +100,82 @@ Page {
         Layout.fillWidth: true
         anchors.horizontalCenter: parent.horizontalCenter
 
-
         ComboBox {
-                id: statusComboBox
-                currentIndex: statusIndex
-                font.bold: true
-                font.pixelSize: app.baseFontSize*.5
-                displayText: currentStatusValue
-                implicitWidth: app.width
+            id: statusComboBox
+            currentIndex: statusIndex
+            font.bold: true
+            font.pixelSize: app.baseFontSize*.5
+            displayText: currentStatusValue
+            implicitWidth: app.width
+            Layout.fillWidth: true
 
-
+            delegate: ItemDelegate {
                 Layout.fillWidth: true
-
-
-                delegate: ItemDelegate {
-                    Layout.fillWidth: true
-                    width: parent.width
-                    contentItem: Text {
-                        text: modelData
-                        width: app.width
-                        color: app.appPrimaryTextColor
-                        font: statusComboBox.font
-                        verticalAlignment: Text.AlignVCenter
-
-                    }
-                    highlighted: statusComboBox.highlightedIndex === index
-
-                }
-
-                model: ListModel {
-                    id: statusIndexList
-                    ListElement { text: "Case Status: Pending" }
-                    ListElement { text: "Case Status: Assigned"  }
-                    ListElement { text: "Case Status: Completed"  }
-                    ListElement { text: "Case Status: Cancelled"  }
-                    ListElement { text: "Case Status: Assigned [USER]"  }
-                    ListElement { text: "Case Status: Completed [USER]"  }
-                    ListElement { text: "Case Status: Cancelled [USER]"  }
-
-                }
-
-                onCurrentIndexChanged: {
-                    console.log(">>>> CasesList: onCurrentIndexChanged =",app.lastStatusCaseList)
-                    if (app.lastStatusCaseList !== '') {
-
-                        currentIndex = getStatusIndex()
-                    }
-                    statusIndex = currentIndex
-                    debugText = ">>>> onCurrentIndexChanged: Status Combo Box selected: " + statusIndexList.get(currentIndex).text
-                    console.log(debugText)
-
-                    currentStatusValue = statusIndexList.get(currentIndex).text
-                    queryFeaturesByStatusAndExtent()
-
-
-                }
+                width: parent.width
 
                 contentItem: Text {
-                        Layout.fillWidth: true
-                        width: parent.width
-                        leftPadding: 10 * app.scaleFactor
-                        rightPadding: statusComboBox.indicator.width + statusComboBox.spacing
-
-                        text: statusComboBox.displayText
-                        font: statusComboBox.font
-                        color: app.appPrimaryTextColor
-                        verticalAlignment: Text.AlignVCenter
-
+                    text: modelData
+                    width: app.width
+                    color: app.appPrimaryTextColor
+                    font: statusComboBox.font
+                    verticalAlignment: Text.AlignVCenter
 
                 }
+                highlighted: statusComboBox.highlightedIndex === index
             }
 
+            model: ListModel {
+                id: statusIndexList
+                ListElement { text: 'Case Status: Pending' }
+                ListElement { text: 'Case Status: Assigned'  }
+                ListElement { text: 'Case Status: Completed'  }
+                ListElement { text: 'Case Status: Cancelled'  }
+                ListElement { text: 'Case Status: Assigned [USER]'  }
+                ListElement { text: 'Case Status: Completed [USER]'  }
+                ListElement { text: 'Case Status: Cancelled [USER]'  }
+            }
 
+            onCurrentIndexChanged: {
+                console.log('>>>> CasesList: onCurrentIndexChanged =',app.lastStatusCaseList)
+                if (app.lastStatusCaseList !== '') {
 
+                    currentIndex = getStatusIndex()
+                }
+                statusIndex = currentIndex
+                debugText = '>>>> onCurrentIndexChanged: Status Combo Box selected: ' + statusIndexList.get(currentIndex).text
+                console.log(debugText)
+
+                currentStatusValue = statusIndexList.get(currentIndex).text
+                queryFeaturesByStatusAndExtent()
+            }
+
+            contentItem: Text {
+                Layout.fillWidth: true
+                width: parent.width
+                leftPadding: 10 * app.scaleFactor
+                rightPadding: statusComboBox.indicator.width + statusComboBox.spacing
+                text: statusComboBox.displayText
+                font: statusComboBox.font
+                color: app.appPrimaryTextColor
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
     }
 
     Label {
         id: bottomRow
         font.pixelSize: app.baseFontSize*.2
         font.bold: true
-        text: "_"
-        color: "transparent"
+        text: '_'
+        color: 'transparent'
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignBottom
     }
 
+    //Start of list section of page
     contentItem: Rectangle{
 
         ColumnLayout {
-
             anchors.fill: parent
             anchors.topMargin: 50 * app.scaleFactor
 
@@ -200,21 +183,18 @@ Page {
                 id: bottomRow1
                 font.pixelSize: app.baseFontSize*.2
                 font.bold: true
-                text: "_ "
-                color: "transparent"
+                text: '_ '
+                color: 'transparent'
                 horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignBottom
             }
 
             ListView {
                 id: listView
-
                 width: Math.min(parent.width, 600 * scaleFactor)
                 height: parent.height
                 clip: true
-
                 currentIndex: -1
-
                 spacing: 0
 
                 model: casesListModel
@@ -248,7 +228,6 @@ Page {
                         Rectangle {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 60 * app.scaleFactor
-
                             clip: true
 
                             RowLayout {
@@ -262,7 +241,7 @@ Page {
                                     color: app.appBackgroundColorCaseList
                                     Layout.preferredWidth: parent.width*0.02
 
-                                    Image{
+                                    Image {
                                         anchors.centerIn: parent
                                         width: imgSizeTop
                                         height: imgSizeTop
@@ -281,8 +260,7 @@ Page {
                                     Layout.preferredWidth: parent.width*0.18
                                     anchors.alignWhenCentered: Qt.AlignTop
 
-
-                                    Image{
+                                    Image {
                                         anchors.centerIn: parent
                                         width: imgSizeTop
                                         height: imgSizeTop
@@ -292,7 +270,6 @@ Page {
                                         fillMode: Image.PreserveAspectFit
                                         antialiasing: true
                                     }
-
                                 }
 
                                 // Assignment status
@@ -302,7 +279,7 @@ Page {
                                     color: app.appBackgroundColorCaseList
                                     Layout.preferredWidth: parent.width*0.18
 
-                                    Image{
+                                    Image {
                                         anchors.centerIn: parent
                                         width: imgSizeTop
                                         height: imgSizeTop
@@ -312,9 +289,7 @@ Page {
                                         fillMode: Image.PreserveAspectFit
                                         antialiasing: true
                                     }
-
                                 }
-
 
                                 //Padding
                                 Rectangle {
@@ -345,7 +320,7 @@ Page {
 
                                         Label {
                                             Layout.fillWidth: true
-                                            text: " Case #"+objectId + ": " + (type===typeRubbish?'Rubbish':type)
+                                            text: ' Case #'+objectId + ': ' + (type===typeRubbish?'Rubbish':type)
                                             visible: true
                                             color: app.appPrimaryTextColor
                                             font.pixelSize: app.baseFontSize*.3
@@ -358,7 +333,7 @@ Page {
 
                                         Label {
                                             Layout.fillWidth: true
-                                            text: " Case Date: " + reportedDate
+                                            text: ' Case Date: ' + reportedDate
                                             color: app.appSecondaryTextColor
                                             font.pixelSize: app.baseFontSize*.3
                                             horizontalAlignment: Text.AlignLeft
@@ -369,7 +344,7 @@ Page {
 
                                         Label {
                                             Layout.fillWidth: true
-                                            text: " Desc: " + description
+                                            text: ' Desc: ' + description
                                             color: app.appSecondaryTextColor
                                             font.pixelSize: app.baseFontSize*.3
                                             horizontalAlignment: Text.AlignLeft
@@ -387,7 +362,7 @@ Page {
                         Rectangle {
                             Layout.fillWidth: true
                             implicitHeight: 1
-                            color: "transparent"
+                            color: 'transparent'
                         }
 
                         Rectangle {
@@ -400,7 +375,7 @@ Page {
 
                                 Label {
                                     Layout.fillWidth: true
-                                    text: "   Worker Note: " + workerNote
+                                    text: '   Worker Note: ' + workerNote
                                     color: app.appPrimaryTextColor
                                     font.pixelSize: app.baseFontSize*.3
                                     horizontalAlignment: Text.AlignLeft
@@ -413,7 +388,7 @@ Page {
 
                                 Label {
                                     Layout.fillWidth: true
-                                    text: "   Last Update: " + (lastUpdate === undefined ? '' : (lastUpdate === null ? '' : (lastUpdate === 'Invalid Date' ? '' : lastUpdate)))
+                                    text: '   Last Update: ' + (lastUpdate === undefined ? '' : (lastUpdate === null ? '' : (lastUpdate === 'Invalid Date' ? '' : lastUpdate)))
                                     color: app.appPrimaryTextColor
                                     font.pixelSize: app.baseFontSize*.3
                                     horizontalAlignment: Text.AlignLeft
@@ -423,7 +398,6 @@ Page {
                                     visible: true
                                     font.italic: true
                                 }
-
                             }
                         }
 
@@ -431,9 +405,8 @@ Page {
                         Rectangle {
                             Layout.fillWidth: true
                             implicitHeight: 1
-                            color: "transparent"
+                            color: 'transparent'
                         }
-
 
                         Rectangle {
                             Layout.fillWidth: true
@@ -450,7 +423,7 @@ Page {
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus !== 'Assigned' ? true : false
 
-                                    Image{
+                                    Image {
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
                                         height: imgSizeBottom
@@ -459,7 +432,6 @@ Page {
                                         fillMode: Image.PreserveAspectFit
                                         antialiasing: true
                                     }
-
                                 }
 
                                 //Assign to me
@@ -469,7 +441,7 @@ Page {
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus === 'Pending' ? true : false
 
-                                    Image{
+                                    Image {
                                         id: assign
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
@@ -482,13 +454,13 @@ Page {
                                     }
 
                                     DropShadow {
-                                            anchors.fill: assign
-                                            horizontalOffset: 2
-                                            verticalOffset: 2
-                                            radius: 4.0
-                                            samples: 17
-                                            color: "#aa000000"
-                                            source: assign
+                                        anchors.fill: assign
+                                        horizontalOffset: 2
+                                        verticalOffset: 2
+                                        radius: 4.0
+                                        samples: 17
+                                        color: '#aa000000'
+                                        source: assign
                                     }
 
                                     MouseArea {
@@ -497,7 +469,6 @@ Page {
                                             updateFeature(feature, 'AssignToMe', currentStatus, workerNote, index)
                                         }
                                     }
-
                                 }
 
                                 // Attachment view icon
@@ -506,7 +477,7 @@ Page {
                                     Layout.preferredHeight: 53 * app.scaleFactor
                                     color: app.appBackgroundColorCaseList
 
-                                    Image{
+                                    Image {
                                         id: viewAttachment
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
@@ -519,26 +490,25 @@ Page {
                                     }
 
                                     DropShadow {
-                                            anchors.fill: viewAttachment
-                                            horizontalOffset: 2
-                                            verticalOffset: 2
-                                            radius: 4.0
-                                            samples: 17
-                                            color: "#aa000000"
-                                            source: viewAttachment
+                                        anchors.fill: viewAttachment
+                                        horizontalOffset: 2
+                                        verticalOffset: 2
+                                        radius: 4.0
+                                        samples: 17
+                                        color: '#aa000000'
+                                        source: viewAttachment
                                     }
 
                                     MouseArea {
                                         anchors.fill: parent
+
                                         onClicked: {
-                                            console.log(">>> MOUSE AREA: View Attachments, featureId:", objectId, feature)
+                                            console.log('>>> MOUSE AREA: View Attachments, featureId:', objectId, feature)
                                             attachmentViewer.visible = true
                                             attListModel = feature.attachments
                                         }
                                     }
-
                                 }
-
 
                                 //Edit
                                 Rectangle {
@@ -547,7 +517,7 @@ Page {
                                     color: app.appBackgroundColorCaseList
                                     visible: true
 
-                                    Image{
+                                    Image {
                                         id: edit
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
@@ -560,25 +530,25 @@ Page {
                                     }
 
                                     DropShadow {
-                                            anchors.fill: edit
-                                            horizontalOffset: 2
-                                            verticalOffset: 2
-                                            radius: 4.0
-                                            samples: 17
-                                            color: "#aa000000"
-                                            source: edit
+                                        anchors.fill: edit
+                                        horizontalOffset: 2
+                                        verticalOffset: 2
+                                        radius: 4.0
+                                        samples: 17
+                                        color: '#aa000000'
+                                        source: edit
                                     }
 
                                     MouseArea {
                                         anchors.fill: parent
+
                                         onClicked: {
-                                            console.log(">>> MOUSE AREA: Edit Feature")
+                                            console.log('>>> MOUSE AREA: Edit Feature')
                                             app.reportedCaseFeature = feature
                                             app.lastStatusCaseListFull = statusComboBox.displayText
                                             nextPageEdit()
                                         }
                                     }
-
                                 }
 
                                 //Cancel item
@@ -588,7 +558,7 @@ Page {
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus === 'Assigned' ? true : false
 
-                                    Image{
+                                    Image {
                                         id: cancel
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
@@ -600,37 +570,35 @@ Page {
                                         antialiasing: true
                                     }
 
-
-
                                     DropShadow {
-                                            anchors.fill: cancel
-                                            horizontalOffset: 2
-                                            verticalOffset: 2
-                                            radius: 4.0
-                                            samples: 17
-                                            color: "#aa000000"
-                                            source: cancel
-                                            visible: assignedUser === app.portalUser ? true : false
+                                        anchors.fill: cancel
+                                        horizontalOffset: 2
+                                        verticalOffset: 2
+                                        radius: 4.0
+                                        samples: 17
+                                        color: '#aa000000'
+                                        source: cancel
+                                        visible: assignedUser === app.portalUser ? true : false
                                     }
 
                                     ColorOverlay {
-                                            anchors.fill: cancel
-                                            source: cancel
-                                            color: app.disabledIconColor
-                                            visible: assignedUser === app.portalUser ? false : true
+                                        anchors.fill: cancel
+                                        source: cancel
+                                        color: app.disabledIconColor
+                                        visible: assignedUser === app.portalUser ? false : true
                                     }
 
                                     MouseArea {
                                         anchors.fill: parent
+
                                         onClicked: {
                                             if (assignedUser === app.portalUser) {
                                                 updateFeature(feature, 'Cancel', currentStatus, workerNote, index)
                                             } else {
-                                               console.log(">>>> DISABLED: NOT ASSIGNED USER: updateFeature(feature, 'Cancel', currentStatus)")
+                                               console.log('>>>> DISABLED: NOT ASSIGNED USER: updateFeature(feature, \'Cancel\', currentStatus)')
                                             }
                                         }
                                     }
-
                                 }
 
                                 //Revert status of item
@@ -640,7 +608,7 @@ Page {
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus !== 'Pending' ? true : false
 
-                                    Image{
+                                    Image {
                                         id: revert
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
@@ -653,35 +621,34 @@ Page {
                                     }
 
                                     DropShadow {
-                                            anchors.fill: revert
-                                            horizontalOffset: 2
-                                            verticalOffset: 2
-                                            radius: 4.0
-                                            samples: 17
-                                            color: "#aa000000"
-                                            source: revert
-                                            visible: assignedUser === app.portalUser ? true : false
+                                        anchors.fill: revert
+                                        horizontalOffset: 2
+                                        verticalOffset: 2
+                                        radius: 4.0
+                                        samples: 17
+                                        color: '#aa000000'
+                                        source: revert
+                                        visible: assignedUser === app.portalUser ? true : false
                                     }
 
                                     ColorOverlay {
-                                            anchors.fill: revert
-                                            source: revert
-                                            color: app.disabledIconColor
-                                            visible: assignedUser === app.portalUser ? false : true
+                                        anchors.fill: revert
+                                        source: revert
+                                        color: app.disabledIconColor
+                                        visible: assignedUser === app.portalUser ? false : true
                                     }
 
                                     MouseArea {
                                         anchors.fill: parent
+
                                         onClicked: {
                                             if (assignedUser === app.portalUser) {
                                                 updateFeature(feature, 'Revert', currentStatus, workerNote, index)
                                             } else {
-                                               console.log(">>>> DISABLED: NOT ASSIGNED USER: updateFeature(feature, 'Revert', currentStatus)")
+                                               console.log('>>>> DISABLED: NOT ASSIGNED USER: updateFeature(feature, \'Revert\', currentStatus)')
                                             }
-
                                         }
                                     }
-
                                 }
 
                                 //Complete case
@@ -691,7 +658,7 @@ Page {
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus === 'Assigned' ? true : false
 
-                                    Image{
+                                    Image {
                                         id: complete
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
@@ -704,35 +671,34 @@ Page {
                                     }
 
                                     DropShadow {
-                                            anchors.fill: complete
-                                            horizontalOffset: 2
-                                            verticalOffset: 2
-                                            radius: 4.0
-                                            samples: 17
-                                            color: "#aa000000"
-                                            source: complete
-                                            visible: assignedUser === app.portalUser ? true : false
+                                        anchors.fill: complete
+                                        horizontalOffset: 2
+                                        verticalOffset: 2
+                                        radius: 4.0
+                                        samples: 17
+                                        color: '#aa000000'
+                                        source: complete
+                                        visible: assignedUser === app.portalUser ? true : false
                                     }
 
                                     ColorOverlay {
-                                            anchors.fill: complete
-                                            source: complete
-                                            color: app.disabledIconColor
-                                            visible: assignedUser === app.portalUser ? false : true
+                                        anchors.fill: complete
+                                        source: complete
+                                        color: app.disabledIconColor
+                                        visible: assignedUser === app.portalUser ? false : true
                                     }
 
                                     MouseArea {
                                         anchors.fill: parent
+
                                         onClicked: {
                                             if (assignedUser === app.portalUser) {
                                                 updateFeature(feature, 'Complete', currentStatus, workerNote, index)
                                             } else {
-                                               console.log(">>>> DISABLED: NOT ASSIGNED USER: updateFeature(feature, 'Complete', currentStatus)")
+                                               console.log('>>>> DISABLED: NOT ASSIGNED USER: updateFeature(feature, \'Complete\', currentStatus)')
                                             }
-
                                         }
                                     }
-
                                 }
 
                                 //Padding
@@ -742,7 +708,7 @@ Page {
                                     color: app.appBackgroundColorCaseList
                                     visible: currentStatus !== 'Assigned' ? true : false
 
-                                    Image{
+                                    Image {
                                         anchors.centerIn: parent
                                         width: imgSizeBottom
                                         height: imgSizeBottom
@@ -766,21 +732,18 @@ Page {
                         Rectangle {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 20 * app.scaleFactor
-                            color: "transparent"
+                            color: 'transparent'
                         }
-
                     }
                 }
             }
         }
     }
 
-
+    //List model for retrieved cases from the map extent
     ListModel{
         id: casesListModel
     }
-
-
 
     BusyIndicator {
         id: busy
@@ -792,69 +755,62 @@ Page {
         running: querying
     }
 
-
     QueryParameters {
         id: params
     }
 
-
+    //Feature layer QML type for accessing server-side data from AGOL
     FeatureLayer {
-
         ServiceFeatureTable {
             id: casesListFeatureTable
             url: app.featureServerURL
 
             onLoadStatusChanged: {
-                debugText = ">>>> CasesListPage: onLoadStatusChanged --- " + loadStatus
+                debugText = '>>>> CasesListPage: onLoadStatusChanged --- ' + loadStatus
                 console.log(debugText)
                 queryFeaturesByStatusAndExtent()
             }
 
-
             onQueryFeaturesStatusChanged: {
-
                 if (queryFeaturesStatus === Enums.TaskStatusCompleted) {
                     querying = false
-
-                    console.log(">>>> Cases List: Query: ", queryFeaturesResult)
+                    console.log('>>>> Cases List: Query: ', queryFeaturesResult)
 
                     //Update the display counts
                     if (queryFeaturesResult.iterator != null) {
                         var index = 0
-
 
                         while (queryFeaturesResult.iterator.hasNext) {
                             caseFeature = queryFeaturesResult.iterator.next()
                             var attributesF = caseFeature.attributes
                             const featureF = caseFeature
 
-                            console.log(" caseFeature.attributes. ", caseFeature.attributes.attributeNames)
-                            var objectIdF = caseFeature.attributes.attributeValue("OBJECTID")
-                            var typeF = caseFeature.attributes.attributeValue("Type")
-                            var tempDesc = caseFeature.attributes.attributeValue("Description")
+                            console.log(' caseFeature.attributes. ', caseFeature.attributes.attributeNames)
+                            var objectIdF = caseFeature.attributes.attributeValue('OBJECTID')
+                            var typeF = caseFeature.attributes.attributeValue('Type')
+                            var tempDesc = caseFeature.attributes.attributeValue('Description')
                             var descriptionF = tempDesc === null ? '' : (tempDesc.length > 30 ? (tempDesc.substr(0,30)+'...') : tempDesc)
-                            var currentStatusF = caseFeature.attributes.attributeValue("CurrentStatus")
-                            var tempUser = caseFeature.attributes.attributeValue("AssignedUser")
+                            var currentStatusF = caseFeature.attributes.attributeValue('CurrentStatus')
+                            var tempUser = caseFeature.attributes.attributeValue('AssignedUser')
                             var assignedUserF = tempUser === null ? '': tempUser
-                            var assignedDateF = caseFeature.attributes.attributeValue("AssignedDate")
-                            var reportedDateF = caseFeature.attributes.attributeValue("ReportedDate")
+                            var assignedDateF = caseFeature.attributes.attributeValue('AssignedDate')
+                            var reportedDateF = caseFeature.attributes.attributeValue('ReportedDate')
                             var reportedDateStrF = reportedDateF.toString()
-                            var lastUpdateF = caseFeature.attributes.attributeValue("LastUpdate")
-                            var tempWorkerNote =  caseFeature.attributes.attributeValue("WorkerNote")
+                            var lastUpdateF = caseFeature.attributes.attributeValue('LastUpdate')
+                            var tempWorkerNote =  caseFeature.attributes.attributeValue('WorkerNote')
                             var workerNoteF = tempWorkerNote === null ? '' : (tempWorkerNote.length > 55 ? (tempWorkerNote.substr(0,55)+'...') : tempWorkerNote)
                             var lastUpdateStrF = (lastUpdateF !== null ? lastUpdateF.toString() : '')
 
-                            console.log("\n\n>>>> QUERY: caseFeature --- values: ")
-                            console.log(">>>> objectId: ", objectIdF)
-                            console.log(">>>> type: ", typeF)
-                            console.log(">>>> description: ", descriptionF)
-                            console.log(">>>> currentStatus: ", currentStatusF)
-                            console.log(">>>> assignedUser: ", assignedUserF)
-                            console.log(">>>> assignedDate: ", assignedDateF)
-                            console.log(">>>> reportedDate: ", reportedDateF)
-                            console.log(">>>> workerNote: ", workerNoteF)
-                            console.log(">>>> lastUpdate: ", lastUpdateStrF)
-
+                            console.log('\n\n>>>> QUERY: caseFeature --- values: ')
+                            console.log('>>>> objectId: ', objectIdF)
+                            console.log('>>>> type: ', typeF)
+                            console.log('>>>> description: ', descriptionF)
+                            console.log('>>>> currentStatus: ', currentStatusF)
+                            console.log('>>>> assignedUser: ', assignedUserF)
+                            console.log('>>>> assignedDate: ', assignedDateF)
+                            console.log('>>>> reportedDate: ', reportedDateF)
+                            console.log('>>>> workerNote: ', workerNoteF)
+                            console.log('>>>> lastUpdate: ', lastUpdateStrF)
 
                             casesListModel.append({objectId: objectIdF,
                                                        description:descriptionF,
@@ -869,48 +825,43 @@ Page {
                                                        lastUpdate: lastUpdateStrF
                                                       })
                             featureList.push(caseFeature)
-
                             index++
-
                          }
                     }
 
                 } else if (queryFeaturesStatus === Enums.TaskStatusInProgress) {
-                    console.log(">>>> QUERY: caseFeature --- TASK IN PROGRESS: ")
+                    console.log('>>>> QUERY: caseFeature --- TASK IN PROGRESS: ')
                     querying = true
                 }
             }
 
             onApplyEditsStatusChanged: {
-               console.log(">>>> CasesList : onApplyEditsStatusChanged --- " + applyEditsStatus)
+               console.log('>>>> CasesList : onApplyEditsStatusChanged --- ' + applyEditsStatus)
                if (applyEditsStatus === Enums.TaskStatusCompleted) {
-                   console.log(">>>> CasesList :  successfully edited feature, refreshing table")
+                   console.log('>>>> CasesList :  successfully edited feature, refreshing table')
                    //refresh table
                    queryFeaturesByStatusAndExtent()
                }
             }
 
             onUpdateFeatureStatusChanged: {
-                console.log(">>>> CasesList : onUpdateFeatureStatusChanged --- " + updateFeatureStatus)
+                console.log('>>>> CasesList : onUpdateFeatureStatusChanged --- ' + updateFeatureStatus)
                 if (updateFeatureStatus === Enums.TaskStatusCompleted) {
-                    console.log(">>>> CasesList :  successfully updated feature")
+                    console.log('>>>> CasesList :  successfully updated feature')
                     applyEdits()
                 }
             }
-
         }
     }
 
-
     // Attachment Viewer Overlay ================================================
-
     Rectangle {
         id: attachmentViewer
         visible: false
         width: app.width
         height: app.height
         anchors.centerIn: parent
-        color: "transparent"
+        color: 'transparent'
 
         ColumnLayout {
             spacing: 0
@@ -928,7 +879,6 @@ Page {
                         attachmentViewer.visible = false
                     }
                 }
-
             }
 
             Item {
@@ -948,7 +898,6 @@ Page {
                         Item {
                             id: delegateAttachments
 
-
                             Rectangle {
                                 color: app.cameraViewBackgroundColor
                                 visible: true
@@ -963,12 +912,13 @@ Page {
                                     width: parent.width
                                     fillMode: Image.PreserveAspectFit
                                     source: attachmentUrl
+
                                     onSourceChanged: {
-                                        console.log(">>>> Attachment Viewer Section: Src: ",source)
+                                        console.log('>>>> Attachment Viewer Section: Src: ',source)
                                     }
+
                                     autoTransform: true
                                 }
-
                             }
 
                             Button {
@@ -977,6 +927,7 @@ Page {
                                 onClicked: delegateAttachments.SwipeView.view.decrementCurrentIndex()
                                 anchors.left: parent.left
                                 anchors.verticalCenter: parent.verticalCenter
+
                                 contentItem: Image {
                                     source: '../images/back.png'
                                     visible: true
@@ -994,6 +945,7 @@ Page {
                                 onClicked: delegateAttachments.SwipeView.view.incrementCurrentIndex()
                                 anchors.right: parent.right
                                 anchors.verticalCenter: parent.verticalCenter
+
                                 contentItem: Image {
                                     width: 25*app.scaleFactor
                                     source: '../images/next.png'
@@ -1008,7 +960,6 @@ Page {
                     }
                 }
             }
-
 
             Rectangle {
                 id: bottomArea
@@ -1031,41 +982,34 @@ Page {
         id: help
     }
 
-
-
-
-
     //Footer custom QML =================================================================
     footer: FooterSection {
-        logMessage: "In Cases List Page - Footer..."
-        rightButtonText: "HOME"
-        overrideRightIconSrc: "../images/home.png"
+        logMessage: 'In Cases List Page - Footer...'
+        rightButtonText: 'HOME'
+        overrideRightIconSrc: '../images/home.png'
     }
-
-
 
     //Functions =========================================================================
 
-
+    //Used to retrieve correct index when navigating back and forth list page to form
     function getStatusIndex() {
-
-        console.log(">>>> CasesListPage: getStatusIndex")
+        console.log('>>>> CasesListPage: getStatusIndex')
         if (app.lastStatusCaseList !== '') {
 
             var statusVal = app.lastStatusCaseList
             app.lastStatusCaseList = ''
 
-            if (statusVal === "Case Status: Assigned") {
+            if (statusVal === 'Case Status: Assigned') {
                 return 1
-            } else if (statusVal === "Case Status: Completed") {
+            } else if (statusVal === 'Case Status: Completed') {
                 return 2
-            } else if (statusVal === "Case Status: Cancelled") {
+            } else if (statusVal === 'Case Status: Cancelled') {
                 return 3
-            } else if (statusVal === "Case Status: Assigned [USER]") {
+            } else if (statusVal === 'Case Status: Assigned [USER]') {
                 return 4
-            } else if (statusVal === "Case Status: Completed [USER]") {
+            } else if (statusVal === 'Case Status: Completed [USER]') {
                 return 5
-            } else if (statusVal === "Case Status: Cancelled [USER]") {
+            } else if (statusVal === 'Case Status: Cancelled [USER]') {
                 return 6
             } else {
                 return 0
@@ -1093,7 +1037,7 @@ Page {
         var queryString = " 1=1 and (CurrentStatus = '" + queryStatus + "') "
 
         params.whereClause = queryString + queryUserStr
-        console.log(">>>> CasesListPage: Inside queryFeaturesByStatusAndExtent() params.whereClause ----- ", params.whereClause)
+        console.log('>>>> CasesListPage: Inside queryFeaturesByStatusAndExtent() params.whereClause ----- ', params.whereClause)
 
         //Find the current map extent
         params.geometry = app.reportedCasesMapExtent//app.reportedCasesMapView.visibleArea
@@ -1107,71 +1051,69 @@ Page {
     function queryFeatureById(objectId) {
 
         params.whereClause = '1=1 and OBJECTID = ' + objectId
-        console.log(">>>> CasesListPage: queryFeatureById(objectId) params.whereClause ----- ", params.whereClause)
+        console.log('>>>> CasesListPage: queryFeatureById(objectId) params.whereClause ----- ', params.whereClause)
 
         // start the query
         casesListFeatureTable.queryFeaturesWithFieldOptions(params, Enums.QueryFeatureFieldsLoadAll)
     }
 
 
-    //Function to update record
+    //Function to update feature record
     function updateFeature(feature, actionType, currentStatusVal, workerNoteVal, index) {
 
-        console.log(">>>> CasesListPage: updateFeature()", feature, "  actionType:", actionType)
+        console.log('>>>> CasesListPage: updateFeature()', feature, '  actionType:', actionType)
 
         var workerNoteSubStr = ''
         if (actionType === 'AssignToMe') {
             workerNoteSubStr = 'Pending to Assigned from Case List Page. '
-            feature.attributes.replaceAttribute("CurrentStatus", "Assigned")
-            feature.attributes.replaceAttribute("AssignedUser", app.portalUser)
-            feature.attributes.replaceAttribute("AssignedDate", new Date())
+            feature.attributes.replaceAttribute('CurrentStatus', 'Assigned')
+            feature.attributes.replaceAttribute('AssignedUser', app.portalUser)
+            feature.attributes.replaceAttribute('AssignedDate', new Date())
         } else if (actionType === 'Revert') {
             workerNoteSubStr = 'Reverted from '
             if (currentStatusVal === 'Assigned') {
                 workerNoteSubStr = workerNoteSubStr + 'Assigned to Pending from Case List Page. '
-                feature.attributes.replaceAttribute("CurrentStatus", "Pending")
-                feature.attributes.replaceAttribute("AssignedUser", null)
-                feature.attributes.replaceAttribute("AssignedDate", null)
+                feature.attributes.replaceAttribute('CurrentStatus', 'Pending')
+                feature.attributes.replaceAttribute('AssignedUser', null)
+                feature.attributes.replaceAttribute('AssignedDate', null)
             } else if (currentStatusVal === 'Cancelled') {
                 workerNoteSubStr = workerNoteSubStr + 'Cancelled to Assigned from Case List Page. '
-                feature.attributes.replaceAttribute("CurrentStatus", "Assigned")
-                feature.attributes.replaceAttribute("AssignedUser", app.portalUser)
-                feature.attributes.replaceAttribute("AssignedDate", new Date())
-                feature.attributes.replaceAttribute("CancelledUser", null)
-                feature.attributes.replaceAttribute("CancelledDate", null)
+                feature.attributes.replaceAttribute('CurrentStatus', 'Assigned')
+                feature.attributes.replaceAttribute('AssignedUser', app.portalUser)
+                feature.attributes.replaceAttribute('AssignedDate', new Date())
+                feature.attributes.replaceAttribute('CancelledUser', null)
+                feature.attributes.replaceAttribute('CancelledDate', null)
             } else if (currentStatusVal === 'Completed') {
                 workerNoteSubStr = workerNoteSubStr + 'Completed to Assigned from Case List Page. '
-                feature.attributes.replaceAttribute("CurrentStatus", "Assigned")
-                feature.attributes.replaceAttribute("AssignedUser", app.portalUser)
-                feature.attributes.replaceAttribute("AssignedDate", new Date())
-                feature.attributes.replaceAttribute("CompletedUser", null)
-                feature.attributes.replaceAttribute("CompletedDate", null)
+                feature.attributes.replaceAttribute('CurrentStatus', 'Assigned')
+                feature.attributes.replaceAttribute('AssignedUser', app.portalUser)
+                feature.attributes.replaceAttribute('AssignedDate', new Date())
+                feature.attributes.replaceAttribute('CompletedUser', null)
+                feature.attributes.replaceAttribute('CompletedDate', null)
             }
         } else if (actionType === 'Complete') {
             workerNoteSubStr = 'Marked Completed from Case List Page. '
-            feature.attributes.replaceAttribute("CurrentStatus", "Completed")
-            feature.attributes.replaceAttribute("CompletedUser", app.portalUser)
-            feature.attributes.replaceAttribute("CompletedDate", new Date())
+            feature.attributes.replaceAttribute('CurrentStatus', 'Completed')
+            feature.attributes.replaceAttribute('CompletedUser', app.portalUser)
+            feature.attributes.replaceAttribute('CompletedDate', new Date())
         } else if (actionType === 'Cancel') {
             workerNoteSubStr = 'Marked Cancelled from Case List Page. '
-            feature.attributes.replaceAttribute("CurrentStatus", "Cancelled")
-            feature.attributes.replaceAttribute("CancelledUser", app.portalUser)
-            feature.attributes.replaceAttribute("CancelledDate", new Date())
+            feature.attributes.replaceAttribute('CurrentStatus', 'Cancelled')
+            feature.attributes.replaceAttribute('CancelledUser', app.portalUser)
+            feature.attributes.replaceAttribute('CancelledDate', new Date())
         }
 
-        var workerNote = workerNoteSubStr  + ' ' +  workerNoteVal
+        var workerNote = workerNoteSubStr  + '; ' +  workerNoteVal
         workerNote = workerNote.substr(0,250)
-        feature.attributes.replaceAttribute("WorkerNote", workerNote )
+        feature.attributes.replaceAttribute('WorkerNote', workerNote )
 
         //Update these values regardless of type of edit
-        feature.attributes.replaceAttribute("LastUpdateUser", app.portalUser)
-        feature.attributes.replaceAttribute("LastUpdate", new Date())
+        feature.attributes.replaceAttribute('LastUpdateUser', app.portalUser)
+        feature.attributes.replaceAttribute('LastUpdate', new Date())
 
         // update the feature in the feature table asynchronously
-        console.log(">>>> CasesListPage: updateFeature() - performing update")
+        console.log('>>>> CasesListPage: updateFeature() - performing update')
         querying = true
         casesListFeatureTable.updateFeature(feature)
-
     }
-
 }
