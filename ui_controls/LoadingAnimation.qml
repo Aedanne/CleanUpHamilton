@@ -32,7 +32,7 @@ Item {
         }
 
         Label {
-            Material.theme: app.lightTheme? Material.Light : Material.Dark
+            Material.theme: Material.Light
             font.pixelSize: app.baseFontSize*0.5
             color: app.primaryColor
             font.bold: true

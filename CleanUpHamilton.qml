@@ -1,9 +1,3 @@
-/**
-Clean-Up Hamilton Student Project
-Using ESRI ArcGIS frameworks and libraries
-Charisse Hanson
-*/
-
 import QtQuick 2.7
 import QtQuick.Layouts 1.13
 import QtQuick.Controls 2.2
@@ -22,13 +16,15 @@ import Esri.ArcGISRuntime 100.5
 import ArcGIS.AppFramework.Sql 1.0
 import ArcGIS.AppFramework.Platform 1.0
 
-import "ui_controls"
-import "pages"
-import "images"
+import 'ui_controls'
+import 'pages'
+import 'images'
 
 
 /*
 Clean-Up Hamilton Application MAIN QML
+Using ESRI ArcGIS frameworks and libraries
+Author: Charisse Hanson
 */
 
 App{
@@ -36,33 +32,31 @@ App{
     width: 460
     height: 780
 
-
-    property bool lightTheme: true
     property string version: app.info.version
 
     // App-level color properties========================================================
-    readonly property color defaultPrimaryColor: "#30475e"
-    readonly property string defaultPrimaryColorText: "#30475e"
+    readonly property color defaultPrimaryColor: '#30475e'
+    readonly property string defaultPrimaryColorText: '#30475e'
     readonly property color primaryColor: overridePrimaryColor !== '' ? overridePrimaryColor : defaultPrimaryColor
     readonly property color accentColor: Qt.lighter(primaryColor,1.2)
-    readonly property color appBackgroundColor: "#FFFFFF"
+    readonly property color appBackgroundColor: '#FFFFFF'
     readonly property color appBackgroundColorCaseList: '#F0F0F0'
     readonly property color appBorderColorCaseList: '#DDDDDD'
     readonly property color appBackgroundColorLightGray: '#F6F6F6'
     readonly property color appBackgroundColorDarkGray: '#B8B8B8'
-    readonly property color appDialogColor: lightTheme? "#FFFFFF":"424242"
-    readonly property color menuBackgroundColor: "#DA674A"
+    readonly property color appDialogColor: '#FFFFFF'
+    readonly property color menuBackgroundColor: '#DA674A'
     readonly property color appPrimaryTextColor: primaryColor
-    readonly property color menuPrimaryTextColor: Qt.lighter("#FFFFFF",1.5)
+    readonly property color menuPrimaryTextColor: Qt.lighter('#FFFFFF',1.5)
     readonly property color appSecondaryTextColor: '#676767'
-    readonly property color homePageTitleTextColor:"#FCFCFC"
-    readonly property color appPrimaryTextColorInverted: "#FFFFFF"
+    readonly property color homePageTitleTextColor:'#FCFCFC'
+    readonly property color appPrimaryTextColorInverted: '#FFFFFF'
     readonly property color backgroundAccent: '#AEAEAE'
-    //readonly property color listViewDividerColor:"#19000000"
-    readonly property color cameraViewBackgroundColor: "#1C1C1C"
-    readonly property color mapBorderColor: "#303030"
-    readonly property color disabledIconColor: "#B0B0B0"
-    readonly property color disabledIconShadowColor: "red"
+    //readonly property color listViewDividerColor:'#19000000'
+    readonly property color cameraViewBackgroundColor: '#1C1C1C'
+    readonly property color mapBorderColor: '#303030'
+    readonly property color disabledIconColor: '#B0B0B0'
+    readonly property color disabledIconShadowColor: 'red'
 
     property string overridePrimaryColor: ''
     property string localOverrideColor: ''
@@ -77,15 +71,15 @@ App{
     readonly property real btnHdrFtrHeightSize: 50*app.scaleFactor
 
     //Map properties=====================================================================
-    readonly property string webMapRootUrl: "https://waikato.maps.arcgis.com/home/item.html?id="
-    readonly property string webMapId: "bedb6a09b8b54d9f866f49de216b87c7"  //Clean-Up Hamilton Default Map
-    readonly property string staffWebMapId: "54892985091c4a5598010e0757bea00b"
+    readonly property string webMapRootUrl: 'https://waikato.maps.arcgis.com/home/item.html?id='
+    readonly property string webMapId: 'bedb6a09b8b54d9f866f49de216b87c7'  //Clean-Up Hamilton Default Map
+    readonly property string staffWebMapId: '54892985091c4a5598010e0757bea00b'
     property Point currentLocationPoint
     property string currentLonLat
     //Anon feature layer view and staff feature layer view
     // https://services1.arcgis.com/gjbU5qa8FJmAPFZX/arcgis/rest/services/Cases_View/FeatureServer/0
     // https://services1.arcgis.com/gjbU5qa8FJmAPFZX/arcgis/rest/services/Cases/FeatureServer/0
-    readonly property string featureServerURL: "https://services1.arcgis.com/gjbU5qa8FJmAPFZX/arcgis/rest/services/Cases/FeatureServer/0"
+    readonly property string featureServerURL: 'https://services1.arcgis.com/gjbU5qa8FJmAPFZX/arcgis/rest/services/Cases/FeatureServer/0'
     property var agolPortal
     property var reportedCasesMapView
     property ServiceFeatureTable reportedCasesFeatureService
@@ -103,50 +97,22 @@ App{
     //Report data properties=============================================================
     property string reportType
     property int reportTypeIndex: -1
-    property string reportDescription: ""
+    property string reportDescription: ''
     property date reportDate
 
     //Attachment properties==============================================================
     property int countAttachments: 0
     property int maxAttachments: 3
-    property string tempImageFilePath: ""
-    property string tempPath: ""
+    property string tempImageFilePath: ''
+    property string tempPath: ''
     property alias attListModel:attachmentListModel
 
     //Misc properties====================================================================
-    readonly property string cleanUpHamiltonClientId: "y5uFdm2AiF58sqBj"
+    readonly property string cleanUpHamiltonClientId: 'y5uFdm2AiF58sqBj'
     property bool authenticated: false
     property string portalUser
     property int saveSettings: 0
 
-
-
-    ListModel {
-        id: attachmentListModel
-    }
-
-
-    // Main body, title==================================================================
-    Component{
-        id: homePageComponent
-        HomePage {
-            width: parent.width
-            opacity: 1
-            descText1: qsTr("Clean-Up")
-            descText2: qsTr("Hamilton")
-            onOpenMenu: {
-                console.log(">>>> In home page component > open menu")
-                sideMenuDrawer.open()
-            }
-            //Navigating to the form page from home page
-            onNextPage: {
-
-                //Changing the order - file a report will open with the location
-                formStackView.loadSetLocationPage()
-
-            }
-        }
-    }
 
 
     // QML type for side menu============================================================
@@ -166,25 +132,25 @@ App{
             onMenuSelected: {
                 sideMenuDrawer.close()
                 switch(action){
-                case "fileareport":
-                    console.log(">>>> In menu drawer > fileareport")
+                case 'fileareport':
+                    console.log('>>>> In menu drawer > fileareport')
                         formStackView.loadSetLocationPage()
                     break
-                case "reportedcases":
-                    console.log(">>>> In menu drawer > reportedcasesmap")
+                case 'reportedcases':
+                    console.log('>>>> In menu drawer > reportedcasesmap')
                         formStackView.loadReportedCasesMapPage()
                     break
-                case "settings":
-                    console.log(">>>> In menu drawer > settings")
+                case 'settings':
+                    console.log('>>>> In menu drawer > settings')
                         formStackView.loadSettingsPage()
                     break
-                case "about":
-                    console.log(">>>> In menu drawer > about")
+                case 'about':
+                    console.log('>>>> In menu drawer > about')
                         formStackView.loadAboutPage()
                     break
-                case "login":
-                    console.log(">>>> In menu drawer > login")
-                    console.log(">>>> AUTHENTICATED: " + app.authenticated)
+                case 'login':
+                    console.log('>>>> In menu drawer > login')
+                    console.log('>>>> AUTHENTICATED: ' + app.authenticated)
 
                         formStackView.loadLoginPage()
                     break
@@ -195,92 +161,118 @@ App{
         }
     }
 
-    // Side menu options to send to drawer model=========================================
+    //Side menu options to send to drawer model=========================================
     ListModel{
         id: sideMenuDrawerModel0  //Login option
 
         ListElement {
-            action:"fileareport"
-            type: "delegate"
-            name: qsTr("File a Report")
-            iconSource: "../images/add_note.png"
+            action:'fileareport'
+            type: 'delegate'
+            name: qsTr('File a Report')
+            iconSource: '../images/add_note.png'
         }
         ListElement {
-            action:"divider"
-            type: ""
-            name: "divider"
-            iconSource: ""
+            action:'divider'
+            type: ''
+            name: 'divider'
+            iconSource: ''
         }
         ListElement {
-            action:"about"
-            type: "delegate"
-            name: qsTr("About")
-            iconSource: "../images/info.png"
+            action:'about'
+            type: 'delegate'
+            name: qsTr('About')
+            iconSource: '../images/info.png'
         }
         ListElement {
-            action:"settings"
-            type: "delegate"
-            name: qsTr("Settings")
-            iconSource: "../images/gear.png"
+            action:'settings'
+            type: 'delegate'
+            name: qsTr('Settings')
+            iconSource: '../images/gear.png'
         }
         ListElement {
-            action:"login"
-            type: "delegate"
-            name: qsTr("Staff Login")
-            iconSource: "../images/login.png"
+            action:'login'
+            type: 'delegate'
+            name: qsTr('Staff Login')
+            iconSource: '../images/login.png'
         }
-
     }
 
+    /* //Bypass login - used for debugging
     ListModel{
-        id: sideMenuDrawerModel1  //Bypass login
+        id: sideMenuDrawerModel1
 
         ListElement {
-            action:"fileareport"
-            type: "delegate"
-            name: qsTr("File a Report")
-            iconSource: "../images/add_note.png"
+            action:'fileareport'
+            type: 'delegate'
+            name: qsTr('File a Report')
+            iconSource: '../images/add_note.png'
         }
         ListElement {
-            action:"reportedcases"
-            type: "delegate"
-            name: qsTr("Reported Cases")
-            iconSource: "../images/edit.png"
+            action:'reportedcases'
+            type: 'delegate'
+            name: qsTr('Reported Cases')
+            iconSource: '../images/edit.png'
         }
         ListElement {
-            action:"divider"
-            type: ""
-            name: "divider"
-            iconSource: ""
+            action:'divider'
+            type: ''
+            name: 'divider'
+            iconSource: ''
         }
         ListElement {
-            action:"about"
-            type: "delegate"
-            name: qsTr("About")
-            iconSource: "../images/info.png"
+            action:'about'
+            type: 'delegate'
+            name: qsTr('About')
+            iconSource: '../images/info.png'
         }
         ListElement {
-            action:"settings"
-            type: "delegate"
-            name: qsTr("Settings")
-            iconSource: "../images/gear.png"
+            action:'settings'
+            type: 'delegate'
+            name: qsTr('Settings')
+            iconSource: '../images/gear.png'
         }
     }
+    */
 
+    //Page Components =====================================================
+
+    //Home page component
+    Component{
+        id: homePageComponent
+
+        HomePage {
+            width: parent.width
+            opacity: 1
+            descText1: qsTr('Clean-Up')
+            descText2: qsTr('Hamilton')
+
+            onOpenMenu: {
+                console.log('>>>> In home page component > open menu')
+                sideMenuDrawer.open()
+            }
+
+            //Navigating to the form page from home page
+            onNextPage: {
+                //Changing the order - file a report will open with the location
+                formStackView.loadSetLocationPage()
+            }
+        }
+    }
 
     //About component when menu option selected
     Component{
         id: aboutPageComponent
+
         AboutPage{
-            titleText:qsTr("About")
-            descText: qsTr("TODO: \nABOUT")
-            descText1: qsTr("Version: " +app.version)
+            titleText:qsTr('About')
+            descText: qsTr('ABOUT')
+            descText1: qsTr('Version: ' +app.version)
+
             onPreviousPage: {
                 formStackView.pop()
             }
 
             onNextPage: {
-
             }
         }
     }
@@ -288,9 +280,10 @@ App{
     //Settings component when menu option selected
     Component{
         id: settingsPageComponent
+
         SettingsPage{
-            titleText:qsTr("Settings")
-            descText: qsTr("TODO: \nSettings")
+            titleText:qsTr('Settings')
+            descText: qsTr('Settings')
 
             onPreviousPage: {
                 formStackView.pop()
@@ -305,12 +298,13 @@ App{
         }
     }
 
+    //Report Details component from Set Report Location
     Component {
         id: formPageComponent
 
         FormPage {
-            titleText:qsTr("Add Report Details")
-            descText: qsTr("TODO: \nFile a Report")
+            titleText:qsTr('Add Report Details')
+            descText: qsTr('File a Report')
 
             onPreviousPage: {
                 formStackView.pop()
@@ -322,12 +316,13 @@ App{
         }
     }
 
+    //Set Location Component from File a Report action
     Component {
         id: setLocationPageComponent
 
         SetLocationPage {
-            titleText:qsTr("Set Report Location")
-            descText: qsTr("TODO: \nSet Location")
+            titleText:qsTr('Set Report Location')
+            descText: qsTr('Set Location')
             onPreviousPage: {
                 formStackView.pop()
             }
@@ -338,11 +333,12 @@ App{
         }
     }
 
+    //Report Submitted component when submit action is invoked from form page
     Component {
         id: setSubmitPageComponent
 
         SubmitPage {
-            titleText:qsTr("Report Submitted!")
+            titleText:qsTr('Report Submitted!')
 
             onNextPage: {
                 formStackView.loadHomePage()
@@ -353,16 +349,16 @@ App{
     //Login component when menu option selected
     Component{
         id: loginPageComponent
+
         LoginPage {
-            titleText:qsTr("Staff Login")
-            descText: qsTr("")
+            titleText:qsTr('Staff Login')
+            descText: qsTr('')
 
             onPreviousPage: {
                 formStackView.pop()
             }
 
             onNextPage: {
-
             }
         }
     }
@@ -370,9 +366,10 @@ App{
     //Reported Cases component when menu option selected
     Component{
         id: reportedCasesMapPageComponent
+
         ReportedCasesMapPage{
-            titleText:qsTr("Reported Cases Map")
-            descText: qsTr("TODO: \nReported Cases Map")
+            titleText:qsTr('Reported Cases Map')
+            descText: qsTr('Reported Cases Map')
             onPreviousPage: {
                 formStackView.pop()
             }
@@ -390,9 +387,10 @@ App{
     //Cases List component from Reported Cases Map page
     Component{
         id: casesListPageComponent
+
         CasesListPage {
-            titleText:qsTr("Reported Cases")
-            descText: qsTr("TODO: \nReported Cases")
+            titleText:qsTr('Reported Cases')
+            descText: qsTr('Reported Cases')
 
             onPreviousPage: {
                 formStackView.pop()
@@ -413,8 +411,8 @@ App{
         id: reportedCaseFormPageComponent
 
        ReportedCaseFormPage {
-            titleText:qsTr("Reported Case Edit")
-            descText: qsTr("TODO: \nReported Case Edit")
+            titleText:qsTr('Reported Case Edit')
+            descText: qsTr('Reported Case Edit')
 
             onActiveFocusChanged: init()
 
@@ -423,110 +421,108 @@ App{
             }
 
             onNextPage: {
-
                 formStackView.loadReportedCaseFormPageFromFormEdit()
             }
         }
     }
 
 
-
-
-    //Creating stackview for form pages =================================================
+    //Creating stackview for application pages/navigation control ===================================
     StackView {
         id: formStackView
         anchors.fill: parent
         initialItem: homePageComponent
 
         function loadHomePage() {
-            console.log(">>>> Inside StackView.loadHomePage()")
+            console.log('>>>> Inside StackView.loadHomePage()')
             while (formStackView.count > 0)
                 formStackView.pop()
 
             push(formStackView.initialItem)
-
         }
 
         //Load form page
         function loadFormPage() {
-            console.log(">>>> Inside StackView.loadFormPage()")
+            console.log('>>>> Inside StackView.loadFormPage()')
             push(formPageComponent)
         }
 
         //Load About Page
         function loadAboutPage() {
-            console.log(">>>> Inside StackView.loadAboutPage()")
+            console.log('>>>> Inside StackView.loadAboutPage()')
             push(aboutPageComponent)
         }
 
         //Load Settings Page
         function loadSettingsPage() {
-            console.log(">>>> Inside StackView.loadSettingsPage()")
+            console.log('>>>> Inside StackView.loadSettingsPage()')
             push(settingsPageComponent)
         }
 
         //Load SetLocation Page
         function loadSetLocationPage() {
-            console.log(">>>> Inside StackView.loadSetLocationPage()")
+            console.log('>>>> Inside StackView.loadSetLocationPage()')
             push(setLocationPageComponent)
         }
 
         //Load Submit Page
         function loadSubmitPage() {
-            console.log(">>>> Inside StackView.loadSubmitPage()")
+            console.log('>>>> Inside StackView.loadSubmitPage()')
             push(setSubmitPageComponent)
         }
 
         //Load Login Page
         function loadLoginPage() {
-            console.log(">>>> Inside StackView.loadLoginPage()")
+            console.log('>>>> Inside StackView.loadLoginPage()')
             push(loginPageComponent)
         }
 
         //Load Reported Cases Page
         function loadReportedCasesMapPage() {
-            console.log(">>>> Inside StackView.loadReportedCasesMapPage()")
+            console.log('>>>> Inside StackView.loadReportedCasesMapPage()')
             push(reportedCasesMapPageComponent)
         }
 
         //Reload Reported Cases Page
         function reloadReportedCasesMapPage() {
-            console.log(">>>> Inside StackView.reloadReportedCasesMapPage()")
+            console.log('>>>> Inside StackView.reloadReportedCasesMapPage()')
             replace(reportedCasesMapPageComponent)
         }
 
-
-
         //Load Cases List Page
         function loadCasesListPage() {
-            console.log(">>>> Inside StackView.loadCasesListPage()")
+            console.log('>>>> Inside StackView.loadCasesListPage()')
             push(casesListPageComponent)
         }
 
         //Load Reported Case Form Page
         function loadReportedCaseFormPage() {
-            console.log(">>>> Inside StackView.loadReportedCaseFormPage()")
+            console.log('>>>> Inside StackView.loadReportedCaseFormPage()')
             push(reportedCaseFormPageComponent)
         }
 
         //Load Reported Case Form Page from Form Edit
         function loadReportedCaseFormPageFromFormEdit() {
-            console.log(">>>> Inside StackView.loadReportedCaseFormPageFromFormEdit()")
+            console.log('>>>> Inside StackView.loadReportedCaseFormPageFromFormEdit()')
             pop()
             replace(casesListPageComponent)
         }
-
     }
 
 
+    //Attachment listmodel for application
+    ListModel {
+        id: attachmentListModel
+    }
 
-    //Creating database for application==================================================
 
-    //Write to the database
+    //SqlDatabase ==================================================
+
+    //Declare sqldatabase object for use with saving the settings data
     SqlDatabase {
         id: settingsdb
 
-        property FileInfo fileInfo: AppFramework.fileInfo("~/ArcGIS/Data/Sql/cleanuphamilton.sqlite")
+        property FileInfo fileInfo: AppFramework.fileInfo('~/ArcGIS/Data/Sql/cleanuphamilton.sqlite')
         databaseName: fileInfo.filePath
 
         Component.onCompleted: {
@@ -537,26 +533,25 @@ App{
 
         function exec( sql, ...params ) {
             let q = settingsdb.query( sql, ...params )
-            console.log( " >>> settingsdb.query.SQL: ", sql )
+            console.log( ' >>> settingsdb.query.SQL: ', sql )
 
             for ( let ok = q.first();  ok;  ok = q.next() )
-                console.log( " >>> settingsdb.query.values: ", JSON.stringify( q.values ) )
+                console.log( ' >>> settingsdb.query.values: ', JSON.stringify( q.values ) )
             q.finish()
         }
 
         function insertSettings() {
             var themeColor = app.localOverrideColor
-
-            console.log(">>>> THEMECOLOR = ", themeColor)
+            console.log('>>>> THEMECOLOR = ', themeColor)
 
             settingsdb.beginTransaction()
-            settingsdb.exec( "DROP TABLE IF EXISTS SETTINGS" )
-            settingsdb.exec( "CREATE TABLE IF NOT EXISTS SETTINGS ( themecolor TEXT ) " )
+            settingsdb.exec( 'DROP TABLE IF EXISTS SETTINGS' )
+            settingsdb.exec( 'CREATE TABLE IF NOT EXISTS SETTINGS ( themecolor TEXT ) ' )
 
-            console.log(">>>> INSERTING ----- ")
+            console.log('>>>> INSERTING ----- ')
             var insert =  settingsdb.query()
-            insert.prepare("INSERT INTO SETTINGS (themecolor) VALUES (:themecolor) ")
-            insert.executePrepared( { "themecolor": themeColor } )
+            insert.prepare('INSERT INTO SETTINGS (themecolor) VALUES (:themecolor) ')
+            insert.executePrepared( { 'themecolor': themeColor } )
             insert.finish()
             settingsdb.commitTransaction()
             querySettings()
@@ -564,13 +559,12 @@ App{
         }
 
         function querySettings() {
-            var query = settingsdb.query( "SELECT * FROM SETTINGS" )
+            var query = settingsdb.query( 'SELECT * FROM SETTINGS' )
             if (query.first()) {
                 var settings = JSON.parse(JSON.stringify(query.values))
-                console.log(">>>> themecolor:", settings.themecolor )
+                console.log('>>>> themecolor:', settings.themecolor )
                 //set the override color
                 app.overridePrimaryColor = settings.themecolor
-
                 query.finish()
             }
         }
@@ -579,18 +573,14 @@ App{
 
     //Clear data after submission
     function clearData() {
-        console.log(">>>> CLEARING DATA <<<< ")
+        console.log('>>>> CLEARING DATA <<<< ')
         app.attListModel.clear()
         app.currentLocationPoint = null
-        app.reportType = ""
-        app.reportDescription = ""
+        app.reportType = ''
+        app.reportDescription = ''
         app.reportTypeIndex = -1
-        app.currentLonLat = ""
+        app.currentLonLat = ''
     }
-
-
-
-
 }
 
 

@@ -26,7 +26,7 @@ Item {
 
         Label {
             id: displayLabel
-            Material.theme: app.lightTheme? Material.Light : Material.Dark
+            Material.theme: Material.Light
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: app.baseFontSize*0.4
             color: app.primaryColor
@@ -38,7 +38,7 @@ Item {
 
         Label {
             id: hostLabel
-            Material.theme: app.lightTheme? Material.Light : Material.Dark
+            Material.theme: Material.Light
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: app.baseFontSize*0.5
             anchors.top: displayLabel.bottom

@@ -101,7 +101,7 @@ Page{
         Label {
             id: signedInAsLabel
             visible: app.authenticated
-            Material.theme: app.lightTheme? Material.Light : Material.Dark
+            Material.theme: Material.Light
             font.pixelSize: app.baseFontSize*0.4
             color: app.menuPrimaryTextColor
             font.bold: true
@@ -111,7 +111,7 @@ Page{
          }
         Label {
             visible: app.authenticated
-            Material.theme: app.lightTheme? Material.Light : Material.Dark
+            Material.theme: Material.Light
             font.pixelSize: app.baseFontSize*0.4
             color: app.menuPrimaryTextColor
             font.bold: true

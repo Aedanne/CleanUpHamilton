@@ -74,7 +74,7 @@ Page {
                 width: parent.width*0.5
 
                 Label {
-                    Material.theme: app.lightTheme? Material.Light : Material.Dark
+                    Material.theme: Material.Light
                     anchors.centerIn: parent
                     font.pixelSize: app.titleFontSize
                     font.bold: true
@@ -87,7 +87,7 @@ Page {
 
                 }
                 Label {
-                    Material.theme: app.lightTheme? Material.Light : Material.Dark
+                    Material.theme: Material.Light
                     anchors.centerIn: parent
                     font.pixelSize: app.titleFontSize
                     font.bold: true
@@ -99,7 +99,7 @@ Page {
                     text: descText2
                 }
                 Label {
-                    Material.theme: app.lightTheme? Material.Light : Material.Dark
+                    Material.theme: Material.Light
                     anchors.centerIn: parent
                     font.pixelSize: app.titleFontSize
                     font.bold: true

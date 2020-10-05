@@ -108,7 +108,7 @@ Page {
         }
 
         Label {
-            Material.theme: app.lightTheme? Material.Light : Material.Dark
+            Material.theme: Material.Light
             anchors.bottom: busy.top
             font.pixelSize: app.baseFontSize*0.5
             anchors.horizontalCenter: parent.horizontalCenter
