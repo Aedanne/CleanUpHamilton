@@ -16,8 +16,8 @@ import ArcGIS.AppFramework.Platform 1.0
 import Esri.ArcGISRuntime 100.7
 
 
-import "../ui_controls"
-import "../images"
+import '../ui_controls'
+import '../images'
 
 
 /*
@@ -38,13 +38,13 @@ Item {
     property color backgroundColor: app.appBackgroundColor
     property color textColor : app.appSecondaryTextColor
 
-    property string imgRubbish: "../images/type_rubbish.png"
-    property string imgOther: "../images/type_other.png"
-    property string imgGraffiti: "../images/type_graffiti.png"
-    property string imgBroken: "../images/type_broken.png"
+    property string imgRubbish: '../images/type_rubbish.png'
+    property string imgOther: '../images/type_other.png'
+    property string imgGraffiti: '../images/type_graffiti.png'
+    property string imgBroken: '../images/type_broken.png'
 
-    property string imgMyLoc: "../images/my_loc.png"
-    property string imgRefresh: "../images/revert.png"
+    property string imgMyLoc: '../images/my_loc.png'
+    property string imgRefresh: '../images/revert.png'
 
 
     Rectangle {
@@ -68,7 +68,7 @@ Item {
 
                 Label {
                     font.pixelSize: app.baseFontSize*.4
-                    text: "Reported Cases Map "
+                    text: 'Reported Cases Map '
                     color: app.appPrimaryTextColor
                     wrapMode: Text.Wrap
                     bottomPadding: 5 * app.scaleFactor
@@ -81,7 +81,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "This map acts as a filter and is used to set the work area for cases that will be included in the worklist in the next page. If GPS location is enabled, the map will zoom and pan to the current location. Otherwise, pan and zoom in/out of the map to set the work area."
+                    text: 'This map acts as a filter and is used to set the work area for cases that will be included in the worklist in the next page. If GPS location is enabled, the map will zoom and pan to the current location. Otherwise, pan and zoom in/out of the map to set the work area.'
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -93,7 +93,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "Only cases that are currently in Pending and Assigned status will display. The counts for each status are displayed below the map. Changing the map area will re-query the cases."
+                    text: 'Only cases that are currently in Pending and Assigned status will display. The counts for each status are displayed below the map. Changing the map area will re-query the cases.'
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -105,7 +105,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "This map has server-side caching, which can be overriden by using the hard-refresh icon."
+                    text: 'This map has server-side caching, which can be overriden by using the hard-refresh icon.'
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -117,7 +117,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "Once satisfied with the work area shown in the map, click the Next button to proceed to the Reported Cases worklist."
+                    text: 'Once satisfied with the work area shown in the map, click the Next button to proceed to the Reported Cases worklist.'
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -135,12 +135,13 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     implicitHeight: 5*app.scaleFactor
-                    color: "transparent"
+                    color: 'transparent'
                 }
 
-                //Report types
-                RowLayout{
-                    Image{
+                //Report types  -----------------------------------------------
+                RowLayout {
+
+                    Image {
                         Layout.preferredWidth: 20*app.scaleFactor
                         Layout.preferredHeight: 20*app.scaleFactor
                         source: imgGraffiti
@@ -148,7 +149,7 @@ Item {
                         autoTransform: true
                     }
 
-                    Label{
+                    Label {
                         text: 'Represents a report type: Graffiti'
                         font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
@@ -156,15 +157,17 @@ Item {
                         color: app.appSecondaryTextColor
                     }
                 }
+
                 //Separator
                 Rectangle {
                     Layout.fillWidth: true
                     implicitHeight: 2*app.scaleFactor
-                    color: "transparent"
+                    color: 'transparent'
                 }
 
-                RowLayout{
-                    Image{
+                RowLayout {
+
+                    Image {
                         Layout.preferredWidth: 20*app.scaleFactor
                         Layout.preferredHeight: 20*app.scaleFactor
                         source: imgBroken
@@ -172,7 +175,7 @@ Item {
                         autoTransform: true
                     }
 
-                    Label{
+                    Label {
                         text: 'Represents a report type: Broken items'
                         font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
@@ -180,15 +183,17 @@ Item {
                         color: app.appSecondaryTextColor
                     }
                 }
+
                 //Separator
                 Rectangle {
                     Layout.fillWidth: true
                     implicitHeight: 2*app.scaleFactor
-                    color: "transparent"
+                    color: 'transparent'
                 }
 
-                RowLayout{
-                    Image{
+                RowLayout {
+
+                    Image {
                         Layout.preferredWidth: 20*app.scaleFactor
                         Layout.preferredHeight: 20*app.scaleFactor
                         source: imgRubbish
@@ -196,7 +201,7 @@ Item {
                         autoTransform: true
                     }
 
-                    Label{
+                    Label {
                         text: 'Represents a report type: Illegal rubbish dumping'
                         font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
@@ -204,15 +209,17 @@ Item {
                         color: app.appSecondaryTextColor
                     }
                 }
+
                 //Separator
                 Rectangle {
                     Layout.fillWidth: true
                     implicitHeight: 2*app.scaleFactor
-                    color: "transparent"
+                    color: 'transparent'
                 }
 
-                RowLayout{
-                    Image{
+                RowLayout {
+
+                    Image {
                         Layout.preferredWidth: 20*app.scaleFactor
                         Layout.preferredHeight: 20*app.scaleFactor
                         source: imgOther
@@ -220,7 +227,7 @@ Item {
                         autoTransform: true
                     }
 
-                    Label{
+                    Label {
                         text: 'Represents a report type: Other'
                         font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
@@ -228,11 +235,12 @@ Item {
                         color: app.appSecondaryTextColor
                     }
                 }
+
                 //Separator
                 Rectangle {
                     Layout.fillWidth: true
                     implicitHeight: 5*app.scaleFactor
-                    color: "transparent"
+                    color: 'transparent'
                 }
                 //Separator
                 Rectangle {
@@ -240,18 +248,18 @@ Item {
                     implicitHeight: 1
                     color: app.appBorderColorCaseList
                 }
-
                 //Separator
                 Rectangle {
                     Layout.fillWidth: true
                     implicitHeight: 5*app.scaleFactor
-                    color: "transparent"
+                    color: 'transparent'
                 }
 
 
-                //Action
-                RowLayout{
-                    Image{
+                //Action -----------------------------------------------------
+                RowLayout {
+
+                    Image {
                         id: myloc
                         Layout.preferredWidth: 20*app.scaleFactor
                         Layout.preferredHeight: 20*app.scaleFactor
@@ -261,7 +269,7 @@ Item {
                     }
 
 
-                    Label{
+                    Label {
                         text: 'ACTION: Triggers the device GPS location, if enabled'
                         font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
@@ -269,14 +277,17 @@ Item {
                         color: app.appSecondaryTextColor
                     }
                 }
+
                 //Separator
                 Rectangle {
                     Layout.fillWidth: true
                     implicitHeight: 2*app.scaleFactor
-                    color: "transparent"
+                    color: 'transparent'
                 }
-                RowLayout{
-                    Image{
+
+                RowLayout {
+
+                    Image {
                         id: refresh
                         Layout.preferredWidth: 17*app.scaleFactor
                         Layout.preferredHeight: 17*app.scaleFactor
@@ -286,7 +297,7 @@ Item {
                     }
 
 
-                    Label{
+                    Label {
                         text: 'ACTION: Triggers hard-refresh of the map'
                         font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
@@ -302,7 +313,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            console.log(">>>> HELP PAGE: Clicking within mouse area......")
+            console.log('>>>> HELP PAGE: Clicking within mouse area......')
             help.visible = false
         }
     }

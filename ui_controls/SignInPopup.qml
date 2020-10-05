@@ -97,8 +97,8 @@ Item {
 
                     radius: 2
                     gradient: Gradient {
-                        GradientStop { position: 0  color: cancelButton.pressed ? Qt.lighter(app.primaryColor, 1.3) : Qt.lighter(app.primaryColor, 0.7) }
-                        GradientStop { position: 1  color: cancelButton.pressed ? Qt.lighter(app.primaryColor, 0.7) : Qt.lighter(app.primaryColor, 1.3) }
+                        GradientStop { position: 0;  color: cancelButton.pressed ? Qt.lighter(app.primaryColor, 1.3) : Qt.lighter(app.primaryColor, 0.7) }
+                        GradientStop { position: 1;  color: cancelButton.pressed ? Qt.lighter(app.primaryColor, 0.7) : Qt.lighter(app.primaryColor, 1.3) }
                     }
                }
 
@@ -131,8 +131,8 @@ Item {
 
                     radius: 2
                     gradient: Gradient {
-                        GradientStop { position: 0  color: signInButton.pressed ? Qt.lighter(app.primaryColor, 1.3) : Qt.lighter(app.primaryColor, 0.7) }
-                        GradientStop { position: 1  color: signInButton.pressed ? Qt.lighter(app.primaryColor, 0.7) : Qt.lighter(app.primaryColor, 1.3) }
+                        GradientStop { position: 0;  color: signInButton.pressed ? Qt.lighter(app.primaryColor, 1.3) : Qt.lighter(app.primaryColor, 0.7) }
+                        GradientStop { position: 1;  color: signInButton.pressed ? Qt.lighter(app.primaryColor, 0.7) : Qt.lighter(app.primaryColor, 1.3) }
                     }
                }
 

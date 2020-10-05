@@ -16,8 +16,8 @@ import ArcGIS.AppFramework.Platform 1.0
 import Esri.ArcGISRuntime 100.7
 
 
-import "../ui_controls"
-import "../images"
+import '../ui_controls'
+import '../images'
 
 
 /*
@@ -38,7 +38,7 @@ Item {
     property color backgroundColor: app.appBackgroundColor
     property color textColor : app.appSecondaryTextColor
 
-    property string imgCamera: "../images/camera.png"
+    property string imgCamera: '../images/camera.png'
 
 
 
@@ -63,7 +63,7 @@ Item {
 
                 Label {
                     font.pixelSize: app.baseFontSize*.4
-                    text: "Add Report Details  "
+                    text: 'Add Report Details  '
                     color: app.appPrimaryTextColor
                     wrapMode: Text.Wrap
                     bottomPadding: 5 * app.scaleFactor
@@ -76,7 +76,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "This page is used to provide the required and optional information about the report."
+                    text: 'This page is used to provide the required and optional information about the report.'
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -86,7 +86,7 @@ Item {
 
                 Label {
                     font.pixelSize: app.baseFontSize*.3
-                    text: "Required fields: (denoted with *)"
+                    text: 'Required fields: (denoted with *)'
                     color: 'red'
                     wrapMode: Text.Wrap
                 }
@@ -96,7 +96,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "Report Type\nSupporting Photos\nReport Location"
+                    text: 'Report Type\nSupporting Photos\nReport Location'
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -105,7 +105,7 @@ Item {
                 }
                 Label {
                     font.pixelSize: app.baseFontSize*.3
-                    text: "Optional fields: "
+                    text: 'Optional fields: '
                     color: app.appSecondaryTextColor
                     wrapMode: Text.Wrap
                 }
@@ -115,7 +115,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "Description"
+                    text: 'Description'
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -127,7 +127,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "Report Location is derived from the location selected in the previous map.\n\nDescription is highly recommended, especially when report type is 'Other'.\n\nAt least 1 supporting photo is required. Clicking on an empty photo box will trigger the camera if there is at least one photo already added."
+                    text: 'Report Location is derived from the location selected in the previous map.\n\nDescription is highly recommended, especially when report type is \'Other\'.\n\nAt least 1 supporting photo is required. Clicking on an empty photo box will trigger the camera if there is at least one photo already added.'
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -147,12 +147,13 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     implicitHeight: 5*app.scaleFactor
-                    color: "transparent"
+                    color: 'transparent'
                 }
 
                 //Report types
-                RowLayout{
-                    Image{
+                RowLayout {
+
+                    Image {
                         id: myloc
                         Layout.preferredWidth: 25*app.scaleFactor
                         Layout.preferredHeight: 25*app.scaleFactor
@@ -162,7 +163,7 @@ Item {
                     }
 
 
-                    Label{
+                    Label {
                         text: 'Triggers the device camera to capture \nimages of the incident'
                         font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
@@ -174,7 +175,7 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     implicitHeight: 2*app.scaleFactor
-                    color: "transparent"
+                    color: 'transparent'
                 }
             }
         }
@@ -184,7 +185,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            console.log(">>>> HELP PAGE: Clicking within mouse area......")
+            console.log('>>>> HELP PAGE: Clicking within mouse area......')
             help.visible = false
         }
     }

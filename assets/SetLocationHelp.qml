@@ -16,8 +16,8 @@ import ArcGIS.AppFramework.Platform 1.0
 import Esri.ArcGISRuntime 100.7
 
 
-import "../ui_controls"
-import "../images"
+import '../ui_controls'
+import '../images'
 
 
 /*
@@ -38,8 +38,8 @@ Item {
     property color backgroundColor: app.appBackgroundColor
     property color textColor : app.appSecondaryTextColor
 
-    property string imgMyLoc: "../images/my_loc.png"
-    property string imgPin: "../images/pin.png"
+    property string imgMyLoc: '../images/my_loc.png'
+    property string imgPin: '../images/pin.png'
 
 
 
@@ -64,7 +64,7 @@ Item {
 
                 Label {
                     font.pixelSize: app.baseFontSize*.4
-                    text: "Set Report Location  "
+                    text: 'Set Report Location  '
                     color: app.appPrimaryTextColor
                     wrapMode: Text.Wrap
                     bottomPadding: 5 * app.scaleFactor
@@ -77,7 +77,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "This map is used to set the location of the incident being reported."
+                    text: 'This map is used to set the location of the incident being reported.'
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -88,7 +88,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "If the GPS location is enabled for this application, the current location of the device will load in the map."
+                    text: 'If the GPS location is enabled for this application, the current location of the device will load in the map.'
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -99,7 +99,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "If the application is not given permission to access the device location, manually pan and zoom in/out of the map to locate the correct location for this report."
+                    text: 'If the application is not given permission to access the device location, manually pan and zoom in/out of the map to locate the correct location for this report.'
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -111,7 +111,7 @@ Item {
                     selectByMouse: true
                     wrapMode: TextEdit.WordWrap
                     color: app.appSecondaryTextColor
-                    text: "The pin icon represents the location that will be included in the report. This is represented as coordinates displayed in the My Location section."
+                    text: 'The pin icon represents the location that will be included in the report. This is represented as coordinates displayed in the My Location section.'
                     enabled: false
                     background: null
                     font.pixelSize: app.baseFontSize*.3
@@ -129,12 +129,13 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     implicitHeight: 5*app.scaleFactor
-                    color: "transparent"
+                    color: 'transparent'
                 }
 
-                //Report types
-                RowLayout{
-                    Image{
+                //Actions/Icons -----------------------------------------------
+                RowLayout {
+
+                    Image {
                         id: myloc
                         Layout.preferredWidth: 25*app.scaleFactor
                         Layout.preferredHeight: 25*app.scaleFactor
@@ -144,7 +145,7 @@ Item {
                     }
 
 
-                    Label{
+                    Label {
                         text: 'Triggers the device GPS location, if enabled'
                         font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
@@ -152,15 +153,17 @@ Item {
                         color: app.appSecondaryTextColor
                     }
                 }
+
                 //Separator
                 Rectangle {
                     Layout.fillWidth: true
                     implicitHeight: 2*app.scaleFactor
-                    color: "transparent"
+                    color: 'transparent'
                 }
 
-                RowLayout{
-                    Image{
+                RowLayout {
+
+                    Image {
                         Layout.preferredWidth: 25*app.scaleFactor
                         Layout.preferredHeight: 25*app.scaleFactor
                         source: imgPin
@@ -168,7 +171,7 @@ Item {
                         autoTransform: true
                     }
 
-                    Label{
+                    Label {
                         text: 'Represents the report location'
                         font.pixelSize: app.baseFontSize*0.3
                         font.bold: false
@@ -185,7 +188,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            console.log(">>>> HELP PAGE: Clicking within mouse area......")
+            console.log('>>>> HELP PAGE: Clicking within mouse area......')
             help.visible = false
         }
     }
